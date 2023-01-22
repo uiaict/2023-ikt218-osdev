@@ -6,10 +6,10 @@
       "type": "shell",
       "isBackground": true,
       "windows": {
-          "command": "start -FilePath 'qemu-system-i386' -ArgumentList '-S -gdb tcp::1234 -boot d -cdrom ${workspaceRoot}/build/kernel.img -m 64'"
+          "command": "start -FilePath 'qemu-system-i386' -ArgumentList '-S -gdb tcp::1234 -boot d -cdrom ${config:cmake.buildDirectory}/build/kernel.img -m 64'"
       },
       "linux": {
-          "command": "echo Starting QEMU&qemu-system-x86_64 -S -gdb tcp::1234 -boot d -cdrom ${workspaceRoot}/build/kernel.img -m 64"
+          "command": "echo Starting QEMU&qemu-system-x86_64 -S -gdb tcp::1234 -boot d -cdrom ${config:cmake.buildDirectory}/kernel.img -m 64"
       },
       "problemMatcher": {
         "pattern": {

@@ -6,7 +6,7 @@
             "name": "Launch with GDB",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/build/kernel.bin",
+            "program": "${config:cmake.buildDirectory}/kernel.bin",
             "cwd": "${workspaceRoot}",
             "args": [],
             /*"sourceFileMap": {
@@ -29,7 +29,7 @@
                     "ignoreFailures": true
                 },
                 {
-                    "text": "file ${workspaceRoot}/build/kernel.bin",
+                    "text": "file ${config:cmake.buildDirectory}/kernel.bin",
                     "description": "Load binary."
                 },
                 {
