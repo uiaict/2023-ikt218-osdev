@@ -1,0 +1,4 @@
+.vscode
+build_*
+!kernel.bin
+!kernel.img
