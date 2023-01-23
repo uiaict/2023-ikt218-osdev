@@ -20,6 +20,10 @@
                 {
                     "text": "target remote localhost:1234",
                     "description": "Connect to QEMU remote debugger"
+                },
+                {
+                    "text": "symbol-file kernel.bin",
+                    "description": "GEt kernel symbols"
                 }
             ],
             "setupCommands": [

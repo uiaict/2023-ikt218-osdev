@@ -54,31 +54,34 @@ set(CMAKE_CXX_STANDARD 20)
 # Set the C Version
 set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
-set(WARNING_FLAGS -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion)
+set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
 # Common compiler flags for both C and C++
-set(COMMON_COMPILER_FLAGS -ffreestanding -O0 -g)
+set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
 set(COMMON_INCLUDE_PATHS)
 # Conditional based on which architecture we are building. We should use -m32 for i386 and -m64 for x86_64
 if(OS_ARCH_TARGET STREQUAL i386)
-    set(COMMON_COMPILER_FLAGS ${COMMON_COMPILER_FLAGS} -m32)
+    set(COMMON_COMPILER_FLAGS "${COMMON_COMPILER_FLAGS} -m32")
 elseif(OS_ARCH_TARGET STREQUAL x86_64)
-    set(COMMON_COMPILER_FLAGS ${COMMON_COMPILER_FLAGS} -m64)
+    set(COMMON_COMPILER_FLAGS "${COMMON_COMPILER_FLAGS} -m64")
 else()
     message(FATAL_ERROR "Could not find the specified OS architecture: ${OS_ARCH_TARGET}")
 endif()
 # Set C Compiler Flags
-set(C_COMPILER_FLAGS ${COMMON_COMPILER_FLAGS} ${WARNING_FLAGS})
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMMON_COMPILER_FLAGS} ${WARNING_FLAGS}")
 # Set C++ Compiler Flags
-set(CXX_COMPILER_FLAGS ${COMMON_COMPILER_FLAGS} ${WARNING_FLAGS} -fno-exceptions -fno-rtti)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_COMPILER_FLAGS} ${WARNING_FLAGS} -fno-exceptions -fno-rtti")
 # Set NASM Compiler Flags
-set(ASM_COMPILER_FLAGS)
+set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_FLAGS} -g -O0")
+
+
+
 # Set C++ Linker flags
 set(CXX_LINKER_FLAGS  "-nostdlib -ffreestanding")
 # Print out flags for the different compilers
-message("CXX_COMPILER_FLAGS=${CXX_COMPILER_FLAGS}")
-message("C_COMPILER_FLAGS=${C_COMPILER_FLAGS}")
-message("ASM_COMPILER_FLAGS=${ASM_COMPILER_FLAGS}")
+message("CMAKE_CXX_FLAGS=${CMAKE_CXX_FLAGS}")
+message("CMAKE_C_FLAGS=${CMAKE_C_FLAGS}")
+message("CMAKE_ASM_FLAGS=${CMAKE_ASM_FLAGS}")
 
 ########################################
 ###
@@ -87,7 +90,7 @@ message("ASM_COMPILER_FLAGS=${ASM_COMPILER_FLAGS}")
 # And we must set the correct elf format
 ########################################
 # Specifies that .s and .S extension belongs to the ASM compiler
-set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS ${CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS} s S)
+set(CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS ${CMAKE_ASM_NASM_SOURCE_FILE_EXTENSIONS} s S asm)
 # Conditional for setting object format to ELF32. Currently we only support elf32
 if(OS_ARCH_TARGET STREQUAL i386)
     set(CMAKE_ASM_NASM_OBJECT_FORMAT elf32)
@@ -143,7 +146,9 @@ set(OS_MODULE_BOOT_SOURCES
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
 # Defines the include directories for the boot library
-target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC ${ARCH_TARGET}/ include)
+target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
+    src/boot/include/
+)
 # Defines the linking between boot and the boot library
 target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
