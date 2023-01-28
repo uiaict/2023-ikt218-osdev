@@ -4,6 +4,7 @@
         "webfreak.debug",
         "twxs.cmake",
         "ms-vscode.cpptools",
-        "ms-vscode.cpptools-extension-pack"
+        "ms-vscode.cpptools-extension-pack",
+        "ms-vscode-remote.remote-containers"
     ]
 }
