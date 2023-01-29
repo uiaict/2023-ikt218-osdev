@@ -108,7 +108,14 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
+        src/stdlib/src/common.cpp
+        src/stdlib/src/monitor.cpp
+        # C Libraries
+        src/stdlib/src/libc/panic.cpp
+        src/stdlib/src/libc/system.cpp
+        src/stdlib/src/libc/memory.cpp
+        src/stdlib/src/libc/string.cpp
+        src/stdlib/src/libc/stdio.cpp
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -140,7 +147,7 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
@@ -207,3 +214,5 @@ set_target_properties(
 ########################################
 add_subdirectory(grub)
 
+add_custom_target(build)
+add_dependencies(build ${GRUB_TARGET})

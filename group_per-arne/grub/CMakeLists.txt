@@ -47,6 +47,7 @@ add_custom_target(${GRUB_TARGET}
         COMMAND ${GRUB_MKRESCUE} --output=${GRUB_IMAGE_PATH} ${CMAKE_BINARY_DIR}/iso
         COMMAND /bin/sh ${CMAKE_BINARY_DIR}/disk.sh disk.iso
 )
+add_dependencies(${GRUB_TARGET} ${OS_MODULE_KERNEL_NAME})
 
 ########################################
 ###
