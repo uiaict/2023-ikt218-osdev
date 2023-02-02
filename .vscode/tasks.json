@@ -21,7 +21,27 @@
             "beginsPattern": "^(Starting QEMU)",
             "endsPattern": "^(Starting QEMU)"
         }
-    }
+      }
+    },
+    {
+      "label": "Launch Bochs",
+      "type": "shell",
+      "command": "bochs",
+      "args": [
+          "'romimage: file=/usr/share/bochs/BIOS-bochs-latest'",
+          "'vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest'",
+          "'ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14'",
+          "'ata0-slave: type=cdrom, path=${config:cmake.buildDirectory}/kernel.img, status=inserted'",
+          "'boot: cdrom'",
+          "'mouse: enabled=0'",
+          "'clock: sync=realtime'",
+          "'cpu: count=1, ips=1000000'",
+      ],
+      "problemMatcher": [],
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      }
   }
   ]
 }

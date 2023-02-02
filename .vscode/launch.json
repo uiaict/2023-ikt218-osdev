@@ -42,6 +42,47 @@
                 }
             ],
             "preLaunchTask": "Launch QEMU"
+        },
+        {
+            "name": "Bochs GDB",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${config:cmake.buildDirectory}/kernel.bin",
+            "cwd": "${workspaceRoot}",
+            "args": [],
+            /*"sourceFileMap": {
+                "<source-path>": "<target-path>"
+            },*/
+            "targetArchitecture": "x86",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "miDebuggerArgs": "",
+            "customLaunchSetupCommands": [
+                {
+                    "text": "target remote localhost:1234",
+                    "description": "Connect to QEMU remote debugger"
+                },
+                {
+                    "text": "symbol-file kernel.bin",
+                    "description": "GEt kernel symbols"
+                }
+            ],
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "text": "file ${config:cmake.buildDirectory}/kernel.bin",
+                    "description": "Load binary."
+                },
+                {
+                    "text": "break isr_handler",
+                    "description": "Break on exception handler."
+                }
+            ],
+            "preLaunchTask": "Launch Bochs"
         }
     ]
 }
