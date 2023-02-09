@@ -3,8 +3,11 @@ build_*/*
 web/venv
 !build_*/kernel.bin
 !build_*/kernel.img
+!build_*/kernel.elf
 *.lock
 *.egg-info*
 .envrc
+.direnv
 zig-out
 zig-cache
+!flake.lock

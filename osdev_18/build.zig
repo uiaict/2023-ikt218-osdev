@@ -4,7 +4,7 @@ pub fn build(b: *std.build.Builder) void {
     const mode = b.standardReleaseOptions();
     const target = .{ .cpu_arch = .i386, .os_tag = .freestanding };
 
-    const os = b.addExecutable("os.elf", "src/main.zig");
+    const os = b.addExecutable("kernel.elf", "src/main.zig");
     os.addAssemblyFile("src/gdt.s");
     os.setLinkerScriptPath(.{ .path = "linker.ld" });
     os.setBuildMode(mode);
@@ -14,7 +14,7 @@ pub fn build(b: *std.build.Builder) void {
     const run_cmd = b.addSystemCommand(&.{
         "qemu-system-i386",
         "-kernel",
-        "zig-out/bin/os.elf",
+        "zig-out/bin/kernel.elf",
         "-display",
         "gtk,zoom-to-fit=on",
     });
