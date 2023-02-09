@@ -5,3 +5,6 @@ web/venv
 !build_*/kernel.img
 *.lock
 *.egg-info*
+.envrc
+zig-out
+zig-cache
