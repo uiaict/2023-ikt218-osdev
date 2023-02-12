@@ -1,0 +1,2 @@
+/usr/bin/ar qc libuia-os-boot.a CMakeFiles/uia-os-boot.dir/src/boot/src/boot.cpp.o
+/usr/bin/ranlib libuia-os-boot.a

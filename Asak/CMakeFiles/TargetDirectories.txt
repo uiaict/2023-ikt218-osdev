@@ -1,0 +1,8 @@
+/home/asleirdal/ikt218-osdev/Asak/CMakeFiles/uia-os-module-stdlib.dir
+/home/asleirdal/ikt218-osdev/Asak/CMakeFiles/uia-os-boot.dir
+/home/asleirdal/ikt218-osdev/Asak/CMakeFiles/uia-os-kernel.dir
+/home/asleirdal/ikt218-osdev/Asak/CMakeFiles/edit_cache.dir
+/home/asleirdal/ikt218-osdev/Asak/CMakeFiles/rebuild_cache.dir
+/home/asleirdal/ikt218-osdev/Asak/grub/CMakeFiles/uia-os-create-image.dir
+/home/asleirdal/ikt218-osdev/Asak/grub/CMakeFiles/edit_cache.dir
+/home/asleirdal/ikt218-osdev/Asak/grub/CMakeFiles/rebuild_cache.dir

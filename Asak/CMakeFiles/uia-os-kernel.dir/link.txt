@@ -1,0 +1,1 @@
+/usr/bin/g++  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g -T /home/asleirdal/ikt218-osdev/Asak/src/arch/i386/linker.ld -nostdlib -ffreestanding CMakeFiles/uia-os-kernel.dir/src/kernel/src/main.cpp.o -o kernel.bin  libuia-os-module-stdlib.a libuia-os-boot.a libuia-os-module-stdlib.a 
