@@ -1,4 +1,7 @@
-*
-!/
-!/build_group_1/
-!/group_1/
+.vscode
+build_*/*
+web/venv
+!build_*/kernel.bin
+!build_*/kernel.img
+*.lock
+*.egg-info*
