@@ -19,27 +19,11 @@ jobs:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Docker meta
-        id: ikt218meta # you'll use this in the next step
-        uses: docker/metadata-action@v3
-        with:
-          # list of Docker images to use as base name for tags
-          images: |
-            ikt218dev
-          # Docker tags based on the following events/attributes
-          tags: |
-            type=schedule
-            type=ref,event=branch
-            type=ref,event=pr
-            type=semver,pattern={{version}}
-            type=semver,pattern={{major}}.{{minor}}
-            type=semver,pattern={{major}}
-            type=sha
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          context: .devcontainer
+          context: .
           platforms: linux/amd64,linux/arm64
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.ikt218meta.outputs.tags }}
-          labels: ${{ steps.ikt218meta.outputs.labels }}
+          file: ./.devcontainer/Dockerfile
+          push: true
+          tags: perara12/ikt218dev:latest
