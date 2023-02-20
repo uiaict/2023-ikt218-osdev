@@ -13,7 +13,7 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 6AF7F09730B3F0A4
 RUN apt-get update --allow-insecure-repositories && sudo apt install g++-multilib gcc-multilib git cmake nasm grub-common grub-pc-bin xorriso qemu qemu-kvm gdb bochsbios vgabios git libgtk2.0-dev -y
 
 # https://people.engr.tamu.edu/bettati/Courses/OSProjects/to-use-gdb-tools.pdf
-RUN apt-get install libsdl2-dev libncurses5-dev libx11-dev libxext-dev -y
+RUN apt-get install --allow-unauthenticated libsdl2-dev libncurses5-dev libx11-dev libxext-dev -y
 RUN sudo	apt-get	remove	bochs
 RUN wget https://sourceforge.net/projects/bochs/files/bochs/2.6.11/bochs-2.6.11.tar.gz/download -O bochs.tar.gz  && tar -xvf bochs.tar.gz
 RUN cd bochs-2.6.11 && sh .conf.linux --enable-gdb-stub
