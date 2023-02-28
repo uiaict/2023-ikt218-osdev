@@ -2,3 +2,6 @@ This document describes what to do before merging. It is to be continously updat
 
 ## 1. Settings.json
 The settings.json file in the .vscode folder is to be replaced with the content of the oldSettings.json file located in this folder.
+
+## 2. .gitignore
+The .gitignore file in the project is to be replaced with the content of the oldGitignore file located in this folder.
