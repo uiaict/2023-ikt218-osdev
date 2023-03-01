@@ -13,6 +13,7 @@ struct idt_entry {
   uint8_t zero;
   uint8_t flags;
   uint16_t base_high;
+  uint16_t segment;
 } __attribute__((packed));
 
 // Define the GDT and IDT pointers
@@ -30,8 +31,13 @@ void init_idt();
 void idt_load(struct idt_ptr *idt_ptr);
 
 // Define an interrupt handler
-void interrupt_handler();int_handlers
+void interrupt_handler();
 
+struct int_handler {
+  int num;
+  void (*handler)(void *data);
+  void *data;
+} __attribute__((packed));
 
 
 // Array to hold information about registered interrupt handlers
@@ -49,7 +55,7 @@ void register_int_handler(int num, void (*handler)(void *data), void *data) {
 // The default interrupt handler
 void default_int_handler(void *data) {
   // Handle the interrupt
-  // ...
+  int i = 1; // Just a test line
 }
 
 // The main interrupt handler

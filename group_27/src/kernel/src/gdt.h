@@ -1,3 +1,5 @@
+#include "dt.h"
+
 // gdt.h
 struct gdt_entry {
   uint16_t limit_low;
@@ -15,7 +17,7 @@ struct gdt_ptr {
 
 void init_gdt();
 void gdt_load(struct gdt_ptr *gdt_ptr);
-void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
 struct gdt_entry gdt[GDT_ENTRIES];
 struct gdt_ptr gdt_ptr;
@@ -36,7 +38,7 @@ void init_gdt() {
   gdt_load(&gdt_ptr);
 	
 	// Flush GDT pointer
-	gdt_flush((uint32_t)&gdt_ptr);
+	//gdt_flush((uint32_t)&gdt_ptr);
 }
 
 void gdt_load(struct gdt_ptr *gdt_ptr) {
