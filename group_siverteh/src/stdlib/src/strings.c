@@ -112,7 +112,7 @@ void float_to_string(char* str, float f, int precision)
    }  
 
     //For loop that reverses the current string.
-    for (int j = 0, int k = i - 1; j < k; j++, k--) 
+    for (int j = 0, k = i - 1; j < k; j++, k--) 
     {
         //Sets a new char temp equal to the current character in the string.
         char temp = str[j];

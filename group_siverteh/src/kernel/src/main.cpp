@@ -21,10 +21,6 @@ void kernel_main()
 	//Loads the GDT and the IDT.
     load_gdt();
 	//load_idt();
-
-	char* result = "HEL23LLO!!!";
-
-	to_upper(result);
 	
-	print("%f", 1.89);
+	print("Hello, World!");
 }
