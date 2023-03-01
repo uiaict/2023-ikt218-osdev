@@ -1,20 +1,5 @@
-
-#include "system.h"
-#include "common.h"
-#include "monitor.h"
-
-// Define entry point in asm to prevent C++ mangling
-extern "C"{
-    void kernel_main();
-}
-
-void kernel_main()
-{
-
-}
-
 // Updates the hardware cursor.
-static void move_cursor()
+static void move_cursor()
 {
    // The screen is 80 characters wide...
    u16int cursorLocation = cursor_y * 80 + cursor_x;
@@ -25,7 +10,7 @@ static void move_cursor()
 } 
 
 // Scrolls the text on the screen up by one line.
-static void scroll()
+static void scroll()
 {
 
    // Get a space character with the default colour attributes.
