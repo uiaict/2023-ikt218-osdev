@@ -140,8 +140,10 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
+        ${ARCH_TARGET}src/boot/src/boot.asm
         src/boot/src/boot.cpp
+        
+        
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
