@@ -37,14 +37,14 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-	;extern init_multiboot
-	;push ebx ; multiboot_info struct
-	;push eax ; magic number
-	;call init_multiboot
-
 	
 	mov esp, stack_top
 
+	;Initialize Global Desctiptor Table
+	extern init_gdt
+	call init_gdt
+
+	;Enter OS kernel
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
 	cli
