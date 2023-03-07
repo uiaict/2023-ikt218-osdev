@@ -1,2 +1,0 @@
-/usr/bin/ar qc libuia-os-module-stdlib.a CMakeFiles/uia-os-module-stdlib.dir/src/stdlib/src/system.c.o
-/usr/bin/ranlib libuia-os-module-stdlib.a

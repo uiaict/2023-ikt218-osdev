@@ -17,11 +17,11 @@ align 4
     dd  MBOOT_HEADER_FLAGS      ; How GRUB should load your file / settings
     dd  MBOOT_CHECKSUM          ; To ensure that the above values are correct
 
-		dd 0
-		dd 0
-		dd 0 
-		dd 0 
-		dd 0 
+        dd 0
+        dd 0
+        dd 0 
+        dd 0 
+        dd 0 
     ; Graphic field
     dd 0
     dd 640
@@ -37,17 +37,11 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-	extern init_multiboot
-	push ebx ; multiboot_info struct
-	push eax ; magic number
-	call init_multiboot
+    mov esp, stack_top
 
-	
-	mov esp, stack_top
-
-	extern kernel_main
-	call kernel_main  ; call our kernel_main() function.
-	cli
-.hang:	hlt
-	jmp .hang
+    extern kernel_main
+    call kernel_main  ; call our kernel_main() function.
+    cli
+.hang:    hlt
+    jmp .hang
 .end:
