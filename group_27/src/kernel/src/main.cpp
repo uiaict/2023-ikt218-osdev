@@ -5,7 +5,7 @@
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void test();
-    void kernel_main();
+    int kernel_main();
 }
 
 void test()
@@ -13,7 +13,7 @@ void test()
     init_gdt();
 }
 
-void kernel_main()
+int kernel_main()
 {
-
+    return 0xDEADBABA;
 }
