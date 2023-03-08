@@ -141,6 +141,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
@@ -148,6 +149,7 @@ add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
 # Defines the include directories for the boot library
 target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
     src/boot/include/
+    src/stdlib/include/
 )
 # Defines the linking between boot and the boot library
 target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
