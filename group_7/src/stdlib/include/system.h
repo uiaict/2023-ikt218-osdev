@@ -116,3 +116,4 @@
     int rand();
     int ungetc(int c, FILE *stream);
 
+    void write_string( int colour, const char *string );
