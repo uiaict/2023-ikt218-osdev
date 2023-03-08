@@ -1,0 +1,17 @@
+[
+{
+  "directory": "/home/matias/ikt218-osdev/OSDev10",
+  "command": "/usr/bin/gcc  -I/home/matias/ikt218-osdev/OSDev10/src/stdlib/include  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -g -std=gnu99 -o CMakeFiles/uia-os-module-stdlib.dir/src/stdlib/src/system.c.o -c /home/matias/ikt218-osdev/OSDev10/src/stdlib/src/system.c",
+  "file": "/home/matias/ikt218-osdev/OSDev10/src/stdlib/src/system.c"
+},
+{
+  "directory": "/home/matias/ikt218-osdev/OSDev10",
+  "command": "/usr/bin/g++  -I/home/matias/ikt218-osdev/OSDev10/src/boot/include -I/home/matias/ikt218-osdev/OSDev10/src/stdlib/include  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g -std=gnu++20 -o CMakeFiles/uia-os-boot.dir/src/boot/src/boot.cpp.o -c /home/matias/ikt218-osdev/OSDev10/src/boot/src/boot.cpp",
+  "file": "/home/matias/ikt218-osdev/OSDev10/src/boot/src/boot.cpp"
+},
+{
+  "directory": "/home/matias/ikt218-osdev/OSDev10",
+  "command": "/usr/bin/g++  -I/home/matias/ikt218-osdev/OSDev10/src/kernel/include -I/home/matias/ikt218-osdev/OSDev10/src/stdlib/include -I/home/matias/ikt218-osdev/OSDev10/src/boot/include  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g -std=gnu++20 -o CMakeFiles/uia-os-kernel.dir/src/kernel/src/main.cpp.o -c /home/matias/ikt218-osdev/OSDev10/src/kernel/src/main.cpp",
+  "file": "/home/matias/ikt218-osdev/OSDev10/src/kernel/src/main.cpp"
+}
+]

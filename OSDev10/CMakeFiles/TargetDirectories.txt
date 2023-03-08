@@ -1,0 +1,8 @@
+/home/matias/ikt218-osdev/OSDev10/CMakeFiles/uia-os-module-stdlib.dir
+/home/matias/ikt218-osdev/OSDev10/CMakeFiles/uia-os-boot.dir
+/home/matias/ikt218-osdev/OSDev10/CMakeFiles/uia-os-kernel.dir
+/home/matias/ikt218-osdev/OSDev10/CMakeFiles/edit_cache.dir
+/home/matias/ikt218-osdev/OSDev10/CMakeFiles/rebuild_cache.dir
+/home/matias/ikt218-osdev/OSDev10/grub/CMakeFiles/uia-os-create-image.dir
+/home/matias/ikt218-osdev/OSDev10/grub/CMakeFiles/edit_cache.dir
+/home/matias/ikt218-osdev/OSDev10/grub/CMakeFiles/rebuild_cache.dir
