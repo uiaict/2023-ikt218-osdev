@@ -1,7 +1,9 @@
 #include "libc/system.h"
 #include <stdarg.h>
 #include <limits.h>
-#include <monitor.h>
+
+extern void monitor_put(char c);
+
 
 int putchar(int ic) {
     char c = (char) ic;

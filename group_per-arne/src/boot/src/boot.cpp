@@ -1,16 +1,18 @@
 #include "boot.h"
-#include <monitor.h>
-#include <memory.h>
 #include <libc/system.h>
+
+extern void monitor_initialize();
+
+
 extern "C" {
     void init_multiboot(uint32_t magic /*eax*/, multiboot_info* info /*ebx*/);
 };
 
 
 void init_multiboot(uint32_t magic /*eax*/, multiboot_info* info /*ebx*/){
-
     monitor_initialize();
     printf("\n");
+
     // Convert values to string
     char* eax_buf;
     char* mb_magic_buf;

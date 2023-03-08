@@ -18,6 +18,7 @@ project(UiAOS LANGUAGES C CXX ASM_NASM)
 # This line creates a lock file to prevent parallell run of CMake.
 file(LOCK ${CMAKE_SOURCE_DIR} DIRECTORY GUARD FILE)
 
+
 ########################################
 ###
 ### CMake: Import Plugins
@@ -54,7 +55,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Set the C Version
 set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
-set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
+set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wno-sign-conversion -Wno-frame-address -Wno-unused-parameter")
 # Common compiler flags for both C and C++
 set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
@@ -108,8 +109,6 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/common.cpp
-        src/stdlib/src/monitor.cpp
         # C Libraries
         src/stdlib/src/libc/panic.cpp
         src/stdlib/src/libc/system.cpp
@@ -178,6 +177,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/cpu/isr_asm.asm
+        src/kernel/src/cpu/descriptor_table.asm
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
