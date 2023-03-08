@@ -17,7 +17,7 @@ elseif(OS_ARCH_TARGET STREQUAL "x86_64")
 endif()
 
 
-find_program(GRUB_MKRESCUE grub2-mkrescue)
+find_program(GRUB_MKRESCUE grub-mkrescue)
 if (NOT GRUB_MKRESCUE)
     message(FATAL_ERROR "Unable to find `grub-mkrescue`. Bootable ISO image generation will not be available.")
 endif()
