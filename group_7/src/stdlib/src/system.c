@@ -1,17 +1,11 @@
 #include "system.h"
 
-/*void *memcpy(void *dest, const void *src, size_t n) 
-{ 
-    // Typecast src and dest addresses to (char *) 
-    char *csrc = (char *)src; 
-    char *cdest = (char *)dest; 
-    
-    // Copy contents of src[] to dest[] 
-    for (size_t i=0; i<n; i++) 
+void write_string( int colour, const char *string )
+{
+    volatile char *video = (volatile char*)0xB8000;
+    while( *string != 0 )
     {
-        cdest[i] = csrc[i]; 
-
+        *video++ = *string++;
+        *video++ = colour;
     }
-    void *nothing;
-    return nothing;
-}*/
+}
