@@ -5,7 +5,8 @@ pub fn build(b: *std.build.Builder) void {
     const target = .{ .cpu_arch = .i386, .os_tag = .freestanding };
 
     const os = b.addExecutable("kernel.elf", "src/main.zig");
-    os.addAssemblyFile("src/gdt.s");
+    os.addAssemblyFile("src/arch/gdt.s");
+    os.addAssemblyFile("src/arch/idt.s");
     os.setLinkerScriptPath(.{ .path = "linker.ld" });
     os.setBuildMode(mode);
     os.setTarget(target);

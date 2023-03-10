@@ -1,6 +1,4 @@
-const utils = @import("utils.zig");
-const inb = utils.inb;
-const outb = utils.outb;
+const utils = @import("../utils.zig");
 
 var row: u16 = 0;
 var column: u16 = 0;
@@ -62,8 +60,8 @@ pub fn setColor(foreground: Color, background: Color) void {
 
 pub fn moveCursor(cursor_row: u16, cursor_column: u16) void {
     const position = cursor_row * 80 + cursor_column;
-    outb(0x3D4, 0x0F);
-    outb(0x3D5, @truncate(u8, position));
-    outb(0x3D4, 0x0E);
-    outb(0x3D5, @truncate(u8, position >> 8));
+    utils.outb(0x3D4, 0x0F);
+    utils.outb(0x3D5, @truncate(u8, position));
+    utils.outb(0x3D4, 0x0E);
+    utils.outb(0x3D5, @truncate(u8, position >> 8));
 }
