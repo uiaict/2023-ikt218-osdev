@@ -50,9 +50,9 @@ struct gdt_ptr
     //*      add padding between the fields of the struct.
 } __attribute__((packed));
 
-/// @brief Loads the gdt from memory(?).
-/// @param gdt_ptr pointer to the pointer struct.
-void gdt_load(struct gdt_ptr *gdt_ptr);
+// /// @brief Loads the gdt from memory(?).
+// /// @param gdt_ptr pointer to the pointer struct.
+// void gdt_load(struct gdt_ptr *gdt_ptr);
 
 /// @brief Creates a gdt entry from the data provided as parameters. Used in init_gdt().
 /// @param num the gdt entry number to modify.
