@@ -10,6 +10,10 @@ This file contains the definitions to implement the  global description table.
 
 #include <stdint.h> // for the uint16_t etc datatypes
 
+/// @brief Number of entries in the global description table
+#define GDT_ENTRIES 5
+
+
 /// @brief A struct representing a gdt entry.
 struct gdt_entry
 {
@@ -37,7 +41,7 @@ struct gdt_entry
 /// @brief A pointer of the limit and base of a gdt entry.
 struct gdt_ptr
 {
-    /// @brief
+    /// @brief The address of the last entry in the gdt table.
     uint16_t limit;
     /// @brief The base integer that is divided into base_low, _medium
     /// and _high in the struct.
@@ -58,7 +62,13 @@ void gdt_load(struct gdt_ptr *gdt_ptr);
 /// @param gran The granularity
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
-/// @brief Initializes the global descriptor table by calling the other functions.
+/// @brief Initializes the global descriptor table by calling the other functions from gdt.h and gdt.cpp
 void init_gdt();
+
+
+/// @brief  the global description table array.
+static gdt_entry gdt[GDT_ENTRIES];
+/// @brief Pointer to the global description table.
+static gdt_ptr gdt_ptr;
 
 #endif /* GDT_H */
