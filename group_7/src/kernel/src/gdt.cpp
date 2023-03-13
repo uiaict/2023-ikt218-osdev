@@ -7,13 +7,6 @@ This file contains the implementation of the global description table.
 #include <stdint.h>
 #include "gdt.h"
 
-/// @brief Number of entries in the global description table
-#define GDT_ENTRIES 5
-
-/// @brief  the global description table array.
-struct gdt_entry gdt[GDT_ENTRIES];
-/// @brief Pointer to the global description table.
-struct gdt_ptr gdt_ptr;
 
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
@@ -28,12 +21,12 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
     gdt[num].access = access;
 }
 
-void gdt_load(struct gdt_ptr *gdt_ptr)
-{
-    asm volatile("lgdt %0"
-                 :
-                 : "m"(*gdt_ptr));
-}
+// void gdt_load(struct gdt_ptr *gdt_ptr)
+// {
+//     asm volatile("lgdt %0"
+//                  :
+//                  : "m"(*gdt_ptr));
+// }
 
 void init_gdt()
 {
@@ -48,10 +41,9 @@ void init_gdt()
     gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
-    // Load the GDT
-    gdt_load(&gdt_ptr);
+  /// Load the GDT
+  gdt_flush((uint32_t)&gdt_ptr);
 
-    // Flush GDT pointer
-    // TODO Implement this? Maybe in assembly?
-    // gdt_flush((uint32_t)&gdt_ptr);
 }
+
+
