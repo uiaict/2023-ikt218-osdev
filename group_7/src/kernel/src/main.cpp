@@ -1,10 +1,16 @@
 
 //#include "system.h"
 
+#include "gdt.h"
+
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+
+
+    
     void kernel_main();
 }
+
 
 void write_string( int colour, const char *string )
 {
@@ -18,5 +24,8 @@ void write_string( int colour, const char *string )
 
 void kernel_main()
 {
+    // Initialize the global descriptor table:
+    init_gdt();
+   
     write_string(13, "Halla");
 }
