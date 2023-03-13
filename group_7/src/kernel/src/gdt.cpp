@@ -7,6 +7,11 @@ This file contains the implementation of the global description table.
 #include <stdint.h>
 #include "gdt.h"
 
+/// to be able to run the asm function.
+extern "C" {
+  extern void gdt_flush(uint32_t gdt_ptr);
+}
+
 
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
