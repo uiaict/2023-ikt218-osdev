@@ -4,7 +4,8 @@
 #include <time.h>
 #include <stdio.h>
 
-
+    void clear_screen();
+    void write_string(unsigned char colour, const char *string); 
     int isalnum(int c);
     int iscntrl(int c);
     int isgraph(int c);
@@ -71,7 +72,7 @@
     double tanh(double x);
     time_t time(time_t *tloc);
     FILE *tmpfile();
-    char *tmpnam(char *s);
+    char *tmpnam(char[20]);
     void *memset(void *s, int c, size_t n);
     void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);
