@@ -114,7 +114,7 @@ struct lconv *localeconv();
 int rand();
 int ungetc(int c, FILE *stream);
 
-unsigned int printk(unsigned int pos, const char* format, ...);
+void printk(const char* format, ...);
 void print_char(char c, unsigned char color, unsigned int position);
 void itoa(int value, char* str, int base);
 void reverse(char* str, int length);

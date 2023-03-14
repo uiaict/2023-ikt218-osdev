@@ -23,11 +23,11 @@ void print_char(char c, unsigned char color, unsigned int position)
     video_memory[position * 2 + 1] = color;
 }
 
-unsigned int printk(unsigned int position, const char *format, ...)
+void printk(const char *format, ...)
 {
+    static unsigned int prev_position = 0; // Initialize the previous position to 0
     va_list args;
     va_start(args, format);
-
 
     char c;
 
@@ -45,7 +45,7 @@ unsigned int printk(unsigned int position, const char *format, ...)
                 itoa(arg, buf, 10);
                 for (int i = 0; buf[i]; i++)
                 {
-                    print_char(buf[i], 0x0F, position++);
+                    print_char(buf[i], 0x0F, prev_position++);
                 }
                 break;
             }
@@ -54,31 +54,31 @@ unsigned int printk(unsigned int position, const char *format, ...)
                 char *arg = va_arg(args, char *);
                 while (*arg)
                 {
-                    print_char(*arg++, 0x0F, position++);
+                    print_char(*arg++, 0x0F, prev_position++);
                 }
                 break;
             }
             case 'c':
             {
                 char arg = (char)va_arg(args, int);
-                print_char(arg, 0x0F, position++);
+                print_char(arg, 0x0F, prev_position++);
                 break;
             }
             }
         }
         else if (c == '\n')
         {                                        // check for newline character
-            position = (position / 80 + 1) * 80; // move to the start of the next line
+            prev_position = (prev_position / 80 + 1) * 80; // move to the start of the next line
         }
         else
         {
-            print_char(c, 0x0F, position++);
+            print_char(c, 0x0F, prev_position++);
         }
     }
 
     va_end(args);
-    return position;
 }
+
 
 void reverse(char *str, int length)
 {
