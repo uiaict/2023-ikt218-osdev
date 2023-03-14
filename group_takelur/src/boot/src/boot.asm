@@ -17,3 +17,11 @@ multiboot:                              ; Label = multiboot
     dd MULTIBOOT_MAGIC                  ; Start with the magic number (dd = define double word = 32 bits)
     dd MULTIBOOT_FLAGS                  ; Then the flags
     dd MULTIBOOT_CHECKSUM               ; Then the checksum
+
+; I have to provide the stack in kernel as there is no stack value definition in the multiboot standard.
+SECTION .bss
+    align 16                            ; Align to 16 byte (128 bit) boundary (required on x86)
+stack_bottom: 
+    resb 16384                          ; Reserve 16 KiB for the stack
+stack_top:                              ; Stack_top is the end of the stack. The stack grows downwards.
+
