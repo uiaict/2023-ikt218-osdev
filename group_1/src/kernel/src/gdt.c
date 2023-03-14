@@ -56,3 +56,34 @@ static void gdt_set_gate(s32int num, u32int base, u32int limit, u8int access, u8
    gdt_entries[num].access      = access;
 }
 
+// The function to check if the GDT is implemented.
+bool is_gdt_implemented() {
+    u32int cr0;
+    u16int gdt_limit;
+    u32int gdt_base;
+
+    // Get the current value of the control register CR0.
+    __asm__ volatile("mov %%cr0, %0" : "=r" (cr0));
+
+    // Check if the protected mode (bit 0) is set.
+    if (cr0 & 0x1) {
+        // Get the current value of the descriptor register GDTR.
+        __asm__ volatile("sgdt %0" : "=m" (gdt_ptr));
+
+        // Get the limit and base address of the GDT.
+        gdt_limit = gdt_ptr.limit;
+        gdt_base = gdt_ptr.base;
+
+        // If the GDT limit is non-zero, then the GDT is implemented.
+        if (gdt_limit != 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+
+
+
+
