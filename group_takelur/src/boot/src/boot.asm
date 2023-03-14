@@ -8,3 +8,12 @@ MULTIBOOT_FLAGS equ MULTIBOOT_PAGE_ALIGN | MULTIBOOT_MEM_INFO   ; Flags for the 
 MULTIBOOT_MAGIC equ 0x1BADB002                                  ; Magic number for the multiboot header
 MULTIBOOT_CHECKSUM equ -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)     ; Checksum for the multiboot header
 
+; Declares the multiboot header to mark the program as a kernel. The bootloader searches for the magic number 
+; in the first 8KiB of the kernel file, aligned at a 32-bit boundary - https://wiki.osdev.org/Bare_Bones.
+[BITS 32]                               ; Tells assembler to generate instructions for the 32-bit processor mode
+SECTION .multiboot
+    align 4                             ; Align to 4 byte (32 bit) boundary
+multiboot:                              ; Label = multiboot
+    dd MULTIBOOT_MAGIC                  ; Start with the magic number (dd = define double word = 32 bits)
+    dd MULTIBOOT_FLAGS                  ; Then the flags
+    dd MULTIBOOT_CHECKSUM               ; Then the checksum
