@@ -1,10 +1,10 @@
 #include "strings.h"
 
 //Function that gets the length of a string.
-size_t strlen(const char *str)
+int strlen(const char *str)
 {
     //Sets up a variable length that keeps track of the length of the string.
-    size_t length = 0;
+    int length = 0;
 
     //While loop that loops through every character in the string and icrements the length for every character.
     while(*str++)
@@ -22,7 +22,7 @@ void int_to_string(char* str, int num)
     int end_index = 0;
     int temp = num;
 
-    //If the number is 0 turn the string to 0.
+    //If the number is 0 turn the string to 0 and return.
     if(num == 0)
     {
         str[0] = '0';
@@ -37,7 +37,7 @@ void int_to_string(char* str, int num)
         temp /= 10;
     }
 
-    //If the number is negative add a minus at the start of the string and turn the number positive. Also increment the digits and i variables.
+    //If the number is negative add a minus at the start of the string and turn the number positive. Also increment the end_index variable.
     if (num < 0) 
     {
         str[0] = '-';
@@ -70,7 +70,7 @@ void float_to_string(char* str, float f, int precision)
     int integer_part = (int) f;
     //Declares the variable frac and sets it as the fractional part of the float
     float fractional_part = f - integer_part;  
-    //Declares the variable pow10 that is needed for the fractional part conversion
+    //Declares the variable power that is needed for the fractional part conversion.
     int power = 1;  
 
     //If the float is less than zero it sets the first character of the string to '-', then increments the string.
@@ -153,12 +153,27 @@ void float_to_string(char* str, float f, int precision)
     str[i] = '\0';
 }
 
+//Function that checks if the character is a number or alphabetic letter.
 int isalnum(int c)
 {
+    //If the ascii value corresponds to 1-9, a-z, or A-Z return 1 for true.
     if((c >= 48 && c <= 57) || (c >= 65 && c <= 90) || (c >= 97 && c <= 122))
     {
         return 1;
     }
+    //Else return 0 for false.
+    return 0;
+}
+
+//Function that checks if the character is a number or alphabetic letter.
+int isalpha(int c)
+{
+    //If the ascii value corresponds to 1-9, a-z, or A-Z return 1 for true.
+    if((c >= 65 && c <= 90) || (c >= 97 && c <= 122))
+    {
+        return 1;
+    }
+    //Else return 0 for false.
     return 0;
 }
 
@@ -176,6 +191,18 @@ void to_upper(char* str)
         }
         *str++;
     }
+}
+
+//Function for turning a string into uppercase.
+char to_upper_char(char c)
+{
+     //If the character is between 97 and 122 it is a lowercase letter.
+    if(c >= 97 && c <= 122)
+    {
+         //Take away 32 from the ascii value of the character to turn it into a uppercase character.
+        return c -= 32;
+    }
+    return c;
 }
 
 //Function for turning a string into lowercase.
@@ -216,4 +243,25 @@ int islower(int c)
     }
     //Else return 0 for false;
     return 0;
+}
+
+// Returns <0 if s1<s2, 0 if s1==s2, >0 if s1>s2 */
+int strcmp(char s1[], char s2[]) 
+{
+    int i;
+    for (i = 0; s1[i] == s2[i]; i++) 
+    {
+        if (s1[i] == '\0') 
+        {
+            return 0;
+        }
+    }
+    return s1[i] - s2[i];
+}
+
+void append(char* s, char n)
+{
+	int len = strlen(s);
+	s[len] = n;
+	s[len + 1] = '\0';
 }

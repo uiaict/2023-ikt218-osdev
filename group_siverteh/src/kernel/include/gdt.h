@@ -2,7 +2,6 @@
 /* Not self written code, found code at http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html */
 #include <stdint.h>
 
-
 /* Defines the number of entries in the GDT. */
 #define GDT_ENTRIES 5
 
@@ -33,7 +32,3 @@ void load_gdt();
 
 //Sets the value of one GDT entry.
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
-
-//Sets up instances of the structs gdt_entry and gdt_ptr.
-static gdt_entry_t gdt_entries[GDT_ENTRIES];
-static gdt_ptr_t   gdt_ptr;

@@ -1,16 +1,15 @@
 #include "boot.h"
+#include "../../kernel/src/drivers/screen.h"
 
 extern "C" {
     void initialize_multiboot(uint32_t magic, multiboot_info info);
-    #include "system.h"
-    #include "print.h"
     #include "strings.h"
 }
 
 void initialize_multiboot(uint32_t magic, multiboot_info info)
 {
     //Initilizes the terminal output
-    terminal_initialize();
+    terminal_clear();
     //Declares two char pointers "eax_buf" and "mb_magic_buf"
     char* eax_buf;
     char* mb_magic_buf;
@@ -25,10 +24,10 @@ void initialize_multiboot(uint32_t magic, multiboot_info info)
         while (1)
         {
             //If they are not equal something is wrong and an error message is printed
-            print("Magic number is invalid. Found: %s != %s\n", eax_buf, mb_magic_buf);
+            printf("Magic number is invalid. Found: %s != %s\n", eax_buf, mb_magic_buf);
         }//Error
         
     }
     //If they are equal the multiboot check went okay.
-    print("Multiboot check went OK. eax=%s, magic=%s\n", eax_buf, mb_magic_buf);
+    printf("Multiboot check went OK. eax=%s, magic=%s\n", eax_buf, mb_magic_buf);
 }
