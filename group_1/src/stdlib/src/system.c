@@ -23,8 +23,9 @@ void print_char(char c, unsigned char color, unsigned int position)
     video_memory[position * 2 + 1] = color;            // Set the attribute at the specified position in video memory
 }
 
-unsigned int printk(unsigned int position, const char *format, ...)
+void printk(const char *format, ...)
 {
+    static unsigned int position = 0; // Initialize the previous position to 0
     va_list args;           // Declare a list of arguments
     va_start(args, format); // Start the list of arguments at the format parameter
 
