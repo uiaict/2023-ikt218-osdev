@@ -24,7 +24,7 @@ enum vga_color {
 };
 
 
-//Declaring functions
+/*Function declarations*/
 void terminal_clear();
 void scroll_up();
 void scroll_down();

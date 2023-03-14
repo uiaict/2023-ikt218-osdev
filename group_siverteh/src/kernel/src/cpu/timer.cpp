@@ -9,7 +9,11 @@ uint32_t tick = 0;
 static void timer_callback(registers_t regs)
 {
     tick++;
-    printf("Tick: %d\n", tick);
+
+    // Toggle the cursor on and off by XORing the cursor end register with 0x80.
+    uint8_t cursor_end = inb(0x3D5);
+    outb(0x3D4, 0x0B); // cursor end register
+    outb(0x3D5, cursor_end ^ 0x80);
 }
 
 void load_timer(uint32_t frequency)

@@ -11,7 +11,7 @@ extern "C"
 //Declares an array of function pointers of the type isr_t which is declared in the header file.
 isr_t interrupt_handlers[256];
 
-/* To print the message which defines every exception */
+/*List of messages which defines every exception*/
 char *exception_messages[] = {
     "Division by zero exception",
     "Debug exception",

@@ -1,3 +1,6 @@
+#ifndef ISR_H
+#define ISR_H
+
 #include <cstdint>
 
 //Defines constants for the Interrupt service routines, and interrupt requests.
@@ -64,3 +67,5 @@ typedef void (*isr_t)(registers_t);
 //Function that allows the program to register a callback function whenever an interrupt occurs.
 //First parameter is the interrupt number, and the second parameter is the function that will handle the interrupt.
 void register_interrupt_handler(uint8_t n, isr_t handler);
+
+#endif

@@ -47,21 +47,11 @@ static void move_cursor()
     outb(0x3D4, 15);                  // Tell the VGA board we are setting the low cursor byte.
     outb(0x3D5, cursor_location);      // Send the low cursor byte.
 
-    // Toggle the cursor on and off by writing to the cursor start and end registers.
-    uint8_t cursor_start = inb(0x3D4);
-    uint8_t cursor_end = inb(0x3D5);
-
-    if (cursor_start == 0x0E) {
-        outb(0x3D4, 0x0A); // cursor start register
-        outb(0x3D5, 0x00); // set the cursor start to 0
-        outb(0x3D4, 0x0B); // cursor end register
-        outb(0x3D5, 0x0F); // set the cursor end to 15 (turn on the cursor)
-    } else {
-        outb(0x3D4, 0x0A); // cursor start register
-        outb(0x3D5, 0x20); // set the cursor start to 32 (hide the cursor)
-        outb(0x3D4, 0x0B); // cursor end register
-        outb(0x3D5, 0x21); // set the cursor end to 33 (prevent the cursor from blinking)
-    }
+    // Turn on the cursor by setting the cursor start and end registers.
+    outb(0x3D4, 0x0A); // cursor start register
+    outb(0x3D5, 0x00); // set the cursor start to 0
+    outb(0x3D4, 0x0B); // cursor end register
+    outb(0x3D5, 0x0F); // set the cursor end to 15 (turn on the cursor)
 }
 
 //Function that scrolls the terminal up by one line.
@@ -122,41 +112,51 @@ void scroll_down()
     }
 }
 
+//Function that fills the terminal with spaces.
 void terminal_clear(void) 
 {
     // Make an attribute byte for the default colours
     uint8_t attributeByte = (0 /*black*/ << 4) | (15 /*white*/ & 0x0F);
     uint16_t blank = 0x20 /* space */ | (attributeByte << 8);
 
-    int i;
-    for (i = 0; i < 80*25; i++)
+    //For loop that fills the terminal with blank characters.
+    for (int i = 0; i < 80*25; i++)
     {
         terminal_buffer[i] = blank;
     }
 
-    // Move the hardware cursor back to the start.
+    //Move the hardware cursor back to the start.
     terminal_column = 0;
     terminal_row = 0;
     move_cursor();
 }
 
+//Function that works like a backspace button.
 void backspace()
-{
+{   
+    //If the terminal_column and terminal_row are both 0 there is nothing to remove so we just return.
     if(terminal_column == 0 && terminal_row == 0)
     {
         return;
     }
+    //If the terminal_column / x coordinate is 0
     else if(terminal_column == 0)
     {
+        //Decrement the terminal_row/y coordinate.
         terminal_row--;
+        //Set the terminal_column/x coordinate to VGA_WIDTH/80.
         terminal_column = VGA_WIDTH;
     }
+    //Else we are somewhere in a line thats not the start.
     else
-    {
+    {   
+        //Decrement the terminal_column/x coordinate.
         terminal_column--;
     }
+    //Fill the current cursor position with a blank character.
     terminal_buffer[VGA_WIDTH*terminal_row+terminal_column] = (terminal_buffer[VGA_WIDTH*terminal_row+terminal_column] & 0xFF00) | ' ';
-
+    //Move the cursor.
+    move_cursor();
 }
 
 //Defines the function terminal_putchar, that prints a single character to the terminal.
@@ -184,11 +184,12 @@ void terminal_putchar(char c)
         terminal_column = 0;
     }
 
-    //If the cursor reaches the bottom of the screen the whole screen gets reset.
+    //If the cursor reaches the bottom of the screen scroll down.
     if(terminal_row >= VGA_HEIGHT)
     {
         scroll_down();
     }
+    //Move the cursor
     move_cursor();
 }
 

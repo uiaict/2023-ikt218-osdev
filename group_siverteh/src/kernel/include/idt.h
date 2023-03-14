@@ -1,4 +1,7 @@
 // Not self written code, found code at http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html
+#ifndef IDT_H
+#define IDT_H
+
 #include <cstdint>
 
 //Defines the number of entries in the IDT.
@@ -32,7 +35,4 @@ void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 //Loads the IDT into the processors memory
 void load_idt();
 
-
-
-
-
+#endif

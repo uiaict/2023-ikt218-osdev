@@ -5,6 +5,7 @@
 #include "timer.h"
 #include "drivers/keyboard.h"
 #include "drivers/screen.h"
+#include "ports.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"
@@ -12,22 +13,15 @@ extern "C"
     void kernel_main();
 }
 
- 
 void kernel_main() 
 {
 	//Loads the GDT and the IDT.
     load_gdt();
 	load_idt();
+	load_timer(1);
 	asm volatile("sti");
-	//load_timer(50);
 	load_keyboard();
 
 
-	//asm volatile ("int $0x3");
-	//asm volatile ("int $0x4");
-
-	while(1)
-	{
-
-	}
+	while(1){}
 } 

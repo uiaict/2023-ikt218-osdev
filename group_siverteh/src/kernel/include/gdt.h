@@ -1,5 +1,7 @@
-#pragma once
 /* Not self written code, found code at http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html */
+#ifndef GDT_H
+#define GDT_H
+
 #include <stdint.h>
 
 /* Defines the number of entries in the GDT. */
@@ -32,3 +34,5 @@ void load_gdt();
 
 //Sets the value of one GDT entry.
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
+
+#endif
