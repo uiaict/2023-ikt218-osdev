@@ -4,7 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 
-
+    void write_string( int colour, const char *string); 
     int isalnum(int c);
     int iscntrl(int c);
     int isgraph(int c);
