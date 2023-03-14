@@ -37,7 +37,7 @@ void clear_terminal(void)
 	}
 }
 
-void write_to_terminal(char word[50])
+void write_to_terminal(int row, char word[80])
 {
     uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000;
 
@@ -48,13 +48,26 @@ void write_to_terminal(char word[50])
     }
 
     for(int i = 0; i < wordlen; i++){
-        fb[4][i][0] = word[i];
+        fb[row][i][0] = word[i];
     }
+}
+
+void print_logo() {
+
+write_to_terminal(3,"                         _________ _______    _______  _______");
+write_to_terminal(4,"                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\");
+write_to_terminal(5,"                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/");
+write_to_terminal(6,"                | |   | |   | |   | (___) |  | |   | || (_____ ");
+write_to_terminal(7,"                | |   | |   | |   |  ___  |  | |   | |(_____  )");
+write_to_terminal(8,"                | |   | |   | |   | (   ) |  | |   | |      ) |");
+write_to_terminal(9,"                | (___) |___) (___| )   ( |  | (___) |/\\____) |");
+write_to_terminal(10,"                (_______)\\_______/|/     \\|  (_______)\\_______)");
+write_to_terminal(12,"            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
 }
  
 void kernel_main(void) 
 {
 	clear_terminal();
 
-    write_to_terminal("Hello World");
+    print_logo();
 }
