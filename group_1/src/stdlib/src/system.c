@@ -15,19 +15,6 @@ void clear_screen()
         *video++ = 0x00;
     }
 }
-// void write_string(unsigned char colour, const char *string)
-// {
-//     if (string == NULL)
-//     {
-//         return;
-//     }
-//     volatile char *video = (volatile char *)VIDEO_MEMORY_ADDRESS;
-//     while (*string != '\0')
-//     {
-//         *video++ = *string++;
-//         *video++ = (char)colour;
-//     }
-// }
 
 void print_char(char c, unsigned char color, unsigned int position)
 {
