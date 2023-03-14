@@ -36,12 +36,12 @@ void print_char(char c, unsigned char color, unsigned int position)
     video_memory[position * 2 + 1] = color;
 }
 
-void printk(const char *format, ...)
+unsigned int printk(unsigned int position, const char *format, ...)
 {
     va_list args;
     va_start(args, format);
 
-    unsigned int position = 0;
+
     char c;
 
     while ((c = *format++))
@@ -90,6 +90,7 @@ void printk(const char *format, ...)
     }
 
     va_end(args);
+    return position;
 }
 
 void reverse(char *str, int length)
