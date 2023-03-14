@@ -74,21 +74,4 @@ void gdt_check(struct gdt_ptr *gdt_ptr) {
   asm volatile("sgdt (%0)" : : "r"(&gdt_ptr));
   int lim = gdt_ptr->limit;
   int base = gdt_ptr->limit;
-  //printf("GDT base: 0x%x, limit: 0x%x\n", gdtr.base, gdtr.limit);
-}
-
-
-void printmyword(char word[50])
-{
-  uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000;
-
-  int wordlen = 0;
-  while(word[wordlen] != '\0' ){
-      wordlen++;
-  }
-
-  for(int i = 0; i < wordlen; i++)
-  {
-    fb[0][i][0]= word[i];   
-  }
 }
