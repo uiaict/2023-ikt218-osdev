@@ -6,7 +6,7 @@ extern "C"{
     void kernel_main();
 }
 
-//extern void test_gdt();
+extern "C" void test_gdt();
 
 void kernel_main()
 {
