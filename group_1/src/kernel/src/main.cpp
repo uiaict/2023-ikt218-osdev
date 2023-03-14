@@ -1,5 +1,3 @@
-// Define entry point in asm to prevent C++ mangling
-
 extern "C"{
     #include "system.h"
     #include "gdt.h"
@@ -15,11 +13,10 @@ void kernel_main()
     unsigned int pos = 0;
     pos = printk(pos, "Hello, %s! The answer \n is %d.", "world", 42);
     pos = printk(pos, "%d", 696969420);
-   init_descriptor_tables();
+    init_descriptor_tables();
    
-   if (is_gdt_implemented)
-   {
+    if (is_gdt_implemented)
+    {
         write_string(15, "Hello world!");
         }
-   //test_gdt();
 }
