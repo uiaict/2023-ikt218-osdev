@@ -8,10 +8,7 @@ extern "C"{
 
 void kernel_main()
 {
-    /**(char*)0xb8000 = 'O';
-    *(char*)0xb8002 = 'l';
-    *(char*)0xb8004 = 'e';*/
-
+   clear_screen();
    write_string(15, "Hello world!");
 
 
