@@ -2,6 +2,8 @@
 // We use the attribute 'packed' to tell GCC not to change
 // any of the alignment in the structure.
 #include "common.h"
+#include "stdbool.h"
+
 struct gdt_entry_struct
 {
    u16int limit_low;           // The lower 16 bits of the limit.
@@ -24,3 +26,4 @@ typedef struct gdt_ptr_struct gdt_ptr_t;
 // Initialisation function is publicly accessible.
 void init_descriptor_tables();
 
+bool is_gdt_implemented();
