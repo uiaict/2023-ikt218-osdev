@@ -1,6 +1,7 @@
 // This structure contains the value of one GDT entry.
 // We use the attribute 'packed' to tell GCC not to change
 // any of the alignment in the structure.
+#include "common.h"
 struct gdt_entry_struct
 {
    u16int limit_low;           // The lower 16 bits of the limit.
