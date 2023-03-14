@@ -7,12 +7,7 @@ extern "C"{
     void kernel_main();
 }
 
-void test()
-{
-    init_gdt();
-}
-
 void kernel_main()
 {
-    init_gdt();
+    printmyword("SHITBIOS (version 69)      ");
 }

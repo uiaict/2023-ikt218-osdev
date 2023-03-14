@@ -25,7 +25,9 @@ align 16
 section .text
 global _start:function (_start.end - _start)
 _start:
-    mov esp, stack_top                          ; Set the stack pointer
+    mov esp, stack_top   
+    extern init_gdt
+    call init_gdt                       ; Set the stack pointer
     extern kernel_main                          ; Set the kernel_main entry point
     call kernel_main                            ; Call the kernel_main function
     cli                                         ;
