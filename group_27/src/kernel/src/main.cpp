@@ -39,7 +39,7 @@ void clear_terminal(void)
 
 void write_to_terminal(int row, char word[80])
 {
-    uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000;
+    uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
 
     int wordlen = 0;
 
