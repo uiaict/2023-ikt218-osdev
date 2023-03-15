@@ -12,7 +12,7 @@ void kernel_main()
     clear_screen();
     init_descriptor_tables();
     printk("Hello, %s! The answer \n is %d.", "world", 42);
-    printk("%d", 696969420);
+    printk("%d", 123);
    
     if (is_gdt_implemented)
     {
