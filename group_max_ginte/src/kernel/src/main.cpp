@@ -20,6 +20,6 @@ void kernel_main()
            "G DOWN... SHUTTING DOWN... SHUTTING\t\t DOWN... SHUTTING DOWN... \n"
            "SHUTTING DOWN...\n"
            "SHUTTING DOWN...\n"
-           "SHUTTING DOWN...\n"c
+           "SHUTTING DOWN...\n"
            "SHUTTING DOWN...\n");*/
 }
