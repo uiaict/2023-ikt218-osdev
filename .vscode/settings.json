@@ -1,6 +1,6 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_name",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_name",
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_max_ginte",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_max_ginte",
     "C_Cpp.errorSquiggles": "disabled"
 
 }
