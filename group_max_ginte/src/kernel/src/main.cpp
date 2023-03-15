@@ -8,12 +8,10 @@ extern "C"{
 
 void kernel_main()
 {
-    printf("Hello World!");
+    printf("Hello World");
     init_gdt();
-    printf("\tHello World!");
+    printf("\tHello World");
 
-
-    
     //printf("        Hello World!");
     /*printf("SYSTEM COMPROMISED.\n"
            "SHUTTING DOWN... SHUTTING DOWN... \tSHUTTING DOWN... SHUTTING DOWN... SHUTTI\tN\n"

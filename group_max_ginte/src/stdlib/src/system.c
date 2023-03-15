@@ -15,11 +15,15 @@ int printf(const char *format, ...)
     * Supports newline and tabular characters.
     * 
     * Scrolling in text mode is not implemented yet.
+    * 
+    * Implementation based of examples given at 
+    * https://wiki.osdev.org/Printing_To_Screen
     * */
 
     volatile char *video = (volatile char*)0xB8000; // Memory address of beginning of text mode with color
     int x = 0;                                      // Current screen column 
     int y = 0;                                      // Current screen row
+    int length = 0;                                 // Amount of characters printed
 
     while( *format != 0 )
     {
@@ -52,6 +56,7 @@ int printf(const char *format, ...)
             *video++ = *format++;                   // Output current character to screen and increment pointers by 1 byte
             *video++ = 0xD0;                        // Set color attribute and increment pointer
             x++;
+            length++;
         }
 
         if (x >= VGA_WIDTH)
@@ -69,4 +74,6 @@ int printf(const char *format, ...)
             //y=0;
         }
     }
+
+    return length;
 }
