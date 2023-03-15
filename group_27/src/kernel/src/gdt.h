@@ -4,8 +4,9 @@ void init_gdt() asm ("init_gdt");
 
 extern "C" {
   extern void gdt_flush(uint32_t);
-  static void gdt_set_gate(int32_t, uint32_t, uint32_t, uint8_t, uint8_t);
 }
+
+void gdt_set_gate(int32_t, uint32_t, uint32_t, uint8_t, uint8_t);
 
 // gdt.h
 struct gdt_entry {
