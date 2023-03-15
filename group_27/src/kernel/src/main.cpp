@@ -13,8 +13,8 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color)
 	return (uint16_t) uc | (uint16_t) color << 8;
 }
  
-static const size_t VGA_WIDTH = 80;
-static const size_t VGA_HEIGHT = 25;
+static const size_t VGA_WIDTH = 80; // defalut columns
+static const size_t VGA_HEIGHT = 25; // defalut rows
  
 size_t terminal_row;
 size_t terminal_column;
@@ -28,11 +28,11 @@ void clear_terminal(void)
 	terminal_row = 0;  // start in the upper left corner in the canvas/terminal
 	terminal_column = 0; // start in the upper left corner
 	terminal_color = 7;     // 7 = VGA_COLOR_LIGHT_GREY
-	terminal_buffer = (uint16_t*) 0xB8000;
+	terminal_buffer = (uint16_t*) 0xB8000;  // VGA text mode buffer 
 	for (size_t y = 0; y < VGA_HEIGHT; y++) {   // looping through terminal window 
 		for (size_t x = 0; x < VGA_WIDTH; x++) {
 			const size_t index = y * VGA_WIDTH + x; // find cursor position 
-			terminal_buffer[index] = vga_entry(' ', terminal_color); // coloring every bit 
+			terminal_buffer[index] = vga_entry(' ', terminal_color); // coloring 
 		}
 	}
 }
