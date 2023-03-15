@@ -1,3 +1,5 @@
+/* Contains string manipulation functions */
+
 #include "string.h"
 
 // Get length of string
