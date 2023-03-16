@@ -108,10 +108,23 @@ void monitor_put(u8int c, u8int bg_color, u8int fg_color) {
         cursor_column = 0;
         cursor_row++;
     }
+
+    // Scroll
+    scroll_monitor();
+
+    // Move the hardware cursor
+    move_cursor();
+}
+
+// Writes a null-terminated string to the terminal
+void monitor_write(char *c, u8int bg_color, u8int fg_color) {
+    while (*c) {
+        monitor_put(*c++, bg_color, fg_color);
+    }
 }
 
 // Clears the monitor by writing black blanks to the whole screen
-void clear_monior() {
+void clear_monitor() {
     // Space character with color attribute
     u8int attribute_byte = (0 << 4) | (15 & 0x0F);           // Black background, white foreground
     u16int blank = 0x20 | (attribute_byte << 8);             // 0x20 is the space character
@@ -127,8 +140,3 @@ void clear_monior() {
     cursor_column = 0;
     move_cursor();
 }
-
-/*
-// Output a null-terminated ASCII string to the monitor.
-void monitor_write(char *c);
-*/
