@@ -25,7 +25,7 @@ static u8int cursor_row = 0;
 u16int *video_memory = (u16int *)0xB8000;
 
 // Move the hardware cursor
-static void monitor_move_cursor() {
+static void move_cursor() {
     u16int location = cursor_row * MONITOR_WIDTH + cursor_column;
     outb(MONITOR_COMMAND_PORT, MONITOR_HIGH_BYTE_COMMAND);  // Tells VGA board we are setting the cursor row
     outb(MONITOR_DATA_PORT, location >> 8);          // Sets the row
