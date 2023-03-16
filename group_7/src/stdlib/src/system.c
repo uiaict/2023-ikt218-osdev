@@ -137,3 +137,12 @@ size_t strlen(const char *s)
 
     return count;
 }
+
+void clearScreen()
+{
+    char blank[25*80];
+    for (int i = 0; i < 25*80; i++)
+        blank[i] = " ";
+    
+    write_string(0, blank);
+}
