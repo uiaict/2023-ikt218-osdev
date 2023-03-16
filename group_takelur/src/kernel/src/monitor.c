@@ -110,11 +110,25 @@ void monitor_put(u8int c, u8int bg_color, u8int fg_color) {
     }
 }
 
+// Clears the monitor by writing black blanks to the whole screen
+void clear_monior() {
+    // Space character with color attribute
+    u8int attribute_byte = (0 << 4) | (15 & 0x0F);           // Black background, white foreground
+    u16int blank = 0x20 | (attribute_byte << 8);             // 0x20 is the space character
+
+    int i;
+    for (i = 0; i < MONITOR_WIDTH * MONITOR_HEIGHT; i++)     // Loop thorough the whole video memory on screen
+    {
+        video_memory[i] = blank;
+    }
+
+    // Move the hardware cursor back to the start.
+    cursor_row = 0;
+    cursor_column = 0;
+    move_cursor();
+}
 
 /*
-// Clear the screen to all black.
-void monitor_clear();
-
 // Output a null-terminated ASCII string to the monitor.
 void monitor_write(char *c);
 */
