@@ -54,6 +54,7 @@ static void scroll_monitor() {
         
         // Finally set the cursor to the last line
         cursor_row = MONITOR_HEIGHT - 1;
+    }
 }
 
 // Writes a byte to the command port
@@ -107,6 +108,7 @@ void monitor_put(u8int c, u8int bg_color, u8int fg_color) {
         cursor_column = 0;
         cursor_row++;
     }
+}
 
 
 /*
