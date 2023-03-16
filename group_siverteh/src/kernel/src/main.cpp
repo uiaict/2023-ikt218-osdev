@@ -18,7 +18,7 @@ void kernel_main()
 	//Loads the GDT and the IDT.
     load_gdt();
 	load_idt();
-	load_timer(1);
+	load_timer(50);
 	asm volatile("sti");
 	load_keyboard();
 

@@ -134,7 +134,7 @@ void terminal_clear(void)
 //Function that works like a backspace button.
 void backspace()
 {   
-    //If the terminal_column and terminal_row are both 0 there is nothing to remove so we just return.
+    //If the terminal_column and terminal_row are both 0, there is nothing to remove, so we just return.
     if(terminal_column == 0 && terminal_row == 0)
     {
         return;
@@ -144,10 +144,24 @@ void backspace()
     {
         //Decrement the terminal_row/y coordinate.
         terminal_row--;
-        //Set the terminal_column/x coordinate to VGA_WIDTH/80.
-        terminal_column = VGA_WIDTH;
+
+        //Find the last non-blank character in the previous line, ignoring newline characters
+        int last_non_blank = VGA_WIDTH - 1;
+        while (last_non_blank >= 0 && (terminal_buffer[VGA_WIDTH * terminal_row + last_non_blank] & 0xFF) == ' ')
+        {
+            last_non_blank--;
+        }
+
+        // If the last non-blank character is a newline character, place the cursor at the beginning of the line
+        if (last_non_blank == -1 || (terminal_buffer[VGA_WIDTH * terminal_row + last_non_blank] & 0xFF) == '\n') {
+            terminal_column = 0;
+        }
+        // Otherwise, set the terminal_column/x coordinate to the last non-blank character in the previous line
+        else {
+            terminal_column = last_non_blank + 1;
+        }
     }
-    //Else we are somewhere in a line thats not the start.
+    //Else we are somewhere in a line that's not the start.
     else
     {   
         //Decrement the terminal_column/x coordinate.

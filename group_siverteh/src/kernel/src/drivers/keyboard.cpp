@@ -3,6 +3,7 @@
 #include "ports.h"
 #include "screen.h"
 
+//Declare external C functions.
 extern "C"
 {
     #include "strings.h"
@@ -10,6 +11,8 @@ extern "C"
 
 static int caps_lock = 0;
 static int shift_pressed = 0;
+static int altgr_pressed = 0;
+
 
 //Lookup table for the keyboard. See scan codes defined in keyboard.h for indexes.
 char scan_code_chars[128] = {
@@ -43,149 +46,171 @@ static int get_scancode()
     return scancode;
 }
 
-//Function that turns the keyboard characters into their alternate characters.
-char alternate_chars(char ch) 
+//Function that turns the keyboard characters into their shift alternate characters.
+char shift_alternate_chars(char ch) 
 {
     switch(ch) {
-        case '`': return '~';
         case '1': return '!';
+        case '2': return '"';
+        case '3': return '#';
+        case '4': return '$';
+        case '5': return '%';
+        case '6': return '&';
+        case '7': return '/';
+        case '8': return '(';
+        case '9': return ')';
+        case '0': return '=';
+        case '+': return '?';
+        case '\\': return '`';
+        case '\'': return '*';
+        case '§': return '½';
+        case 'å': return 'Å';
+        case '¨': return '^';
+        case 'æ': return 'Æ';
+        case 'ø': return 'Ø';
+        case '-': return '_';
+        case ',': return ';';
+        case '.': return ':';
+        case '/': return '|';
+        default: return to_upper_char(ch);
+    }
+}
+
+//Function that turns the keyboard characters into their altgr alternate characters.
+char altgr_alternate_chars(char ch)
+{
+    switch(ch) {
         case '2': return '@';
         case '3': return '#';
         case '4': return '$';
         case '5': return '%';
-        case '6': return '^';
-        case '7': return '&';
-        case '8': return '*';
-        case '9': return '(';
-        case '0': return ')';
-        case '-': return '_';
-        case '=': return '+';
-        case '[': return '{';
-        case ']': return '}';
-        case '\\': return '|';
-        case ';': return ':';
-        case '\'': return '\"';
-        case ',': return '<';
-        case '.': return '>';
-        case '/': return '?';
+        case '6': return '{';
+        case '7': return '[';
+        case '8': return ']';
+        case '9': return '}';
+        case '0': return '\\';
+        case '+': return '~';
+        case '<': return '|';
+        case 'm': return 'µ';
         default: return ch;
     }
 }
 
-
+// The keyboard interrupt handler function
 static void keyboard_handler(registers_t regs) 
 {
-    //Sets up variables for the scancode and character.
+    // Declare variables for the scancode and character
     int scancode;
     char ch = 0;
 
-    //Gets the scancode of the key that was pressed by calling the get_scancode function.
+    // Get the scancode of the key that was pressed or released
     scancode = get_scancode();
 
-    //If the 0x80 bit is set in the scancode it means the key has been release and needs to be done.
+    //Check if the 0x80 bit is set in the scancode (key release)
     if(scancode & 0x80)
     {
-        //Key release
+        //Remove the 0x80 bit from the scancode
+        scancode &= ~0x80;
+
+        // Check if the key being released is the Left Shift or Right Shift key
+        if (scancode == SCAN_CODE_KEY_LEFT_SHIFT || scancode == SCAN_CODE_KEY_RIGHT_SHIFT)
+        {
+            //Set the shift_pressed variable to 0 (not pressed)
+            shift_pressed = 0;
+        }
+        else if(scancode == SCAN_CODE_KEY_ALT)
+        {
+            //Set the altgr_pressed variable to 0 (not pressed)
+            altgr_pressed = 0;
+        }
     }
-    //If not it means a key has been pressed and needs to be handled.
-    else
+    //Else the action is a key press.
+    else 
     {
-        //A switch statement based on the scancode occurs.
+        //Switch statement based on the scancode
         switch(scancode)
-        {   
-            //If the caps lock key has been pressed:
+        {
+            // If the Caps Lock key is pressed, toggle the caps_lock flag
             case SCAN_CODE_KEY_CAPS_LOCK:
-                //If the caps lock is set to false set it to true.
-                if(caps_lock == 0)
-                {
-                    caps_lock = 1;
-                }
-                //Else if the caps lock is set to true set it to false.
-                else if(caps_lock == 1)
-                {
-                    caps_lock = 0;
-                }
+                caps_lock = !caps_lock;
                 break;
 
-            //If the enter key is pressed print a new line.
+            // If the Enter key is pressed, print a new line
             case SCAN_CODE_KEY_ENTER:
                 printf("\n");
                 break;
-            
-            //If the tab key is pressed print four spaces.
+
+            // If the Tab key is pressed, print a tab character
             case SCAN_CODE_KEY_TAB:
                 printf("\t");
                 break;
-        
-            //If the shift code is pressed
+
+            // If the Left Shift or Right Shift key is pressed, set the shift_pressed variable to 1 (pressed)
             case SCAN_CODE_KEY_LEFT_SHIFT:
-                //If the shift_pressed is false set it to true.
-                if(shift_pressed == 0)
-                {
-                    shift_pressed = 1;
-                }
-                //Else if the shift_pressed is true set it to false.
-                else if(shift_pressed == 1)
-                {
-                    shift_pressed = 0;
-                }
+            case SCAN_CODE_KEY_RIGHT_SHIFT:
+                shift_pressed = 1;
                 break;
-        
-            //If the backspace key is pressed call the backspace function.
+
+            case SCAN_CODE_KEY_ALT:
+                altgr_pressed = 1;
+                break;
+
+            // If the Backspace key is pressed, call the backspace function
             case SCAN_CODE_KEY_BACKSPACE:
                 backspace();
                 break;
 
-            //If the up key is pressed call the scroll_up function.
+            // If the Up arrow key is pressed, call the scroll_up function
             case SCAN_CODE_KEY_UP:
                 scroll_up();
                 break;
 
-            //If the down key is pressed call the scroll_down function.
+            // If the Down arrow key is pressed, call the scroll_down function
             case SCAN_CODE_KEY_DOWN:
                 scroll_down();
                 break;
-        
-            //The default case.
+
+            // For all other keys
             default:
-                //Set the char
+                // Get the corresponding character from the scan_code_chars table
                 ch = scan_code_chars[scancode];
 
-                //If caps lock is on
+                // Handle the character based on the caps_lock and shift_pressed flags
                 if(caps_lock)
                 {
-                    //And the shift key is pressed put it through the alternate_chars function.
                     if(shift_pressed)
                     {
-                        ch = alternate_chars(ch);
+                        ch = shift_alternate_chars(ch);
                     }
-                    //If only the caps lock is on turn the character into upper case.
+                    else if(altgr_pressed)
+                    {
+                        ch = altgr_alternate_chars(ch);
+                    }
                     else
                     {
                         ch = to_upper_char(ch);
                     }
                 }
-                //If the caps lock is not on.
                 else
                 {
-                    //And the shift key is pressed
                     if(shift_pressed)
                     {
-                        //And the character is in the alphabet
                         if(isalpha(ch))
                         {
-                            //Turn it to uppercase.
                             ch = to_upper_char(ch);
                         }
                         else
-                        {   
-                            //Else run it through the alternate_chars function.
-                            ch = alternate_chars(ch);
+                        {
+                            ch = shift_alternate_chars(ch);
                         }
                     }
+                    else if(altgr_pressed)
+                    {
+                        ch = altgr_alternate_chars(ch);
+                    }
                 }
-            //Lastly print the character to the screen.    
-            printf("%c", ch);
+                // Print the character to the screen
+                printf("%c", ch);
         }
     }
 }
