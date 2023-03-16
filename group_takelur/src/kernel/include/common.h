@@ -14,8 +14,8 @@ typedef unsigned char  u8int;
 typedef          char  s8int;
 
 // Writes byte to specified port
-void outb(u16int port, u8int value);
-u8int inb(u16int port);
-u16int inw(u16int port);
+extern void outb(u16int port, u8int value);
+extern u8int inb(u16int port);
+extern u16int inw(u16int port);
 
 #endif
