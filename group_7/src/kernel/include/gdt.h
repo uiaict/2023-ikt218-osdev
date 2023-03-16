@@ -17,23 +17,23 @@ This file contains the definitions to implement the  global description table.
 /// @brief A struct representing a gdt entry.
 struct gdt_entry
 {
+    /// @brief The 16 lowest bit of a limit 32 bit integer. 
+    /// The limit is the address of the last available address of the gdt.
+    uint16_t limit_low;
     /// @brief The 32 bit integer is divided into two 16 bit integeres.
     /// This is the lowest part.
     uint16_t base_low;
     /// @brief the 32 bit integer is divided into two 16 bit integeres.
     /// This is the first 8 bits of the highest part.
     uint8_t base_middle;
-    /// @brief the 32 bit integer is divided into two 16 bit integeres.
-    /// This is the last 8 bits of the highest part.
-    uint8_t base_high;
 
     /// @brief The access level for this part of the memory.
     uint8_t access;
-    /// @brief The 16 lowest bit of a limit 32 bit integer. 
-    /// The limit is the address of the last available address of the gdt.
-    uint16_t limit_low;
     /// @brief granularity means the scale or level of detail in a set of data.
     uint8_t granularity;
+    /// @brief the 32 bit integer is divided into two 16 bit integeres.
+    /// This is the last 8 bits of the highest part.
+    uint8_t base_high;
     // NOTE: __attribute__((packed)) make it so the compiler does not
     //      add padding between the fields of the struct.
 } __attribute__((packed));
