@@ -140,7 +140,7 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
@@ -171,7 +171,20 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/*.asm
 )
+
+
+set(ASM_SOURCE_FILES
+    /home/simonma/ikt218-osdev/group_simon/src/kernel/src/gdt_flush.asm
+)
+
+set_source_files_properties(${ASM_SOURCE_FILES} PROPERTIES LANGUAGE ASM_NASM)
+
+# Append the ASM_SOURCE_FILES to the OS_MODULE_KERNEL_SOURCES variable
+list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
+
+
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location

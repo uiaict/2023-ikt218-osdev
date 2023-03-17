@@ -3,5 +3,4 @@
     "cmake.sourceDirectory": "${workspaceFolder}/group_simon",
     "C_Cpp.errorSquiggles": "disabled",
     "cmake.configureOnOpen": true
-
 }
