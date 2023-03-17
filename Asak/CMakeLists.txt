@@ -41,6 +41,10 @@ set(OS_KERNEL_NAME "asak-os")
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
 set(OS_LIBRARIES)
+# Path to the arch directory
+set(ARCH_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET})
+# Path to the stdlib directory
+set(STDLIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/stdlib)
 
 ########################################
 ###
@@ -103,101 +107,21 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 ###
 ### UiAOS Module: stdlib
-# The standard library for our operating system. It is some mutilated attempt at doing some libc implementation, but we probably void
-# all existing standards.
 ########################################
-set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
-set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
-)
-add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
-target_include_directories(${OS_MODULE_STDLIB_NAME} 
-    PUBLIC src/stdlib/include
-
-)
-target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
-        ${OS_LIBRARIES}
-)
-set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_STDLIB_NAME})
-
+add_subdirectory(src/stdlib)
 
 ########################################
 ###
 ### UiAOS Module: Boot
-# The boot module takes care of booting the operating system
-# it is written in assembler language and does the following
-# 1. define the multiboot header variables
-# 2. define the multiboot header section.
-# 3. defines the .bss section. https://en.wikipedia.org/wiki/.bss
-# 4. defines the .text section (code segment) https://en.wikipedia.org/wiki/Code_segment
-# 5. defines the start routine which finally starts our kernel
 ########################################
-# Currently, we only support x86 booting
-if(NOT OS_ARCH_TARGET STREQUAL "i386")
-    message(FATAL_ERROR "No boot definition exists for ${OS_ARCH_TARGET}")
-endif()
-# Sets the module name for the boot library
-set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
-# Defines all source-files that are related to the bootloader
-set(OS_MODULE_BOOT_SOURCES
-        src/boot/src/boot.asm
-)
-# Creates a library for our multi-boot section
-add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
-# Defines the include directories for the boot library
-target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
-    src/boot/include/
-)
-# Defines the linking between boot and the boot library
-target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
-set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
+add_subdirectory(src/boot)
+
 
 ########################################
 ###
 ### OS Module: Kernel
-# The operating system kernel
-# 1. Sets compiler and linker configuration
-# 2. Locate and build sources of the kernel
-# 3. Link boot object with the kernel
-# 4. copy compiled binary to the root of the cmake build directory.
 ########################################
-# Define kernel module name
-set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-kernel)
-# Define custom compile flags for the kernel
-set(OS_MODULE_KERNEL_COMPILE_FLAGS)
-# Scan the src/kernel directory for source files (c/cpp)
-file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
-        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/src/*.c
-)
-# Set the output binary name
-set(OS_MODULE_KERNEL_BINARY kernel.bin)
-# Defines the linker location
-set(OS_MODULE_KERNEL_LINKER ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET}/linker.ld)
-# Define custom linker flags for the kernel
-set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
-# Add executable for the kernel.
-# Tutorial: the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
-# A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.
-add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
-# Defines which include directories to usefor the kernel.
-target_include_directories(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
-        src/kernel/include
-)
-# Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
-target_link_libraries(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
-        ${OS_LIBRARIES}
-        ${OS_APPLICATIONS}
-)
-# Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name
-set_target_properties(
-        ${OS_MODULE_KERNEL_NAME} PROPERTIES
-        OUTPUT_NAME ${OS_MODULE_KERNEL_BINARY}
-        LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
-)
+add_subdirectory(src/kernel)
 
 ########################################
 ###
