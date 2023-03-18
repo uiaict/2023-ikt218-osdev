@@ -25,6 +25,7 @@ if(OS_ARCH_TARGET STREQUAL i386)
     # Defines the include directories for the boot library
     target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC ${ARCH_TARGET}/ include)
 
+    
     # Defines the linking between boot and the boot library
     target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
     set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME} PARENT_SCOPE)

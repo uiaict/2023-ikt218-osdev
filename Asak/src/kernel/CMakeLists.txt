@@ -17,6 +17,16 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/*.cpp
         src/*.c
 )
+
+
+########################################
+###
+### OS Module: CPU
+# All CPU specific operations are performed in this module. IRQ, ISR, GDT, IDT and other hardware glue components.
+########################################
+add_subdirectory(cpu)
+
+
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
@@ -31,16 +41,22 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
+        ${STDLIB_PATH}/include
 )
+
+
+
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
 target_link_libraries(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         ${OS_LIBRARIES}
         ${OS_APPLICATIONS}
 )
+
 # Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name
 set_target_properties(
         ${OS_MODULE_KERNEL_NAME} PROPERTIES
         OUTPUT_NAME ${OS_MODULE_KERNEL_BINARY}
         LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
 )
+

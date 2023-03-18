@@ -1,5 +1,4 @@
-
-#include "system.h"
+#include <system.h>
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -8,5 +7,5 @@ extern "C"{
 
 void kernel_main()
 {
-
+    
 }

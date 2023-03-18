@@ -39,8 +39,16 @@ global _start:function (_start.end - _start)
 _start:
     mov esp, stack_top
 
+    ; Initializer space for GDT, IDT    
+    extern init_gdt
+    call init_gdt
+
+
+    ; Kernel call
     extern kernel_main
     call kernel_main  ; call our kernel_main() function.
+
+    
     cli
 .hang:    hlt
     jmp .hang

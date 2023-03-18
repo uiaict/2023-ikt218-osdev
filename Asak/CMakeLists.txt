@@ -28,13 +28,13 @@ include(FetchContent)
 
 ########################################
 ###
-### UiAOS: Variables
+### Asak OS: Variables
 ###
 ########################################
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "AsaK Operating System")
+set(OS_NAME "Asak Operating System")
 # CMake target name for our operating system
 set(OS_KERNEL_NAME "asak-os")
 # Predefined list for our application targets
