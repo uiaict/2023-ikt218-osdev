@@ -117,3 +117,6 @@
     int ungetc(int c, FILE *stream);
 
     void write_string( int colour, const char *string );
+    char* itoa(int num, char* str, int base);
+    void reverse(char str[], int length);
+    void clearScreen();

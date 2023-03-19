@@ -15,5 +15,7 @@ void kernel_main()
     // Initialize the global descriptor table:
     init_gdt();
    
-    write_string(13, "Halla");
+    
+    //clearScreen();
+    //printf("Hello World");
 }
