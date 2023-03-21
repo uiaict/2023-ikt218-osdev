@@ -44,7 +44,7 @@ void write_to_terminal(int row, char word[80])
     int wordlen = 0;
 
     while(word[wordlen] != '\0' ){
-        wordlen++; // set wordlenght
+        wordlen++; // set wordlength
     }
 
     for(int i = 0; i < wordlen; i++){
