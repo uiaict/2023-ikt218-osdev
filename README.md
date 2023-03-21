@@ -22,6 +22,6 @@ Note: **DO NOT** push any changes to `.vscode` or `web`. Else we will have a has
 ```
 .vscode
 build_group_name
-group_name test push
+group_name
 web
 ```

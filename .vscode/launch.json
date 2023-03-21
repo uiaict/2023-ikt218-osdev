@@ -1,6 +1,7 @@
 {
     "version": "0.2.0",
     "configurations": [
+        
         //https://wiki.osdev.org/User:TheCool1Kevin/VSCode_Debug
         {
             "name": "Launch with GDB",
