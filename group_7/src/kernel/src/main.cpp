@@ -16,6 +16,6 @@ void kernel_main()
     init_gdt();
    
     
-    //clearScreen();
-    //printf("Hello World");
+    clearScreen();
+    printf("Hello World");
 }
