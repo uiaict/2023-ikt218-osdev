@@ -1,39 +1,45 @@
+/*
+ * This is a header file for a simple memory management library.
+ * It includes declarations for functions related to memory allocation,
+ * paging and memory manipulation (copying and setting).
+ */
+
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include <stdint.h>
-#include <stddef.h>
+#include <stdint.h> /* Include standard integer types */
+#include <stddef.h> /* Include standard definitions */
 
-#define PAGE_SIZE 4096
-#define PAGE_DIR_ENTRY_COUNT 1024
-#define PAGE_TABLE_ENTRY_COUNT 1024
-
-// Align address to the nearest lower 4KiB boundary
-#define ALIGN_DOWN(addr) ((uintptr_t)(addr) & ~(PAGE_SIZE - 1))
-
-// Page directory and table entries
+/*
+ * Definition of a struct that represents a memory allocation.
+ * It contains a status field (0 or 1) indicating if the memory
+ * is currently allocated or not, and a size field indicating
+ * the size of the allocated memory in bytes.
+ */
 typedef struct {
-    uint32_t present    : 1;
-    uint32_t rw         : 1;
-    uint32_t us         : 1;
-    uint32_t pwt        : 1;
-    uint32_t pcd        : 1;
-    uint32_t accessed   : 1;
-    uint32_t dirty      : 1;
-    uint32_t pat        : 1;
-    uint32_t global     : 1;
-    uint32_t available  : 3;
-    uint32_t base_addr  : 20;
-} __attribute__((packed)) page_entry_t;
+    uint8_t status;
+    uint32_t size;
+} alloc_t;
+
+/* Init Kernel Memory */
+void init_kernel_memory(uint32_t* kernel_end);
 
 
-// Page directory and tables
-static page_entry_t page_directory[PAGE_DIR_ENTRY_COUNT] __attribute__((aligned(PAGE_SIZE)));
-static page_entry_t page_tables[PAGE_DIR_ENTRY_COUNT][PAGE_TABLE_ENTRY_COUNT] __attribute__((aligned(PAGE_SIZE)));
+/* Function declarations for paging operations */
+extern void init_paging(); /* Initializes paging */
+extern void paging_map_virtual_to_phys(uint32_t virt, uint32_t phys); /* Maps a virtual address to a physical address */
 
-void init_page_entry(page_entry_t* entry, uintptr_t base_addr, int present, int rw, int us);
+/* Function declarations for memory allocation */
+extern char* pmalloc(size_t size); /* Allocates memory of given size with page alignment */
+extern void* malloc(size_t size); /* Allocates memory of given size */
+extern void free(void *mem); /* Frees memory previously allocated */
 
-void init_paging();
+/* Function declarations for memory manipulation */
+extern void* memcpy(void* dest, const void* src, size_t num ); /* Copies num bytes from src to dest */
+extern void* memset (void * ptr, int value, size_t num ); /* Sets num bytes starting from ptr to value */
+extern void* memset16 (void *ptr, uint16_t value, size_t num); /* Sets num bytes starting from ptr to a 16-bit value */
 
+/* Other helper functions*/
+void print_memory_layout();
 
 #endif

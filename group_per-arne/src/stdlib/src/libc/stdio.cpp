@@ -70,7 +70,56 @@ int printf(const char* __restrict__ format, ...) {
 			if (!print(str, len))
 				return -1;
 			written += len;
-
+		} else if (*format == 'd') {
+            format++;
+            int num = va_arg(parameters, int);
+            char buffer[20];
+            int i = 0;
+            if (num == 0) {
+                buffer[i++] = '0';
+            } else if (num < 0) {
+                buffer[i++] = '-';
+                num = -num;
+            }
+            while (num != 0) {
+                buffer[i++] = num % 10 + '0';
+                num /= 10;
+            }
+            while (i > 0) {
+                if (maxrem < 1) {
+                    // TODO: Set errno to EOVERFLOW.
+                    return -1;
+                }
+                if (!print(&buffer[--i], 1))
+                    return -1;
+                written++;
+            }
+        } else if (*format == 'x') {
+            format++;
+            unsigned int num = va_arg(parameters, unsigned int);
+            char buffer[20];
+            int i = 0;
+            if (num == 0) {
+                buffer[i++] = '0';
+            }
+            while (num != 0) {
+                int rem = num % 16;
+                if (rem < 10) {
+                    buffer[i++] = rem + '0';
+                } else {
+                    buffer[i++] = rem - 10 + 'a';
+                }
+                num /= 16;
+            }
+            while (i > 0) {
+                if (maxrem    < 1) {
+                // TODO: Set errno to EOVERFLOW.
+                return -1;
+            }
+            if (!print(&buffer[--i], 1))
+                return -1;
+            written++;
+			}
 
 		} else {
 			format = format_begun_at;

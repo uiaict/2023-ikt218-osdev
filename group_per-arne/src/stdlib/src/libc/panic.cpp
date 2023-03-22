@@ -33,7 +33,6 @@ void print_backtrace()
   }
 }
 
-
 __attribute__((noreturn))
 void panic(const char* reason)
 {

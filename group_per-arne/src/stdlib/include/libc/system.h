@@ -5,7 +5,14 @@
 #include <stdio.h>
 
 // Custom Functions
+#ifdef __cplusplus
+extern "C" {
+#endif
 void panic(const char* reason);
+#ifdef __cplusplus
+}
+#endif
+
 char* hex32_to_str(char buffer[], unsigned int val);
 char* int32_to_str(char buffer[], int val);
 
