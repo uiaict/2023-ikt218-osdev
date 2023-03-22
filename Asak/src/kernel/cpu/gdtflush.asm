@@ -6,7 +6,7 @@ global gdt_flush      ; Allows the C code to link to this
 gdt_flush:
     mov eax, [esp+4]  ; Get the pointer to the GDT, passed as a parameter.
     lgdt [eax]        ; Load the new GDT pointer
-    mov ds, ax
+    mov ds, ax        ; Load all data segment selectors
     mov es, ax
     mov fs, ax
     mov gs, ax

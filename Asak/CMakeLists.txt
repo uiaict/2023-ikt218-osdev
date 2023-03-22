@@ -106,20 +106,20 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 
 ########################################
 ###
-### UiAOS Module: stdlib
+### Asak Module: stdlib
 ########################################
 add_subdirectory(src/stdlib)
 
 ########################################
 ###
-### UiAOS Module: Boot
+### Asak Module: Boot
 ########################################
 add_subdirectory(src/boot)
 
 
 ########################################
 ###
-### OS Module: Kernel
+### Asak Module: Kernel
 ########################################
 add_subdirectory(src/kernel)
 

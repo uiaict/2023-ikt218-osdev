@@ -1,6 +1,10 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_name",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_name",
-    "C_Cpp.errorSquiggles": "disabled"
+    "cmake.buildDirectory": "${workspaceFolder}/build_Asak",
+    "cmake.sourceDirectory": "${workspaceFolder}/Asak",
+    "cmake.kernelDirectory": "${workspaceFolder}/build_Asak/src/kernel",
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "descriptor.h": "c"
+    }
 
 }
