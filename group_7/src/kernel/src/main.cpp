@@ -17,5 +17,5 @@ void kernel_main()
    
     
     clearScreen();
-    printf("Hello World");
+    printf("Hello World\n");
 }
