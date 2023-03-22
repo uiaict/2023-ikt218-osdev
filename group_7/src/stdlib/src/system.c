@@ -24,11 +24,14 @@
 /// @param string The string you want to display
 void write_string( int colour, const char *string )
 {
-    volatile char *video = (volatile char*)0xB8000;
+    static volatile char *video = (volatile char*)0xB8000;
     while( *string != 0 )
     {
         *video++ = *string++;
         *video++ = colour;
+
+        if(video == (volatile char*)0xB8FA4)
+            video = (volatile char*)0xB8000;
     }
 }
 
