@@ -6,6 +6,8 @@
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+    #include "kernel/memory.h"
+
     void kernel_main();
 }
 
@@ -14,6 +16,7 @@ void kernel_main()
     init_gdt();
     init_idt();
     init_irq();
+    init_paging();
 
     // Create some interrupt handlers for 3
     register_interrupt_handler(3,[](registers_t* regs, void* context){
