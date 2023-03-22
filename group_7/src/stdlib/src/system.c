@@ -44,8 +44,8 @@ int printf(const char* format, ...) {
     va_list variables;
     /// starts the list of inifinte parameters.
 	va_start(variables, format);
-    /// the buffer output, as of now = 100.
-    char buffer[100] = { 0 };
+    /// the buffer output, as of now = 25*80.
+    char buffer[25*80] = { 0 };
     /// used if a variable consists of multiple characters, i.e. string or array.
     char tmp[50] = { 0 };
     /// number of printed characters
@@ -53,7 +53,17 @@ int printf(const char* format, ...) {
     // loop thorugh all parameters
 	while (*format != '\0') 
     {
-		if (*format == '%')
+		if (*format == '\n')
+        {
+            format++;
+            int next = 80 - written%80;
+            for(int i = 0; i < next; i++)
+            {
+                buffer[written] = ' ';
+                written++;
+            }
+        }
+        if (*format == '%')
         // check the next character to determine what to do:
         {
             format++;
