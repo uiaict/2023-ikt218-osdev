@@ -126,6 +126,5 @@ void kernel_main(void)
 	GDT::init();
 	printf("GDT initialized!\n");
 
-	/* Newline support is left as an exercise. */
 	printf("Hello World!");
 }
