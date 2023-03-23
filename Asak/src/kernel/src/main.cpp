@@ -1,7 +1,7 @@
+#include "system.c"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
-    #include "system.h"
     void kernel_main();
 }
 

@@ -42,6 +42,7 @@ target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         include
         ${STDLIB_PATH}/include
+        ${STDLIB_PATH}/src
 )
 
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
