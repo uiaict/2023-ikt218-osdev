@@ -142,7 +142,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         #${OS_ARCH_TARGET}/boot.asm
         #src/boot/src/boot.cpp
-        src/boot/src/boot.asm
+        src/boot/src/bootloader.asm
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -172,6 +172,9 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/cpu/*.cpp
+        src/kernel/cpu/*.c
+        src/kernel/cpu/*.asm
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
@@ -187,6 +190,7 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
+        src/kernel/cpu
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
 target_link_libraries(
