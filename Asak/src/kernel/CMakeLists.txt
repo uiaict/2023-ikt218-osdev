@@ -16,8 +16,8 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/*.cpp
-        src/*.c
 )
+
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
@@ -57,3 +57,4 @@ set_target_properties(
         OUTPUT_NAME ${OS_MODULE_KERNEL_BINARY}
         LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
 )
+

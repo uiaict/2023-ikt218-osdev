@@ -41,6 +41,9 @@ set(OS_KERNEL_NAME "asak-os")
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
 set(OS_LIBRARIES)
+
+# Path to the root directory
+set(ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
 # Path to the arch directory
 set(ARCH_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET})
 # Path to the stdlib directory

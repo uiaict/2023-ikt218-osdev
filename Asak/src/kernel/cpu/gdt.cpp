@@ -10,12 +10,16 @@ extern "C" {
 
 }
 
+void gdt_load(struct Asak::CPU::Descriptors::gdt_ptr_t *gdt_ptr) {
+  asm volatile("lgdt %0" : : "m" (*gdt_ptr));
+}
+
 Asak::CPU::Descriptors::gdt_entry_t gdt_entries[6];
 Asak::CPU::Descriptors::gdt_ptr_t   gdt_ptr;
 
 void init_gdt()
 {
-    gdt_ptr.limit = (sizeof(Asak::CPU::Descriptors::gdt_entry_t) * 6) - 1;
+    gdt_ptr.limit = (sizeof(gdt_entries)) - 1;
     gdt_ptr.base  = (uint32_t)&gdt_entries;
 
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
@@ -23,6 +27,9 @@ void init_gdt()
     gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment
     gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
+
+    // Load the GDT
+    gdt_load(&gdt_ptr);
 
     gdt_flush((uint32_t)&gdt_ptr);
 }
