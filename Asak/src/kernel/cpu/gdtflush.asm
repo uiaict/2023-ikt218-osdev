@@ -9,7 +9,7 @@ gdt_flush:
     jmp 0x08:complete_flush ; Far jump to complete_flush
 
 complete_flush:
-    mov ax, 0x10
+    mov ax, 0x10            ; 0x10 is a stand-in for the data segment
     mov ds, ax              ; Load all data segment selectors
     mov es, ax
     mov fs, ax
