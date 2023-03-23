@@ -142,6 +142,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         ${ARCH_TARGET}src/boot/src/boot.asm
         src/boot/src/boot.cpp
+       
         
         
 )
