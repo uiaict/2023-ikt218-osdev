@@ -35,7 +35,7 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 
 void init_gdt()
 {
-    // Set the GDT limit and base.
+    // Set the GDT limit and base of the whole GDT table and place it in the pointer.
     gdt_ptr.limit = sizeof(struct gdt_entry) * GDT_ENTRIES - 1;
     gdt_ptr.base = (uint32_t)&gdt;
 
@@ -50,5 +50,3 @@ void init_gdt()
   gdt_flush((uint32_t)&gdt_ptr);
 
 }
-
-
