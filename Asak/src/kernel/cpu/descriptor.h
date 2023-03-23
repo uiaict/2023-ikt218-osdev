@@ -31,11 +31,11 @@ struct idt_ptr_t {
   uint32_t base;
 } __attribute__((packed));
 
+// Initializers
 void init_gdt();
 void init_idt();
 
-
-
+// Gates
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 }
 

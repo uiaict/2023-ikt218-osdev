@@ -13,7 +13,7 @@ set(CMAKE_CXX_COMPILER_WORKS 1)
 cmake_minimum_required(VERSION 3.22.1)
 
 # This sets the name for our CMake project, and defines which languages we will be using.
-project(UiAOS LANGUAGES C CXX ASM_NASM)
+project(Asak LANGUAGES C CXX ASM_NASM)
 
 # This line creates a lock file to prevent parallell run of CMake.
 file(LOCK ${CMAKE_SOURCE_DIR} DIRECTORY GUARD FILE)
@@ -42,8 +42,8 @@ set(OS_APPLICATIONS)
 # Predefined list for our libraries
 set(OS_LIBRARIES)
 
-# Path to the root directory
-set(ROOT_PATH ${CMAKE_CURRENT_SOURCE_DIR})
+# Path to the build directory
+set(BUILD_PATH ${CMAKE_CURRENT_BINARY_DIR})
 # Path to the arch directory
 set(ARCH_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET})
 # Path to the stdlib directory
