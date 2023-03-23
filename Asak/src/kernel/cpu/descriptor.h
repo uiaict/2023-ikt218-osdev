@@ -34,10 +34,8 @@ struct idt_ptr_t {
 void init_gdt();
 void init_idt();
 
-// Load the GDT and IDT
-void idt_load(struct idt_ptr_t *idt_ptr);
+
 
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 }
-
 

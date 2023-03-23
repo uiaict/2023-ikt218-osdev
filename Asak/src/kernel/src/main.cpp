@@ -7,5 +7,5 @@ extern "C"{
 
 void kernel_main()
 {
-    int fem = 5;    
+
 }
