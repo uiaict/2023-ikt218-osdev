@@ -79,13 +79,13 @@ int printf(const char* format, ...) {
             // If s is used as the option after %, we retrive that string a compies it to the buffer at the position we currentliy are on.
             // The written variable gets incremented by the lengt of that string so it still is correct with the number of characters
             // in the buffer so far. At last the format string is incremented by one.
-            case 's':
-                const char* s = va_arg(variables, const char*);
-                strcpy(&buffer[written], s);
-                size_t len = strlen(s);
-                written += len;
-                format ++;
-                break;
+            // case 's':
+            //     const char* s = va_arg(variables, const char*);
+            //     strcpy(&buffer[written], s);
+            //     size_t len = strlen(s);
+            //     written += len;
+            //     format ++;
+            //     break;
 
             // Not implemented yet.
             /*case 'i':

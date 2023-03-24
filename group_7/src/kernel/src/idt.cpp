@@ -1,7 +1,7 @@
-#include "gdt.h"
-#include "idt.h"
+#include "interrupts.h"
 #include "common.h"
 #include <cstddef>
+#include "idt.h"
 
 extern "C" {
   extern void idt_flush(uint32_t);
