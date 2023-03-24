@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include "screen.h"
 
 namespace UIAOS::CPU::GDT {
   struct gdt_entry {

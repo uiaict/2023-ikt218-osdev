@@ -1,4 +1,5 @@
-# include "gdt.h"
+#include "gdt.h"
+#include "screen.h"
 
 void gdt_init() asm ("gdt_init");
 
@@ -11,6 +12,7 @@ UIAOS::CPU::GDT::gdt_entry gdt_entries[6];
 UIAOS::CPU::GDT::gdt_ptr gdt_ptr;
 
 void gdt_init() {
+    print("Initializing GDT...");
     gdt_ptr.limit = (sizeof(UIAOS::CPU::GDT::gdt_entry)*6) - 1;
     gdt_ptr.base = (uint32_t)&gdt_entries;
 
@@ -20,7 +22,10 @@ void gdt_init() {
     gdt_setGate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
     gdt_setGate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
-    gdt_flush((uint32_t)&gdt_ptr);  
+    gdt_flush((uint32_t)&gdt_ptr); 
+    //clear_screen();
+    print("[x] GDT initialized");
+    
 }
 
 
