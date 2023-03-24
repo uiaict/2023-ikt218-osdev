@@ -34,7 +34,7 @@ else()
     set(GRUB_MKRESCUE_COMMAND ${GRUB_MKRESCUE} --output=${GRUB_IMAGE_PATH} ${CMAKE_BINARY_DIR}/iso)
 
 
-    set(PARTED_COMMAND /bin/sh ${CMAKE_BINARY_DIR}/disk.sh disk.iso)
+    set(PARTED_COMMAND /bin/sh ${CMAKE_BINARY_DIR}/disk.sh ${CMAKE_BINARY_DIR}/disk.iso)
 
 endif()
 
