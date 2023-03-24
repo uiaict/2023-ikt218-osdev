@@ -39,8 +39,11 @@ global _start:function (_start.end - _start)
 _start:
 	mov esp, stack_top
 
+	extern gdt_init
+	call gdt_init 		; call gdt_init() function
+
 	extern kernel_main
-	call kernel_main  ; call our kernel_main() function.
+	call kernel_main  	; call our kernel_main() function.
 	cli
 .hang:	hlt
 	jmp .hang
