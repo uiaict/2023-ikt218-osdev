@@ -9,6 +9,15 @@
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
+if(APPLE)
+    set(IS_MACOS "yes")
+endif()
+
+# These forces CMAKE to operate as we were using Linux.
+set(CMAKE_SYSTEM_NAME Linux)
+#set(CMAKE_SYSTEM_PROCESSOR i686)
+
+
 # This defines which is the lowest supported CMake version for this project
 cmake_minimum_required(VERSION 3.22.1)
 
@@ -17,7 +26,6 @@ project(UiAOS LANGUAGES C CXX ASM_NASM)
 
 # This line creates a lock file to prevent parallell run of CMake.
 file(LOCK ${CMAKE_SOURCE_DIR} DIRECTORY GUARD FILE)
-
 
 ########################################
 ###

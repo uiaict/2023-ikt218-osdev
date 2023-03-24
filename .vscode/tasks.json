@@ -11,6 +11,9 @@
       "linux": {
           "command": "echo Starting QEMU&qemu-system-i386 -S -gdb tcp::1234 -boot d -hda ${config:cmake.buildDirectory}/kernel.img -m 64 -hdb ${config:cmake.buildDirectory}/disk.iso"
       },
+      "osx": {
+        "command": "echo Starting QEMU&qemu-system-i386 -S -gdb tcp::1234 -boot d -hda ${config:cmake.buildDirectory}/kernel.img -m 64 -hdb ${config:cmake.buildDirectory}/disk.iso"
+      },
       "problemMatcher": {
         "pattern": {
             "regexp": "^(Starting QEMU)",
