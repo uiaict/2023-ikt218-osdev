@@ -1,5 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/OSDev10",
+    "cmake.buildDirectory": "${workspaceFolder}/build_OSDev10",
     "cmake.sourceDirectory": "${workspaceFolder}/OSDev10",
     "C_Cpp.errorSquiggles": "disabled"
 

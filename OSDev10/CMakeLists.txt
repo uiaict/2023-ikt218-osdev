@@ -34,9 +34,9 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "UiA Operating System")
+set(OS_NAME "Oiski Poiski")
 # CMake target name for our operating system
-set(OS_KERNEL_NAME "uia-os")
+set(OS_KERNEL_NAME "oiski-poiski")
 # Predefined list for our application targets
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
@@ -142,6 +142,8 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
         src/boot/src/boot.cpp
+        src/boot/src/boot.asm
+
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -171,6 +173,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/*.asm
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
@@ -206,4 +209,3 @@ set_target_properties(
 # Configure a bootable image of our operating system
 ########################################
 add_subdirectory(grub)
-

@@ -114,4 +114,3 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
-
