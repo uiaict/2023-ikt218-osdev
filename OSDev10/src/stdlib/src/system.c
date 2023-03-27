@@ -22,6 +22,20 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color)
 }
 
 
+
+
+
+void clear_screen() 
+{
+    const uint8_t color = vga_entry_color(VGA_COLOR_BLACK, VGA_COLOR_BLACK);
+    uint16_t *video = (uint16_t*)VIDEO_BUFFER;
+    
+    for (int i = 0; i < VIDEO_HEIGHT * VIDEO_WIDTH; i++) 
+    {
+        *video++ = vga_entry(' ', color);
+    }
+}
+
 int printf(const char *format, ...)
 {
     const uint8_t color = vga_entry_color(VGA_COLOR_LIGHT_CYAN,VGA_COLOR_BLACK);

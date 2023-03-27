@@ -11,8 +11,9 @@ void kernel_main()
 {
     // Initialize gdt
     init_gdt();
-
+    
+    clear_screen();
     //print 
-    printf("Hello World");
+    printf("Hello World!");
     
 }
