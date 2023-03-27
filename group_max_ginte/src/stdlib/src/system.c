@@ -6,6 +6,9 @@
 
 #define NEWLINE '\n'
 #define TAB '\t'
+volatile char *video = (volatile char*)0xB8000; // Memory address of beginning of text mode with color
+int x = 0;                                      // Current screen column 
+int y = 0;                                      // Current screen row
 
 
 int printf(const char *format, ...)
@@ -20,9 +23,9 @@ int printf(const char *format, ...)
     * https://wiki.osdev.org/Printing_To_Screen
     * */
 
-    volatile char *video = (volatile char*)0xB8000; // Memory address of beginning of text mode with color
-    int x = 0;                                      // Current screen column 
-    int y = 0;                                      // Current screen row
+    //volatile char *video = (volatile char*)0xB8000; // Memory address of beginning of text mode with color
+    //int x = 0;                                      // Current screen column 
+    //int y = 0;                                      // Current screen row
     int length = 0;                                 // Amount of characters printed
 
     while( *format != 0 )

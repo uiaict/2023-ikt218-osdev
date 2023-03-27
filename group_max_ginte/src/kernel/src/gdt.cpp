@@ -1,7 +1,7 @@
 #include"descriptor_tables.h"
 
-struct gdt_entry gdt[GDT_ENTRIES];
-struct gdt_ptr gdt_ptr;
+struct gdt_entry_t gdt[GDT_ENTRIES];
+struct gdt_ptr_t gdt_ptr;
 
 extern "C" {
   extern void gdt_flush(uint32_t gdt_ptr);
@@ -9,7 +9,7 @@ extern "C" {
 
 void init_gdt() {
   // Set the GDT limit
-  gdt_ptr.limit = sizeof(struct gdt_entry) * GDT_ENTRIES - 1;
+  gdt_ptr.limit = sizeof(struct gdt_entry_t) * GDT_ENTRIES - 1;
   gdt_ptr.base = (uint32_t) &gdt;
 	
   // num, base, limit, access, granularity 
@@ -26,7 +26,7 @@ void init_gdt() {
   gdt_flush((uint32_t)&gdt_ptr);
 }
 
-void gdt_load(struct gdt_ptr *gdt_ptr) {
+void gdt_load(struct gdt_ptr_t *gdt_ptr) {
   asm volatile("lgdt %0" : : "m" (*gdt_ptr));
 }
 
