@@ -9,9 +9,8 @@ extern "C"{
 #include "gdt.h"
 
  
-/* This tutorial will only work for the 32-bit ix86 targets. */
 #if !defined(__i386__)
-#error "This tutorial needs to be compiled with a ix86-elf compiler"
+#error "This needs to be compiled with a ix86-elf compiler"
 #endif
  
 /* Hardware text mode color constants. */
@@ -126,6 +125,5 @@ void kernel_main(void)
 	GDT::init();
 	printf("GDT initialized!\n");
 
-	/* Newline support is left as an exercise. */
 	printf("Hello World!");
 }
