@@ -1,6 +1,6 @@
 #include "keyboard.h"
 
-lookup_map lookup[] = {
+lookup_map lookup_scancode[] = {
     // Modified table from https://www.millisecond.com/support/docs/current/html/language/scancodes.htm
         {"1", "esc"},
         {"2", "1"},
@@ -13,8 +13,8 @@ lookup_map lookup[] = {
         {"9", "8"},
         {"10", "9"},
         {"11", "0"},
-        {"12", "-"},
-        {"13", "="},
+        {"12", "?"},
+        {"13", "!"},
         {"14", "bs"},
         {"15", "\t"}, // Tab
         {"16", "Q"},
@@ -93,8 +93,8 @@ const char* scancode_to_ascii(uint8_t scancode)
     * Scancode from keyboard controller data port is used as index into lookup table.
     * Current implementation just returns strings for names of non-printable ASCII characters.
     * Characters such as Tab and Enter are supported by printf.
-    */
-   
+    * */
+
     if (scancode > SC_MAX)
     {
         return "";
@@ -103,7 +103,7 @@ const char* scancode_to_ascii(uint8_t scancode)
     // Scancodes start from 1
     int index = scancode - 1;
 
-    const char* character = lookup[index].character;
+    const char* character = lookup_scancode[index].character;
 
     return character;
 }
