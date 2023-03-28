@@ -43,11 +43,9 @@ _start:
     extern init_gdt
     call init_gdt
 
-
     ; Kernel call
     extern kernel_main
     call kernel_main  ; call our kernel_main() function.
-
     
     cli
 .hang:    hlt

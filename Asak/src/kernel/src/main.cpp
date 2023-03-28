@@ -1,4 +1,6 @@
 #include "system.c"
+#include "screen.h"
+#include "screen.cpp"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -7,8 +9,9 @@ extern "C"{
 
 void kernel_main()
 {
-    int fem = 5;
-    char* ord = "helloworld!";
-    size_t lengde = strlen(ord);
-    int seks = 6;
+    screen terminal;
+    terminal.clear_screen();
+    terminal.play_intro();
+    terminal.print("print() implemented!\n");
+    terminal.print("We can now call the print() function to get output\n");
 }
