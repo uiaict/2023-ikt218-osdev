@@ -1,4 +1,5 @@
-#include "dt.h"
+#define GDT_ENTRIES 5
+
 
 void init_gdt() asm ("init_gdt");
 

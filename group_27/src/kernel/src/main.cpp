@@ -1,6 +1,7 @@
 
 #include "system.h"
 #include "gdt.h"
+#include "idt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
