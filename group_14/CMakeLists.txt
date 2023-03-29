@@ -9,11 +9,20 @@
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
+if(APPLE)
+    set(IS_MACOS "yes")
+endif()
+
+# These forces CMAKE to operate as we were using Linux.
+set(CMAKE_SYSTEM_NAME Linux)
+#set(CMAKE_SYSTEM_PROCESSOR i686)
+
+
 # This defines which is the lowest supported CMake version for this project
 cmake_minimum_required(VERSION 3.16.3)
 
 # This sets the name for our CMake project, and defines which languages we will be using.
-project(UiAOS LANGUAGES C CXX ASM_NASM)
+project(sOS LANGUAGES C CXX ASM_NASM)
 
 # This line creates a lock file to prevent parallell run of CMake.
 file(LOCK ${CMAKE_SOURCE_DIR} DIRECTORY GUARD FILE)
@@ -34,9 +43,9 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "UiA Operating System")
+set(OS_NAME "Student Operating System")
 # CMake target name for our operating system
-set(OS_KERNEL_NAME "uia-os")
+set(OS_KERNEL_NAME "s-os")
 # Predefined list for our application targets
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
@@ -54,7 +63,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Set the C Version
 set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
-set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
+set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wno-sign-conversion -Wno-frame-address -Wno-unused-parameter")
 # Common compiler flags for both C and C++
 set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
@@ -102,27 +111,6 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 
 ########################################
 ###
-### UiAOS Module: stdlib
-# The standard library for our operating system. It is some mutilated attempt at doing some libc implementation, but we probably void
-# all existing standards.
-########################################
-set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
-set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
-)
-add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
-target_include_directories(${OS_MODULE_STDLIB_NAME} 
-    PUBLIC src/stdlib/include
-
-)
-target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
-        ${OS_LIBRARIES}
-)
-set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_STDLIB_NAME})
-
-
-########################################
-###
 ### UiAOS Module: Boot
 # The boot module takes care of booting the operating system
 # it is written in assembler language and does the following
@@ -140,7 +128,7 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
@@ -171,6 +159,12 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/cpu/isr_asm.asm
+        src/kernel/src/cpu/descriptor_table.asm
+        src/kernel/src/memory/memory.c
+        src/kernel/src/memory/memutils.c
+        src/kernel/src/memory/malloc.c
+        src/kernel/src/include/terminal.h
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
@@ -207,3 +201,5 @@ set_target_properties(
 ########################################
 add_subdirectory(grub)
 
+add_custom_target(build)
+add_dependencies(build ${GRUB_TARGET})
