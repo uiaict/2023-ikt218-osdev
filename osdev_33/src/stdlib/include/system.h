@@ -57,8 +57,8 @@
     void (*signal(int sig, void (*func)(int)))(int);
     double sin(double x);
     double sinh(double x);
-    int snprintf(char *str, size_t size, const char *format, ...);
-    int sprintf(char *str, const char *format, ...);
+    //int snprintf(char *str, size_t size, const char *format, ...);
+    //int sprintf(char *str, const char *format, ...);
     int printf(const char *format, ...);
     void srand(unsigned int seed);
     int strcoll(const char *s1, const char *s2);
