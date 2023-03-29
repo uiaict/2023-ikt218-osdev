@@ -6,3 +6,4 @@ web/venv
 *.lock
 *.egg-info*
 build_Asak/kernel.img
+build_Asak/kernel.bin
