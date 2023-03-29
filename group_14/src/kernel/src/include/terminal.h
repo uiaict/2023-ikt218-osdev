@@ -1,5 +1,5 @@
-#ifndef #TERMINAL_H
-#define #TERMINAL_H
+#ifndef TERMINAL_H
+#define TERMINAL_H
 
 /* Hardware text mode color constants. */
 enum vga_color {

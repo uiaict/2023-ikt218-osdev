@@ -4,7 +4,7 @@
 
 // Custom files
 #include "include/descriptor_tables.h"
-
+#include "include/terminal.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
