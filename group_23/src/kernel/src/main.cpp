@@ -1,4 +1,3 @@
-
 #include "system.h"
 #include <stdbool.h>
 #include <stddef.h>
@@ -36,8 +35,9 @@ void kernel_main()
     
     int terminal_colors = 0x0F; //  black background (0x0) and white text (0xF)
     clear_screen(terminal_colors);
-    write_string(terminal_colors, "Hello, world!");
-	
+    
 	while (true);
-	gdt_init();	
+    gdt_init();
+    check_gdt_init(); 
+    write_string(terminal_colors, "Hello, World!");
 }
