@@ -1,8 +1,8 @@
 /*
 This cpp file contains the implementation of the functions that create 
-an interupt descriptor table (idt) in our os. The table defines
-interupt numbers and points to interupt handling functions that deals
-with the issue or reason for the interupt.
+an interrupt descriptor table (idt) in our os. The table defines
+interrupt numbers and points to interrupt handling functions that deals
+with the issue or reason for the interrupt.
 */
 
 #include "interrupts.h"
@@ -42,12 +42,13 @@ void init_idt() {
   
 }
 
-void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
-{
-    idt[num].base_low = base & 0xFFFF;
-    idt[num].base_high = (base >> 16) & 0xFFFF;
+//? Not used?
+// void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
+// {
+//     idt[num].base_low = base & 0xFFFF;
+//     idt[num].base_high = (base >> 16) & 0xFFFF;
 
-    idt[num].selector     = sel;
-    idt[num].zero = 0;
-    idt[num].flags   = flags  | 0x60;
-}
+//     idt[num].selector     = sel;
+//     idt[num].zero = 0;
+//     idt[num].flags   = flags  | 0x60;
+// }
