@@ -29,15 +29,22 @@ void write_string( int colour, const char *string )
 extern "C"{
     void kernel_main();
 }
+extern "C"{
+    void gdt_init();
+}
+extern "C"{
+    bool check_gdt_init();
+}
 
 void kernel_main()
 {
     
     int terminal_colors = 0x0F; //  black background (0x0) and white text (0xF)
     clear_screen(terminal_colors);
-    
-	while (true);
+    write_string(terminal_colors, "Hello, World!");
+	
     gdt_init();
     check_gdt_init(); 
-    write_string(terminal_colors, "Hello, World!");
+    while (true);
+    
 }
