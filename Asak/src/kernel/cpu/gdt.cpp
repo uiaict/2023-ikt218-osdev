@@ -12,12 +12,12 @@ extern "C" {
 
 
 
-Asak::CPU::Descriptors::gdt_entry_t gdt_entries[6];
+Asak::CPU::Descriptors::gdt_entry_t gdt_entries[6]; 
 Asak::CPU::Descriptors::gdt_ptr_t   gdt_ptr;
 
 void init_gdt()
 {
-    gdt_ptr.limit = (sizeof(gdt_entries)) - 1;
+    gdt_ptr.limit = (sizeof(gdt_entries) * 6) - 1;
     gdt_ptr.base  = (uint32_t)&gdt_entries;
 
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment

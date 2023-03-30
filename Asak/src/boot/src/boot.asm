@@ -39,9 +39,15 @@ global _start:function (_start.end - _start)
 _start:
     mov esp, stack_top
 
-    ; Initializer space for GDT, IDT    
-    extern init_gdt
+    ;   Initializer space for GDT, IDT and ISR    ;
+    extern init_gdt ; Global Descriptor Table
     call init_gdt
+
+    extern init_idt ; Interrupt Descriptor Table
+    call init_idt
+
+    extern init_isr ; Interrupt Service Routine
+    call init_isr
 
     ; Kernel call
     extern kernel_main

@@ -13,11 +13,11 @@ struct gdt_entry_t {
 
 // Define the IDT entry structure
 struct idt_entry_t {
-  uint16_t base_low;
-  uint16_t selector;
-  uint8_t zero;
-  uint8_t flags;
-  uint16_t base_high;
+  uint16_t base_low;  // The lower 16 bits of the ISR's address
+  uint16_t selector;  // The GDT segment selector that the CPU will load into CS before calling the ISR
+  uint8_t zero;       // Set to zero
+  uint8_t flags;      // Type and attributes
+  uint16_t base_high; // The higher 16 bits of the ISR's address
 } __attribute__((packed));
 
 // Define the GDT and IDT pointers
@@ -35,7 +35,8 @@ struct idt_ptr_t {
 void init_gdt();
 void init_idt();
 
-// Gates
+// Gates for GDT and IDT
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 }
+void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 

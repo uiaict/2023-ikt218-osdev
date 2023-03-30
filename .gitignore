@@ -1,9 +1,5 @@
 .vscode
 build_*/*
 web/venv
-!build_*/kernel.bin
-!build_*/kernel.img
 *.lock
 *.egg-info*
-build_Asak/kernel.img
-build_Asak/kernel.bin
