@@ -176,13 +176,14 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
 
 
 set(ASM_SOURCE_FILES
-    /home/simonma/ikt218-osdev/group_simon/src/kernel/src/gdt_flush.asm
+    # ${CMAKE_CURRENT_SOURCE_DIR}src/kernel/src/gdt_flush.asm
 )
 
 set_source_files_properties(${ASM_SOURCE_FILES} PROPERTIES LANGUAGE ASM_NASM)
 
 # Append the ASM_SOURCE_FILES to the OS_MODULE_KERNEL_SOURCES variable
 list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
+message("${OS_MODULE_KERNEL_SOURCES}")
 
 
 # Set the output binary name
