@@ -1,4 +1,6 @@
-bits 32
+; Tells the assembler that the code 
+; will be running in 32-bit protected mode
+bits 32 
 
 MBOOT_PAGE_ALIGN       equ 1<<0    ; Load kernel and modules on a page boundary
 MBOOT_MEM_INFO         equ 1<<1    ; Provide your kernel with memory info
