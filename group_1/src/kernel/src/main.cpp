@@ -11,11 +11,9 @@ void kernel_main()
 {
     clear_screen();
     init_descriptor_tables();
+    
     printk("Hello, %s! The answer \n is %d.", "world", 42);
     printk("%d", 696969420);
-   
-    if (is_gdt_implemented)
-    {
-        
-    }
+    asm volatile ("int $0x28");
+    asm volatile ("int $0x1");
 }

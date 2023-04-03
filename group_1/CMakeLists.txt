@@ -67,9 +67,9 @@ elseif(OS_ARCH_TARGET STREQUAL x86_64)
 else()
     message(FATAL_ERROR "Could not find the specified OS architecture: ${OS_ARCH_TARGET}")
 endif()
-# Set C Compiler Flags
+# Set C Compiler Flags, LAGT TIL -no-pie
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMMON_COMPILER_FLAGS} ${WARNING_FLAGS}")
-# Set C++ Compiler Flags
+# Set C++ Compiler Flags, LAGT TIL -no-pie
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${COMMON_COMPILER_FLAGS} ${WARNING_FLAGS} -fno-exceptions -fno-rtti")
 # Set NASM Compiler Flags
 set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_FLAGS} -g -O0")

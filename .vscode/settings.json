@@ -1,4 +1,7 @@
 {
     "cmake.buildDirectory": "${workspaceFolder}/build_group_1",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_1"
+    "cmake.sourceDirectory": "${workspaceFolder}/group_1",
+    "files.associations": {
+        "common.h": "c"
+    }
 }
