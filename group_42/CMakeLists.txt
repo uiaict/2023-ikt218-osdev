@@ -142,6 +142,17 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         ${ARCH_TARGET}src/boot/src/boot.asm
         src/boot/src/boot.cpp
+        src/GDT/gdt.cpp
+        src/GDT/gdt.asm
+
+        #src/GDT/idt.cpp
+        #src/GDT/idt_a.asm
+
+        #src/GDT/isr.cpp
+        #src/GDT/isr.asm
+
+        #src/GDT/hardware_port.cpp
+        
        
         
         
@@ -174,6 +185,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/*.h
+        
+      
+        
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

@@ -8,5 +8,6 @@ extern "C"{
 
 void kernel_main()
 {
-
+int a = 2;
+a = a + 2;
 }
