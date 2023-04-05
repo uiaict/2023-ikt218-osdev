@@ -141,12 +141,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
         src/boot/src/boot.asm
-        src/kernel/cpu/gdt.asm
-        src/kernel/cpu/gdt.h
-        src/kernel/cpu/gdt.cpp
-        src/kernel/cpu/idt.asm
-        src/kernel/cpu/idt.h
-        src/kernel/cpu/idt.cpp
+
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -176,6 +171,9 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/cpu/*.asm
+        src/kernel/cpu/*.cpp
+        src/kernel/cpu/*.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

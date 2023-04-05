@@ -31,6 +31,8 @@ enum vga_color {
 	VGA_COLOR_WHITE = 15,
 };
 
+static uint8_t video_line = 0;
+
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
 	return fg | bg << 4;
@@ -62,12 +64,18 @@ void clearTerminal()
 
 int printf(const char *format, ...)
 {
+	if(video_line >= VIDEO_HEIGHT){
+		clearTerminal();
+		video_line = 0;
+	}
+	uint8_t offset = video_line * VIDEO_WIDTH;
     const uint8_t color = vga_entry_color(VGA_COLOR_GREEN,VGA_COLOR_BLACK);
     size_t stringLenght = strlen(format);
     uint16_t *video = (uint16_t*)VIDEO_BUFFER;
     for(size_t i = 0; i < stringLenght; i++ )
     {
-        video[i] = vga_entry(format[i], color);
+        video[i + offset] = vga_entry(format[i], color);
     }
+	video_line++;
     return 1;
 }

@@ -1,4 +1,4 @@
-
+    #include "idt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -10,4 +10,12 @@ void kernel_main()
 {
     clearTerminal();
     printf("Hello World");
+
+    // Trigger some interrupts
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
+    asm volatile ("int $0x5");
+
+
+
 }
