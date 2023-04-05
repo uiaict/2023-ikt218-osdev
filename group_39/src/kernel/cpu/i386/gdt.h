@@ -32,7 +32,7 @@ struct gdt_entry {
 
 
 // The GDT pointer struct which will be contained in the GDT register.
-struct gdt_ptr {
+struct gdt_pointer {
     uint16_t limit; // NEED COMMENT HERE
     uint32_t base; // NEED COMMENT HERE
 } __attribute__((packed)); // As above, tell the compiler not to add padding.
