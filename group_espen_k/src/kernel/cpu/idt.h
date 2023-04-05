@@ -7,7 +7,7 @@
 namespace ESOS::IDT
 {
     // Define the IDT entry structure
-    struct idt_entry {
+    struct idt_entry_t {
     uint16_t base_low;
     uint16_t selector;
     uint8_t zero;
@@ -17,13 +17,27 @@ namespace ESOS::IDT
 
     // Define the GDT and IDT pointers
 
-    struct idt_ptr {
+    struct idt_ptr_t {
     uint16_t limit;
     uint32_t base;
     } __attribute__((packed));
 
+    typedef struct registers
+    {
+        uint32_t ds;                  // Data segment selector
+        uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
+        uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
+        uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
+    } registers_t;
+
+
+    // Enables registration of callbacks for interrupts or IRQs.
+    // For IRQs, to ease confusion, use the #defines above as the
+    // first parameter.
+    typedef void (*isr_t)(registers_t*, void*);
+
     // Structure to hold information about an interrupt handler
-    struct int_handler {
+    struct int_handler_t {
     int num;
     isr_t handler;
     void *data;
