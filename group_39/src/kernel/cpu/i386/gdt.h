@@ -12,8 +12,6 @@
 
 
 
-
-
 // Our GDT entry (segment descriptor) struct. 
 struct gdt_entry {
     uint16_t limit_low; // The lower 16 bits of the segment limit
@@ -24,3 +22,9 @@ struct gdt_entry {
     uint8_t base_high; // The upper 8 bits of the base address.
 } __attribute__((packed)); // This attribute ells the compiler to not add padding to the struct, which would increase its size. 
 
+
+// The GDT pointer struct which will be contained in the GDT register.
+struct gdt_ptr {
+    uint16_t limit; // 
+    uint32_t base;
+} __attribute__((packed)); // As above, tell the compiler not to add padding.
