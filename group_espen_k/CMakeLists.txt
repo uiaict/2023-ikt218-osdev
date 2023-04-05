@@ -144,6 +144,9 @@ set(OS_MODULE_BOOT_SOURCES
         src/kernel/cpu/gdt.asm
         src/kernel/cpu/gdt.h
         src/kernel/cpu/gdt.cpp
+        src/kernel/cpu/idt.asm
+        src/kernel/cpu/idt.h
+        src/kernel/cpu/idt.cpp
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
