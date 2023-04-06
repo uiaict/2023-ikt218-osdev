@@ -2,6 +2,7 @@
 #define ESOS_IDT_H
 
 #include <stdint.h>
+#include "terminal.h"
 
 #define IDT_ENTRIES 256
 #define IRQ_COUNT 16

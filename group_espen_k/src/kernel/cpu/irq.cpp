@@ -2,11 +2,14 @@
 #include "system.h"
 #include "common.h"
 #include <cstddef>
+#include "terminal.h"
 
 extern "C" 
 {
+    #include "terminal.h"
     void irq_handler(ESOS::IDT::registers_t regs) asm("irq_handler");
 }
+
 void ESOS::IDT::init_irq()
 {
     for (int i = 0; i < IRQ_COUNT; i++)
@@ -51,7 +54,15 @@ void ESOS::IDT::init_irq_handlers()
 
     // Create an IRQ handler for IRQ1
     ESOS::IDT::register_irq_handler(IRQ1, [](ESOS::IDT::registers_t*, void*){
-        printf("Yes we are going on!");
+
+        /* Read the scancode from the keyboard controller */
+        uint8_t scancode = inb(0x60);
+
+        /* If the scancode is valid, convert it to an ASCII character */
+        if (scancode < sizeof(keyboard_map)) {
+            char c = keyboard_map[scancode];
+            terminal_write_char(c);
+    }
 
     }, NULL);
 
