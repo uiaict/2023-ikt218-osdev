@@ -1,4 +1,4 @@
-    #include "idt.h"
+#include "idt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -12,10 +12,13 @@ void kernel_main()
     printf("Hello World");
 
     // Trigger some interrupts
-    asm volatile ("int $0x3");
+/*     asm volatile ("int $0x3");
     asm volatile ("int $0x4");
-    asm volatile ("int $0x5");
+    asm volatile ("int $0x5"); */
 
-
+    // Print a message and enter an infinite loop to wait for interrupts
+    printf("Waiting...");
+    while(1){};
+    printf("Done!...");
 
 }

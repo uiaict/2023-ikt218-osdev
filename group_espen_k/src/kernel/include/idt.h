@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #define IDT_ENTRIES 256
+#define IRQ_COUNT 16
 
 #define ISR1 1
 #define ISR2 2
@@ -36,6 +37,22 @@
 #define ISR29 29
 #define ISR30 30
 #define ISR31 31
+#define IRQ0 32
+#define IRQ1 33
+#define IRQ2 34
+#define IRQ3 35
+#define IRQ4 36
+#define IRQ5 37
+#define IRQ6 38
+#define IRQ7 39
+#define IRQ8 40
+#define IRQ9 41
+#define IRQ10 42
+#define IRQ11 43
+#define IRQ12 44
+#define IRQ13 45
+#define IRQ14 46
+#define IRQ15 47
 
 extern "C"{
 extern void isr0 ();
@@ -70,6 +87,22 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
+extern void irq0 ();
+extern void irq1 ();
+extern void irq2 ();
+extern void irq3 ();
+extern void irq4 ();
+extern void irq5 ();
+extern void irq6 ();
+extern void irq7 ();
+extern void irq8 ();
+extern void irq9 ();
+extern void irq10();
+extern void irq11();
+extern void irq12();
+extern void irq13();
+extern void irq14();
+extern void irq15();
 }
 namespace ESOS::IDT
 {
@@ -82,7 +115,7 @@ namespace ESOS::IDT
     uint16_t base_high;
     } __attribute__((packed));
 
-    // Define the GDT and IDT pointers
+    // Define the IDT pointer structure
 
     struct idt_ptr_t {
     uint16_t limit;
@@ -112,11 +145,15 @@ namespace ESOS::IDT
 
     // Array to hold information about registered interrupt handlers
     static struct int_handler_t int_handlers[IDT_ENTRIES];
+    static struct int_handler_t irq_handlers[IRQ_COUNT];
 
     void init_idt();
     void init_interrupts();
+    void init_irq();
     void init_interrupt_handlers();
+    void init_irq_handlers();
     void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
+    void register_irq_handler(int irq, isr_t handler, void* ctx);
     void register_interrupt_handler(uint8_t n, isr_t handler, void* context);
     void isr_handler(registers_t regs);
 
