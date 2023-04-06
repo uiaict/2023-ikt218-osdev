@@ -68,7 +68,7 @@ int printf(const char *format, ...)
 		clearTerminal();
 		video_line = 0;
 	}
-	uint8_t offset = video_line * VIDEO_WIDTH;
+	uint32_t offset = video_line * VIDEO_WIDTH;
     const uint8_t color = vga_entry_color(VGA_COLOR_GREEN,VGA_COLOR_BLACK);
     size_t stringLenght = strlen(format);
     uint16_t *video = (uint16_t*)VIDEO_BUFFER;
