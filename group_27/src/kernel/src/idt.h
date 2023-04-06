@@ -1,94 +1,141 @@
-#include <stdint.h>
+#include "common.h"
 
-#define IDT_ENTRIES 256
+extern "C" {
+    extern void init_idt();
+    extern void idt_flush(uint32_t);
+}
 
-void init_idt() asm ("init_idt");
-
-// Define the IDT entry structure
-struct idt_entry {
-  uint16_t base_low;
-  uint16_t selector;
-  uint8_t zero;
-  uint8_t flags;
-  uint16_t base_high;
-  uint16_t segment;
+// A struct describing an interrupt gate.
+struct idt_entry_struct
+{
+   u16int base_lo;             // The lower 16 bits of the address to jump to when this interrupt fires.
+   u16int sel;                 // Kernel segment selector.
+   u8int  always0;             // This must always be zero.
+   u8int  flags;               // More flags. See documentation.
+   u16int base_hi;             // The upper 16 bits of the address to jump to.
 } __attribute__((packed));
+typedef struct idt_entry_struct idt_entry_t;
 
-// Define the GDT and IDT pointers
-
-struct idt_ptr {
-  uint16_t limit;
-  uint32_t base;
+// A struct describing a pointer to an array of interrupt handlers.
+// This is in a format suitable for giving to 'lidt'.
+struct idt_ptr_struct
+{
+   u16int limit;
+   u32int base;                // The address of the first element in our idt_entry_t array.
 } __attribute__((packed));
+typedef struct idt_ptr_struct idt_ptr_t;
 
-
-void init_idt();
-
-// Load the GDT and IDT
-
-void idt_load(struct idt_ptr *idt_ptr);
-
-// Define an interrupt handler
-void interrupt_handler();
-
-struct int_handler {
-  int num;
-  void (*handler)(void *data);
-  void *data;
-} __attribute__((packed));
-
-
-// Array to hold information about registered interrupt handlers
-struct int_handler int_handlers[IDT_ENTRIES];
-struct idt_entry idt[IDT_ENTRIES];
-struct idt_ptr idt_ptr;
-
-// Function to register an interrupt handler
-void register_int_handler(int num, void (*handler)(void *data), void *data) {
-  int_handlers[num].num = num;
-  int_handlers[num].handler = handler;
-  int_handlers[num].data = data;
+// These extern directives let us access the addresses of our ASM ISR handlers.
+extern "C" {
+    extern void isr0 ();
+    extern void isr1 ();
+    extern void isr2 ();
+    extern void isr3 ();
+    extern void isr4 ();
+    extern void isr5 ();
+    extern void isr6 ();
+    extern void isr7 ();
+    extern void isr8 ();
+    extern void isr9 ();
+    extern void isr10 ();
+    extern void isr11 ();
+    extern void isr12 ();
+    extern void isr13 ();
+    extern void isr14 ();
+    extern void isr15 ();
+    extern void isr16 ();
+    extern void isr17 ();
+    extern void isr18 ();
+    extern void isr19 ();
+    extern void isr20 ();
+    extern void isr21 ();
+    extern void isr22 ();
+    extern void isr23 ();
+    extern void isr24 ();
+    extern void isr25 ();
+    extern void isr26 ();
+    extern void isr27 ();
+    extern void isr28 ();
+    extern void isr29 ();
+    extern void isr30 ();
+    extern void isr31 (); 
 }
 
-// The default interrupt handler
-void default_int_handler(void *data) {
-  // Handle the interrupt
-  int i = 1; // Just a test line
+extern void idt_flush(u32int);
+
+static void idt_set_gate(u8int,u32int,u16int,u8int);
+
+idt_entry_t idt_entries[256];
+idt_ptr_t   idt_ptr;
+
+void init_descriptor_tables()
+{
+  init_gdt();
+  init_idt();
 }
 
-// The main interrupt handler
-void int_handler(int num) {
-  // Check if a registered handler exists for this interrupt
-  if (int_handlers[num].handler != NULL) {
-    int_handlers[num].handler(int_handlers[num].data);
-  } else {
-    // Call the default interrupt handler if no registered handler exists
-    default_int_handler(NULL);
-  }
+static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
+{
+   idt_entries[num].base_lo = base & 0xFFFF;
+   idt_entries[num].base_hi = (base >> 16) & 0xFFFF;
+
+   idt_entries[num].sel     = sel;
+   idt_entries[num].always0 = 0;
+   // We must uncomment the OR below when we get to using user-mode.
+   // It sets the interrupt gate's privilege level to 3.
+   idt_entries[num].flags   = flags /* | 0x60 */;
+} 
+
+void set_gates() 
+{
+    idt_set_gate( 0, (u32int)isr0 , 0x08, 0x8E);
+    idt_set_gate( 1, (u32int)isr1 , 0x08, 0x8E);
+    idt_set_gate( 2, (u32int)isr2, 0x08, 0x8E);
+    idt_set_gate( 3, (u32int)isr3 , 0x08, 0x8E);
+    idt_set_gate( 4, (u32int)isr4 , 0x08, 0x8E);
+    idt_set_gate( 5, (u32int)isr5, 0x08, 0x8E);
+    idt_set_gate( 6, (u32int)isr6 , 0x08, 0x8E);
+    idt_set_gate( 7, (u32int)isr7 , 0x08, 0x8E);
+    idt_set_gate( 8, (u32int)isr8, 0x08, 0x8E);
+    idt_set_gate( 9, (u32int)isr9 , 0x08, 0x8E);
+    idt_set_gate( 10, (u32int)isr10 , 0x08, 0x8E);
+    idt_set_gate( 11, (u32int)isr11, 0x08, 0x8E);
+    idt_set_gate( 12, (u32int)isr12 , 0x08, 0x8E);
+    idt_set_gate( 13, (u32int)isr13 , 0x08, 0x8E);
+    idt_set_gate( 14, (u32int)isr14, 0x08, 0x8E);
+    idt_set_gate( 15, (u32int)isr15 , 0x08, 0x8E);
+    idt_set_gate( 16, (u32int)isr16 , 0x08, 0x8E);
+    idt_set_gate( 17, (u32int)isr17, 0x08, 0x8E);
+    idt_set_gate( 18, (u32int)isr18 , 0x08, 0x8E);
+    idt_set_gate( 19, (u32int)isr19 , 0x08, 0x8E);
+    idt_set_gate( 20, (u32int)isr20, 0x08, 0x8E);
+    idt_set_gate( 21, (u32int)isr21 , 0x08, 0x8E);
+    idt_set_gate( 22, (u32int)isr22 , 0x08, 0x8E);
+    idt_set_gate( 23, (u32int)isr23, 0x08, 0x8E);
+    idt_set_gate( 24, (u32int)isr24 , 0x08, 0x8E);
+    idt_set_gate( 25, (u32int)isr25 , 0x08, 0x8E);
+    idt_set_gate( 26, (u32int)isr26, 0x08, 0x8E);
+    idt_set_gate( 27, (u32int)isr27 , 0x08, 0x8E);
+    idt_set_gate( 28, (u32int)isr28 , 0x08, 0x8E);
+    idt_set_gate( 29, (u32int)isr29, 0x08, 0x8E);
+    idt_set_gate( 30, (u32int)isr30 , 0x08, 0x8E);
+    idt_set_gate( 31, (u32int)isr31 , 0x08, 0x8E);
 }
 
-void init_idt() {
-  // Set the IDT limit
-  idt_ptr.limit = sizeof(struct idt_entry) * IDT_ENTRIES - 1;
-  idt_ptr.base = (uint32_t) &idt;
-
-  // 1. Initialize all IDT entries to the default interrupt handler
-	// 2. Initialize all entries in the int_handlers array to NULL
-  for (int i = 0; i < IDT_ENTRIES; i++) {
-    idt[i].base_low = 0x0000;
-    idt[i].base_high = 0x0000;
-    idt[i].segment = 0x08;
-    idt[i].zero = 0x00;
-    idt[i].flags = 0x8E;
-
-		int_handlers[i].handler = NULL;
-  }
-
-  // Load the IDT
-  idt_load(&idt_ptr);
+void memset(void *dest, int val, unsigned int len)
+{
+    u8int *temp = (u8int *)dest;
+    for ( ; len != 0; len--) *temp++ = val;
 }
 
-void idt_load(struct idt_ptr *idt_ptr) {
-  // Load the IDT using the LIDT instruction
-  asm volatile("lidt %0" : : "m" (*idt_ptr));
+void init_idt()
+{
+   idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
+   idt_ptr.base  = (u32int)&idt_entries;
+
+   memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
+   
+   set_gates();
+
+   idt_flush((u32int)&idt_ptr);
 }

@@ -1,10 +1,8 @@
 #include <stdint.h>
 
-#define GDT_ENTRIES 5
 #define IDT_ENTRIES 256
 
-// Define the GDT entry structure
-
+void init_idt() asm ("init_idt");
 
 // Define the IDT entry structure
 struct idt_entry {
