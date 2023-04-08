@@ -1,7 +1,7 @@
 #ifndef TERMINAL_H
 #define TERMINAL_H
 #include <stdint.h>
-#include "system.h"
+#include <system.h>
 
 #define VIDEO_BUFFER 0xB8000
 #define VIDEO_HEIGHT 25

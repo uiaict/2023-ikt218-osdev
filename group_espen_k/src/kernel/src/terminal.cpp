@@ -1,5 +1,5 @@
 #include "terminal.h"
-#include "system.h"
+#include <system.h>
 #include <cstddef>
 
 /**
