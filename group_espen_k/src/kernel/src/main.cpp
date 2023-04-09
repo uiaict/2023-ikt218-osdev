@@ -1,6 +1,7 @@
 #include <cstdlib>
 #include <cstdint>
 #include "terminal.h"
+#include "pit.h"
 
 
 extern uint32_t end; // This is defined in linker.ld
@@ -48,11 +49,14 @@ void kernel_main()
     // Print memory layout
     print_memory_layout();
 
-    // Allocate some memory using kernel memory manager
+    init_pit();
+
+
+/*     // Allocate some memory using kernel memory manager
     void* some_memory = malloc(12345); 
     //void* memory2 = malloc(54321); 
     //void* memory3 = malloc(13331);
-    char* memory4 = new char[1000]();
+    char* memory4 = new char[1000](); */
 
     // Trigger some interrupts
 /*     asm volatile ("int $0x3");
