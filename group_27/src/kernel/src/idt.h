@@ -65,6 +65,22 @@ extern "C" {
     extern void isr29 ();
     extern void isr30 ();
     extern void isr31 (); 
+    extern void irq0 (); 
+    extern void irq1 (); 
+    extern void irq2 (); 
+    extern void irq3 (); 
+    extern void irq4 (); 
+    extern void irq5 (); 
+    extern void irq6 (); 
+    extern void irq7 (); 
+    extern void irq8 (); 
+    extern void irq9 (); 
+    extern void irq10 (); 
+    extern void irq11 (); 
+    extern void irq12 (); 
+    extern void irq13 (); 
+    extern void irq14 (); 
+    extern void irq15 (); 
 }
 
 extern void idt_flush(u32int);
@@ -121,6 +137,23 @@ void set_gates()
     idt_set_gate( 29, (u32int)isr29, 0x08, 0x8E);
     idt_set_gate( 30, (u32int)isr30 , 0x08, 0x8E);
     idt_set_gate( 31, (u32int)isr31 , 0x08, 0x8E);
+
+    idt_set_gate(32, (u32int)irq0, 0x08, 0x8E);
+    idt_set_gate(33, (u32int)irq1, 0x08, 0x8E);
+    idt_set_gate(34, (u32int)irq2, 0x08, 0x8E);
+    idt_set_gate(35, (u32int)irq3, 0x08, 0x8E);
+    idt_set_gate(36, (u32int)irq4, 0x08, 0x8E);
+    idt_set_gate(37, (u32int)irq5, 0x08, 0x8E);
+    idt_set_gate(38, (u32int)irq6, 0x08, 0x8E);
+    idt_set_gate(39, (u32int)irq7, 0x08, 0x8E);
+    idt_set_gate(40, (u32int)irq8, 0x08, 0x8E);
+    idt_set_gate(41, (u32int)irq9, 0x08, 0x8E);
+    idt_set_gate(42, (u32int)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (u32int)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (u32int)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (u32int)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (u32int)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (u32int)irq15, 0x08, 0x8E);
 }
 
 // This just has to be here because it doesnt work in common.h
@@ -131,15 +164,31 @@ void memset(void *dest, int val, unsigned int len)
     for ( ; len != 0; len--) *temp++ = val;
 }
 
+// Remap the IRQ table to correspond to slave PIC
+static void remap_irq_table() {
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 0x28);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
+    outb(0xA1, 0x0);
+}
+
 // Initializes the IDT
 void init_idt()
 {
-   idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
-   idt_ptr.base  = (u32int)&idt_entries;
+    idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
+    idt_ptr.base  = (u32int)&idt_entries;
 
-   memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
+    memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
    
-   set_gates();
+    // These two are created as seperate functions to avoid overcrowding here
+    remap_irq_table();
+    set_gates();
 
-   idt_flush((u32int)&idt_ptr);
+    idt_flush((u32int)&idt_ptr);
 }
