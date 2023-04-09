@@ -1,11 +1,16 @@
 #include "common.h"
 
+//
+// IDT.h
+// Contains code for initializing the interrupt descriptor table
+//
+
 extern "C" {
     extern void init_idt();
     extern void idt_flush(uint32_t);
 }
 
-// A struct describing an interrupt gate.
+// Struct for interrupt entries
 struct idt_entry_struct
 {
    u16int base_lo;             // The lower 16 bits of the address to jump to when this interrupt fires.
@@ -16,8 +21,8 @@ struct idt_entry_struct
 } __attribute__((packed));
 typedef struct idt_entry_struct idt_entry_t;
 
-// A struct describing a pointer to an array of interrupt handlers.
-// This is in a format suitable for giving to 'lidt'.
+// Describes a pointer an array of interrupt handlers
+// Will be transferred to the asm function 'lidt'.
 struct idt_ptr_struct
 {
    u16int limit;
@@ -25,7 +30,8 @@ struct idt_ptr_struct
 } __attribute__((packed));
 typedef struct idt_ptr_struct idt_ptr_t;
 
-// These extern directives let us access the addresses of our ASM ISR handlers.
+// Makes it possible to access all interrupt service routines
+// They are located inside interrupt.asm
 extern "C" {
     extern void isr0 ();
     extern void isr1 ();
@@ -62,18 +68,12 @@ extern "C" {
 }
 
 extern void idt_flush(u32int);
-
 static void idt_set_gate(u8int,u32int,u16int,u8int);
 
 idt_entry_t idt_entries[256];
 idt_ptr_t   idt_ptr;
 
-void init_descriptor_tables()
-{
-  init_gdt();
-  init_idt();
-}
-
+// Sets the values of an IDT entry
 static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
 {
    idt_entries[num].base_lo = base & 0xFFFF;
@@ -81,11 +81,12 @@ static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
 
    idt_entries[num].sel     = sel;
    idt_entries[num].always0 = 0;
-   // We must uncomment the OR below when we get to using user-mode.
-   // It sets the interrupt gate's privilege level to 3.
+   // The OR below sets the gate's privilege level to 3
+   // and must be uncommented if entering user mode
    idt_entries[num].flags   = flags /* | 0x60 */;
 } 
 
+// Set the values of all IDT entries
 void set_gates() 
 {
     idt_set_gate( 0, (u32int)isr0 , 0x08, 0x8E);
@@ -122,12 +123,15 @@ void set_gates()
     idt_set_gate( 31, (u32int)isr31 , 0x08, 0x8E);
 }
 
+// This just has to be here because it doesnt work in common.h
+// TODO fix this
 void memset(void *dest, int val, unsigned int len)
 {
     u8int *temp = (u8int *)dest;
     for ( ; len != 0; len--) *temp++ = val;
 }
 
+// Initializes the IDT
 void init_idt()
 {
    idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;

@@ -1,7 +1,6 @@
 //
-// isr.c -- High level interrupt service routines and interrupt request handlers.
-// Part of this code is modified from Bran's kernel development tutorials.
-// Rewritten for JamesM's kernel development tutorials.
+// isr.c
+// This code contains interrupt request handlers and service routines
 //
 
 #include "common.h"
@@ -12,7 +11,8 @@ extern "C" {
     void isr_handler(registers_t);
 }
 
-// This gets called from our ASM interrupt handler stub.
+// Gets called from interrupt.asm
+// Writes the interrupts to the screen
 void isr_handler(registers_t regs)
 {
     write_to_terminal(1, "recieved interrupt: ");
