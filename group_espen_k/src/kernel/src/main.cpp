@@ -51,17 +51,6 @@ void kernel_main()
 
     init_pit();
 
-    int counter = 0;
-    while(true){
-        printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
-        sleep_busy(1000);
-        printf("[%d]: Slept using busy-waiting.\n", counter++);
-
-        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
-        sleep_interrupt(1000);
-        printf("[%d]: Slept using interrupts.\n", counter++);
- };
-
 
 /*     // Allocate some memory using kernel memory manager
     void* some_memory = malloc(12345); 
