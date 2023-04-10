@@ -19,4 +19,6 @@ void kernel_main(unsigned long magic)
         printf("Invalid magic number\n");
         return;
     }
+
+    printf("Hello world\n");
 }
