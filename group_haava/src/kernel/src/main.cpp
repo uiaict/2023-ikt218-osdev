@@ -1,3 +1,4 @@
+#include "gdt.h"
 #include "system.h"
 #include "vga.h"
 
@@ -13,6 +14,7 @@ extern "C"{
 void kernel_main(unsigned long magic)
 {
     vga_init();
+    gdt_init();
     if (magic != MULTIBOOT_BOOTLOADER_MAGIC) {
         printf("Invalid magic number\n");
         return;
