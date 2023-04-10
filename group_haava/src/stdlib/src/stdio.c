@@ -26,12 +26,10 @@ int printf(const char *format, ...)
                         offset++;
                     }
                     offset -= 2;    // Match the removed characters, with those added
-                    i++;            // Skip the matched conversion specifier 's'.
                     break;
                 case 'c':
                     buf[i] = (char)va_arg(ap, int);
                     offset--;   // Match the character removed, with the one added
-                    i++;        // Skip the matched conversion specifier 'c'.
                     break;
                 case 'd':
                     //int d = va_arg(ap, int);
@@ -47,6 +45,7 @@ int printf(const char *format, ...)
                     // exist.
                     break;
             }
+            i++;
         } else {
             buf[i + offset] = format[i];
         }
