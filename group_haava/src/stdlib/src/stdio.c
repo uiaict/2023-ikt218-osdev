@@ -19,6 +19,10 @@ int printf(const char *format, ...)
     for (size_t i = 0; i < strlen(format); i++) {
         if (format[i] == '%') {
             switch (format[i + 1]) {
+                case '%':
+                    buf[i] = '%';
+                    offset--;
+                    break;
                 case 's':
                     char* tmp_buf = va_arg(ap, char*);
                     for (size_t j = 0; j < strlen(tmp_buf); j++) {
