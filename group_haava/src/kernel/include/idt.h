@@ -50,13 +50,6 @@ struct idt_ptr {
     uint32_t base;  /*!< Memory location of the IDT */
 } __attribute__((packed));
 
-/**
- * @brief Initialize IDT.
- *
- * For now we only initialize the NULL, code and data segment.
- */
-void idt_init();
-
 
 #ifdef __cplusplus
 };

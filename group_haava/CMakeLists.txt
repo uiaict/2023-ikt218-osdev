@@ -170,12 +170,14 @@ set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-kernel)
 set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Defines all source-files that are related to the kernel.
 set(OS_MODULE_KERNEL_SOURCES
+        src/kernel/src/common.c
+        src/kernel/src/gdt.asm
+        src/kernel/src/gdt.c
         src/kernel/src/idt.c
+        src/kernel/src/irq.c
         src/kernel/src/isr.asm
         src/kernel/src/isr.c
         src/kernel/src/main.cpp
-        src/kernel/src/gdt.asm
-        src/kernel/src/gdt.c
         src/kernel/src/vga.c
 )
 # Set the output binary name
