@@ -53,6 +53,11 @@ void vga_putchar(char c);
 */
 void vga_writestring(const char* data);
 
+/**
+ * @brief Remove last char from line in terminal.
+ */
+void vga_backspace(void);
+
 #ifdef __cplusplus
 }
 #endif

@@ -91,3 +91,11 @@ void vga_writestring(const char* data)
             vga_putchar(data[i]);
         }
 }
+
+void vga_backspace(void)
+{
+    if (vga_column != 0) {
+        vga_column -= 1;
+        vga_put_char_at(' ', vga_column, vga_row);
+    }
+}
