@@ -3,6 +3,8 @@
  * @brief Handles VGA text mode.
 */
 
+#ifndef VGA_H
+#define VGA_H
 
 /** VGA text mode color constants. */
 enum vga_color {
@@ -54,3 +56,5 @@ void vga_writestring(const char* data);
 #ifdef __cplusplus
 }
 #endif
+
+#endif /* VGA_H */
