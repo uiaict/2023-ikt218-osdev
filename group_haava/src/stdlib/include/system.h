@@ -4,6 +4,9 @@
 #include <time.h>
 #include <stdio.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 int isalnum(int c);
 int iscntrl(int c);
@@ -114,4 +117,8 @@ int isdigit(int c);
 struct lconv *localeconv();
 int rand();
 int ungetc(int c, FILE *stream);
+
+#ifdef __cplusplus
+}
+#endif
 
