@@ -8,6 +8,7 @@
 extern "C" {
 #endif
 
+int atoi(const char *nptr);
 int isalnum(int c);
 int iscntrl(int c);
 int isgraph(int c);

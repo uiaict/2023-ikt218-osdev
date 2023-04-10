@@ -108,6 +108,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
+        src/stdlib/src/number.c
         src/stdlib/src/system.c
         src/stdlib/src/stdio.c
         src/stdlib/src/string.c
