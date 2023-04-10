@@ -167,11 +167,10 @@ set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-kernel)
 # Define custom compile flags for the kernel
 set(OS_MODULE_KERNEL_COMPILE_FLAGS)
-# Scan the src/kernel directory for source files (c/cpp)
-file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
-        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/src/*.c
+# Defines all source-files that are related to the kernel.
+set(OS_MODULE_KERNEL_SOURCES
+        src/kernel/src/main.cpp
+        src/kernel/src/vga.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
