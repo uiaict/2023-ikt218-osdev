@@ -1,6 +1,3 @@
-#include <stdint.h>
-#include <stddef.h>
-
 #include "system.h"
 #include "vga.h"
 
@@ -74,6 +71,10 @@ inline void vga_set_color(const enum vga_color fg, const enum vga_color bg)
 
 void vga_putchar(const char c)
 {
+    if(c == '\n') {
+        vga_newline();
+        return;
+    }
     vga_put_char_at((unsigned char) c, vga_column, vga_row);
     if (++vga_column == VGA_WIDTH) {
         vga_newline();
@@ -83,13 +84,7 @@ void vga_putchar(const char c)
 void vga_writestring(const char* data)
 {
     for (size_t i = 0; i < strlen(data); i++)
-        switch (data[i]) {
-        case '\n':
-            vga_newline();
-            break;
-        default:
-            vga_putchar(data[i]);
-        }
+        vga_putchar(data[i]);
 }
 
 void vga_backspace(void)
