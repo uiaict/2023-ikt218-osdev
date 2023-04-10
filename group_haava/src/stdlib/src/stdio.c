@@ -3,6 +3,14 @@
 #include "system.h"
 #include "vga.h"
 
+static int print(const char *data, size_t length)
+{
+    const char *bytes = (const char *) data;
+    for (size_t i = 0; i < length; i++)
+        vga_putchar(bytes[i]);
+    return 0;
+}
+
 /*
  * printf uses file format specification found in
  * The Open Group Base Specifications Issue 7, 2018 edition
@@ -12,49 +20,61 @@
 int printf(const char *format, ...)
 {
     va_list ap;
-    char buf[256] = { '\0' };
+    int written = 0;
 
     va_start(ap, format);
-    size_t offset = 0;
-    for (size_t i = 0; i < strlen(format); i++) {
-        if (format[i] == '%') {
-            switch (format[i + 1]) {
-                case '%':
-                    buf[i] = '%';
-                    offset--;
-                    break;
-                case 's':
-                    char* tmp_buf = va_arg(ap, char*);
-                    for (size_t j = 0; j < strlen(tmp_buf); j++) {
-                        buf[i + j] = tmp_buf[j];
-                        offset++;
-                    }
-                    offset -= 2;    // Match the removed characters, with those added
-                    break;
-                case 'c':
-                    buf[i] = (char)va_arg(ap, int);
-                    offset--;   // Match the character removed, with the one added
-                    break;
-                case 'd':
-                    //int d = va_arg(ap, int);
-                    // FIXME: Implement it
-                    break;
-                case 'x':
-                case 'X':
-                    //int x = va_arg(ap, int);
-                    // FIXME: Implement it
-                    break;
-                default:
-                    // Format specification that is not implemented, or does not
-                    // exist.
-                    break;
+    while (*format != '\0') {
+        if (format[0] != '%' || format[1] == '%') {
+            if (format[0] == '%')
+                format++;
+            size_t amount = 1;
+            while (format[amount] && format[amount] != '%')
+                amount++;
+            print(format, amount);
+            format += amount;
+            written += (int) amount;
+            continue;
+        }
+
+        const char *format_begun_at = format++;
+
+        if (*format == 'c') {
+            format++;
+            char c = (char) va_arg(ap, int);
+            print(&c, sizeof(c));
+        } else if (*format == 's') {
+            format++;
+            const char *str = va_arg(ap, const char*);
+            size_t len = strlen(str);
+            print(str, len);
+            written += (int) len;
+        } else if (*format == 'd') {
+            format++;
+            int num = va_arg(ap, int);
+            char buffer[20];
+            int i = 0;
+            if (num == 0) {
+                buffer[i++] = '0';
+            } else if (num < 0) {
+                buffer[i++] = '-';
+                num = -num;
             }
-            i++;
+            while (num != 0) {
+                buffer[i++] = (char) (num % 10 + '0');
+                num /= 10;
+            }
+            while (i > 0) {
+                print(&buffer[--i], 1);
+                written++;
+            }
         } else {
-            buf[i + offset] = format[i];
+            format = format_begun_at;
+            size_t len = strlen(format);
+            print(format, len);
+            format += len;
+            written += (int) len;
         }
     }
     va_end(ap);
-    vga_writestring(buf);
-    return 0;
+    return written;
 }
