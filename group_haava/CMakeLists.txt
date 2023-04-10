@@ -177,6 +177,7 @@ set(OS_MODULE_KERNEL_SOURCES
         src/kernel/src/irq.c
         src/kernel/src/isr.asm
         src/kernel/src/isr.c
+        src/kernel/src/keyboard.c
         src/kernel/src/main.cpp
         src/kernel/src/vga.c
 )
