@@ -1,10 +1,10 @@
-#include "ascii_lookup_table.h"
+#include "../include/ascii_lookup_table.h"
 
 extern "C"
 {
-    #include "isr.h"
+    #include "../include/isr.h"
     #include "system.h"
-    #include "common.h"
+    #include "../include/common.h"
 }
 
 void interrupt_handler_0() {

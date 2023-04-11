@@ -1,7 +1,7 @@
 extern "C"{
     #include "system.h"
-    #include "gdt.h"
-    #include "common.h"
+    #include "../include/gdt.h"
+    #include "../include/common.h"
     void kernel_main();
 }
 

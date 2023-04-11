@@ -5,9 +5,9 @@
 // Rewritten for JamesM's kernel development tutorials.
 //
 
-#include "common.h"
-#include "gdt.h"
-#include "isr.h"
+#include "../include/common.h"
+#include "../include/gdt.h"
+#include "../include/isr.h"
 
 // Lets us access our ASM functions from our C code.
 extern void gdt_flush(u32int);
