@@ -5,6 +5,13 @@
 #include "gdt.h"
 #include "idt.h"
 
+/**
+  This header defines the definitions of interupt service routines (ISR)s and Interrupt requests (IRQ),
+  a register struct and a struct to hold information about the ISR. For more information, read the 
+  kernel readme, the documentation further down this page, and the project report.
+ */
+
+// define the Interrupt service routine numbers:
 #define ISR1 1
 #define ISR2 2
 #define ISR3 3
@@ -36,6 +43,8 @@
 #define ISR29 29
 #define ISR30 30
 #define ISR31 31
+
+// Define the interrupt requests (IRQ) numbers:
 #define IRQ0 32
 #define IRQ1 33
 #define IRQ2 34
@@ -52,7 +61,14 @@
 #define IRQ13 45
 #define IRQ14 46
 #define IRQ15 47
+
+/// total number of IRQ requests.
 #define IRQ_COUNT 16
+
+/**
+  Define all the intterupt service routines and interrupt requests.
+  They are implemented in assembly, see isr.asm
+  */
 extern "C"{
 
 extern void isr0 ();
@@ -105,15 +121,23 @@ extern void irq14();
 extern void irq15();
 }
 
+/** Initializes all interupt requests. */
 void init_irq();
 void init_interrupts();
 
+
+/// Struct containing loads of  32-bit registers, a data segment selector, interrupt number
+/// and error code. Used ....
 typedef struct registers
   {
-      uint32_t ds;                  // Data segment selector
-      uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
-      uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
-      uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
+      /// the data segment selector
+      uint32_t ds;                  
+      /// common 32 bit registers. Pushed by pusha.
+      uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; 
+      /// Interrupt number and error code (if applicable)
+      uint32_t int_no, err_code;    
+      /// more common 32 bit registers that gets pushed by the processor automatically.
+      uint32_t eip, cs, eflags, esp, ss; 
   } registers_t;
 
 
@@ -123,30 +147,22 @@ typedef struct registers
 typedef void (*isr_t)(registers_t*, void*);
 
 
-// Structure to hold information about an interrupt handler
+/// Structure to hold information about an interrupt handler
 struct int_handler_t {
+  /// the interupt handler is interupt handler number:
   int num;
   isr_t handler;
   void *data;
 };
 
-// Define an interrupt handler
+/// Define an interrupt request handler
 void register_irq_handler(int irq, isr_t handler, void* ctx);
+/// Define an interrupt handler
 void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 
-
+/// array of interrupt handlers, on for each IDT entry.
 static int_handler_t int_handlers[IDT_ENTRIES];
+/// array of interrupt request handlers, one for each interrupt request. 
 static int_handler_t irq_handlers[IRQ_COUNT];
-
-
-#define IRQ_COUNT 16
-
-
-
-
-
-
-
-
 
 #endif
