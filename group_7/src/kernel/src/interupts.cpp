@@ -1,4 +1,4 @@
-
+#include "interupts.h"
 
 
 void init_interrupts(){
