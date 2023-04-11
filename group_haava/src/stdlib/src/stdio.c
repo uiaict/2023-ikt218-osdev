@@ -67,6 +67,26 @@ int printf(const char *format, ...)
                 print(&buffer[--i], 1);
                 written++;
             }
+        } else if (*format == 'x') {
+            format++;
+            unsigned int num = va_arg(ap, unsigned int);
+            char buffer[20];
+            int i = 0;
+            if (num == 0)
+                buffer[i++] = '0';
+            while (num != 0) {
+                unsigned int rem = num % 16;
+                if (rem < 10) {
+                    buffer[i++] = (char) (rem + '0');
+                } else {
+                    buffer[i++] = (char) (rem - 10 + 'a');
+                }
+                num /= 16;
+            }
+            while (i > 0) {
+                print(&buffer[--i], 1);
+                written++;
+            }
         } else {
             format = format_begun_at;
             size_t len = strlen(format);
