@@ -28,9 +28,14 @@ void clear_terminal(void)
 		}
 	}
 }
+int row = 3; // is 3 instead of 0, becaouse we wanted to have some space in the top of the terminal
 
-void write_to_terminal(int row, char word[80])
+void print(char word[80])
 {
+
+	int column = 1; 
+	int color = 0;
+
     uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
 
     int wordlen = 0;
@@ -38,18 +43,30 @@ void write_to_terminal(int row, char word[80])
     while(word[wordlen] != '\0' ){
         wordlen++; // set wordlength
     }
+	
 
     for(int i = 0; i < wordlen; i++){
-        fb[row][i][0] = word[i]; // first parameter: row, second: column, third: color.
+	
+		if(word[i] == '\n' || column == VGA_WIDTH) { // check if string include new line command and if the column is on max width
+			column = 0; 					 // set column at 0 again to start printing from left
+			row = row + 1;					// set new row
+		} else {
+
+        	fb[row][column][color] = word[i]; // first parameter: row, second: column, third: color.
+		}
+
+		column = column + 1;
     }
+
+    row = row + 1;	//newline every time the print function is used
 }
 
-void write_int_to_terminal(int row, u32int n)
+void write_int_to_terminal(u32int n)
 {
 
     if (n == 0)
     {
-        write_int_to_terminal(row, '0');
+        print("0");
         return;
     }
 
@@ -71,19 +88,19 @@ void write_int_to_terminal(int row, u32int n)
     {
         c2[i--] = c[j++];
     }
-    write_to_terminal(row, c2);
+    print(c2);
 
 }
 
 void print_logo() {
 
-write_to_terminal(3,"                         _________ _______    _______  _______");
-write_to_terminal(4,"                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\");
-write_to_terminal(5,"                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/");
-write_to_terminal(6,"                | |   | |   | |   | (___) |  | |   | || (_____ ");
-write_to_terminal(7,"                | |   | |   | |   |  ___  |  | |   | |(_____  )");
-write_to_terminal(8,"                | |   | |   | |   | (   ) |  | |   | |      ) |");
-write_to_terminal(9,"                | (___) |___) (___| )   ( |  | (___) |/\\____) |");
-write_to_terminal(10,"                (_______)\\_______/|/     \\|  (_______)\\_______)");
-write_to_terminal(12,"            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
+print("                         _________ _______    _______  _______\n"
+"                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\\n"
+"                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/\n"
+"                | |   | |   | |   | (___) |  | |   | || (_____ \n"
+"                | |   | |   | |   |  ___  |  | |   | |(_____  )\n"
+"                | |   | |   | |   | (   ) |  | |   | |      ) |\n"
+"                | (___) |___) (___| )   ( |  | (___) |/\\____) |\n"
+"                (_______)\\_______/|/     \\|  (_______)\\_______)\n"
+"            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
 }

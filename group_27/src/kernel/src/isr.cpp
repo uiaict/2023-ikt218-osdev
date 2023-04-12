@@ -15,6 +15,6 @@ extern "C" {
 // Writes the interrupts to the screen
 void isr_handler(registers_t regs)
 {
-    write_to_terminal(1, "recieved interrupt: ");
-    write_int_to_terminal(2, regs.int_no);
+    print("Recieved interrupt: ");
+    write_int_to_terminal(regs.int_no);
 } 
