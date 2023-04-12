@@ -146,7 +146,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         src/boot/src/boot.asm
         src/boot/src/boot.cpp
-)
+        src/kernel/include/keyboard.h)
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
 # Defines the include directories for the boot library
@@ -186,7 +186,7 @@ set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAG
 # Add executable for the kernel.
 # Tutorial: the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
 # A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.
-add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
+add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES} src/kernel/src/keyboard.cpp)
 # Defines which include directories to usefor the kernel.
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
