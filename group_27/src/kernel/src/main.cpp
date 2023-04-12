@@ -36,7 +36,7 @@ void clear_terminal(void)
 	}
 }
 
-int row = 3; 
+int row = 3; // is 3 instead of 0, becaouse we wanted to have some space in the top of the terminal
 
 void print(char word[80])
 {
