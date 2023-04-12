@@ -109,13 +109,14 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
-        src/stdlib/src/common.c
-        src/kernel/src/gdt.asm
+        src/stdlib/include/common.cpp
+        src/stdlib/include/printing.cpp
 
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
     PUBLIC src/stdlib/include
+    PUBLIC src/stdlib/src
 
 )
 target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
@@ -192,7 +193,6 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
-        src/kernel/src/gdt.asm
 
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.

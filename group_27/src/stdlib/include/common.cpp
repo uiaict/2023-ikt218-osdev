@@ -1,6 +1,13 @@
 #include "common.h"
+
 // common.c -- Defines some global functions.
 // From JamesM's kernel development tutorials.
+
+void memset(void *dest, int val, unsigned int len)
+{
+    u8int *temp = (u8int *)dest;
+    for ( ; len != 0; len--) *temp++ = val;
+}
 
 u8int inb(u16int port)
 {

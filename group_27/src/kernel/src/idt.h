@@ -156,14 +156,6 @@ void set_gates()
     idt_set_gate(47, (u32int)irq15, 0x08, 0x8E);
 }
 
-// This just has to be here because it doesnt work in common.h
-// TODO fix this
-void memset(void *dest, int val, unsigned int len)
-{
-    u8int *temp = (u8int *)dest;
-    for ( ; len != 0; len--) *temp++ = val;
-}
-
 // Remap the IRQ table to correspond to slave PIC
 static void remap_irq_table() {
     outb(0x20, 0x11);

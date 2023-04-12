@@ -1,5 +1,5 @@
 
-#include "system.h"
+#include "printing.h"
 #include "gdt.h"
 #include "idt.h"
 
@@ -12,7 +12,7 @@ extern "C"{
  
 void kernel_main(void) 
 {
-	//clear_terminal();
+	clear_terminal();
     //print_logo();
 	asm volatile ("int $0x3");
 	asm volatile ("int $0x4");
