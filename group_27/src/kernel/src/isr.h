@@ -30,46 +30,9 @@ typedef struct registers
    u32int eip, cs, eflags, useresp, ss; // Pushed by the processor automatically.
 } registers_t; 
 
-extern "C" {
-   extern void irq_handler(registers_t regs);
-}
-
-typedef void (*isr_t)(registers_t);
-void register_interrupt_handler(u8int n, isr_t handler);
-
-// Create an array of interrupt handlers
-isr_t interrupt_handlers[256];
+typedef void (*isr_t)(registers_t*, void*);
 
 // Register the interrupt handlers
-void register_interrupt_handler(u8int n, isr_t handler)
-{
-  interrupt_handlers[n] = handler;
-} 
+void register_interrupt_handler(u8int n, isr_t handler);
 
-// For some rason just has to be here instead of in common.h
-// Write a byte out to the specified port.
-void outb(u16int port, u8int value)
-{
-    asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));
-}
-
-
-// Gets called from the ASM interrupt handler in interrupt.asm
-void irq_handler(registers_t regs)
-{
-   // Sends an EOI (end of interrupt) signal to the PICs.
-   // If this interrupt involved the slave
-   if (regs.int_no >= 40)
-   {
-       // Send reset signal to slave.
-       outb(0xA0, 0x20);
-   }
-   // Send reset signal to master. (As well as slave, if necessary).
-   outb(0x20, 0x20);
-
-   if (interrupt_handlers[regs.int_no] != 0)
-   {
-       isr_t handler = interrupt_handlers[regs.int_no];
-       handler(regs);
-   }
-} 
+void register_irq_handler(int irq, isr_t handler, void* ctx);
