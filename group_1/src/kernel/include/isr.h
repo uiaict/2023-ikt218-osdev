@@ -56,8 +56,6 @@ typedef struct registers
         uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
     } registers_t;
 
-//void keyboard_isr();
-
 void isr_handler(registers_t regs);
 
 void interrupt_handler_0();

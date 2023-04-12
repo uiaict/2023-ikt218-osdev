@@ -8,6 +8,7 @@
 #include "../include/common.h"
 #include "../include/gdt.h"
 #include "../include/isr.h"
+#include "keyboard.h"
 
 // Lets us access our ASM functions from our C code.
 extern void gdt_flush(u32int);
@@ -32,6 +33,11 @@ void init_descriptor_tables()
    // Initialise the global descriptor table.
    init_gdt();
    init_idt();
+
+   // Enable interrupts, otherwise they dont work :)
+   asm volatile("sti");
+   // Register the keyboard interrupt handler
+   register_interrupt_handler(33, keyboard_handler);
 
 }
 

@@ -1,10 +1,9 @@
-#include "../include/ascii_lookup_table.h"
-
 extern "C"
 {
     #include "../include/isr.h"
     #include "system.h"
     #include "../include/common.h"
+    #include "keyboard.h"
 }
 
 void interrupt_handler_0() {
@@ -27,20 +26,6 @@ void register_interrupt_handler(uint8_t n, isr_t handler)
 }
 
 
-/*
-void keyboard_handler()
-{
-    uint8_t scancode;
-
-    // Read the scancode from the keyboard data port (0x60)
-    scancode = inb(0x60);
-
-    // Handle the scancode (e.g., translate it to an ASCII character, and process key press/release events)
-    // You can implement a scancode_to_ascii function and a keyboard buffer to store the typed characters
-    printk("Keyboard scancode: %u", scancode);
-}
-*/
-
 void isr_handler(registers_t regs) {
     switch (regs.int_no) {
         // ... (other cases for different interrupts)
@@ -53,10 +38,9 @@ void isr_handler(registers_t regs) {
         case 2:
             interrupt_handler_2();
             break;
-        /*case 33:
+        case 33:
             keyboard_handler();
             break;
-            */
         default:
             printk("\nNO, PLEASE GOD NO!");
             break;
