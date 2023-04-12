@@ -24,7 +24,7 @@ void kernel_main(void)
 	// Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*){
 		i++;
-        write_int_to_terminal(5, i);
+        print("Yeah boiiii");
 
         // Read the scan code from keyboard
         unsigned char scan_code = inb(0x60);
@@ -37,6 +37,6 @@ void kernel_main(void)
 
 
     // Print a message and enter an infinite loop to wait for interrupts
-    write_to_terminal(6, "Waiting...");
+    print("Waiting...");
     while(1){};
 }

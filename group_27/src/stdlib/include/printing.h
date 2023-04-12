@@ -9,8 +9,8 @@ static const size_t VGA_HEIGHT = 25; // defalut rows
 
 void clear_terminal(void);
 
-void write_to_terminal(int row, char word[80]);
+void print(char word[80]);
 
-void write_int_to_terminal(int row, u32int n);
+void write_int_to_terminal(u32int n);
 
 void print_logo();
