@@ -42,6 +42,8 @@ void print(char word[80])
 {
 
 	int column = 1; 
+	int color = 0;
+
     uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
 
     int wordlen = 0;
@@ -58,7 +60,7 @@ void print(char word[80])
 			row = row + 1;					// set new row
 		} else {
 
-        	fb[row][column][0] = word[i]; // first parameter: row, second: column, third: color.
+        	fb[row][column][color] = word[i]; // first parameter: row, second: column, third: color.
 		}
 
 		column = column + 1;
