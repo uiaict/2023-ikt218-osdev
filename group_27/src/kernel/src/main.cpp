@@ -38,7 +38,7 @@ void clear_terminal(void)
 
 int row = 3; 
 
-void write_to_terminal(char word[80])
+void print(char word[80])
 {
 
 	int column = 1; 
@@ -67,7 +67,7 @@ void write_to_terminal(char word[80])
 
 void print_logo() {
 
-write_to_terminal("                         _________ _______    _______  _______\n"
+print("                         _________ _______    _______  _______\n"
 "                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\\n"
 "                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/\n"
 "                | |   | |   | |   | (___) |  | |   | || (_____ \n"
