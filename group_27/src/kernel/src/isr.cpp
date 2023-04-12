@@ -20,16 +20,30 @@ struct interrupt_handler_t {
 };
 
 // Create an array of interrupt handlers
-isr_t interrupt_handlers[256];
+interrupt_handler_t interrupt_handlers[256];
 interrupt_handler_t irq_handlers[16];
 
-// Gets called from interrupt.asm
-// Writes the interrupts to the screen
+// This gets called from our ASM interrupt handler stub.
 void isr_handler(registers_t regs)
 {
-    write_to_terminal(1, "recieved interrupt: ");
-    write_int_to_terminal(2, regs.int_no);
-} 
+    // This line is important. When the processor extends the 8-bit interrupt number
+    // to a 32bit value, it sign-extends, not zero extends. So if the most significant
+    // bit (0x80) is set, regs.int_no will be very large (about 0xffffff80).
+    uint8_t int_no = regs.int_no & 0xFF;
+    interrupt_handler_t intrpt = interrupt_handlers[int_no];
+    if (intrpt.handler != 0)
+    {
+
+        intrpt.handler(&regs, intrpt.data);
+    }
+    else
+    {
+        /*monitor_write("unhandled interrupt: ");
+        monitor_write_hex(int_no);
+        monitor_put('\n');*/
+        for(;;);
+    }
+}
 
 // Disable interrupts temporarily
 asm volatile("sti");
@@ -54,11 +68,12 @@ void irq_handler(registers_t regs)
     }
 } 
 
-// Register the interrupt handlers
-void register_interrupt_handler(u8int n, isr_t handler)
+
+void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
 {
-  interrupt_handlers[n] = handler;
-} 
+    interrupt_handlers[n].handler = handler;
+    interrupt_handlers[n].data = context;
+}
 
 // Register an IRQ handler
 void register_irq_handler(int irq, isr_t handler, void* ctx) {

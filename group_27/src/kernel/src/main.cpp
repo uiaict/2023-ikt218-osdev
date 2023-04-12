@@ -19,7 +19,7 @@ void kernel_main(void)
     //print_logo();
 
 	//asm volatile ("int $0x3");
-	asm volatile ("int $0x24");
+	//asm volatile ("int $0x24");
 
 	// Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*){
@@ -33,7 +33,10 @@ void kernel_main(void)
         asm volatile("cli");
     }, NULL);
 
+	asm volatile ("int $0x21");
+
+
     // Print a message and enter an infinite loop to wait for interrupts
-    write_to_terminal(5, "Waiting...");
+    write_to_terminal(6, "Waiting...");
     while(1){};
 }
