@@ -53,9 +53,9 @@ void print(char word[80])
 
     for(int i = 0; i < wordlen; i++){
 	
-		if(word[i] == '\n' || column == 100) {
-			column = 0;
-			row = row + 1;
+		if(word[i] == '\n' || column == VGA_WIDTH) { // check if string include new line command and if the column is on max width
+			column = 0; 					 // set column at 0 again to start printing from left
+			row = row + 1;					// set new row
 		} else {
 
         	fb[row][column][0] = word[i]; // first parameter: row, second: column, third: color.
