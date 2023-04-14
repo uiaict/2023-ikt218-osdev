@@ -1,4 +1,9 @@
-#include "interupts.h"
+#include "interrupts.h"
+#include "common.h"
+#include "gdt.h"
+#include "idt.h"
+#include <cstddef>
+#include <stdint.h>
 
 
 void init_interrupts(){
