@@ -43,12 +43,12 @@ void init_idt() {
 }
 
 //? Not used?
-// void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
-// {
-//     idt[num].base_low = base & 0xFFFF;
-//     idt[num].base_high = (base >> 16) & 0xFFFF;
+void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
+{
+    idt[num].base_low = base & 0xFFFF;
+    idt[num].base_high = (base >> 16) & 0xFFFF;
 
-//     idt[num].selector     = sel;
-//     idt[num].zero = 0;
-//     idt[num].flags   = flags  | 0x60;
-// }
+    idt[num].selector     = sel;
+    idt[num].zero = 0;
+    idt[num].flags   = flags  | 0x60;
+}

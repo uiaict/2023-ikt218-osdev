@@ -52,6 +52,8 @@ struct idt_ptr_t {
  */
 void init_idt();
 
+void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
+
 
 /// @brief The idt table of 256 entries.
 static idt_entry_t idt[IDT_ENTRIES];
