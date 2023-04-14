@@ -15,7 +15,7 @@ void kernel_main()
 {
     // Initialize the global descriptor table:
     init_gdt();
-
+    // Initialize the interrupt descriptor table:
     init_idt();
    
     
