@@ -1,8 +1,7 @@
 #include <system.h>
 #include "descriptor.h"
 
-Asak::CPU::Descriptors::idt_entry_t idt_entries[256];   // In total there are 256 interrupt vectors
-Asak::CPU::Descriptors::idt_ptr_t   idt_ptr;            // IDT pointer
+
 
 void init_idt() asm ("init_idt");
 
@@ -60,6 +59,8 @@ extern "C"{
     extern void irq15();
 }
 
+Asak::CPU::Descriptors::idt_entry_t idt_entries[256];   // In total there are 256 interrupt vectors
+Asak::CPU::Descriptors::idt_ptr_t   idt_ptr;            // IDT pointer
 
 void init_idt() {
     idt_ptr.limit = (sizeof(idt_entries) * 256) - 1;

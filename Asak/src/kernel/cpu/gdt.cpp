@@ -10,8 +10,6 @@ extern "C" {
 
 }
 
-
-
 Asak::CPU::Descriptors::gdt_entry_t gdt_entries[6]; 
 Asak::CPU::Descriptors::gdt_ptr_t   gdt_ptr;
 
