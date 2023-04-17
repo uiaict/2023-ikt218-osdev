@@ -16,8 +16,9 @@ align 4
 section .multiboot
 
     ;; The following entries are 'linker scripts'.
-    ;; 'dd' means 'define double word', and is not an x86 instruction.
-    ;; Instead, it is an assembler directive to define a 32-bit value. Can be compared to how a preprocessor in languages such as C and C++ works.
+    ;; 'dd' means 'define doubleword', and is not an x86 instruction.
+    ;; Instead, it is an assembler directive to define a 32-bit value. 
+    ;; Can be compared to how a preprocessor in languages such as C and C++ works.
     dd MULTIBOOT_MAGIC
     dd MULTIBOOT_FLAGS
     dd MULTIBOOT_CHECKSUM
