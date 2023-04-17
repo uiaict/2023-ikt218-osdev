@@ -12,10 +12,9 @@ gdt_pointer gdt_ptr;
 
 
 
-
-
-gdt_entries[0] = {0,0,0,0,0,0}; // NULL descriptor
-gdt_entries[1] = {1,0,0xFFFFFFFF,0x9A, 0xCF}; 
+gdt_entries[0] = {0,0,0,0,0,0}; // NULL descriptor
+gdt_entries[1] = {0xFFFF, 0x0000, 0x00, 0x9A, 0xCF, 0x00}; // Code descriptor
+gdt_entries[2] = {0xFFFF, 0x0000, 0x00, 0x92, 0xCF, 0x00}; // Data descriptor
 
 
 
