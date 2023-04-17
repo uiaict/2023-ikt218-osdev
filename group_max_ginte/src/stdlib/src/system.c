@@ -1,4 +1,6 @@
 #include "system.h"
+#include "stdarg.h"
+#include "memory.h"
 
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
@@ -10,6 +12,69 @@
 volatile char *video = (volatile char*)0xB8000;     // Memory address of beginning of text mode with color
 int x = 0;                                          // Current screen column 
 int y = 0;                                          // Current screen row
+
+
+char *strcpy(char *dest, const char *src)
+{
+    int i = 0;
+    while(src[i] != '\0')
+    {
+        dest[i] = src[i];
+        i++;
+    }
+    dest[i] = '\0';
+}
+
+char* strrev(char* str)
+{
+    char c;
+    int length = 0;
+    int i = 0;
+
+    while(str[length] != '\0')
+    {
+        length++;
+    }
+
+    while(i < length/2)
+    {
+        c = str[i];
+        str[i] = str[length - i - 1];
+        str[length - i - 1] = c;
+        i++;
+    }
+    return str;
+}
+
+char* itoa(int i, char* str, int base)
+{
+    char* string = str;
+    int digit = 0;
+    int sign = 0;
+
+    if (i < 0)
+    {
+        sign = 1;
+        i = -i;
+    }
+
+    while (i)
+    {
+        digit = i % base;
+        *string = (digit > 9) ? ('A' + digit - 10) : '0' + digit;
+        i /= base;
+        string++;
+    }
+
+    if(sign)
+    {
+        *string++ = '-';
+    }
+
+    *string = '\0';
+    strrev(str);
+    return str;
+}
 
 
 int printf(const char *format, ...)
@@ -24,10 +89,63 @@ int printf(const char *format, ...)
     * https://wiki.osdev.org/Printing_To_Screen
     * */
 
+    va_list vl;
+    va_start(vl, format);
+    char buff[100] = {0};
+    char tmp[20];
+    char* str_arg;
+
     int length = 0;                                 // Amount of characters printed
 
     while( *format != 0 )
     {
+        if (*format == '%')
+        {
+            format++;
+            switch (*format)
+            {
+            case 'c': {
+                buff[0] = (char)va_arg(vl, int);
+
+                printf(buff);
+                format++;
+                memset(buff, 0, 100);
+                break;
+            }
+            case 's': {
+                str_arg = va_arg(vl, char*);
+                strcpy(buff, str_arg);
+
+                printf(buff);
+                format++;
+                memset(buff, 0, 100);
+                break;
+            }
+            case 'd': {
+                itoa(va_arg(vl, int), tmp, 10);
+                strcpy(buff, tmp);
+                memset(tmp, 0, 20);
+
+                printf(buff);
+                format++;
+                memset(buff, 0, 100);
+                break;
+            }
+            case 'x': {
+                itoa(va_arg(vl, int), tmp, 16);
+                strcpy(buff, tmp);
+                memset(tmp, 0, 20);
+
+                printf(buff);
+                format++;
+                memset(buff, 0, 100);
+                break;
+            }
+            default:
+                break;
+            }
+        }
+
         if (*format == NEWLINE)
         {
             // Increment by multiple of 2 since text mode assigns two bytes to each character (ASCII code and color attribute)
@@ -69,10 +187,10 @@ int printf(const char *format, ...)
 
         if (y > VGA_HEIGHT)
         {
-            // Scrolling functionality
-
-            //video = (volatile char*)0xB8000;
-            //y=0;
+            // "Scrolling" functionality
+            video = (volatile char*)0xB8000;
+            memset(video, 0, 80*25*2);
+            y=0;    
         }
     }
 

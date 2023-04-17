@@ -115,3 +115,6 @@
     int rand();
     int ungetc(int c, FILE *stream);
 
+    // Additional functionality
+    char* itoa(int i, char* str, int base);
+    char* strrev(char* str);

@@ -35,6 +35,11 @@ void operator delete[](void* ptr) noexcept {
 
 void kernel_main()
 {
+    // Clear the terminal window
+    char *video = (char*)0xB8000;
+    memset(video, 0, 80*25*2);
+
+
     // Initialize the kernel memory manager
     init_kernel_memory(&end);
 
@@ -98,25 +103,39 @@ void kernel_main()
            "SHUTTING DOWN...\n"
            "SHUTTING DOWN...\n");*/
     
+    // Testing printf with format specifiers 
+    printf("Your grade is: %s, or %c or %x!", "ABC", 'D', 255);
+
 
     // Verify memory managment 
+    /*
+    printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+
+    print_memory_layout();
+    printf("\n");
+
     void* memory1 = malloc(1001);
-    int* memory2 = new int(2002);
+    char* memory2 = new char[3000]();
+    print_memory_layout();
+
     delete(memory1);
-    char* memory3 = new char[3000]();
+    printf("\n");
+    print_memory_layout();
+    //int* memory3 = new int(2002);
+    */
 
 
     // Verify the PIT
+    int counter = 1;
     while(1){
-        //printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
-        printf("[!]: Sleeping with busy-waiting (HIGH CPU).\n");
+        /*
+        printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
         sleep_busy(1000);
-        //printf("[%d]: Slept using busy-waiting.\n", counter++);
-        printf("[!]: Slept using busy-waiting.\n\n");
-        //printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
-        printf("[!]: Sleeping with interrupts (LOW CPU).\n");
+        printf("[%d]: Slept using busy-waiting.\n\n", counter++);
+
+        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
         sleep_interrupt(1000);
-        //printf("[%d]: Slept using interrupts.\n", counter++);
-        printf("[!]: Slept using interrupts.\n\n");
+        printf("[%d]: Slept using interrupts.\n\n", counter++);  
+        */
     };
 }

@@ -21,8 +21,7 @@ void init_kernel_memory(uint32_t* kernel_end) {
     heap_end = pheap_begin;
     memset((char *)heap_begin, 0, heap_end - heap_begin);
     pheap_desc = (uint8_t *)malloc(MAX_PAGE_ALIGNED_ALLOCS);
-    //printf("Kernel heap starts at 0x%x\n", last_alloc);
-    
+    printf("Kernel heap starts at 0x%x\n", last_alloc);
 }
 
 void* malloc(size_t size) {
@@ -33,7 +32,7 @@ void* malloc(size_t size) {
     while((uint32_t)mem < last_alloc)
     {
         alloc_t *a = (alloc_t *)mem;
-        //printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
+        printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
 
         if(!a->size)
             goto nalloc;
@@ -48,7 +47,8 @@ void* malloc(size_t size) {
         if(a->size >= size)
         {
             a->status = 1;
-            //printf("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
+            printf("RE:Allocated %d bytes from 0x%x to 0x%x\n", 
+                size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
             memset(mem + sizeof(alloc_t), 0, size);
             memory_used += size + sizeof(alloc_t);
             return (char *)(mem + sizeof(alloc_t));
@@ -72,7 +72,7 @@ void* malloc(size_t size) {
     last_alloc += size;
     last_alloc += sizeof(alloc_t);
     last_alloc += 4;
-    //printf("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
+    printf("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
     memory_used += size + 4 + sizeof(alloc_t);
     memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
     return (char *)((uint32_t)alloc + sizeof(alloc_t));
@@ -85,12 +85,10 @@ void free(void *mem) {
 }
 
 void print_memory_layout() {
-    /*
     printf("Memory used: %d bytes\n", memory_used);
     printf("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
     printf("Heap size: %d bytes\n", heap_end - heap_begin);
     printf("Heap start: 0x%x\n", heap_begin);
     printf("Heap end: 0x%x\n", heap_end);
-    printf("PHeap start: 0x%x\nPHeap end: 0x%x\n", pheap_begin, pheap_end);"
-    */
+    printf("PHeap start: 0x%x\nPHeap end: 0x%x\n", pheap_begin, pheap_end);   
 }
