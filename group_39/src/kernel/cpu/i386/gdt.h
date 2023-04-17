@@ -37,5 +37,4 @@ struct gdt_pointer {
     uint32_t base; // NEED COMMENT HERE
 } __attribute__((packed)); // As above, tell the compiler not to add padding.
 
-
 #endif UIAOS_GDT_H

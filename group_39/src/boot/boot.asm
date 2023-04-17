@@ -28,8 +28,8 @@ section .multiboot
 section .text
 global _start:
 extern kernel_main
+extern init_gdt
 
 _start:
-
     cli
-    call kernel_main
+    call init_gdt

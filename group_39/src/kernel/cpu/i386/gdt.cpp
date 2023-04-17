@@ -2,25 +2,35 @@
 
 #include "gdt.h" // Include our GDT header file.
 
+// Extern "C" allows us to call code that has been implemented in assembly. 
+extern "C"
+{
+    extern void gdt_load(uint32_t); // Refers to a function in assembly that loads the GDT register.
+}
 
 
+void init_gdt() asm ("init_gdt"); // Lets init_gdt be called from assembly.
 
 // Create an array of 3 GDT entries (NULL, Data and Text) 
 // as well as a GDT pointer on stack.
+
 gdt_entry gdt_entries[3];
 gdt_pointer gdt_ptr;
 
+void init_gdt()
+{
+    gdt_entries[0] = {0,0,0,0,0,0}; // NULL descriptor
+    gdt_entries[1] = {0xFFFF, 0x0000, 0x00, 0x9A, 0xCF, 0x00}; // Code descriptor
+    gdt_entries[2] = {0xFFFF, 0x0000, 0x00, 0x92, 0xCF, 0x00}; // Data descriptor
 
-
-gdt_entries[0] = {0,0,0,0,0,0}; // NULL descriptor
-gdt_entries[1] = {0xFFFF, 0x0000, 0x00, 0x9A, 0xCF, 0x00}; // Code descriptor
-gdt_entries[2] = {0xFFFF, 0x0000, 0x00, 0x92, 0xCF, 0x00}; // Data descriptor
-
-
+    // Finally, load the GDT. 
+    gdt_load((uint32_t)&gdt_ptr); // This calls the gdt_load function, 
+                                  // and passes the address of the gdt pointer to that assembly function.
+}
 
 // gdt_set_entry is a function based on the lecturer' implmentation of 'gdt_set_gate'
 // This function takes the 
-gdt_set_entry (int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity)
+void gdt_set_entry (int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity)
 {
     // Set the base address fields
     gdt_entries[num].base_low = (base & 0xFFFF);        // Set the lower 16 bits of the base address
