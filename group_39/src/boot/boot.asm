@@ -1,14 +1,13 @@
 ; Written by IKT 218 Group 39 spring 2023
 
-; This is the assembly file that is multiboot compliant and lets GRUB know that a bootable kernel is present.
+; This file defines a Multiboot-compliant kernel entry point that can be loaded by GRUB.
 
-bits 32
+bits 32 ; Declares that the assembler should generate 32-bit code. This is an assembler directive.
 
 
 MULTIBOOT_MAGIC     equ 0x1BADB002  ; Magic number that the bootloader will be looking for, according to the multiboot specification.
 MULTIBOOT_FLAGS     equ 0x0  ;   Flags, currently not using this.
 MULTIBOOT_CHECKSUM  equ -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)   ; Checksum. Negated sum of magic number + flags, as sum of checksum + magic number and flags needs to equal 0.
-
 
 
 
