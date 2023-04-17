@@ -179,6 +179,9 @@ set(OS_MODULE_KERNEL_SOURCES
         src/kernel/src/isr.c
         src/kernel/src/keyboard.c
         src/kernel/src/main.cpp
+        src/kernel/src/memory/malloc.c
+        src/kernel/src/memory/memory.c
+        src/kernel/src/memory/memutils.c
         src/kernel/src/vga.c
 )
 # Set the output binary name

@@ -1,12 +1,38 @@
 #include "gdt.h"
 #include "interrupts.h"
 #include "keyboard.h"
+#include "memory.h"
 #include "system.h"
 #include "vga.h"
 
 
 #define MULTIBOOT_BOOTLOADER_MAGIC 0x2BADB002
 
+// Defined in 'linker.ld'
+extern uint32_t end;
+
+void* operator new(size_t size)
+{
+    return malloc(size);
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept
+{
+    free(ptr);
+}
+
+// Overload the new operator for array allocation
+void* operator new[](size_t size)
+{
+    return malloc(size);
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept
+{
+    free(ptr);
+}
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -16,15 +42,23 @@ extern "C"{
 void kernel_main(unsigned long magic)
 {
     vga_init();
+    kernel_memory_init(&end);
     gdt_init();
     idt_init();
     irq_init();
+    paging_init();
+    print_memory_layout();
     keyboard_init();
 
     if (magic != MULTIBOOT_BOOTLOADER_MAGIC) {
         printf("Invalid magic number\n");
         return;
     }
+
+    void* some_memory = malloc(12345);
+    void* memory2 = malloc(54321);
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
 
     printf("Hello world\n");
 
