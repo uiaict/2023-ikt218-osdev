@@ -32,7 +32,7 @@ void* malloc(size_t size) {
     while((uint32_t)mem < last_alloc)
     {
         alloc_t *a = (alloc_t *)mem;
-        printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
+        //printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
 
         if(!a->size)
             goto nalloc;

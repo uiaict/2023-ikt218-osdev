@@ -108,7 +108,6 @@ void kernel_main()
 
 
     // Verify memory managment 
-    /*
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
 
     print_memory_layout();
@@ -122,7 +121,7 @@ void kernel_main()
     printf("\n");
     print_memory_layout();
     //int* memory3 = new int(2002);
-    */
+    
 
 
     // Verify the PIT
