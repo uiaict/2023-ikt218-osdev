@@ -9,6 +9,8 @@ MULTIBOOT_MAGIC     equ 0x1BADB002  ; Magic number that the bootloader will be l
 MULTIBOOT_FLAGS     equ 0x0  ;   Flags, currently not using this.
 MULTIBOOT_CHECKSUM  equ -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)   ; Checksum. Negated sum of magic number + flags, as sum of checksum + magic number and flags needs to equal 0.
 
+KERNEL_STACK_SIZE equ 0x4000 ; Defines the size of our stack, 16KB. We will use this definition further down in the assembly code.
+
 
 
 ; This defines the multiboot header to be located by the bootloader, GRUB.
