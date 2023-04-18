@@ -55,3 +55,5 @@ add_custom_target(${GRUB_TARGET}
 ########################################
 set(GRUB_TARGET ${GRUB_TARGET} PARENT_SCOPE)
 set(GRUB_IMAGE_PATH ${GRUB_IMAGE_PATH} PARENT_SCOPE)
+
+

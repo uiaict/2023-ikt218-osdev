@@ -108,8 +108,9 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
+        src/stdlib/src/system.cpp
 )
+
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
     PUBLIC src/stdlib/include
@@ -141,7 +142,9 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
+      
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -171,7 +174,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/*.asm
 )
+
+
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
@@ -186,13 +192,9 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
+        src/stdlib/include
 )
-# Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
-target_link_libraries(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
-        ${OS_LIBRARIES}
-        ${OS_APPLICATIONS}
-)
+
 # Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name
 set_target_properties(
         ${OS_MODULE_KERNEL_NAME} PROPERTIES
@@ -200,10 +202,43 @@ set_target_properties(
         LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
 )
 
+
+
+########################################
+###
+### OS Module: Terminal
+###
+########################################
+set(OS_MODULE_TERMINAL_NAME ${OS_KERNEL_NAME}-terminal)
+set(OS_MODULE_TERMINAL_SOURCES
+        src/kernel/src/terminal.cpp
+)
+add_library(${OS_MODULE_TERMINAL_NAME} ${OS_MODULE_TERMINAL_SOURCES})
+target_include_directories(${OS_MODULE_TERMINAL_NAME} PUBLIC
+        src/kernel/include
+        src/stdlib/include
+      
+)
+target_link_libraries(${OS_MODULE_TERMINAL_NAME} PUBLIC ${OS_LIBRARIES})
+set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_TERMINAL_NAME})
+
+target_link_libraries(${OS_MODULE_KERNEL_NAME} PUBLIC ${OS_MODULE_DESCRIPTOR_TABLES_NAME} ${OS_MODULE_TERMINAL_NAME})
+
+#Detta var etter melleom target_include directories og før set target properties
+# Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
+target_link_libraries(
+        ${OS_MODULE_KERNEL_NAME} PUBLIC
+        ${OS_MODULE_TERMINAL_NAME}
+        ${OS_LIBRARIES}
+        ${OS_APPLICATIONS}
+)
+
+
 ########################################
 ###
 ### Grub
 # Configure a bootable image of our operating system
 ########################################
 add_subdirectory(grub)
+
 
