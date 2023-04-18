@@ -19,6 +19,11 @@ gdt_pointer gdt_ptr;
 
 void init_gdt()
 {
+    // Set up GDT pointer
+    gdt_ptr.limit = (sizeof(gdt_entry) * 3) -1 ; // Set the limit to be the size of the number of entries in the GDT. 
+    gdt_ptr.base  = (uint32_t)&gdt_entries;     //  This sets the base of the GDT pointer to be the starting address of the GDT table. 
+
+    // Create segment descriptors
     gdt_entries[0] = {0,0,0,0,0,0}; // NULL descriptor
     gdt_entries[1] = {0xFFFF, 0x0000, 0x00, 0x9A, 0xCF, 0x00}; // Code descriptor
     gdt_entries[2] = {0xFFFF, 0x0000, 0x00, 0x92, 0xCF, 0x00}; // Data descriptor
