@@ -2,6 +2,7 @@
 #ifndef GDT_H
 #define GDT_H
 #include <stdint.h>
+#include <stdbool.h>
 #define GDT_ENTRIES 5
 
 
@@ -23,10 +24,13 @@ struct gdt_ptr
 } __attribute__((packed));
 
 
-void gdt_init();
+//void gdt_init();
+//void gdt_load(struct gdt_ptr *gdt_ptr);
 
 void gdt_seg_descriptor(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
+//function to check if gdt is initialized
+//bool check_gdt_init(); 
 //function in gdt.asm to reload new segment registers
 extern void gdt_flush();
 
