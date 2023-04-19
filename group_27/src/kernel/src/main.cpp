@@ -39,8 +39,8 @@ void kernel_main()
 
 
     // Trigger interrupts 3 and 4 which should call the respective handlers
-    //asm volatile ("int $0x3");
-    //asm volatile ("int $0x4");
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
 
     // Enable interrupts temporarily
     asm volatile("sti");
