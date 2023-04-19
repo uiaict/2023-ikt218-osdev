@@ -120,3 +120,4 @@
     char* itoa(int num, char* str, int base);
     void reverse(char str[], int length);
     void clearScreen();
+    void swap(char *x, char *y);
