@@ -1,30 +1,53 @@
-
+#include "descriptor_tables.h"
+#include "interrupts.h"
+#include "common.h"
 #include "printing.h"
-#include "gdt.h"
-#include "idt.h"
-#include "isr.h"
+#include <cstdlib>
+extern uint32_t end; // This is defined in linker.ld
+
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+    #include <libc/system.h>
     void kernel_main();
 }
- 
-// Code from https://wiki.osdev.org/Bare_Bones#Writing_a_kernel_in_C
 
-int i = 0;
- 
-void kernel_main(void) 
+void kernel_main()
 {
-	clear_terminal();
-    //print_logo();
+    // Initialize Global Descriptor Table (GDT)
+    init_gdt();
 
-	//asm volatile ("int $0x3");
-	//asm volatile ("int $0x24");
+    // Initialize Interrupt Descriptor Table (IDT)
+    init_idt();
 
-	// Create an IRQ handler for IRQ1
+    // Initialize Interrupt Requests (IRQs)
+    init_irq();
+
+
+    // Create interrupt handlers for interrupt 3 and 4
+    register_interrupt_handler(3,[](registers_t* regs, void* context){
+        print("Interrupt 3 - OK\n");
+    }, NULL);
+
+    register_interrupt_handler(4,[](registers_t* regs, void* context){
+        print("Interrupt 4 - OK\n");
+    }, NULL);
+
+    register_interrupt_handler(13,[](registers_t* regs, void* context){
+        print("Interrupt 13 - SHIIT\n");
+    }, NULL);
+
+
+    // Trigger interrupts 3 and 4 which should call the respective handlers
+    //asm volatile ("int $0x3");
+    //asm volatile ("int $0x4");
+
+    // Enable interrupts temporarily
+    asm volatile("sti");
+
+    // Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*){
-		i++;
-        print("Yeah boiiii");
+        print("Yeah boiiii\n");
 
         // Read the scan code from keyboard
         unsigned char scan_code = inb(0x60);
@@ -33,10 +56,10 @@ void kernel_main(void)
         asm volatile("cli");
     }, NULL);
 
-	asm volatile ("int $0x21");
-
+    asm volatile ("int $0x21");
 
     // Print a message and enter an infinite loop to wait for interrupts
-    print("Waiting...");
+    print("Waiting...\n");
     while(1){};
+    print("Done!...\n");
 }
