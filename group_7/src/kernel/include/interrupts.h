@@ -132,7 +132,8 @@ void init_interrupts();
 
 
 /// Struct containing loads of  32-bit registers, a data segment selector, interrupt number
-/// and error code. 
+/// and error code.  Used to pass the registers, (see isr_handler in isr.cpp) of the CPU to the interrupt service Routine, so it 
+/// can handle them and stash away the current data if it needs to.
 typedef struct registers
   {
       /// the data segment selector
@@ -164,7 +165,7 @@ struct int_handler_t {
 
 /// Define an interrupt request handler, by assigning a handler to the irq.
 void register_irq_handler(int irq, isr_t handler, void* ctx);
-/// Define an interrupt handler
+/// Define an interrupt handler and add it to the list of interrupt handlers.
 void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 
 /// array of interrupt handlers, on for each IDT entry.
