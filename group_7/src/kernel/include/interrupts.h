@@ -69,7 +69,8 @@
   Define all the intterupt service routines and interrupt requests.
   They are implemented in assembly, see isr.asm
   */
-extern "C"{
+extern "C"
+{
 
 extern void isr0 ();
 extern void isr1 ();
@@ -123,11 +124,15 @@ extern void irq15();
 
 /** Initializes all interupt requests. */
 void init_irq();
+
+/**Remaps the irq table, and assigns an interrupt handler to each interrupt request (irq),
+ * tieing everything together and completing the initiazation of interrupts.
+*/
 void init_interrupts();
 
 
 /// Struct containing loads of  32-bit registers, a data segment selector, interrupt number
-/// and error code. Used ....
+/// and error code. 
 typedef struct registers
   {
       /// the data segment selector
@@ -149,13 +154,15 @@ typedef void (*isr_t)(registers_t*, void*);
 
 /// Structure to hold information about an interrupt handler
 struct int_handler_t {
-  /// the interupt handler is interupt handler number:
+  /// the interupt handler's interupt handler number:
   int num;
+  /// the handler itself.
   isr_t handler;
+  /// Pointer to data used by the handler...
   void *data;
 };
 
-/// Define an interrupt request handler
+/// Define an interrupt request handler, by assigning a handler to the irq.
 void register_irq_handler(int irq, isr_t handler, void* ctx);
 /// Define an interrupt handler
 void register_interrupt_handler(uint8_t n, isr_t handler, void*);
