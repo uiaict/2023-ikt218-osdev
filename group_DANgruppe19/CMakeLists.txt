@@ -144,7 +144,8 @@ set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
         src/boot/src/boot.asm
         src/boot/src/boot.cpp
-      
+        src/interrupts/idt.asm #Added for interrupt
+        src/interrupts/isr.asm #Added for interrupt
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -175,6 +176,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/*.asm
+        src/interrupts/idt.cpp #Added for interrupts
+        src/interrupts/isr.cpp #Added for interrupts
 )
 
 
@@ -193,6 +196,7 @@ target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
         src/stdlib/include
+        src/interrupts #Added for interrupts
 )
 
 # Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name
@@ -231,6 +235,7 @@ target_link_libraries(
         ${OS_MODULE_TERMINAL_NAME}
         ${OS_LIBRARIES}
         ${OS_APPLICATIONS}
+        ${OS_MODULE_STDLIB_NAME} # Add for interrupt
 )
 
 
