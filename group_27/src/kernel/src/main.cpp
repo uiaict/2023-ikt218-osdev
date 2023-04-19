@@ -1,6 +1,7 @@
 #include "descriptor_tables.h"
 #include "interrupts.h"
 #include "common.h"
+#include "keyboard.h"
 #include "printing.h"
 #include <cstdlib>
 extern uint32_t end; // This is defined in linker.ld
@@ -47,16 +48,21 @@ void kernel_main()
 
     // Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*){
-        print("Yeah boiiii\n");
+        //print("Yeah boiiii\n");
 
         // Read the scan code from keyboard
         unsigned char scan_code = inb(0x60);
 
+        char c = scancode_to_ascii(&scan_code);
+
+        if (c != 0) {
+            char* d = &c;
+            print_char(c);
+        }
+
         // Disable interrupts temporarily
         asm volatile("cli");
     }, NULL);
-
-    asm volatile ("int $0x21");
 
     // Print a message and enter an infinite loop to wait for interrupts
     print("Waiting...\n");

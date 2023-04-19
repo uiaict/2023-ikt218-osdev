@@ -1,6 +1,7 @@
 #include "common.h"
 #include "cstdint"
 #include "cstddef"
+#include "printing.h"
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
 {
@@ -30,16 +31,18 @@ void clear_terminal(void)
 }
 int row = 0; // is 3 instead of 0, becaouse we wanted to have some space in the top of the terminal
 int column = 0; 
+int color = 0;
+
+uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
+
 
 void print(char word[80])
 {
-	int color = 0;
-
-    uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
 
     int wordlen = 0;
 
     while(word[wordlen] != '\0' ){
+		char a = word[wordlen];
         wordlen++; // set wordlength
     }
 	
@@ -73,4 +76,38 @@ print("                         _________ _______    _______  _______\n"
 "                | (___) |___) (___| )   ( |  | (___) |/\\____) |\n"
 "                (_______)\\_______/|/     \\|  (_______)\\_______)\n"
 "            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
+}
+
+void show_cursor() {
+	fb[row][column][color] = '|';
+}
+
+void print_char (char c) {
+	fb[row][column][color] = ' ';
+
+	switch (c)
+	{
+	case 28:		// ENTER
+		column = 0;
+		row++;
+		break;
+	case 72:		// ARROW UP
+		row--;
+		break;
+	case 75:		// ARROW LEFT
+		column--;
+		break;
+	case 77:		// ARROW RIGHT
+		column++;
+		break;
+	case 80:		// ARROW DOWN
+		row++;
+		break;
+	
+	default:
+		fb[row][column][color] = c;
+		column++;
+		break;
+	}
+	show_cursor();
 }
