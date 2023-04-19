@@ -25,11 +25,12 @@ struct gdt_entry
     uint16_t base_low;
     /// @brief the 32 bit integer is divided into two 16 bit integeres.
     /// This is the first 8 bits of the highest part.
+    /// Base is the first accessable address of the gdt.
     uint8_t base_middle;
 
-    /// @brief The access level for this part of the memory.
+    /// @brief The access bits for this gdt entry. Here is were permission levels etc is set.
     uint8_t access;
-    /// @brief granularity means the scale or level of detail in a set of data.
+    /// @brief granularity is a flag determining if the limit is in bytes or in 4kb pages.
     uint8_t granularity;
     /// @brief the 32 bit integer is divided into two 16 bit integeres.
     /// This is the last 8 bits of the highest part.
@@ -43,8 +44,7 @@ struct gdt_ptr
 {
     /// @brief The address of the last entry in the gdt table.
     uint16_t limit;
-    /// @brief The base integer that is divided into base_low, _medium
-    /// and _high in the struct.
+    /// @brief The base address, the first accessable part, of the gdt table.
     uint32_t base;
     //* NOTE: __attribute__((packed)) make it so the compiler does not
     //*      add padding between the fields of the struct.
@@ -59,7 +59,7 @@ struct gdt_ptr
 /// @param gran The granularity
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
-/// @brief Initializes the global descriptor table by calling the other functions from gdt.h and gdt.cpp
+/// @brief Initializes the global descriptor table by calling the other functions from gdt.h and gdt.asm
 void init_gdt();
 
 
