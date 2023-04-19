@@ -1,4 +1,5 @@
 #include "gdt.h"
+#include "idt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -14,8 +15,10 @@ void kernel_main()
 {
     // Initialize the global descriptor table:
     init_gdt();
+    // Initialize the interrupt descriptor table:
+    init_idt();
    
     
-    //clearScreen();
-    //printf("Hello World");
+    clearScreen();
+    printf("Hello World\n");
 }

@@ -1,14 +1,11 @@
-This is the readme for all files contained in the *kernel* subdirectory.
-
-# Kernel Main
-In the *kernel_main()* function in *main.cpp*, all tables and the os gets initialized after the bootloader has booted uia os.
-
-It does the following:
-- initialize the global description table
-- prints Hello
+# 🧠 Kernel
+This module of the os contains the source code for the kernel and tables the kernel rely upon
+to function. The different tables are described below. For a thourough documentation of the 
+source code, see the code files, as all functions are documented and explained there. This
+readme presents a short overview of the concepts that have been implemented in the kernel module.
 
 
-# Global Description Table
+## 🌐 Global Description Table
 The files gdt.h and gdt.c contains the source code for implementing the global description table.
 Most of the source code in this folder has been borrowed from the lecture notes "Lecture 4 - Global description tables" by Per-Arne, and the repository by Per-Arne.
 
@@ -20,9 +17,9 @@ A GDT entry consists of a \textbf{number} which is the entry number, a *base* wh
 
 The access bits will determine the protection level of the area, what type of area it is (code or data or system), if it is allowed to read and or write in it and whether it has been accessed or not.
 
-We will implement a memory area or segment for *code*, *data*, *user mode code*  and *user mode data*. In addition, a *null* segment is needed. 
+## 🆘 Interupt Descriptor table
+IDT is a binary data structure that tells the CPU where the interupt service routines(ISR) are located. A global desciption table is required in order for the IDT to work.
+<!-- source: https://wiki.osdev.org/Interrupt_Descriptor_Table -->
 
-The null segment is required by certain emulators, and should contain no data. Sometimes this 8 bit long segment is used to store the pointer to the GDT itself. The code segment is used to store your kernel. It is not allowed to write to this segment. As it is not allowed to write to the code segment, the kernel must write to the data segment when processing variables etc.
-
-## Use
-The gdt is initialized upon startup, i.e. in *kernel_main()* in *main.cpp*.
+The files idt.h, idt.cpp and idt.asm implement the IDT. In order to have a functional IDT, some 
+interupt service routines needs to be defined as well. This is done in the interupt.h, interupt.cpp, isr.cpp and isr.asm files.
