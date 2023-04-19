@@ -3,12 +3,14 @@
 #include "common.h"
 
 extern "C"{
+    /// to make the function callable in asembly as irq_handler.
+    /// The function is implemented further down in this file.
     void irq_handler(registers_t regs) asm("irq_handler");
 }
 
 
 
-// Initialize IRQ handlers
+/** Initializes all interupt requests. */
 void init_irq() {
   for (int i = 0; i < IRQ_COUNT; i++) {
     irq_handlers[i].data = NULL;
@@ -17,7 +19,7 @@ void init_irq() {
   }
 }
 
-// Register an IRQ handler
+/// Define an interrupt request handler, by assigning a handler to the irq.
 void register_irq_handler(int irq, isr_t handler, void* ctx) {
   irq_handlers[irq].handler = handler;
   irq_handlers[irq].data = ctx;
