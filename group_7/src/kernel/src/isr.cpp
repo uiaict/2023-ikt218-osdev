@@ -1,6 +1,7 @@
 #include "interrupts.h"
 #include <stdint.h>
 #include <stddef.h>
+#include "system.h"
 
 extern "C"{
     void isr_handler(registers_t regs) asm("isr_handler");
