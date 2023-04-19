@@ -65,6 +65,7 @@ add_custom_target(${GRUB_TARGET}
 )
 add_dependencies(${GRUB_TARGET} ${OS_MODULE_KERNEL_NAME})
 
+
 ########################################
 ###
 ### Export variables to parent_Scope
