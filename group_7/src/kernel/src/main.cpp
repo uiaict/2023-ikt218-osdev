@@ -13,28 +13,6 @@ extern "C"{
     void kernel_main();
 }
 
-void hook_keyboard()
-{
-    isr_t handler = [](registers_t* regs, void* data)
-    {
-        uint8_t scancode = inb(0x60);
-        asm volatile("cli");
-        printf("Is this working?\n");
-        printf("Scancode: %i", scancode);
-    };
-    
-    
-    register_interrupt_handler(IRQ1, [](registers_t* regs, void* data)
-    {
-        uint8_t scancode = inb(0x60);
-        asm volatile("cli");
-        printf("Is this working?\n");
-        printf("Triggered from the keyboard in teorie\n");
-        //printf("Scancode: %i", scancode);
-    }, NULL);
-
-    printf("Keyboard hooked\n");
-}
 
 /// @brief The kernel main function.
 void kernel_main()
@@ -52,18 +30,28 @@ void kernel_main()
     
 
     // Initialize the interrupt service routines:
+    
+    // Register the ISR1 interrupt handler:
+    register_interrupt_handler(ISR1, [](registers_t* regs, void* data)
+    {
+        printf("Is this working?\nThe ISR1 got triggered\n");
+    }, NULL);
+    
+    // Register the IRQ1, keyboard, interrupt handler:
     register_interrupt_handler(IRQ1, [](registers_t* regs, void* data)
     {
         uint8_t scancode = inb(0x60);
-        asm volatile("cli");
+        //asm volatile("cli");
         printf("Is this working?\n");
         printf("Scancode: %i", scancode);
     }, NULL);
 
     
-    asm volatile("sti");
+    //asm volatile("sti");
     
     printf("Hello World\n");
+
+    asm volatile("int $0x20");
 
     while (1){}
     
