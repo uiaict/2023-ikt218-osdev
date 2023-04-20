@@ -38,16 +38,16 @@ void kernel_main()
     }, NULL);
     
     // Register the IRQ1, keyboard, interrupt handler:
-    register_interrupt_handler(IRQ1, [](registers_t* regs, void* data)
+    register_irq_handler(IRQ1, [](registers_t* regs, void* data)
     {
         uint8_t scancode = inb(0x60);
         //asm volatile("cli");
         printf("Is this working?\n");
-        printf("Scancode: %i", scancode);
+        printf("Scancode: %i\n", scancode);
     }, NULL);
 
     
-    //asm volatile("sti");
+    asm volatile("sti");
     
     printf("Hello World\n");
 
