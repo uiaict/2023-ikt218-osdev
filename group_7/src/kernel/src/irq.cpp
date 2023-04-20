@@ -1,6 +1,7 @@
 #include "interrupts.h"
 #include <cstddef>
 #include "common.h"
+#include "system.h"
 
 extern "C"{
     void irq_handler(registers_t regs) asm("irq_handler");
@@ -43,4 +44,13 @@ void irq_handler(registers_t regs)
         intrpt.handler(&regs, intrpt.data);
     }
 
+}
+
+void keyboard_handler()
+{
+    register_irq_handler(IRQ1, [](registers_t* regs, void* data)
+	{
+        uint8_t scancode = inb(0x60);
+        printf("Scancode: %i\n", scancode);
+	}, NULL);
 }

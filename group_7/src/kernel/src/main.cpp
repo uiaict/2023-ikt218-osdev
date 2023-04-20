@@ -32,26 +32,15 @@ void kernel_main()
     // Initialize the interrupt service routines:
     
     // Register the ISR1 interrupt handler:
-    register_interrupt_handler(ISR1, [](registers_t* regs, void* data)
-    {
-        printf("Is this working?\nThe ISR1 got triggered\n");
-    }, NULL);
+    demo_interrupts();
     
     // Register the IRQ1, keyboard, interrupt handler:
-    register_irq_handler(IRQ1, [](registers_t* regs, void* data)
-    {
-        uint8_t scancode = inb(0x60);
-        //asm volatile("cli");
-        printf("Is this working?\n");
-        printf("Scancode: %i\n", scancode);
-    }, NULL);
+    keyboard_handler();
 
     
     asm volatile("sti");
     
     printf("Hello World\n");
-
-    asm volatile("int $0x20");
 
     while (1){}
     
