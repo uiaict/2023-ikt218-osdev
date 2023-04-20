@@ -87,6 +87,9 @@ void print_char (char c) {
 
 	switch (c)
 	{
+	case 14:		// BACKSPACE
+		column--;
+		break;
 	case 28:		// ENTER
 		column = 0;
 		row++;

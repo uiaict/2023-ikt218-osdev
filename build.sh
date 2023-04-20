@@ -8,4 +8,4 @@ echo "\nBuilding\n"
 
 /usr/bin/cmake --build build_group_27 --config Debug --target uia-os-kernel -j 10 --
 
-/usr/bin/cmake --build build_group_27 --config Debug --target uia-os-create-image -j 10 --
+yes Ignore | /usr/bin/cmake --build build_group_27 --config Debug --target uia-os-create-image -j 10 --
