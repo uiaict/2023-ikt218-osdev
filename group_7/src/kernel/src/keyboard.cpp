@@ -4,10 +4,10 @@
 #include "common.h"
 
 /// @brief Array of ascii characters for each scancode.
-const int ascii_key_map[] = {0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 0, 0, 0, 0, 
+const int ascii_key_map[] = {0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '\\', 0, 0, 
                             'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 0, 0, 0, 0, 
                             'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 0, 0, 0, 0, 0, 
-                            'z', 'x', 'c', 'v', 'b', 'n', 'm', 0, 0, 0, 0, 0, 0,
+                            'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '-', 0, 0, 0,
                             ' ', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -30,6 +30,7 @@ void keyboard_handler()
         char ascii = convert_to_ascii(scancode);
         /// Print the ascii character to the screen.
         printf("%c", ascii);
+        //printf("%i ", scancode);
 	}, NULL);
 }
 
@@ -38,7 +39,9 @@ void keyboard_handler()
 /// @return ascii character
 char convert_to_ascii(uint8_t scancode)
 {
+    /// Create a static variable to keep track of the shift key (and capslock).
     static bool shift = false;
+    /// Create a variable to hold the ascii character.
     char ascii = 0;
 
     /// Check if the scancode is a valid ascii character.
@@ -79,7 +82,7 @@ char convert_to_ascii(uint8_t scancode)
     if(shift)
     {
         char ascii = (char)ascii_key_map[scancode]-32;
-        if(ascii == -32)
+        if(ascii < 0)
             return 0;
         return ascii;
     }
@@ -88,10 +91,5 @@ char convert_to_ascii(uint8_t scancode)
     {
         char ascii = (char)ascii_key_map[scancode];
         return ascii;
-    }
-    if (ascii == 0)
-    {
-        printf("scancode: %i", scancode);
-        return 0;
     }
 }
