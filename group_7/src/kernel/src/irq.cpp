@@ -45,12 +45,3 @@ void irq_handler(registers_t regs)
     }
 
 }
-
-void keyboard_handler()
-{
-    register_irq_handler(IRQ1, [](registers_t* regs, void* data)
-	{
-        uint8_t scancode = inb(0x60);
-        printf("Scancode: %i\n", scancode);
-	}, NULL);
-}

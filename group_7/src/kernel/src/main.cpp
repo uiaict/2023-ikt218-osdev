@@ -5,6 +5,9 @@
 #include <stdint.h>
 #include <cstdlib>
 #include "common.h"
+#include "keyboard.h"
+
+
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     // Calls the kernel_main assembly function.

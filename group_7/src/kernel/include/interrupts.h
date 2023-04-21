@@ -168,7 +168,4 @@ static int_handler_t irq_handlers[IRQ_COUNT];
 /// Register interrupts for the tree first IRSs
 void demo_interrupts();
 
-/// Interrupt handler for a keyboard interrupt
-void keyboard_handler();
-
 #endif
