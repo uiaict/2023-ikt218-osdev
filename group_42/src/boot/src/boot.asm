@@ -86,10 +86,12 @@ _start:
 	
     ;extern init_constructors
     ;call init_constructors
-    extern init_gdt
+    ;extern init_gdt
+    ;call init_gdt
     
-	call init_gdt
-
+    mov eax, 1 
+    mov ebx, 0
+   
     ; Initialize the Interrupt Descriptor Table
     ;extern init_idt
     ;call init_idt

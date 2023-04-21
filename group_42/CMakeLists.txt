@@ -109,6 +109,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
+       
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -140,18 +141,27 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        ${ARCH_TARGET}src/boot/src/boot.asm
+        src/stdlib/include/system.h
+        
+        #src/GDT/hardware_port.cpp
         src/boot/src/boot.cpp
-        src/GDT/gdt.cpp
-        src/GDT/gdt.asm
-
-        #src/GDT/idt.cpp
-        #src/GDT/idt_a.asm
+        ${ARCH_TARGET}src/boot/src/boot.asm
+        #${ARCH_TARGET}src/kernel/src/gdt.asm
+        
+        #${ARCH_TARGET}src/kernel/src/gdt.cpp
+        
+       # src/GDT/idt.cpp
+       # src/GDT/idt_a.asm
 
         #src/GDT/isr.cpp
         #src/GDT/isr.asm
+        #src/GDT/gdt.cpp
+        #src/GDT/gdt.h
+        
+        
+        
 
-        #src/GDT/hardware_port.cpp
+        
         
        
         
@@ -183,9 +193,18 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
+        src/kernel/src/main.cpp
         src/kernel/src/*.c
         src/kernel/src/*.h
+        
+         # src/kernel/src/idt.cpp
+       # src/kernel/src/idt_a.asm
+
+        #src/kernel/src/isr.cpp
+        #src/kernel/src/isr.asm
+        #src/kernel/src/gdt.h
+        #src/kernel/src/gdt.cpp
+        
         
       
         

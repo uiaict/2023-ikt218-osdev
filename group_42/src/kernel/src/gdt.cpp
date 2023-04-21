@@ -4,9 +4,7 @@
 #include "isr.h"
 #include "idt.h"
 
-
 void init_gdt() asm ("init_gdt");
-
 extern "C" {
     // Lets us access our ASM functions from our C code.
     extern void gdt_flush(uint32_t);
@@ -19,6 +17,7 @@ UiAOS::CPU::GDT::gdt_ptr_t   gdt_ptr;
 
 void init_gdt()
 {
+   
     gdt_ptr.limit = (sizeof(UiAOS::CPU::GDT::gdt_entry_t) * 6) - 1;
     gdt_ptr.base  = (uint32_t)&gdt_entries;
 

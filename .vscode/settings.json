@@ -2,6 +2,7 @@
     "cmake.buildDirectory": "${workspaceFolder}/build_group_42",
     "cmake.sourceDirectory": "${workspaceFolder}/group_42",
     "C_Cpp.errorSquiggles": "disabled",
-    "C_Cpp.dimInactiveRegions": true
+    "C_Cpp.dimInactiveRegions": true,
+    "workbench.preferredDarkColorTheme": "Default Light+ Experimental"
 
 }
