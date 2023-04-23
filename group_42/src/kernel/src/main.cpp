@@ -1,7 +1,6 @@
 
 #include "system.h"
-#include <stddef.h>
-#include <stdint.h>
+
 
 // VGA Text mode buffer starting address
 //uint16_t *vga_buffer = (uint16_t *)0xB8000;
@@ -31,7 +30,7 @@ int a = 2;
 
 
 a = a + 2;
-while(1000-a){
+while(1000){
     a = a + 1;
 }
 a = 2;

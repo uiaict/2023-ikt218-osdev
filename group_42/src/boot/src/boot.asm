@@ -102,7 +102,7 @@ _start:
 
 	
 	extern kernel_main
-	call kernel_main  ; call our kernel_main() function.
+	call kernel_main  
 
 	
 	cli
