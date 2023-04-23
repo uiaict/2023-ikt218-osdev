@@ -53,7 +53,7 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 
 static idt_entry_t idt[IDT_ENTRIES];
 static idt_ptr_t idt_ptr;
-
+ 
 static gdt_entry_t gdt[GDT_ENTRIES];
 static gdt_ptr_t gdt_ptr;
 
