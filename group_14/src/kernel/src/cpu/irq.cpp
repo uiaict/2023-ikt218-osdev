@@ -4,6 +4,9 @@
 #include "../include/common.h"
 #include <cstddef>
 
+extern "C" {
+   void irq_handler(registers_t regs) asm("irq_handler");
+}
 
 // Initialize IRQ handlers
 void init_irq() {

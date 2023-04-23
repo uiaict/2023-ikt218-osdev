@@ -47,6 +47,7 @@ void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {
 
 void init_interrupts(){
     // Remap the irq table.
+
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
     outb(0x21, 0x20);

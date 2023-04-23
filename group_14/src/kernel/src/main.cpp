@@ -6,7 +6,7 @@
 #include "include/descriptor_tables.h"
 #include "include/terminal.h"
 #include "include/interrupts.h"
-#include "common.h"
+#include "include/common.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -29,7 +29,7 @@ void kernel_main()
     terminal_initialize();
     terminal_writestring("Hello, World!");
 
-	  // Create interrupt handlers for interrupt 3 and 4
+	// Create interrupt handlers for interrupt 3 and 4
     register_interrupt_handler(3,[](registers_t* regs, void* context){
         terminal_writestring("Interrupt 3 - OK\n");
     }, NULL);
@@ -52,7 +52,7 @@ void kernel_main()
 
         // Read the scan code from keyboard
         unsigned char scan_code = inb(0x60);
-
+        terminal_writestring((const char*)scan_code);
         // Disable interrupts temporarily
         asm volatile("cli");
     }, NULL);

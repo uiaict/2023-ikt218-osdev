@@ -8,4 +8,4 @@ void outb(uint16_t port, uint8_t value); // Byte-width port output
 uint8_t inb(uint16_t port); // Byte-width port input
 uint16_t inw(uint16_t port); // Word-width port input
 
-#endif
+#endif // COMMON_H

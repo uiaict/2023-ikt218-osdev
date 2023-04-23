@@ -1,6 +1,6 @@
-#include "../include/common.h"
+#include "./include/common.h"
 
-void outb(uint16_t port, uint16_t value) {
+void outb(uint16_t port, uint8_t value) {
     asm volatile ("out %1, %0" : : "dN" (port), "a" (value)); // Embeds assembly code and uses port and value as input parameters
 }
 
