@@ -40,6 +40,8 @@ void kernel_main()
     // Register the IRQ1, keyboard, interrupt handler:
     keyboard_handler();
 
+    // This will trigger the ISR1 interrupt:
+    //asm volatile("int $0x01");
     
     asm volatile("sti");
     
