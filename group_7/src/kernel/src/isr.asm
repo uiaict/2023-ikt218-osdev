@@ -68,6 +68,10 @@ ISR_NOERRCODE 29
 ISR_NOERRCODE 30
 ISR_NOERRCODE 31
 ISR_NOERRCODE 128
+
+; This section maps the IRQs to the correct ISRs.
+; In the interupts.cpp file we map these to functions that are defined in interrupts.h but implemented here. 
+; This makes it possible to call the functions from the C++ code.
 IRQ   0,    32
 IRQ   1,    33
 IRQ   2,    34
