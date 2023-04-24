@@ -1,6 +1,7 @@
 #include "interrupts.h"
 #include <cstddef>
 #include "common.h"
+#include "system.h"
 
 extern "C"{
     /// to make the function callable in asembly as irq_handler.

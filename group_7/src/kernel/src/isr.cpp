@@ -37,3 +37,22 @@ void isr_handler(registers_t regs)
         for(;;);
     }
 }
+
+void demo_interrupts()
+{
+    register_interrupt_handler(ISR1, [](registers_t* regs, void* data)
+    {
+        printf("ISR1 triggered\n");
+    }, NULL);
+
+    register_interrupt_handler(ISR2, [](registers_t* regs, void* data)
+    {
+        printf("ISR2 triggered\n");
+    }, NULL);
+
+    register_interrupt_handler(ISR3, [](registers_t* regs, void* data)
+    {
+        printf("ISR2 triggered\n");
+    }, NULL);
+    
+}
