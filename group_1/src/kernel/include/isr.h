@@ -64,7 +64,7 @@ void debug_exception(registers_t regs);
 
 void non_maskable_interrupt(registers_t regs);
 
-void default_interrupt_handler(registers_t regs);
+void default_ISR(registers_t regs);
 
 
 void initialize_interrupt_handlers();

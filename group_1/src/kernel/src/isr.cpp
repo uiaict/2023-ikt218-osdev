@@ -18,9 +18,9 @@ void non_maskable_interrupt(registers_t regs) {
     printk("\nNon maskable interrupt!");
 }
 
-void default_interrupt_handler(registers_t regs)
+void default_ISR(registers_t regs)
 {
-    printk("\nNO, PLEASE GOD NO!");
+    printk("\nNot Implemented");
 }
 
 isr_t interrupt_handlers[256];
@@ -28,7 +28,7 @@ isr_t interrupt_handlers[256];
 void initialize_interrupt_handlers()
 {
     for (int i = 0; i < 256; i++) {
-        interrupt_handlers[i] = default_interrupt_handler;
+        interrupt_handlers[i] = default_ISR;
     }
     interrupt_handlers[0] = divide_by_zero_error;
     interrupt_handlers[1] = debug_exception;
@@ -42,11 +42,7 @@ void register_interrupt_handler(uint8_t n, isr_t handler)
 
 void isr_handler(registers_t regs) {
     isr_t handler = interrupt_handlers[regs.int_no];
-    if (handler) {
-        handler(regs);
-    } else {
-        default_interrupt_handler(regs);
-    }
+    handler(regs);
 }
 
 // This gets called from our ASM interrupt handler stub.
