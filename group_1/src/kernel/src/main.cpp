@@ -14,6 +14,5 @@ extern "C" void test_gdt();
     init_descriptor_tables();
     initialize_interrupt_handlers();
     asm volatile ("int $0x28");
-    //asm volatile ("int $0x1");
-    //while(true){}
+    while(true){}
 }
