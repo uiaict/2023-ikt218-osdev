@@ -56,15 +56,25 @@ typedef struct registers
         uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
     } registers_t;
 
+typedef void (*isr_t)(registers_t);
+
+void divide_by_zero_error(registers_t regs);
+
+void debug_exception(registers_t regs);
+
+void non_maskable_interrupt(registers_t regs);
+
+void default_interrupt_handler(registers_t regs);
+
+
+void initialize_interrupt_handlers();
+
+void register_interrupt_handler(uint8_t n, isr_t handler);
+
+
 void isr_handler(registers_t regs);
-
-void interrupt_handler_0();
-
-void interrupt_handler_1();
-
-void interrupt_handler_2();
 
 void irq_handler(registers_t regs);
 
-typedef void (*isr_t)(registers_t);
-void register_interrupt_handler(uint8_t n, isr_t handler);
+
+
