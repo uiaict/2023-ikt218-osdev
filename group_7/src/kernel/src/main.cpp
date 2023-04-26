@@ -62,7 +62,7 @@ void demonstrate_page_fault(){
         if (reserved) {printf("reserved ");}
         printf(") at 0x%x", faulting_address);
         printf("\n");
-        panic("Page fault");
+        // panic("Page fault");
     };
 
     // Create interrupt handler for interrupt 14, which is page fault
