@@ -125,9 +125,9 @@ void kernel_main()
     //asm volatile("int $0x01");
     
     asm volatile("sti");
-    
-    printf("Hello World\n");
 
+    printf("WELCOME TO UIA OS! \nPress delete to clear screen..\n\n" );
+    
     while (1){}
     
 }
