@@ -8,6 +8,9 @@
 #include "keyboard.h"
 
 
+extern uint32_t end; // This is defined in linker.ld
+
+
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     // Calls the kernel_main assembly function.
@@ -81,9 +84,14 @@ void demonstrate_page_fault(){
 /// @brief The kernel main function.
 void kernel_main()
 {
+
     // Clear the screen
     clearScreen();
-    
+ 
+     // Initialize kernel memory manager with the end of the kernel image
+    init_kernel_memory(&end);
+
+   
     
     // Initialize the global descriptor table:
     init_gdt();
@@ -91,7 +99,19 @@ void kernel_main()
     init_idt();
 
     init_irq();
-    
+ 
+    init_paging();
+ 
+      // Print memory layout
+    print_memory_layout();
+
+
+    // Allocate some memory using kernel memory manager
+    void* some_memory = malloc(12345);
+    void* memory2 = malloc(54321);
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
+   
 
     // Initialize the interrupt service routines:
     
