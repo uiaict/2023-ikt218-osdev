@@ -2,6 +2,7 @@ extern "C"{
     #include "system.h"
     #include "../include/gdt.h"
     #include "../include/common.h"
+    #include "../include/isr.h"
 [[noreturn]] void kernel_main();
 }
 
@@ -11,7 +12,7 @@ extern "C" void test_gdt();
 {
     clear_screen();
     init_descriptor_tables();
-    /*asm volatile ("int $0x28");
-    asm volatile ("int $0x1");*/
+    initialize_interrupt_handlers();
+    asm volatile ("int $0x28");
     while(true){}
 }
