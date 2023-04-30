@@ -11,6 +11,8 @@ extern "C"
 
 void init_gdt() asm ("init_gdt"); // Lets init_gdt be called from assembly.
 
+void gdt_set_entry (int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity);
+
 // Create an array of 3 GDT entries (NULL, Data and Text) 
 // as well as a GDT pointer on stack.
 
@@ -23,10 +25,10 @@ void init_gdt()
     gdt_ptr.limit = (sizeof(gdt_entry) * 3) -1 ; // Set the limit to be the size of the number of entries in the GDT. 
     gdt_ptr.base  = (uint32_t)&gdt_entries;     //  This sets the base of the GDT pointer to be the starting address of the GDT table. 
 
-    // Create segment descriptors
-    gdt_entries[0] = {0,0,0,0,0,0}; // NULL descriptor
-    gdt_entries[1] = {0xFFFF, 0x0000, 0x00, 0x9A, 0xCF, 0x00}; // Code descriptor
-    gdt_entries[2] = {0xFFFF, 0x0000, 0x00, 0x92, 0xCF, 0x00}; // Data descriptor
+    // Creating segment descriptors
+    gdt_set_entry(0, 0, 0, 0, 0); // Null segment descriptor
+    gdt_set_entry(1, 0, 0XFFFFFFFF, 0x9A, 0xCF); // Code segment descriptor 
+    gdt_set_entry(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment descriptor
 
     // Finally, load the GDT. 
     gdt_load((uint32_t)&gdt_ptr); // This calls the gdt_load function, 
