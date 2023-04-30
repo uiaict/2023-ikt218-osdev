@@ -36,7 +36,12 @@ void init_gdt()
 }
 
 // gdt_set_entry is a function based on the lecturer' implmentation of 'gdt_set_gate'
-// This function takes the 
+// This function takes the following arguments:
+// Num: The index of the GDT entry
+// Base: The 32-bit base address for the segment
+// Limit: The 32-bit limit for the segment
+// Access: The access flags for the segment
+// Granularity: The granularity of the segment.
 void gdt_set_entry (int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity)
 {
     // Set the base address fields
