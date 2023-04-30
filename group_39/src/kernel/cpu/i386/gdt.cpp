@@ -11,7 +11,7 @@ extern "C"
 
 void init_gdt() asm ("init_gdt"); // Lets init_gdt be called from assembly.
 
-void gdt_set_entry (int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity);
+void gdt_set_entry (int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity); // Declare this function beforehand
 
 // Create an array of 3 GDT entries (NULL, Data and Text) 
 // as well as a GDT pointer on stack.
