@@ -35,3 +35,4 @@ extern init_gdt
 _start:
     cli
     call init_gdt
+    call kernel_main
