@@ -35,7 +35,7 @@ void init_gdt()
                                   // and passes the address of the gdt pointer to that assembly function.
 }
 
-// gdt_set_entry is a function based on the lecturer' implmentation of 'gdt_set_gate'
+// gdt_set_entry is a function based on the lecturer's implementation of 'gdt_set_gate'
 // This function takes the following arguments:
 // Num: The index of the GDT entry
 // Base: The 32-bit base address for the segment
