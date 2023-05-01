@@ -25,14 +25,21 @@ section .multiboot
     dd MULTIBOOT_FLAGS
     dd MULTIBOOT_CHECKSUM
 
+; Here we set up and provide a stack for our kernel.
+section .bss
+align 16 ; Align to 16 bytes.
+stack_bottom:
+resb KERNEL_STACK_SIZE ; Reserve space for our stack, in this case 16KB. 
+stack_top:
 
-;; Code segment
+
 section .text
 global _start:
 extern kernel_main
 extern init_gdt
 
 _start:
-    cli
-    call init_gdt
-    call kernel_main
+    mov esp, stack_top ; Set the esp register to point to top of the stack. 
+    cli ; Disable interrupts
+    call init_gdt ; Call init_gdt which sets up and loads the GDT into memory.
+    call kernel_main ; Call the main function of the kernel.
