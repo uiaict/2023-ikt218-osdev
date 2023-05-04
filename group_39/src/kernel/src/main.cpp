@@ -11,9 +11,7 @@ extern "C" {
 
 void kernel_main()
 {
-    clearScreen();
-    printString("\n");
-    printString("Hello World");
-
+    clearScreen(); // Clear screen before writing output
+    printString("Hello World"); // Write "Hello World" to the scree
 }
 

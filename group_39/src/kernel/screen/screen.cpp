@@ -4,9 +4,8 @@
 
 
 
-#define VGA_ADDRESS 0xB8000
-#define BUFSIZE 2200
-
+#define VGA_ADDRESS 0xB8000 // The address of the VGA buffer.
+#define BUFSIZE 2200        // The buffer size of the VGA buffer.
 
 
 // This function clears the screen by writing blank spaces to the VGA memory.
@@ -25,7 +24,7 @@ void printString(char * string)
     char * vgaBuffer = (char*)VGA_ADDRESS;
     while(*string != 0)
     {
-        *vgaBuffer++ = *string++;
-        *vgaBuffer++ = 15;
+        *vgaBuffer++ = *string++; // Print a single character to the screen.
+        *vgaBuffer++ = 15; // Print text in colour 'WHITE'. 
     }
 }
