@@ -1,3 +1,4 @@
+const std = @import("std");
 const Console = @import("Console.zig");
 const isr = @import("../isr.zig");
 const utils = @import("../utils.zig");
@@ -8,6 +9,22 @@ var lshift = false;
 fn handler(_: isr.Registers) void {
     const scancode = utils.inb(0x60);
     switch (scancode) {
+        0x0B => if (lshift) Console.write(")") else Console.write("0"),
+        0x02 => if (lshift) Console.write("!") else Console.write("1"),
+        0x03 => if (lshift) Console.write("@") else Console.write("2"),
+        0x04 => if (lshift) Console.write("#") else Console.write("3"),
+        0x05 => if (lshift) Console.write("$") else Console.write("4"),
+        0x06 => if (lshift) Console.write("%") else Console.write("5"),
+        0x07 => if (lshift) Console.write("^") else Console.write("6"),
+        0x08 => if (lshift) Console.write("&") else Console.write("7"),
+        0x09 => if (lshift) Console.write("*") else Console.write("8"),
+        0x0A => if (lshift) Console.write("(") else Console.write("9"),
+        0x0C => if (lshift) Console.write("_") else Console.write("-"),
+        0x35 => if (lshift) Console.write("?") else Console.write("/"),
+        0x2B => if (lshift) Console.write("\\") else Console.write("|"),
+        0x0D => if (lshift) Console.write("=") else Console.write("+"),
+        0x1A => if (lshift) Console.write("{") else Console.write("["),
+        0x1B => if (lshift) Console.write("}") else Console.write("]"),
         0x10 => if (lshift) Console.write("Q") else Console.write("q"),
         0x11 => if (lshift) Console.write("W") else Console.write("w"),
         0x12 => if (lshift) Console.write("E") else Console.write("e"),
@@ -38,7 +55,11 @@ fn handler(_: isr.Registers) void {
         0x1C => Console.write("\n"),
         0x2A => lshift = true,
         0xAA => lshift = false,
-        else => {},
+        else => {
+            // Print as hex
+            // const index = [16]u8{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+            // Console.write(&.{ ' ', '0', 'x', index[(scancode & 0xF0) >> 4], index[(scancode & 0x0F)], ' ' });
+        },
     }
 }
 
