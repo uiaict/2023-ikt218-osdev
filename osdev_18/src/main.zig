@@ -53,7 +53,6 @@ fn init() void {
     idt.init();
     Console.init();
     Keyboard.init();
-    utils.sti(); // Enable interrupts
 }
 
 fn main() void {

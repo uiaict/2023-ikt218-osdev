@@ -53,13 +53,10 @@ fn handler(_: isr.Registers) void {
         0x32 => if (lshift) Console.write("M") else Console.write("m"),
         0x39 => Console.write(" "),
         0x1C => Console.write("\n"),
+        0x0E => Console.deleteBackwards(),
         0x2A => lshift = true,
         0xAA => lshift = false,
-        else => {
-            // Print as hex
-            // const index = [16]u8{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-            // Console.write(&.{ ' ', '0', 'x', index[(scancode & 0xF0) >> 4], index[(scancode & 0x0F)], ' ' });
-        },
+        else => {},
     }
 }
 
@@ -67,4 +64,5 @@ pub fn init() void {
     isr.setHandler(isr.IRQ1, handler);
     utils.outb(0x21, 0xFD);
     utils.outb(0xA1, 0xFF);
+    utils.sti(); // Enable interrupts
 }
