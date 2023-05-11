@@ -38,7 +38,7 @@ export fn _start() callconv(.Naked) noreturn {
 export fn isrHandler(registers: isr.Registers) void {
     Console.setColor(.red, .black);
     Console.write("\nINTERRUPT OCCURRED: ");
-    Console.write(&.{@intCast(u8, registers.number) + '0'}); // Ascii code to letter
+    Console.writeHex(@intCast(u8, registers.number));
 }
 
 export fn irqHandler(registers: isr.Registers) void {
