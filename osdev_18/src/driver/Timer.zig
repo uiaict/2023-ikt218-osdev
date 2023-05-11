@@ -3,7 +3,7 @@ const isr = @import("../isr.zig");
 const utils = @import("../utils.zig");
 
 fn handler(_: isr.Registers) void {
-    Console.write("T");
+    Console.write("Tick!");
 }
 
 pub fn init(frequency: u32) void {

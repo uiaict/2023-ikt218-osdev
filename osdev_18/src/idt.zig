@@ -34,7 +34,7 @@ extern fn isr29() void;
 extern fn isr30() void;
 extern fn isr31() void;
 
-// Extern directives for ASM ISR handlers
+// Extern directives for ASM IRQ handlers
 extern fn irq0() void;
 extern fn irq1() void;
 extern fn irq2() void;
