@@ -18,6 +18,7 @@ export var multiboot align(4) linksection(".multiboot") = MultiBoot{
 export var stack_bytes: [16 * 1024]u8 align(16) linksection(".bss") = undefined;
 
 // System
+const std = @import("std");
 const gdt = @import("gdt.zig");
 const idt = @import("idt.zig");
 const isr = @import("isr.zig");
@@ -27,6 +28,12 @@ const utils = @import("utils.zig");
 const Console = @import("driver/Console.zig");
 const Keyboard = @import("driver/Keyboard.zig");
 const Timer = @import("driver/Timer.zig");
+
+pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace) noreturn {
+    Console.write(message);
+    while (true)
+        utils.hlt();
+}
 
 export fn _start() callconv(.Naked) noreturn {
     init();
@@ -62,4 +69,5 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
+    @panic("No free frames!");
 }
