@@ -52,8 +52,13 @@ fn handler(_: isr.Registers) void {
         0x31 => if (lshift) Console.write("N") else Console.write("n"),
         0x32 => if (lshift) Console.write("M") else Console.write("m"),
         0x39 => Console.write(" "),
-        0x1C => Console.write("\n"),
+        0x1C => {
+            Console.write("\n");
+            Console.showPrompt();
+        },
         0x0E => Console.deleteBackwards(),
+        0x4B => Console.moveBackwards(),
+        0x4D => Console.moveForwards(),
         0x2A => lshift = true,
         0xAA => lshift = false,
         else => {},

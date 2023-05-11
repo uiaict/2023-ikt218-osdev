@@ -73,7 +73,26 @@ pub fn moveCursor(cursor_row: u16, cursor_column: u16) void {
     utils.outb(0x3D5, @truncate(u8, position >> 8));
 }
 
+pub fn moveBackwards() void {
+    if (column > 9) moveCursor(row, column - 1);
+}
+
+pub fn moveForwards() void {
+    moveCursor(row, column + 1);
+}
+
 pub fn deleteBackwards() void {
-    moveCursor(row, column - 1);
-    buffer[(row * 80 + column)] = color << 8 | ' ';
+    // Don't delete prompt
+    if (column > 9) {
+        moveCursor(row, column - 1);
+        buffer[(row * 80 + column)] = color << 8 | ' ';
+    }
+}
+
+pub fn showPrompt() void {
+    setColor(.green, .black);
+    write("kernel ");
+    setColor(.light_blue, .black);
+    write("> ");
+    setColor(.white, .black);
 }
