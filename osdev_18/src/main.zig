@@ -26,6 +26,7 @@ const utils = @import("utils.zig");
 // Drivers
 const Console = @import("driver/Console.zig");
 const Keyboard = @import("driver/Keyboard.zig");
+const Timer = @import("driver/Timer.zig");
 
 export fn _start() callconv(.Naked) noreturn {
     init();

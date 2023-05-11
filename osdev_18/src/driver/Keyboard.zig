@@ -62,7 +62,6 @@ fn handler(_: isr.Registers) void {
 
 pub fn init() void {
     isr.setHandler(isr.IRQ1, handler);
-    utils.outb(0x21, 0xFD);
     utils.outb(0xA1, 0xFF);
     utils.sti(); // Enable interrupts
 }
