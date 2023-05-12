@@ -1,8 +1,8 @@
-const placement_address: u32 = 0;
+pub extern const placement_address: u32;
 
 fn kernelMalloc(size: u32, alignment: u32, physical_address: ?*u32) u32 {
     // If the address is not already page-aligned
-    if (alignment == 1 and placement_address & 0x00000FFF) {
+    if (alignment == 1 and (placement_address & 0x00000FFF != 0)) {
         // Align it
         placement_address &= 0xFFFFF000;
         placement_address += 0x1000;

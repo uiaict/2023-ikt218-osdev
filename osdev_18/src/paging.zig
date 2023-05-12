@@ -1,6 +1,8 @@
 const std = @import("std");
-const isr = @import("../isr.zig");
-const IntegerBitSet = std.bit_set.IntegerBitSet;
+const isr = @import("isr.zig");
+const memory = @import("memory.zig");
+const Console = @import("driver/Console.zig");
+const BitSet = std.bit_set.IntegerBitSet(32);
 
 // https://wiki.osdev.org/Paging#32-bit_Paging_.28Protected_Mode.29
 const Page = packed struct {
@@ -23,7 +25,12 @@ const Directory = struct {
     physical_address: u32,
 };
 
-const frames: [10]IntegerBitSet(u32) = .{IntegerBitSet(32).initEmpty()} ** 10;
+// State for paging
+var kernel_directory: ?*Directory = null;
+var current_directory: ?*Directory = null;
+
+var frames: ?[*]BitSet = null;
+var frames_len: u32 = 0;
 
 fn firstFrame() ?u32 {
     for (frames) |frame, i| {
@@ -53,10 +60,69 @@ fn freeFrame(page: *Page) void {
     }
 }
 
-pub fn switchPageDirectory() void {}
+pub fn switchPageDirectory(directory: *Directory) void {
+    current_directory = directory;
+    asm volatile ("mov %[physical_tables], %%cr3"
+        :
+        : [physical_tables] "{r}" (&directory.physical_tables),
+    );
+    var cr0: u32 = 0;
+    asm volatile ("mov %%cr0, %[output]"
+        : [output] "=r" (cr0),
+    );
+    cr0 |= 0x80000000; // Enable paging!
+    asm volatile ("mov %[input], %%cr0"
+        :
+        : [input] "{r}" (cr0),
+    );
+}
 
-pub fn getPage(address: u32, create: bool, directory: *Directory) *Page {}
+pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
+    const page_address = address / 0x1000;
+    const table_index = page_address / 1024;
+    if (directory.tables[table_index]) |table| {
+        return &table.pages[page_address % 1024];
+    } else if (create) {
+        var temporary = 0;
+        const bytes = memory.mallocAlignedPhysical(@sizeOf(Directory), &temporary);
+        directory.tables.*[table_index] = @intCast(Page, bytes);
+        directory.physical_tables[table_index] = temporary | 0x7;
+        return directory.tables.*[table_index].pages[page_address % 1024];
+    } else return null;
+}
 
-pub fn handler(_: isr.Registers) void {}
+pub fn handler(_: isr.Registers) void {
+    Console.write("\nPage fault occurred!");
+}
 
-pub fn init() void {}
+pub fn init() void {
+    // Size of physical memory
+    const end_page = 0x1000000;
+
+    // Initialize frames set to 0
+    frames_len = end_page / 0x1000;
+    const amount = frames_len / 32;
+    frames = @intToPtr([*]BitSet, memory.malloc(amount));
+    if (frames) |valid_frames| {
+        for (valid_frames[0..amount]) |*frame|
+            frame.* = BitSet.initEmpty();
+    }
+
+    // Create page directory
+    kernel_directory = @intToPtr(*Directory, memory.malloc(@sizeOf(Directory)));
+    if (kernel_directory) |directory| {
+        directory.* = std.mem.zeroes(Directory);
+        current_directory = kernel_directory;
+
+        // Identity map physical address to virtual address from 0x0 to end of used memory
+        var i: usize = 0;
+        while (i < memory.placement_address) : (i += 0x1000) {
+            if (getPage(i, true, directory)) |page|
+                allocateFrame(page, false, false);
+        }
+
+        // Register page fault handler, then enable paging
+        isr.setHandler(isr.IRQ14, handler);
+        switchPageDirectory(directory);
+    }
+}

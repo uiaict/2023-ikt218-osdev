@@ -22,6 +22,7 @@ const std = @import("std");
 const gdt = @import("gdt.zig");
 const idt = @import("idt.zig");
 const isr = @import("isr.zig");
+const paging = @import("paging.zig");
 const utils = @import("utils.zig");
 
 // Drivers
@@ -59,6 +60,7 @@ export fn irqHandler(registers: isr.Registers) void {
 fn init() void {
     gdt.init();
     idt.init();
+    paging.init();
     Console.init();
     Keyboard.init();
 }
