@@ -69,5 +69,4 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
-    @panic("No free frames!");
 }

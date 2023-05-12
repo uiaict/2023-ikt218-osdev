@@ -1,3 +1,4 @@
+// Assembly
 pub inline fn hlt() void {
     asm volatile ("hlt");
 }

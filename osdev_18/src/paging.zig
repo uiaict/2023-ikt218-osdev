@@ -3,14 +3,14 @@ const isr = @import("../isr.zig");
 const IntegerBitSet = std.bit_set.IntegerBitSet;
 
 // https://wiki.osdev.org/Paging#32-bit_Paging_.28Protected_Mode.29
-const Page = struct {
-    present: u32 = 1,
-    read_write: u32 = 1,
-    user: u32 = 1,
-    accessed: u32 = 1,
-    dirty: u32 = 1,
-    unused: u32 = 7,
-    frame: u32 = 20,
+const Page = packed struct {
+    present: u1,
+    read_write: u1,
+    user: u1,
+    accessed: u1,
+    dirty: u1,
+    unused: u7,
+    frame: u20,
 };
 
 const Table = struct {
@@ -34,10 +34,23 @@ fn firstFrame() ?u32 {
 
 fn allocateFrame(page: *Page, is_kernel: bool, is_writeable: bool) void {
     if (page.frame == 0) {
-        if (firstFrame()) |index| {} else {
+        if (firstFrame()) |index| {
+            page.present = 1;
+            page.read_write = if (is_writeable) 1 else 0;
+            page.user = if (is_kernel) 0 else 1;
+            page.frame = index;
+        } else {
             @panic("No free frames!");
         }
     } else return;
+}
+
+fn freeFrame(page: *Page) void {
+    if (page.frame > 0) {
+        // Clear the specific bit in our bitmap
+        frames[page.frame / 32].unset(page.frame % 32);
+        page.frame = 0;
+    }
 }
 
 pub fn switchPageDirectory() void {}

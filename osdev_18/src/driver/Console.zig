@@ -1,3 +1,4 @@
+const std = @import("std");
 const utils = @import("../utils.zig");
 
 var row: u16 = 0;
@@ -39,6 +40,11 @@ pub fn init() void {
     var i: usize = 0;
     while (i < 80 * 25) : (i += 1)
         buffer[i] = color << 8 | ' ';
+}
+
+pub fn log(message: []const u8, comptime source: std.builtin.SourceLocation) void {
+    write(source.fn_name ++ ": ");
+    write(message);
 }
 
 pub fn write(text: []const u8) void {
