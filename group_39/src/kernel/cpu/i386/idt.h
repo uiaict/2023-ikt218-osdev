@@ -13,10 +13,10 @@ struct idt_entry
 {
     uint16_t base_low; // The lower 16 bits of the address
     uint16_t selector; // The segment selector
-    uint16_t always0; // This must always be zero. 
-    uint16_t flags; // Flags. 
+    uint8_t always0; // This must always be zero. 
+    uint8_t flags; // Flags. 
     uint16_t base_high; // The upper 16 bits of the address. 
-}
+} __attribute__((packed));
 
 
 struct idt_ptr
