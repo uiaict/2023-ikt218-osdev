@@ -18,7 +18,11 @@
       pkgs = import nixpkgs {inherit system;};
     in {
       devShell = pkgs.mkShell {
-        buildInputs = [ pkgs.zig pkgs.qemu ];
+        buildInputs = [
+          pkgs.zig
+          pkgs.qemu
+          pkgs.gdb
+        ];
       };
     });
 }

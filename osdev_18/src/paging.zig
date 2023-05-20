@@ -34,8 +34,14 @@ var frames_len: u32 = 0;
 
 fn firstFrame() ?u32 {
     const amount = frames_len / 32;
-    for (frames[0..amount]) |frame, i| {
-        if (frame.findFirstSet()) |j| return i * 32 + j;
+    for (frames[0..amount]) |*frame, i| {
+        var j: usize = 0;
+        while (j < 32) : (j += 1) {
+            if (!frame.isSet(j)) {
+                frame.set(j);
+                return i * 32 + j;
+            }
+        }
     }
     return null;
 }
@@ -100,18 +106,23 @@ pub fn handler(_: isr.Registers) void {
 
 pub fn init() void {
     // Size of physical memory
+    memory.placement_address = @ptrToInt(&memory.end);
     const end_page = 0x1000000;
+    const paddr: u32 = memory.placement_address;
+    _ = paddr;
 
     // Initialize frames set to 0
     frames_len = end_page / 0x1000;
+    frames = @intToPtr([*]BitSet, memory.mallocAligned(frames_len));
     const amount = frames_len / 32;
-    frames = @intToPtr([*]BitSet, memory.malloc(amount));
     for (frames[0..amount]) |*frame|
         frame.* = BitSet.initEmpty();
 
     // Create page directory
-    kernel_directory = @intToPtr(*Directory, memory.malloc(@sizeOf(Directory)));
-    kernel_directory.* = std.mem.zeroes(Directory);
+    const directory = memory.mallocAligned(@sizeOf(Directory));
+    kernel_directory = @intToPtr(*Directory, directory);
+    for (kernel_directory.tables) |*table|
+        table.* = null;
     current_directory = kernel_directory;
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
