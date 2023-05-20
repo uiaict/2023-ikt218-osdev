@@ -20,20 +20,21 @@ const Table = struct {
 };
 
 const Directory = struct {
-    tables: *[1024]Table,
+    tables: [1024]?*Table,
     physical_tables: [1024]u32,
     physical_address: u32,
 };
 
 // State for paging
-var kernel_directory: ?*Directory = null;
-var current_directory: ?*Directory = null;
+var kernel_directory: *Directory = undefined;
+var current_directory: *Directory = undefined;
 
-var frames: ?[*]BitSet = null;
+var frames: [*]BitSet = undefined;
 var frames_len: u32 = 0;
 
 fn firstFrame() ?u32 {
-    for (frames) |frame, i| {
+    const amount = frames_len / 32;
+    for (frames[0..amount]) |frame, i| {
         if (frame.findFirstSet()) |j| return i * 32 + j;
     }
     return null;
@@ -45,7 +46,7 @@ fn allocateFrame(page: *Page, is_kernel: bool, is_writeable: bool) void {
             page.present = 1;
             page.read_write = if (is_writeable) 1 else 0;
             page.user = if (is_kernel) 0 else 1;
-            page.frame = index;
+            page.frame = @truncate(u20, index);
         } else {
             @panic("No free frames!");
         }
@@ -64,16 +65,16 @@ pub fn switchPageDirectory(directory: *Directory) void {
     current_directory = directory;
     asm volatile ("mov %[physical_tables], %%cr3"
         :
-        : [physical_tables] "{r}" (&directory.physical_tables),
+        : [physical_tables] "r" (&directory.physical_tables),
     );
     var cr0: u32 = 0;
-    asm volatile ("mov %%cr0, %[output]"
-        : [output] "=r" (cr0),
+    asm volatile ("mov %%cr0, %[cr0]"
+        : [cr0] "=r" (cr0),
     );
     cr0 |= 0x80000000; // Enable paging!
     asm volatile ("mov %[input], %%cr0"
         :
-        : [input] "{r}" (cr0),
+        : [input] "r" (cr0),
     );
 }
 
@@ -81,13 +82,15 @@ pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     const page_address = address / 0x1000;
     const table_index = page_address / 1024;
     if (directory.tables[table_index]) |table| {
-        return &table.pages[page_address % 1024];
+        var page = table.pages[page_address % 1024];
+        return &page;
     } else if (create) {
-        var temporary = 0;
-        const bytes = memory.mallocAlignedPhysical(@sizeOf(Directory), &temporary);
-        directory.tables.*[table_index] = @intCast(Page, bytes);
+        var temporary: usize = 0;
+        const bytes = memory.mallocAlignedPhysical(@sizeOf(Table), &temporary);
+        const table = @intToPtr(*Table, bytes);
+        directory.tables[table_index] = table;
         directory.physical_tables[table_index] = temporary | 0x7;
-        return directory.tables.*[table_index].pages[page_address % 1024];
+        return &table.pages[page_address % 1024];
     } else return null;
 }
 
@@ -103,26 +106,22 @@ pub fn init() void {
     frames_len = end_page / 0x1000;
     const amount = frames_len / 32;
     frames = @intToPtr([*]BitSet, memory.malloc(amount));
-    if (frames) |valid_frames| {
-        for (valid_frames[0..amount]) |*frame|
-            frame.* = BitSet.initEmpty();
-    }
+    for (frames[0..amount]) |*frame|
+        frame.* = BitSet.initEmpty();
 
     // Create page directory
     kernel_directory = @intToPtr(*Directory, memory.malloc(@sizeOf(Directory)));
-    if (kernel_directory) |directory| {
-        directory.* = std.mem.zeroes(Directory);
-        current_directory = kernel_directory;
+    kernel_directory.* = std.mem.zeroes(Directory);
+    current_directory = kernel_directory;
 
-        // Identity map physical address to virtual address from 0x0 to end of used memory
-        var i: usize = 0;
-        while (i < memory.placement_address) : (i += 0x1000) {
-            if (getPage(i, true, directory)) |page|
-                allocateFrame(page, false, false);
-        }
-
-        // Register page fault handler, then enable paging
-        isr.setHandler(isr.IRQ14, handler);
-        switchPageDirectory(directory);
+    // Identity map physical address to virtual address from 0x0 to end of used memory
+    var i: usize = 0;
+    while (i < memory.placement_address) : (i += 0x1000) {
+        if (getPage(i, true, kernel_directory)) |page|
+            allocateFrame(page, false, false);
     }
+
+    // Register page fault handler, then enable paging
+    isr.setHandler(isr.IRQ14, handler);
+    switchPageDirectory(kernel_directory);
 }

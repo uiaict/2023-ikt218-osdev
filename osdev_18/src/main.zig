@@ -45,8 +45,33 @@ export fn _start() callconv(.Naked) noreturn {
 
 export fn isrHandler(registers: isr.Registers) void {
     Console.setColor(.red, .black);
-    Console.write("\nINTERRUPT OCCURRED: ");
-    Console.writeHex(@intCast(u8, registers.number));
+    Console.write("INTERRUPT OCCURRED: ");
+    Console.setColor(.green, .black);
+    switch (registers.number) {
+        0x00 => Console.write("Division by zero"),
+        0x01 => Console.write("Single-step interrupt"),
+        0x02 => Console.write("NMI"),
+        0x03 => Console.write("Breakpoint"),
+        0x04 => Console.write("Overflow"),
+        0x05 => Console.write("Bound Range Exceeded"),
+        0x06 => Console.write("Invalid Opcode"),
+        0x07 => Console.write("Coprocessor not available"),
+        0x08 => Console.write("Double Fault"),
+        0x09 => Console.write("Coprocessor Segment Overrun"),
+        0x0A => Console.write("Invalid Task State Segment"),
+        0x0B => Console.write("Segment not present"),
+        0x0C => Console.write("Stack Segment Fault"),
+        0x0D => Console.write("General Protecion Fault"),
+        0x0E => Console.write("Page Fault"),
+        0x0F => Console.write("Reserved"),
+        0x10 => Console.write("x87 Floating Point Exception"),
+        0x11 => Console.write("Alignment Check"),
+        0x12 => Console.write("Machine Check"),
+        0x13 => Console.write("SIMD Floating-Point Exception"),
+        0x14 => Console.write("Virtualization Exception"),
+        0x15 => Console.write("Control Protection Exception"),
+        else => Console.writeHex(@intCast(u8, registers.number)),
+    }
 }
 
 export fn irqHandler(registers: isr.Registers) void {
@@ -58,10 +83,10 @@ export fn irqHandler(registers: isr.Registers) void {
 }
 
 fn init() void {
+    Console.init();
     gdt.init();
     idt.init();
     paging.init();
-    Console.init();
     Keyboard.init();
 }
 
