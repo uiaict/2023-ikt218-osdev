@@ -100,10 +100,26 @@ pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     } else return null;
 }
 
-pub fn handler(_: isr.Registers) void {
-    Console.write("Page fault occurred!");
-    while (true)
-        utils.hlt();
+pub fn handler(registers: isr.Registers) void {
+    const cr2 = asm ("mov %%cr2, %[value]"
+        : [value] "=r" (-> u32),
+    );
+    const not_present = (registers.error_code & 0x1) > 0;
+    const read_write = (registers.error_code & 0x2) > 0;
+    const user_mode = (registers.error_code & 0x4) > 0;
+    const reserved = (registers.error_code & 0x8) > 0;
+    Console.write("Page fault! [ ");
+    if (not_present) Console.write("not_present ");
+    if (read_write) Console.write("read-only ");
+    if (user_mode) Console.write("user-mode ");
+    if (reserved) Console.write("reserved ");
+    Console.write("] at 0x");
+    Console.writeHex(@intCast(u8, (cr2 & 0xFF000000) >> 24));
+    Console.writeHex(@intCast(u8, (cr2 & 0x00FF0000) >> 16));
+    Console.writeHex(@intCast(u8, (cr2 & 0x0000FF00) >> 8));
+    Console.writeHex(@intCast(u8, (cr2 & 0x000000FF) >> 0));
+    Console.write("\n");
+    @panic("Page fault");
 }
 
 pub fn init() void {

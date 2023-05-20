@@ -31,7 +31,7 @@ const Keyboard = @import("driver/Keyboard.zig");
 const Timer = @import("driver/Timer.zig");
 
 pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace) noreturn {
-    Console.write("panic: ");
+    Console.write("Panic occured: ");
     Console.write(message);
     while (true)
         utils.hlt();
@@ -48,7 +48,7 @@ export fn isrHandler(registers: isr.Registers) void {
     if (isr.getHandler(registers.number)) |handler|
         handler(registers)
     else {
-        Console.write("received interrupt: ");
+        Console.write("Received interrupt: ");
         Console.writeHex(@intCast(u8, registers.number));
     }
 }
