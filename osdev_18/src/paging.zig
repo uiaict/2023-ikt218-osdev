@@ -1,5 +1,6 @@
 const std = @import("std");
 const isr = @import("isr.zig");
+const utils = @import("utils.zig");
 const memory = @import("memory.zig");
 const Console = @import("driver/Console.zig");
 const BitSet = std.bit_set.IntegerBitSet(32);
@@ -100,7 +101,9 @@ pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
 }
 
 pub fn handler(_: isr.Registers) void {
-    Console.write("\nPage fault occurred!");
+    Console.write("Page fault occurred!");
+    while (true)
+        utils.hlt();
 }
 
 pub fn init() void {

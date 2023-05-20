@@ -31,7 +31,7 @@ const Keyboard = @import("driver/Keyboard.zig");
 const Timer = @import("driver/Timer.zig");
 
 pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace) noreturn {
-    Console.write("Panic: ");
+    Console.write("panic: ");
     Console.write(message);
     while (true)
         utils.hlt();
@@ -45,36 +45,12 @@ export fn _start() callconv(.Naked) noreturn {
 }
 
 export fn isrHandler(registers: isr.Registers) void {
-    Console.setColor(.red, .black);
-    Console.write("INTERRUPT OCCURRED: ");
-    Console.setColor(.green, .black);
-    switch (registers.number) {
-        0x00 => Console.write("Division by zero"),
-        0x01 => Console.write("Single-step interrupt"),
-        0x02 => Console.write("NMI"),
-        0x03 => Console.write("Breakpoint"),
-        0x04 => Console.write("Overflow"),
-        0x05 => Console.write("Bound Range Exceeded"),
-        0x06 => Console.write("Invalid Opcode"),
-        0x07 => Console.write("Coprocessor not available"),
-        0x08 => Console.write("Double Fault"),
-        0x09 => Console.write("Coprocessor Segment Overrun"),
-        0x0A => Console.write("Invalid Task State Segment"),
-        0x0B => Console.write("Segment not present"),
-        0x0C => Console.write("Stack Segment Fault"),
-        0x0D => Console.write("General Protecion Fault"),
-        0x0E => Console.write("Page Fault"),
-        0x0F => Console.write("Reserved"),
-        0x10 => Console.write("x87 Floating Point Exception"),
-        0x11 => Console.write("Alignment Check"),
-        0x12 => Console.write("Machine Check"),
-        0x13 => Console.write("SIMD Floating-Point Exception"),
-        0x14 => Console.write("Virtualization Exception"),
-        0x15 => Console.write("Control Protection Exception"),
-        else => Console.writeHex(@intCast(u8, registers.number)),
+    if (isr.getHandler(registers.number)) |handler|
+        handler(registers)
+    else {
+        Console.write("received interrupt: ");
+        Console.writeHex(@intCast(u8, registers.number));
     }
-    while (true)
-        utils.hlt();
 }
 
 export fn irqHandler(registers: isr.Registers) void {
