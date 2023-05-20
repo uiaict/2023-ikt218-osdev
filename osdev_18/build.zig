@@ -20,6 +20,8 @@ pub fn build(b: *std.build.Builder) void {
         "-display",
         "gtk,zoom-to-fit=on",
         "-s",
+        "-d",
+        "int",
     });
     run_cmd.step.dependOn(&os.install_step.?.step);
 

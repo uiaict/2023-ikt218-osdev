@@ -22,8 +22,9 @@ const std = @import("std");
 const gdt = @import("gdt.zig");
 const idt = @import("idt.zig");
 const isr = @import("isr.zig");
-const paging = @import("paging.zig");
 const utils = @import("utils.zig");
+const paging = @import("paging.zig");
+const allocator = @import("allocator.zig");
 
 // Drivers
 const Console = @import("driver/Console.zig");
@@ -64,6 +65,7 @@ export fn irqHandler(registers: isr.Registers) void {
 
 fn init() void {
     Console.init();
+    allocator.init();
     gdt.init();
     idt.init();
     paging.init();
@@ -76,7 +78,4 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
-    const ptr = @intToPtr(*u32, 0xA000000);
-    const fault = ptr.*;
-    Console.writeHex(@truncate(u8, fault));
 }
