@@ -48,8 +48,9 @@ export fn isrHandler(registers: isr.Registers) void {
     if (isr.getHandler(registers.number)) |handler|
         handler(registers)
     else {
-        Console.write("Received interrupt: ");
+        Console.write("Received interrupt: 0x");
         Console.writeHex(@intCast(u8, registers.number));
+        Console.write("\n");
     }
 }
 
@@ -62,10 +63,10 @@ export fn irqHandler(registers: isr.Registers) void {
 }
 
 fn init() void {
+    Console.init();
     gdt.init();
     idt.init();
     paging.init();
-    Console.init();
     Keyboard.init();
 }
 
@@ -75,4 +76,7 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
+    const ptr = @intToPtr(*u32, 0xA000000);
+    const fault = ptr.*;
+    Console.writeHex(@truncate(u8, fault));
 }

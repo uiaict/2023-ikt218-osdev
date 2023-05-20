@@ -54,18 +54,8 @@ fn allocateFrame(page: *Page, is_kernel: bool, is_writeable: bool) void {
             page.read_write = if (is_writeable) 1 else 0;
             page.user = if (is_kernel) 0 else 1;
             page.frame = @truncate(u20, index);
-        } else {
-            @panic("No free frames!");
-        }
+        } else @panic("No free frames!");
     } else return;
-}
-
-fn freeFrame(page: *Page) void {
-    if (page.frame > 0) {
-        // Clear the specific bit in our bitmap
-        frames[page.frame / 32].unset(page.frame % 32);
-        page.frame = 0;
-    }
 }
 
 pub fn switchPageDirectory(directory: *Directory) void {
@@ -137,10 +127,6 @@ pub fn init() void {
     // Create page directory
     const directory = memory.mallocAligned(@sizeOf(Directory));
     kernel_directory = @intToPtr(*Directory, directory);
-    for (kernel_directory.tables) |*table|
-        table.* = null;
-    for (kernel_directory.physical_tables) |*table|
-        table.* = 0;
     current_directory = kernel_directory;
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
