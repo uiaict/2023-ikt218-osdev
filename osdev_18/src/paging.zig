@@ -104,12 +104,12 @@ pub fn handler(registers: isr.Registers) void {
     const cr2 = asm ("mov %%cr2, %[value]"
         : [value] "=r" (-> u32),
     );
-    const not_present = (registers.error_code & 0x1) > 0;
+    const present = (registers.error_code & 0x1) == 0;
     const read_write = (registers.error_code & 0x2) > 0;
     const user_mode = (registers.error_code & 0x4) > 0;
     const reserved = (registers.error_code & 0x8) > 0;
     Console.write("Page fault! [ ");
-    if (not_present) Console.write("not_present ");
+    if (present) Console.write("present ");
     if (read_write) Console.write("read-only ");
     if (user_mode) Console.write("user-mode ");
     if (reserved) Console.write("reserved ");
