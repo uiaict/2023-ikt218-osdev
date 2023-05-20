@@ -87,9 +87,8 @@ pub fn switchPageDirectory(directory: *Directory) void {
 pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     const page_address = address / 0x1000;
     const table_index = page_address / 1024;
-    if (directory.tables[table_index]) |table| {
-        var page = table.pages[page_address % 1024];
-        return &page;
+    if (directory.tables[table_index]) |*table| {
+        return &table.*.pages[page_address % 1024];
     } else if (create) {
         var temporary: usize = 0;
         const bytes = memory.mallocAlignedPhysical(@sizeOf(Table), &temporary);
@@ -108,8 +107,6 @@ pub fn init() void {
     // Size of physical memory
     memory.placement_address = @ptrToInt(&memory.end);
     const end_page = 0x1000000;
-    const paddr: u32 = memory.placement_address;
-    _ = paddr;
 
     // Initialize frames set to 0
     frames_len = end_page / 0x1000;
@@ -123,6 +120,8 @@ pub fn init() void {
     kernel_directory = @intToPtr(*Directory, directory);
     for (kernel_directory.tables) |*table|
         table.* = null;
+    for (kernel_directory.physical_tables) |*table|
+        table.* = 0;
     current_directory = kernel_directory;
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
@@ -133,6 +132,6 @@ pub fn init() void {
     }
 
     // Register page fault handler, then enable paging
-    isr.setHandler(isr.IRQ14, handler);
+    isr.setHandler(14, handler);
     switchPageDirectory(kernel_directory);
 }

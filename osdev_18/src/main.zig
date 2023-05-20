@@ -31,6 +31,7 @@ const Keyboard = @import("driver/Keyboard.zig");
 const Timer = @import("driver/Timer.zig");
 
 pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace) noreturn {
+    Console.write("Panic: ");
     Console.write(message);
     while (true)
         utils.hlt();
@@ -72,6 +73,8 @@ export fn isrHandler(registers: isr.Registers) void {
         0x15 => Console.write("Control Protection Exception"),
         else => Console.writeHex(@intCast(u8, registers.number)),
     }
+    while (true)
+        utils.hlt();
 }
 
 export fn irqHandler(registers: isr.Registers) void {
@@ -83,10 +86,10 @@ export fn irqHandler(registers: isr.Registers) void {
 }
 
 fn init() void {
-    Console.init();
     gdt.init();
     idt.init();
     paging.init();
+    Console.init();
     Keyboard.init();
 }
 
