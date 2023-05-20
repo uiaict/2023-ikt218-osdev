@@ -5,8 +5,7 @@ pub var address: u32 = undefined;
 
 const Alignment = enum {
     page,
-    type,
-    none,
+    regular,
 };
 
 pub fn init() void {
@@ -20,10 +19,9 @@ pub fn malloc(size: u32, alignment: Alignment, physical_address: ?*u32) u32 {
             address &= 0xFFFFF000;
             address += 0x1000;
         },
-        .type => if (address % size != 0) {
-            address += (address % size);
+        .regular => if (address % 8 != 0) {
+            address += (address % 8);
         },
-        .none => {},
     }
 
     // Set physical address if it's set
@@ -35,13 +33,18 @@ pub fn malloc(size: u32, alignment: Alignment, physical_address: ?*u32) u32 {
     return address;
 }
 
-pub fn create(comptime T: type, alignment: Alignment, physical_address: ?*u32) *T {
-    const bytes = malloc(@sizeOf(T), alignment, physical_address);
+pub fn create(comptime T: type) *T {
+    const bytes = malloc(@sizeOf(T), .regular, null);
     return @intToPtr(*T, bytes);
 }
 
-pub fn alloc(comptime T: type, n: usize, alignment: Alignment, physical_address: ?*u32) []T {
-    const bytes = malloc(@sizeOf(T) * n, alignment, physical_address);
+pub fn alloc(comptime T: type, n: usize) []T {
+    const bytes = malloc(@sizeOf(T) * n, .regular, null);
     const items = @intToPtr([*]T, bytes);
     return items[0..n];
+}
+
+pub fn free(pointer: anytype) void {
+    const size = @sizeOf(@TypeOf(pointer));
+    _ = size;
 }

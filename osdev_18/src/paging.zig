@@ -78,7 +78,10 @@ pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
         return &table.*.pages[page_address % 1024];
     } else if (create) {
         var temporary: usize = 0;
-        const table = allocator.create(Table, .page, &temporary);
+        const table = blk: {
+            const bytes = allocator.malloc(@sizeOf(Table), .page, &temporary);
+            break :blk @intToPtr(*Table, bytes);
+        };
         directory.tables[table_index] = table;
         directory.physical_tables[table_index] = temporary | 0x7;
         return &table.pages[page_address % 1024];
@@ -112,12 +115,20 @@ pub fn init() void {
     const memory_size = 0x1000000;
 
     // Initialize frames set to 0
-    frames = allocator.alloc(BitSet, memory_size / 0x1000, .page, null);
+    frames = blk: {
+        const amount = memory_size / 0x1000;
+        const bytes = allocator.malloc(@sizeOf(BitSet) * amount, .page, null);
+        const items = @intToPtr([*]BitSet, bytes);
+        break :blk items[0..amount];
+    };
     for (frames) |*frame|
         frame.* = BitSet.initEmpty();
 
     // Create page directory
-    kernel_directory = allocator.create(Directory, .page, null);
+    kernel_directory = blk: {
+        const bytes = allocator.malloc(@sizeOf(Directory), .page, null);
+        break :blk @intToPtr(*Directory, bytes);
+    };
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
     var i: usize = 0;

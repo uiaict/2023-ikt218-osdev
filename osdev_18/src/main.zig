@@ -78,4 +78,8 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
+    var numbers = allocator.alloc(u32, 10);
+    for (numbers) |*number|
+        number.* = 5;
+    allocator.free(numbers);
 }
