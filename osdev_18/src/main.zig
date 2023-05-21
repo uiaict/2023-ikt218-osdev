@@ -15,6 +15,8 @@ export var multiboot align(4) linksection(".multiboot") = MultiBoot{
     .checksum = -(MAGIC + FLAGS),
 };
 
+export var stack_bytes: [16 * 1024]u8 align(16) linksection(".bss") = undefined;
+
 // System
 const std = @import("std");
 const gdt = @import("gdt.zig");
@@ -66,7 +68,7 @@ fn init() void {
     allocator.init();
     gdt.init();
     idt.init();
-    paging.init();
+    // paging.init();
     Keyboard.init();
 }
 
