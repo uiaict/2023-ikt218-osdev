@@ -15,8 +15,6 @@ export var multiboot align(4) linksection(".multiboot") = MultiBoot{
     .checksum = -(MAGIC + FLAGS),
 };
 
-export var stack_bytes: [16 * 1024]u8 align(16) linksection(".bss") = undefined;
-
 // System
 const std = @import("std");
 const gdt = @import("gdt.zig");
@@ -40,7 +38,7 @@ pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace) noreturn {
 
 export fn _start() callconv(.Naked) noreturn {
     init();
-    @call(.{ .stack = &stack_bytes }, main, .{});
+    main();
     while (true)
         utils.hlt();
 }
@@ -80,6 +78,7 @@ fn main() void {
     Console.setColor(.white, .black);
 
     // Create page that can be used for allocating
-    var number = allocator.create(u32);
-    number.* = 5;
+    var number = allocator.create(u8);
+    number.* = 123;
+    Console.writeHex(number.*);
 }

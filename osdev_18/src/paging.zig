@@ -58,7 +58,6 @@ fn allocateFrame(page: *Page, is_kernel: bool, is_writeable: bool) void {
 pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     const page_address = address / 0x1000;
     const table_index = page_address / 1024;
-
     if (directory.tables[table_index]) |*table| {
         return &table.*.pages[page_address % 1024];
     } else if (create) {
@@ -136,7 +135,7 @@ pub fn init() void {
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
     var i: usize = 0;
-    while (i < allocator.address) : (i += 0x1000) {
+    while (i < allocator.address + 0x1000) : (i += 0x1000) {
         if (getPage(i, true, kernel_directory)) |page|
             allocateFrame(page, false, false);
     }
