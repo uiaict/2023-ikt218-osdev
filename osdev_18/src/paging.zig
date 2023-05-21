@@ -55,6 +55,24 @@ fn allocateFrame(page: *Page, is_kernel: bool, is_writeable: bool) void {
     } else return;
 }
 
+pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
+    const page_address = address / 0x1000;
+    const table_index = page_address / 1024;
+
+    if (directory.tables[table_index]) |*table| {
+        return &table.*.pages[page_address % 1024];
+    } else if (create) {
+        var temporary: usize = 0;
+        const table = blk: {
+            const bytes = allocator.malloc(@sizeOf(Table), .page, &temporary);
+            break :blk @intToPtr(*Table, bytes);
+        };
+        directory.tables[table_index] = table;
+        directory.physical_tables[table_index] = temporary | 0x7;
+        return &table.pages[page_address % 1024];
+    } else return null;
+}
+
 pub fn switchPageDirectory(directory: *Directory) void {
     asm volatile ("mov %[physical_tables], %%cr3"
         :
@@ -69,23 +87,6 @@ pub fn switchPageDirectory(directory: *Directory) void {
         :
         : [input] "r" (cr0),
     );
-}
-
-pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
-    const page_address = address / 0x1000;
-    const table_index = page_address / 1024;
-    if (directory.tables[table_index]) |*table| {
-        return &table.*.pages[page_address % 1024];
-    } else if (create) {
-        var temporary: usize = 0;
-        const table = blk: {
-            const bytes = allocator.malloc(@sizeOf(Table), .page, &temporary);
-            break :blk @intToPtr(*Table, bytes);
-        };
-        directory.tables[table_index] = table;
-        directory.physical_tables[table_index] = temporary | 0x7;
-        return &table.pages[page_address % 1024];
-    } else return null;
 }
 
 pub fn handler(registers: isr.Registers) void {
@@ -119,14 +120,17 @@ pub fn init() void {
         const amount = memory_size / 0x1000;
         const bytes = allocator.malloc(@sizeOf(BitSet) * amount, .page, null);
         const items = @intToPtr([*]BitSet, bytes);
+        for (items[0..amount]) |*frame|
+            frame.* = BitSet.initEmpty();
         break :blk items[0..amount];
     };
-    for (frames) |*frame|
-        frame.* = BitSet.initEmpty();
 
     // Create page directory
     kernel_directory = blk: {
         const bytes = allocator.malloc(@sizeOf(Directory), .page, null);
+        const slice = @intToPtr([*]u8, bytes);
+        for (slice[0..@sizeOf(Directory)]) |*byte|
+            byte.* = 0;
         break :blk @intToPtr(*Directory, bytes);
     };
 
