@@ -60,9 +60,16 @@ pub fn write(text: []const u8) void {
     moveCursor(row, column);
 }
 
-pub fn writeHex(value: u8) void {
+fn writeHexHelper(value: u8) void {
     const index = [16]u8{ '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
     write(&.{ index[(value & 0xF0) >> 4], index[(value & 0x0F)] });
+}
+
+pub fn writeHex(value: usize) void {
+    writeHexHelper(@intCast(u8, (value & 0xFF000000) >> 24));
+    writeHexHelper(@intCast(u8, (value & 0x00FF0000) >> 16));
+    writeHexHelper(@intCast(u8, (value & 0x0000FF00) >> 8));
+    writeHexHelper(@intCast(u8, (value & 0x000000FF) >> 0));
 }
 
 pub fn setColor(foreground: Color, background: Color) void {

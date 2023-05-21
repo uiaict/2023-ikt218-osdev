@@ -68,7 +68,7 @@ fn init() void {
     allocator.init();
     gdt.init();
     idt.init();
-    // paging.init();
+    paging.init();
     Keyboard.init();
 }
 
@@ -78,9 +78,4 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
-
-    // Create page that can be used for allocating
-    var number = allocator.create(u8);
-    number.* = 123;
-    Console.writeHex(number.*);
 }

@@ -102,10 +102,7 @@ pub fn handler(registers: isr.Registers) void {
     if (user_mode) Console.write("user-mode ");
     if (reserved) Console.write("reserved ");
     Console.write("] at 0x");
-    Console.writeHex(@intCast(u8, (cr2 & 0xFF000000) >> 24));
-    Console.writeHex(@intCast(u8, (cr2 & 0x00FF0000) >> 16));
-    Console.writeHex(@intCast(u8, (cr2 & 0x0000FF00) >> 8));
-    Console.writeHex(@intCast(u8, (cr2 & 0x000000FF) >> 0));
+    Console.writeHex(cr2);
     Console.write("\n");
     @panic("Page fault");
 }
