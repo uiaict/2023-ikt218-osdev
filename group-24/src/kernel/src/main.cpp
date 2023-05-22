@@ -12,6 +12,6 @@ extern "C"{
 void kernal_main()
 {
     init_gdt();
-    //print("hello world");
+    print("hello world");
 
 }
