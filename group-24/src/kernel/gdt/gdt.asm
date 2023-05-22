@@ -2,15 +2,20 @@
 ; Description: Flushes the Global Descriptor Table (GDT) by loading a new GDT descriptor, setting segment registers, and performing a jump to the updated code segment.
 ; Input: None
 ; Output: None
+
+global gdt_flush
+
+section .text
+
 gdt_flush:
-    mov eax, [esp+4]   ; Get the address of the new GDT descriptor from the stack
-    lgdt [eax]         ; Load the new GDT descriptor using the LGDT instruction
-    mov ax, 0x10       ; Set up the data segment registers (DS, ES, FS, GS, SS) to use the new GDT
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    mov ss, ax
-    jmp 0x08:.flush    ; Perform a jump to the updated code segment
+    lgdt [esp + 4]
+    mov eax, 0x10
+    mov ds, eax
+    mov es, eax
+    mov fs, eax
+    mov gs, eax
+    mov ss, eax
+    jmp 0x08:.flush
+
 .flush:
-    ret                ; Return from the function
+    ret

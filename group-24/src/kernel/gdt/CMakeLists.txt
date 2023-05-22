@@ -1,7 +1,7 @@
 set(OS_MODULE_GDT_NAME ${OS_KERNEL_NAME}-cpu)
 set(OS_MODULE_GDT_SOURCES
         gdt.cpp
-        start.asm
+        gdt.asm
         gdt.h
 )
 
