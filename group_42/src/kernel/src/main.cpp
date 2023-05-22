@@ -11,8 +11,9 @@ void kernel_main()
 {
 int a = 2;
 a = a + 2;
+
 }
-a = 2;
+
 
 // Set the color you want to use for the text
     //uint8_t color = 0x0F; // White text on black background
@@ -21,7 +22,7 @@ a = 2;
     //const char *str = "Hello, World!";
    // for (size_t i = 0; str[i] != '\0'; ++i) {
 //vga_putc(str[i], color, i, 0);
-    }
+    
 
     // Halt the CPU
     //for (;;) {

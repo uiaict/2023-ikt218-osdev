@@ -1,50 +1,56 @@
-// Created by per on 1/1/23.
-//
 #include "gdt.h"
-#include "isr.h"
-#include "idt.h"
 
+#define GDT_ENTRIES 5
 
-void init_gdt() asm ("init_gdt");
+ESOS::GDT::gdt_entry_t gdt[GDT_ENTRIES];
+ESOS::GDT::gdt_ptr_t gdt_ptr;
 
+/**
+ * Here we are forcing the compiler to name the function init_gdt
+ * this is usefull because we a re calling this function from the
+ * boot.asm file and we need to be 100% sure what its name is.
+*/
+void ESOS::GDT::init_gdt() asm ("init_gdt");
+
+/**
+ * Here we are doing the oposite of above, instead of allowing our
+ * c++ function to be called from assembly we are now allowing the
+ * assembly function gdt_flush to be called from c++
+*/
 extern "C" {
-    // Lets us access our ASM functions from our C code.
     extern void gdt_flush(uint32_t);
-    static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
-
 }
 
-UiAOS::CPU::GDT::gdt_entry_t gdt_entries[6];
-UiAOS::CPU::GDT::gdt_ptr_t   gdt_ptr;
 
-void init_gdt()
+void ESOS::GDT::init_gdt()
 {
-    gdt_ptr.limit = (sizeof(UiAOS::CPU::GDT::gdt_entry_t) * 6) - 1;
-    gdt_ptr.base  = (uint32_t)&gdt_entries;
+    
+    // Set the GDT limit
+    gdt_ptr.limit = sizeof( ESOS::GDT::gdt_entry_t) * GDT_ENTRIES - 1;
+    gdt_ptr.base = (uint32_t)&gdt;
 
+    // num, base, limit, access, granularity
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
     gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Code segment
     gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment
-    gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
-    gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
+    //gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
+    //gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
+    // Flush GDT pointer
+    
     gdt_flush((uint32_t)&gdt_ptr);
 }
 
 
-
-// Set the value of one GDT entry.
-void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+void ESOS::GDT::gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
-    gdt_entries[num].base_low    = (base & 0xFFFF);
-    gdt_entries[num].base_middle = (base >> 16) & 0xFF;
-    gdt_entries[num].base_high   = (base >> 24) & 0xFF;
+    gdt[num].base_low = (base & 0xFFFF);
+    gdt[num].base_middle = (base >> 16) & 0xFF;
+    gdt[num].base_high = (base >> 24) & 0xFF;
 
-    gdt_entries[num].limit_low   = (limit & 0xFFFF);
-    gdt_entries[num].granularity = (limit >> 16) & 0x0F;
+    gdt[num].limit_low = (limit & 0xFFFF);
+    gdt[num].granularity = (limit >> 16) & 0x0F;
 
-    gdt_entries[num].granularity |= gran & 0xF0;
-    gdt_entries[num].access      = access;
+    gdt[num].granularity |= gran & 0xF0;
+    gdt[num].access = access;
 }
-
-

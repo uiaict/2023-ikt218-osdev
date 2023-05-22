@@ -141,9 +141,10 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
         ${ARCH_TARGET}src/boot/src/boot.asm
-        src/boot/src/boot.cpp
-        src/GDT/gdt.cpp
+      
+        
         src/GDT/gdt.asm
+        src/GDT/gdt.cpp
 
         #src/GDT/idt.cpp
         #src/GDT/idt_a.asm
@@ -183,9 +184,8 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/src/*.c
-        src/kernel/src/*.h
+        src/kernel/src/main.cpp
+        
         
       
         

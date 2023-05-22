@@ -37,20 +37,16 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-	extern init_multiboot
-	push ebx ; multiboot_info struct
-	push eax ; magic number
-	call init_multiboot
+
 
 	
 	mov esp, stack_top
 
-	
-    ;extern init_constructors
-    ;call init_constructors
-    extern init_gdt
-    
+
+  extern init_gdt
 	call init_gdt
+   
+  
 
     ; Initialize the Interrupt Descriptor Table
     ;extern init_idt
