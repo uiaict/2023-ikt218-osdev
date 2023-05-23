@@ -175,6 +175,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/screen/*.cpp
         src/kernel/cpu/i386/gdt.asm
         src/kernel/cpu/i386/gdt.cpp
+        src/kernel/cpu/i386/idt.cpp
 
 )
 # Set the output binary name
