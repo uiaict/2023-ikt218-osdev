@@ -182,7 +182,7 @@ set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAG
 # Tutorial: the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
 # A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.
 add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
-# Defines which include directories to usefor the kernel.
+# Defines which include directories to use for the kernel.
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include

@@ -109,10 +109,12 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
+        src/stdlib
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
     PUBLIC src/stdlib/include
+    src/stdlib
 
 )
 target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
@@ -142,12 +144,14 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         src/boot/src/boot.asm
         src/boot/src/boot.cpp
+        src/boot
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
 # Defines the include directories for the boot library
 target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
     src/boot/include/
+    src/boot
 )
 # Defines the linking between boot and the boot library
 target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
@@ -163,7 +167,7 @@ set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 # 4. copy compiled binary to the root of the cmake build directory.
 ########################################
 # Define kernel module name
-set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-kernel)
+set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-img)
 # Define custom compile flags for the kernel
 set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
@@ -172,6 +176,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/*.asm
+        src/kernel
+        src/kernel/include/gdt.h
+        src/kernel/src/gdt_flush.asm
+        src/kernel/src/gdt.cpp
 )
 
 
@@ -214,6 +222,8 @@ set_target_properties(
         LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
 )
 
+add_subdirectory(src/kernel)
+
 ########################################
 ###
 ### Grub
@@ -221,3 +231,20 @@ set_target_properties(
 ########################################
 add_subdirectory(grub)
 
+########################################
+###
+### Create a CMAKE Target for QEMU
+### QEMU is the virtual machine that we'll be using
+### config/QEMURunner.sh.in is a template file which we will "fill in the blanks" using the below variables
+########################################
+set(QEMU_ARCH ${ARCH_TARGET})
+set(QEMU_KERNEL_IMAGE ${GRUB_IMAGE_PATH})
+set(QEMU_MEMORY 32)
+set(QEMU_RUN_TARGET ${OS_KERNEL_NAME}-run)
+set(QEMU_ARGS -daemonize)
+configure_file(
+        config/QEMURunner.sh.in QEMURunner.sh
+        FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+)
+add_custom_target(${QEMU_RUN_TARGET} COMMAND bash -c "${CMAKE_CURRENT_BINARY_DIR}/QEMURunner.sh")
+add_dependencies(${QEMU_RUN_TARGET} ${GRUB_TARGET})

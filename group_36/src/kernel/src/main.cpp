@@ -3,26 +3,17 @@ extern "C"{
     void kernel_main();
 }
 
-/**
- * Copyright 2019 Ashar <ashar786khan@gmail.com>
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "gdt.h"
+#include "../include/gdt.h"
+#include <stdlib/c/libc.h>
+#include "../drivers/_include/driver.h"
+#include <../cpu/include/cpu.h>
+// #include <../cpu/i386/isr.h>
+#include "../memory/paging.h"
+#include "boot.h"
 
  
 #if !defined(__i386__)
@@ -48,6 +39,8 @@ enum vga_color {
 	VGA_COLOR_LIGHT_BROWN = 14,
 	VGA_COLOR_WHITE = 15,
 };
+
+
  
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
@@ -129,17 +122,110 @@ void printf(const char* data)
 {
 	terminal_write(data, strlen(data));
 }
- 
+
+class OperatingSystem {
+    int tick = 0;
+
+public:
+    OperatingSystem(vga_color color) {
+
+
+    }
+
+    void init() {
+
+        printf("Initializing UiA Operating System....\n");
+    }
+
+    void debug_print(char *str) {
+        printf(str);
+    }
+
+    void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs) {
+        printf("Called Interrupt Handler 3!\n");
+    }
+
+    void interrupt_handler_4(UiAOS::CPU::ISR::registers_t regs) {
+        printf("Called Interrupt Handler 4!\n");
+    }
+};
+
+void print_uint8(uint8_t scancode) {
+    char buffer[4];  // Buffer for up to 3 digits plus null terminator
+    uint8_t n = scancode;
+    int i = 0;
+
+    // Handle 0 explicitly (as the loop below doesn't do that)
+    if (n == 0) {
+        buffer[i++] = '0';
+    }
+    else {
+        // Convert number to string (in reverse order)
+        while (n > 0) {
+            buffer[i++] = '0' + n % 10;
+            n /= 10;
+        }
+
+        // Reverse the string to get it in the correct order
+        for (int j = 0; j < i / 2; ++j) {
+            char temp = buffer[j];
+            buffer[j] = buffer[i - j - 1];
+            buffer[i - j - 1] = temp;
+        }
+    }
+
+    buffer[i] = '\0';  // Null-terminate the string
+
+    printf(buffer);
+}
+
 void kernel_main(void) 
 {
 
 	/* Initialize terminal interface */
 	terminal_initialize();
+
+	// Create operating system object
+    auto os = OperatingSystem(VGA_COLOR_RED);
+    os.init();
  
 	/* Initialize GDT */
 	printf("Initializing GDT...\n");
 	GDT::init();
 	printf("GDT initialized!\n");
 
-	printf("Hello World!! test");
+	printf("Hello World!! \n");
+
+    // Create some interrupt handlers for 3
+    UiAOS::CPU::ISR::register_interrupt_handler(3,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_3(*regs);
+    }, (void*)&os);
+
+    // Create some interrupt handler for 4
+    UiAOS::CPU::ISR::register_interrupt_handler(4,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_4(*regs);
+    }, (void*)&os);
+
+    // Fire interrupts! Should trigger callback above
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
+
+
+    // Disable interrutps
+    asm volatile("sti");
+
+    // Hook Keyboard
+    UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
+        auto* os = (OperatingSystem*)context;
+        printf("Keyboard Event: ");
+        print_uint8(UiAOS::IO::Keyboard::scancode_to_ascii(scancode));
+        printf(" (");
+        print_uint8(scancode);
+        printf(")\n");
+    }, &os);
+
+    while(1){}
+
 }

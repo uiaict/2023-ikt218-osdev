@@ -4,6 +4,12 @@
 #include <time.h>
 #include <stdio.h>
 
+void *memset(void *s, int c, size_t n) {
+    unsigned char *p = (unsigned char *)s;
+    while(n--)
+        *p++ = (unsigned char)c;
+    return s;
+}
 
     int isalnum(int c);
     int iscntrl(int c);
@@ -64,7 +70,7 @@
     int strcoll(const char *s1, const char *s2);
     char *strerror(int errnum);
     size_t strftime(char *s, size_t max, const char *format, const struct tm *tm);
-    char *strpbrk(const char *s, const char *accept);
+    // char *strpbrk(const char *s, const char *accept);
     double strtod(const char *nptr, char **endptr);
     int system(const char *command);
     double tan(double x);
@@ -97,17 +103,17 @@
     unsigned long int strtoul(const char *nptr, char **endptr, int base);
     char *strcat(char *dest, const char *src);
     char *strsep(char **stringp, const char *delim);
-    char *strstr(const char *haystack, const char *needle);
-    char *strrchr(const char *s, int c);
+    // char *strstr(const char *haystack, const char *needle);
+    // char *strrchr(const char *s, int c);
     void qsort(void *base, size_t nmemb, size_t size, int (*compar)(const void *, const void *));
     char *strcpy(char *dest, const char *src);
     char *stpcpy(char *dest, const char *src);
-    char *strchr(const char *s, int c);
+    // char *strchr(const char *s, int c);
     size_t strnlen(const char *s, size_t maxlen);
     size_t strspn(const char *s, const char *accept);
     size_t strcspn(const char *s, const char *reject);
     int memcmp(const void *s1, const void *s2, size_t n);
-    void *memchr(const void *s, int c, size_t n);
+    // void *memchr(const void *s, int c, size_t n);
     int isspace(int c);
     int isalpha(int c);
     int isdigit(int c);
