@@ -5,4 +5,3 @@ web/venv
 !build_*/kernel.img
 *.lock
 *.egg-info*
-settings.json
