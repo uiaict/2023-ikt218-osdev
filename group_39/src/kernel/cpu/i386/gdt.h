@@ -37,4 +37,4 @@ struct gdt_pointer {
     uint32_t base; //  32 bit base address (where the GDT table begins in memory)
 } __attribute__((packed)); // As above, tell the compiler not to add padding.
 
-#endif UIAOS_GDT_H
+#endif
