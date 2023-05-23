@@ -4,9 +4,8 @@
 
 #define UIAOS_IDT_H
 
-
-
-
+// Include the freestanding stdint library.
+#include <stdint.h>
 
 
 struct idt_entry 
@@ -27,6 +26,4 @@ struct idt_ptr
 } __attribute__((packed));
 
 
-
-
-#endif UIAOS_IDT_H
+#endif
