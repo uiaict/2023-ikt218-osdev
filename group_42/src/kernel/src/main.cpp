@@ -14,7 +14,6 @@ a = a + 2;
 
 }
 
-
 // Set the color you want to use for the text
     //uint8_t color = 0x0F; // White text on black background
 
