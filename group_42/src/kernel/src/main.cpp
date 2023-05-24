@@ -1,6 +1,6 @@
 
 #include "system.h"
-
+#include "test.h"
 // Define entry point in asm to prevent C++ mangling
 
 extern "C"{
@@ -11,6 +11,11 @@ void kernel_main()
 {
 int a = 2;
 a = a + 2;
+
+while (1)
+{
+   clearScreen();
+}
 
 }
 
