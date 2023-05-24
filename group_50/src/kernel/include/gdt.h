@@ -5,7 +5,7 @@
 #define GDT_ENTRIES 5
 
 
-struct gdt_entry
+struct gdt_entry 
 {
     uint16_t limit_low;
     uint16_t base_low;
@@ -25,9 +25,6 @@ struct gdt_ptr
 
 void gdt_init();
 
-void gdt_seg_descriptor(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
-
-// Function in lgdt.asm to reload new segment registers
-extern void gdt_flush();
+void gdt_descriptors(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
 #endif /* GDT_H */
