@@ -2,7 +2,13 @@
 
 #include "idt.h"
 
-idt_entry idt_entries[3];
+// Number of IDT entries
+#define NUM_IDT_ENTRIES 256
+
+
+idt_entry idt_entries[NUM_IDT_ENTRIES];
+
+idt_ptr idt_pointer; 
 
 
 void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
@@ -13,4 +19,11 @@ void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
     idt_entries[num].selector = sel; // Set segment selector
     idt_entries[num].reserved = 0; // Set the "alwaays0" field to 0. 
     idt_entries[num].flags   = flags  | 0x60; // Set flags. 
+}
+
+
+void init_idt()
+{
+    idt_pointer.base = (uint32_t)&idt_entries; // Set the base address of the IDT pointer.
+    idt_pointer.limit = sizeof(idt_entry) * 256 -1; // Set the limit of the IDT pointer. 
 }

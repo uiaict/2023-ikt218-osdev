@@ -8,6 +8,7 @@
 #include <stdint.h>
 
 
+
 struct idt_entry 
 {
     uint16_t base_low; // The lower 16 bits of the address
