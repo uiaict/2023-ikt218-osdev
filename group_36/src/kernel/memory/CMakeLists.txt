@@ -1,5 +1,3 @@
-
-
 set(OS_MODULE_MEMORY_NAME ${OS_KERNEL_NAME}-memory)
 set(OS_MODULE_MEMORY_SOURCES
         paging.cpp
@@ -13,7 +11,6 @@ target_include_directories(${OS_MODULE_MEMORY_NAME} PUBLIC include)
 target_compile_definitions(${OS_MODULE_MEMORY_NAME} PUBLIC
         ARCH_TARGET=i386
 )
-
 
 
 set(OS_MODULE_MEMORY_NAME ${OS_KERNEL_NAME}-memory PARENT_SCOPE)

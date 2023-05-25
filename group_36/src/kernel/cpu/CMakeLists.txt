@@ -13,7 +13,8 @@ set(OS_MODULE_CPU_SOURCES
 
         i386/hardware_port.cpp
         i386/hardware.cpp
-        # i386/timer/timer.cpp
+        
+        i386/timer/timer.cpp
 )
 
 add_library(${OS_MODULE_CPU_NAME} ${OS_MODULE_CPU_SOURCES})

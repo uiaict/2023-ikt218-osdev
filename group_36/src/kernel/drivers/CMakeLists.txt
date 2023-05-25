@@ -4,7 +4,7 @@
 # Module for supporting printing to the display/terminal
 ###
 ########################################
-add_subdirectory(monitor)
+# add_subdirectory(monitor)
 
 ########################################
 ###

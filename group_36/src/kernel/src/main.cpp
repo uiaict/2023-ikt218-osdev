@@ -223,11 +223,11 @@ void kernel_main(void)
 
     
     // Fire interrupts! Should trigger callback above
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
+    // asm volatile ("int $0x3");
+    // asm volatile ("int $0x4");
 
-    // Disable interrutps
-    asm volatile("sti");
+    // // Disable interrutps
+    // asm volatile("sti");
 
     // // Create a timer on IRQ0 - System Timer
     // UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){

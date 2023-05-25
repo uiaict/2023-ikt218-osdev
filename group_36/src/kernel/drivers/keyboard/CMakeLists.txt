@@ -1,5 +1,3 @@
-
-
 set(OS_MODULE_IO_KEYBOARD_NAME ${OS_KERNEL_NAME}-module-keyboard)
 set(OS_MODULE_IO_KEYBOARD_SOURCES
         keyboard.cpp

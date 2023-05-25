@@ -33,6 +33,7 @@ include(FetchContent)
 ########################################
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
+set(ARCH_TARGET ${OS_ARCH_TARGET})
 # The operating system name.
 set(OS_NAME "UiA Operating System")
 # CMake target name for our operating system
@@ -191,7 +192,7 @@ set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 
 # Append the ASM_SOURCE_FILES to the OS_MODULE_KERNEL_SOURCES variable
 # list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
-message("${OS_MODULE_KERNEL_SOURCES}")
+# message("${OS_MODULE_KERNEL_SOURCES}")
 
 
 # Set the output binary name

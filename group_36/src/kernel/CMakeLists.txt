@@ -15,7 +15,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         #src/system/*.c
         ../boot/src/boot.cpp
         # src/gdt.cpp
-        src/gdt_flush.asm
+        # src/gdt_flush.asm
         # /include/gdt.h
 )
 # set(OS_MODULE_KERNEL_BINARY ${OS_KERNEL_NAME}.bin)
@@ -54,26 +54,18 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         include
-        drivers/_include
-        drivers/keyboard/keyboard.*
+        # drivers/_include      // NOT SURE IF NEEDED
+        # drivers/keyboard/keyboard.*   // NOT SURE IF NEEDED
 )
 
-########################################
-###
-### Link libraries with the kernel.
-### 1. Boot
-########################################
-message("Linking kernel with following libraries ${OS_LIBRARIES}")
+
+# Link libraries with the kernel
+message("Linking kernel with following libraries: ${OS_LIBRARIES}")
 target_link_libraries(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         ${OS_LIBRARIES}
         ${OS_APPLICATIONS}
 )
-########################################
-###
-### Set name and linker flags for the kernel
-###
-########################################
 
 set_target_properties(
         ${OS_MODULE_KERNEL_NAME} PROPERTIES
@@ -82,10 +74,4 @@ set_target_properties(
 )
 
 
-
-########################################
-###
-### Export variables to parent_Scope
-###
-########################################
 set(OS_MODULE_KERNEL_NAME ${OS_MODULE_KERNEL_NAME} PARENT_SCOPE)

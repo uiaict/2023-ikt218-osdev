@@ -4,8 +4,7 @@
 #include "../hardware_port.h"
 #include "../isr.h"
 
-
-// #include "timer.h"
+#include "timer.h"
 
 uint32_t tick = 0;
 
