@@ -4,6 +4,7 @@ const Console = @import("driver/Console.zig");
 
 // State
 var start_block: ?*Block = null;
+var last_block: ?*Block = null;
 
 // Header for each block, actual data is allocated after (*Header) + sizeOf(header) which is 8.
 const Block = packed struct {
@@ -27,48 +28,46 @@ const Block = packed struct {
     }
 };
 
-// Find a block that isn't used, or create one.
-// TODO: get frames before
-// Note: Block must be set to valid after
-fn findOrCreateBlock(size: u31) *Block {
-    if (start_block) |first| {
-        var current = first;
-        while (current.next) |block| {
-            if (block.fits(size)) return block;
-            if (block.next == null)
-                break
-            else
-                current = block;
-        }
-        // current is now the last block
-        const new_block = Block.alloc(size);
-        current.next = new_block;
-        return new_block;
+fn createBlock(size: u31) void {
+    const new_block = Block.alloc(size);
+    if (last_block) |*block| {
+        block.*.next = new_block;
     } else {
-        const new_block = Block.alloc(size);
         start_block = new_block;
-        return new_block;
     }
+    last_block = new_block;
+}
+
+fn findBlock(size: u31) ?*Block {
+    var current = start_block;
+    while (current) |block| {
+        if (block.fits(size))
+            return block;
+        current = block.next;
+    }
+    return null;
 }
 
 pub fn create(comptime T: type) *T {
-    const block = findOrCreateBlock(@sizeOf(T));
-    Console.write("\ncreated block at: 0x");
-    Console.writeHex(@ptrToInt(block));
-    block.used = true;
-    const bytes = memory.malloc(@sizeOf(T), .regular, null);
-    Console.write("\ncreated ptr at:   0x");
-    return @intToPtr(*T, bytes);
+    const size = @sizeOf(T);
+    if (findBlock(size)) |*block| {
+        block.*.used = true;
+        const bytes = @ptrToInt(block) + @sizeOf(Block);
+        return @intToPtr(*T, bytes);
+    } else {
+        // Create block then allocate for T
+        createBlock(size);
+        const bytes = memory.malloc(@sizeOf(T), .regular, null);
+        return @intToPtr(*T, bytes);
+    }
 }
 
 pub fn destroy(pointer: anytype) void {
     var block = blk: {
-        const offset = (@ptrToInt(pointer) - 8);
+        const offset = @ptrToInt(pointer) - @sizeOf(Block);
         break :blk @intToPtr(*Block, offset);
     };
     block.used = false;
-    Console.write("\ndisabled block:   0x");
-    Console.writeHex(@ptrToInt(block));
 }
 
 // pub fn alloc(comptime T: type, n: usize) []T {

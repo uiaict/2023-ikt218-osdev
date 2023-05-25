@@ -79,13 +79,12 @@ fn main() void {
     Console.setColor(.light_blue, .black);
     Console.write("> ");
     Console.setColor(.white, .black);
-    const number = allocator.create(u32);
-    Console.writeHex(@ptrToInt(number));
-    allocator.destroy(number);
-    const new_number = allocator.create(u32);
-    Console.writeHex(@ptrToInt(new_number));
-    allocator.destroy(new_number);
-    const another = allocator.create(u32);
-    Console.writeHex(@ptrToInt(another));
-    allocator.destroy(another);
+
+    var i: usize = 0;
+    while (i < 10) : (i += 1) {
+        const number = allocator.create(u32);
+        Console.write("\nptr: 0x");
+        Console.writeHex(@ptrToInt(number));
+        allocator.destroy(number);
+    }
 }
