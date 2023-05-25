@@ -1,18 +1,21 @@
-; This is an endless loop here. Make a note of this: Later on, we
-; will insert an 'extern _kernal_main', followed by 'call _kernal_main', right
-; before the 'jmp $'.
-global gdt_flush
-gdt_flush:
-    mov eax, [esp+4]  ; Get the pointer to the GDT, passed as a parameter.
-    lgdt [eax]        ; Load the new GDT pointer
+; Function: gdt_flush
+; Description: Flushes the Global Descriptor Table (GDT) by loading a new GDT descriptor, setting segment registers, and performing a jump to the updated code segment.
+; Input: None
+; Output: None
 
-    mov ax, 0x10      ; 0x10 is the offset in the GDT to our data segment
-    mov ds, ax        ; Load all data segment selectors
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-    mov ss, ax
-    jmp 0x08:.flush   ; 0x08 is the offset to our code segment: Far jump!
+global gdt_flush
+
+section .text
+
+gdt_flush:
+    lgdt [esp + 4]
+    mov eax, 0x10
+    mov ds, eax
+    mov es, eax
+    mov fs, eax
+    mov gs, eax
+    mov ss, eax
+    jmp 0x08:.flush
+
 .flush:
     ret
-

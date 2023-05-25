@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <system.h>
-#include "screen.h"
-#include "gdt.h"
+#include "../include/screen.h"
+#include "../gdt/gdt.h"
 
 
 
@@ -12,6 +12,6 @@ extern "C"{
 void kernal_main()
 {
     init_gdt();
-    //print("hello world");
-
+    clear_screen();
+    print("hello world!");
 }
