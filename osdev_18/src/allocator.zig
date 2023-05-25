@@ -81,14 +81,12 @@ pub fn alloc(comptime T: type, n: u31) []T {
     return items[0..n];
 }
 
-// Used for many pointers
 pub fn free(pointer: anytype) void {
     var block = @intToPtr(*Block, @ptrToInt(&pointer[0]) - @sizeOf(Block));
     block.*.used = false;
 }
 
-// Used for single pointers
 pub fn destroy(pointer: anytype) void {
-    var block = @intToPtr(*Block, @ptrToInt(&pointer) - @sizeOf(Block));
+    var block = @intToPtr(*Block, @ptrToInt(pointer) - @sizeOf(Block));
     block.*.used = false;
 }
