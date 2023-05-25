@@ -77,4 +77,7 @@ fn init() void {
 
 fn main() !void {
     Console.showPrompt();
+    const number = try allocator.create(u32);
+    number.* = 0x1234;
+    try Console.writeFmt("Number is: 0x{x}", .{number.*});
 }
