@@ -74,12 +74,7 @@ fn init() void {
 }
 
 fn main() void {
-    Console.setColor(.green, .black);
-    Console.write("kernel ");
-    Console.setColor(.light_blue, .black);
-    Console.write("> ");
-    Console.setColor(.white, .black);
-
+    Console.showPrompt();
     const first = allocator.create(u32);
     allocator.destroy(first);
 }
