@@ -80,9 +80,6 @@ fn main() void {
     Console.write("> ");
     Console.setColor(.white, .black);
 
-    const first = allocator.alloc(u32, 10);
-    _ = allocator.create(u32);
-    allocator.free(first);
-    const third = allocator.alloc(u32, 10);
-    Console.writeHex(@ptrToInt(&third[0]));
+    const first = allocator.create(u32);
+    allocator.destroy(first);
 }
