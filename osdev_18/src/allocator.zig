@@ -82,11 +82,8 @@ pub fn alloc(comptime T: type, n: u31) []T {
 }
 
 pub fn free(pointer: anytype) void {
-    var block = @intToPtr(*Block, @ptrToInt(&pointer[0]) - @sizeOf(Block));
-    block.*.used = false;
-}
-
-pub fn destroy(pointer: anytype) void {
-    var block = @intToPtr(*Block, @ptrToInt(pointer) - @sizeOf(Block));
+    const pointer_type = @typeInfo(@TypeOf(pointer)).Pointer.size;
+    const offset = if (pointer_type == .Slice) @ptrToInt(&pointer[0]) else @ptrToInt(pointer);
+    var block = @intToPtr(*Block, offset - @sizeOf(Block));
     block.*.used = false;
 }

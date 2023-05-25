@@ -76,5 +76,5 @@ fn init() void {
 fn main() void {
     Console.showPrompt();
     const first = allocator.create(u32);
-    allocator.destroy(first);
+    allocator.free(first);
 }
