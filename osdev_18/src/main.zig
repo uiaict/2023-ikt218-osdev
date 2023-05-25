@@ -82,7 +82,7 @@ fn main() void {
 
     var i: usize = 0;
     while (i < 10) : (i += 1) {
-        const number = allocator.create(u32);
+        const number = allocator.create(u64);
         Console.write("\nptr: 0x");
         Console.writeHex(@ptrToInt(number));
         allocator.destroy(number);

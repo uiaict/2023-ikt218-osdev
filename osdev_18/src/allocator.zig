@@ -40,7 +40,10 @@ fn createBlock(size: u31) void {
 
 fn findBlock(size: u31) ?*Block {
     var current = start_block;
+    Console.write("\nfindBlock:");
     while (current) |block| {
+        Console.write(" 0x");
+        Console.writeHex(@ptrToInt(block));
         if (block.fits(size))
             return block;
         current = block.next;
@@ -52,7 +55,7 @@ pub fn create(comptime T: type) *T {
     const size = @sizeOf(T);
     if (findBlock(size)) |*block| {
         block.*.used = true;
-        const bytes = @ptrToInt(block) + @sizeOf(Block);
+        const bytes = @ptrToInt(block.*) + @sizeOf(Block);
         return @intToPtr(*T, bytes);
     } else {
         // Create block then allocate for T
@@ -67,7 +70,7 @@ pub fn destroy(pointer: anytype) void {
         const offset = @ptrToInt(pointer) - @sizeOf(Block);
         break :blk @intToPtr(*Block, offset);
     };
-    block.used = false;
+    block.*.used = false;
 }
 
 // pub fn alloc(comptime T: type, n: usize) []T {
