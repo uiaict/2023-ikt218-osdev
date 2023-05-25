@@ -77,21 +77,4 @@ fn init() void {
 
 fn main() !void {
     Console.showPrompt();
-    {
-        var number = try allocator.create(u32);
-        number.* = 0x100;
-        Console.writeHex(@ptrToInt(number));
-        allocator.destroy(number);
-    }
-
-    // var numbers = std.ArrayList(u32).init(allocator);
-    // try numbers.append(0x100);
-    // try numbers.append(0x200);
-    // try numbers.append(0x300);
-    // _ = numbers.pop();
-    // try numbers.append(0x400);
-    // for (numbers.items) |number| {
-    //     Console.writeHex(number);
-    //     Console.write("\n");
-    // }
 }

@@ -1,5 +1,6 @@
 const std = @import("std");
 const utils = @import("../utils.zig");
+const allocator = @import("../allocator.zig").kernel_allocator;
 
 var row: u16 = 0;
 var column: u16 = 0;
@@ -58,6 +59,12 @@ pub fn write(text: []const u8) void {
         }
     }
     moveCursor(row, column);
+}
+
+pub fn writeFmt(comptime fmt: []const u8, args: anytype) !void {
+    const letters = try std.fmt.allocPrint(allocator, fmt, args);
+    write(letters);
+    allocator.free(letters);
 }
 
 fn writeHexHelper(value: u8) void {

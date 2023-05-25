@@ -18,13 +18,13 @@ const Block = packed struct {
 
     fn alloc(size: u31) *Block {
         // Fetch page from physical memory
-        if (current_offset + size < current_size) {
+        current_offset += @sizeOf(Block) + size;
+        if (current_offset < current_size) {
             current_size += 0x1000;
             paging.virtual_address += 0x1000;
             paging.createFrame(paging.virtual_address);
             paging.sync();
         }
-        current_offset += size + @sizeOf(Block);
         const bytes = memory.malloc(@sizeOf(Block), .regular, null);
         const block = @intToPtr(*Block, bytes);
         block.* = .{
