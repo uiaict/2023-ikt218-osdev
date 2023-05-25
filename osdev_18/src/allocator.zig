@@ -1,6 +1,5 @@
 const paging = @import("paging.zig");
 const memory = @import("memory.zig");
-const Console = @import("driver/Console.zig");
 
 // State
 var start_block: ?*Block = null;
@@ -40,10 +39,7 @@ fn createBlock(size: u31) void {
 
 fn findBlock(size: u31) ?*Block {
     var current = start_block;
-    Console.write("\nfindBlock:");
     while (current) |block| {
-        Console.write(" 0x");
-        Console.writeHex(@ptrToInt(block));
         if (block.fits(size))
             return block;
         current = block.next;
@@ -82,7 +78,6 @@ pub fn destroy(pointer: anytype) void {
 // pub fn free(pointer: anytype) void {
 //     const T = @typeInfo(@TypeOf(pointer)).Pointer.child;
 //     const bytes = std.mem.sliceAsBytes(pointer);
-//     Console.writeHex(@sizeOf(T));
 //     _ = T;
 //     _ = bytes;
 // }
