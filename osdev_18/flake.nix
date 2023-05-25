@@ -19,6 +19,7 @@
     in {
       devShell = pkgs.mkShell {
         buildInputs = [
+          pkgs.zls
           pkgs.zig
           pkgs.qemu
           pkgs.gdb

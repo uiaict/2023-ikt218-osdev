@@ -1,7 +1,7 @@
 const std = @import("std");
 const isr = @import("isr.zig");
 const utils = @import("utils.zig");
-const allocator = @import("allocator.zig");
+const memory = @import("memory.zig");
 const Console = @import("driver/Console.zig");
 const BitSet = std.bit_set.IntegerBitSet(32);
 
@@ -63,7 +63,7 @@ pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     } else if (create) {
         var temporary: usize = 0;
         const table = blk: {
-            const bytes = allocator.malloc(@sizeOf(Table), .page, &temporary);
+            const bytes = memory.malloc(@sizeOf(Table), .page, &temporary);
             break :blk @intToPtr(*Table, bytes);
         };
         directory.tables[table_index] = table;
@@ -114,7 +114,7 @@ pub fn init() void {
     // Initialize frames set to 0
     frames = blk: {
         const amount = memory_size / 0x1000;
-        const bytes = allocator.malloc(@sizeOf(BitSet) * amount, .page, null);
+        const bytes = memory.malloc(@sizeOf(BitSet) * amount, .page, null);
         const items = @intToPtr([*]BitSet, bytes);
         for (items[0..amount]) |*frame|
             frame.* = BitSet.initEmpty();
@@ -123,7 +123,7 @@ pub fn init() void {
 
     // Create page directory
     kernel_directory = blk: {
-        const bytes = allocator.malloc(@sizeOf(Directory), .page, null);
+        const bytes = memory.malloc(@sizeOf(Directory), .page, null);
         const slice = @intToPtr([*]u8, bytes);
         for (slice[0..@sizeOf(Directory)]) |*byte|
             byte.* = 0;
@@ -132,7 +132,7 @@ pub fn init() void {
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
     var i: usize = 0;
-    while (i < allocator.address + 0x1000) : (i += 0x1000) {
+    while (i < memory.address + 0x1000) : (i += 0x1000) {
         if (getPage(i, true, kernel_directory)) |page|
             allocateFrame(page, false, false);
     }
