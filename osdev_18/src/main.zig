@@ -72,10 +72,14 @@ fn init() void {
     paging.init();
     memory.printLayout();
     Keyboard.init();
+    Timer.init(1000);
 }
 
 fn main() void {
     Console.showPrompt();
-    const first = allocator.create(u32);
-    allocator.free(first);
+    var i: usize = 0;
+    while (i < 10) : (i += 1) {
+        Console.write("Tick...\n");
+        Timer.sleepInterrupt(1000);
+    }
 }
