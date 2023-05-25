@@ -245,8 +245,8 @@ void kernel_main(void)
     UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
         printf("Keyboard Event: ");
-        print_uint8(UiAOS::IO::Keyboard::scancode_to_ascii(scancode));
-        printf("test");
+        char ascii[2] = {UiAOS::IO::Keyboard::scancode_to_ascii(scancode), '\0'};
+        printf(ascii);
         printf(" (");
         print_uint8(scancode);
         printf(")\n");
