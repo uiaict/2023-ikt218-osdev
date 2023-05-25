@@ -1,3 +1,4 @@
+const std = @import("std");
 const paging = @import("paging.zig");
 const memory = @import("memory.zig");
 
@@ -8,7 +9,8 @@ var last_block: ?*Block = null;
 var current_size: u32 = 0;
 var current_offset: u32 = 0;
 
-// Header for each block, actual data is allocated after (*Header) + sizeOf(header) which is 8.
+// Header for each block, actual data is allocated after
+// *Header + @sizeOf(header)
 const Block = packed struct {
     size: u31,
     used: bool,
@@ -70,20 +72,32 @@ fn getBytes(size: u31) usize {
     }
 }
 
-pub fn create(comptime T: type) *T {
-    const bytes = getBytes(@sizeOf(T));
-    return @intToPtr(*T, bytes);
-}
+// Allocator pattern
+const KernelAllocator = struct {
+    const vtable = std.mem.Allocator.VTable{
+        .alloc = alloc,
+        .resize = resize,
+        .free = free,
+    };
 
-pub fn alloc(comptime T: type, n: u31) []T {
-    const bytes = getBytes(@sizeOf(T) * n);
-    const items = @intToPtr([*]T, bytes);
-    return items[0..n];
-}
+    fn alloc(_: *anyopaque, len: usize, _: u29, _: u29, _: usize) ![]u8 {
+        const bytes = getBytes(@intCast(u31, len));
+        const items = @intToPtr([*]u8, bytes);
+        return items[0..len];
+    }
 
-pub fn free(pointer: anytype) void {
-    const pointer_type = @typeInfo(@TypeOf(pointer)).Pointer.size;
-    const offset = if (pointer_type == .Slice) @ptrToInt(&pointer[0]) else @ptrToInt(pointer);
-    var block = @intToPtr(*Block, offset - @sizeOf(Block));
-    block.*.used = false;
-}
+    fn resize(_: *anyopaque, _: []u8, _: u29, _: usize, _: u29, _: usize) ?usize {
+        return null;
+    }
+
+    fn free(_: *anyopaque, buf: []u8, _: u29, _: usize) void {
+        const offset = @ptrToInt(&buf[0]) - @sizeOf(Block);
+        var block = @intToPtr(*Block, offset);
+        block.*.used = false;
+    }
+};
+
+pub const kernel_allocator = std.mem.Allocator{
+    .ptr = undefined,
+    .vtable = &KernelAllocator.vtable,
+};

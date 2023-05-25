@@ -25,7 +25,7 @@ const isr = @import("isr.zig");
 const utils = @import("utils.zig");
 const paging = @import("paging.zig");
 const memory = @import("memory.zig");
-const allocator = @import("allocator.zig");
+const allocator = @import("allocator.zig").kernel_allocator;
 
 // Drivers
 const Console = @import("driver/Console.zig");
@@ -41,7 +41,7 @@ pub fn panic(message: []const u8, _: ?*std.builtin.StackTrace) noreturn {
 
 export fn _start() callconv(.Naked) noreturn {
     init();
-    main();
+    main() catch @panic("Error occured");
     while (true)
         utils.hlt();
 }
@@ -75,11 +75,23 @@ fn init() void {
     Timer.init(1000);
 }
 
-fn main() void {
+fn main() !void {
     Console.showPrompt();
-    var i: usize = 0;
-    while (i < 10) : (i += 1) {
-        Console.write("Tick...\n");
-        Timer.sleepInterrupt(1000);
+    {
+        var number = try allocator.create(u32);
+        number.* = 0x100;
+        Console.writeHex(@ptrToInt(number));
+        allocator.destroy(number);
     }
+
+    // var numbers = std.ArrayList(u32).init(allocator);
+    // try numbers.append(0x100);
+    // try numbers.append(0x200);
+    // try numbers.append(0x300);
+    // _ = numbers.pop();
+    // try numbers.append(0x400);
+    // for (numbers.items) |number| {
+    //     Console.writeHex(number);
+    //     Console.write("\n");
+    // }
 }
