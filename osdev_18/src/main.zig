@@ -70,6 +70,7 @@ fn init() void {
     gdt.init();
     idt.init();
     paging.init();
+    memory.printLayout();
     Keyboard.init();
 }
 
