@@ -115,7 +115,7 @@ add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
     PUBLIC src/stdlib/include
     src/stdlib
-
+    # src/stdlib/stdlib/cpp/bitset.cpp
 )
 target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
         ${OS_LIBRARIES}
@@ -167,60 +167,60 @@ set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 # 4. copy compiled binary to the root of the cmake build directory.
 ########################################
 # Define kernel module name
-set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-img)
+# set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-img)
 # Define custom compile flags for the kernel
-set(OS_MODULE_KERNEL_COMPILE_FLAGS)
+# set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
-file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
-        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/src/*.c
-        src/kernel/src/*.asm
-        src/kernel
-        src/kernel/include/gdt.h
-        src/kernel/src/gdt_flush.asm
-        src/kernel/src/gdt.cpp
-)
+# file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
+#         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+#         src/kernel/src/*.cpp
+#         src/kernel/src/*.c
+#         src/kernel/src/*.asm
+#         src/kernel
+#         src/kernel/include/gdt.h
+#         src/kernel/src/gdt_flush.asm
+#         src/kernel/src/gdt.cpp
+# )
 
 
-set(ASM_SOURCE_FILES
-    # ${CMAKE_CURRENT_SOURCE_DIR}src/kernel/src/gdt_flush.asm
-)
+# set(ASM_SOURCE_FILES
+#     # ${CMAKE_CURRENT_SOURCE_DIR}src/kernel/src/gdt_flush.asm
+# )
 
-set_source_files_properties(${ASM_SOURCE_FILES} PROPERTIES LANGUAGE ASM_NASM)
+# set_source_files_properties(${ASM_SOURCE_FILES} PROPERTIES LANGUAGE ASM_NASM)
 
 # Append the ASM_SOURCE_FILES to the OS_MODULE_KERNEL_SOURCES variable
-list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
+# list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
 message("${OS_MODULE_KERNEL_SOURCES}")
 
 
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
-set(OS_MODULE_KERNEL_LINKER ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET}/linker.ld)
+set(OS_MODULE_KERNEL_LINKER ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/i386/linker.ld)
 # Define custom linker flags for the kernel
 set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
 # Add executable for the kernel.
 # Tutorial: the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
 # A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.
-add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
+# add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 # Defines which include directories to usefor the kernel.
-target_include_directories(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
-        src/kernel/include
-)
+# target_include_directories(
+#         ${OS_MODULE_KERNEL_NAME} PUBLIC
+#         src/kernel/include
+# )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
-target_link_libraries(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
-        ${OS_LIBRARIES}
-        ${OS_APPLICATIONS}
-)
+# target_link_libraries(
+#         ${OS_MODULE_KERNEL_NAME} PUBLIC
+#         ${OS_LIBRARIES}
+#         ${OS_APPLICATIONS}
+# )
 # Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name
-set_target_properties(
-        ${OS_MODULE_KERNEL_NAME} PROPERTIES
-        OUTPUT_NAME ${OS_MODULE_KERNEL_BINARY}
-        LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
-)
+# set_target_properties(
+#         ${OS_MODULE_KERNEL_NAME} PROPERTIES
+#         OUTPUT_NAME ${OS_MODULE_KERNEL_BINARY}
+#         LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
+# )
 
 add_subdirectory(src/kernel)
 
@@ -237,7 +237,7 @@ add_subdirectory(grub)
 ### QEMU is the virtual machine that we'll be using
 ### config/QEMURunner.sh.in is a template file which we will "fill in the blanks" using the below variables
 ########################################
-set(QEMU_ARCH ${ARCH_TARGET})
+set(QEMU_ARCH i386)
 set(QEMU_KERNEL_IMAGE ${GRUB_IMAGE_PATH})
 set(QEMU_MEMORY 32)
 set(QEMU_RUN_TARGET ${OS_KERNEL_NAME}-run)

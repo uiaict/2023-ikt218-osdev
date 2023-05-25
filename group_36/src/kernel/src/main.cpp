@@ -7,11 +7,12 @@ extern "C"{
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-#include "../include/gdt.h"
+// #include "../include/gdt.h"
 #include <stdlib/c/libc.h>
 #include "../drivers/_include/driver.h"
 #include <../cpu/include/cpu.h>
 // #include <../cpu/i386/isr.h>
+// #include <../cpu/i386/timer/timer.h>
 #include "../memory/paging.h"
 #include "boot.h"
 
@@ -148,6 +149,15 @@ public:
     void interrupt_handler_4(UiAOS::CPU::ISR::registers_t regs) {
         printf("Called Interrupt Handler 4!\n");
     }
+
+    // void timer() {
+    //     tick++;
+    //     if (tick % 100 == 0) {
+    //         printf("(Every Second) Tick: ");
+    //         printf("tick");
+    //         printf("\n");
+    //     }
+    // }
 };
 
 void print_uint8(uint8_t scancode) {
@@ -185,47 +195,56 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 
+    init_paging();
+
 	// Create operating system object
     auto os = OperatingSystem(VGA_COLOR_RED);
     os.init();
  
 	/* Initialize GDT */
 	printf("Initializing GDT...\n");
-	GDT::init();
+	// GDT::init();
 	printf("GDT initialized!\n");
 
 	printf("Hello World!! \n");
 
+    
     // Create some interrupt handlers for 3
     UiAOS::CPU::ISR::register_interrupt_handler(3,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->interrupt_handler_3(*regs);
     }, (void*)&os);
-
+    
     // Create some interrupt handler for 4
     UiAOS::CPU::ISR::register_interrupt_handler(4,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->interrupt_handler_4(*regs);
     }, (void*)&os);
 
+    
     // Fire interrupts! Should trigger callback above
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");
 
-
     // Disable interrutps
     asm volatile("sti");
+
+    // // Create a timer on IRQ0 - System Timer
+    // UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){
+    //     auto* os = (OperatingSystem*)context;
+    //     os->timer();
+    // }, &os);
 
     // Hook Keyboard
     UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
         printf("Keyboard Event: ");
         print_uint8(UiAOS::IO::Keyboard::scancode_to_ascii(scancode));
+        printf("test");
         printf(" (");
         print_uint8(scancode);
         printf(")\n");
     }, &os);
 
     while(1){}
-
 }

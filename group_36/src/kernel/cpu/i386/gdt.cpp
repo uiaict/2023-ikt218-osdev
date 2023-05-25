@@ -2,7 +2,7 @@
 // Created by per on 1/1/23.
 //
 #include "gdt.h"
-// #include "isr.h"
+#include "isr.h"
 #include "idt.h"
 
 

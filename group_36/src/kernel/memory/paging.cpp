@@ -1,7 +1,8 @@
 #include "paging.h"
 #include "memory.h"
+#include "../../stdlib/stdlib/cpp/bitset.h"
 
-#include "../drivers/monitor/monitor_2.h"
+// #include "../drivers/monitor/monitor_2.h"
 
 #include "../../stdlib/stdlib/cpp/exception.h"
 #include "../../boot/include/boot.h"
@@ -56,11 +57,11 @@ UiAOS::Memory::Paging::Paging(uint32_t mem_end_page)
 }
 
 bool UiAOS::Memory::Paging::set_directory(UiAOS::Memory::PageDirectory *dir) {
-    UiAOS::IO::Monitor::print_string("[set-directory] ");
-    UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(current_directory));
-    UiAOS::IO::Monitor::print_string(" => ");
-    UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(dir));
-    UiAOS::IO::Monitor::print_new_line();
+    // UiAOS::IO::Monitor::print_string("[set-directory] ");
+    // UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(current_directory));
+    // UiAOS::IO::Monitor::print_string(" => ");
+    // UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(dir));
+    // UiAOS::IO::Monitor::print_new_line();
     current_directory = dir;
     return false;
 }
@@ -101,15 +102,15 @@ void UiAOS::Memory::Paging::page_fault(UiAOS::CPU::ISR::registers_t* regs, void*
     auto id = regs->err_code & 0x10;          // Caused by an instruction fetch?
 
     // Output an error message.
-    UiAOS::IO::Monitor::print_string("Page fault! ( ");
-    if (present) {UiAOS::IO::Monitor::print_string("present ");}
-    if (rw) {UiAOS::IO::Monitor::print_string("read-only ");}
-    if (us) {UiAOS::IO::Monitor::print_string("user-mode ");}
-    if (reserved) {UiAOS::IO::Monitor::print_string("reserved ");}
-    UiAOS::IO::Monitor::print_string(") at 0x");
-    UiAOS::IO::Monitor::print_hex(faulting_address);
-    UiAOS::IO::Monitor::print_new_line();
-    PANIC("Page fault");
+    // UiAOS::IO::Monitor::print_string("Page fault! ( ");
+    // if (present) {UiAOS::IO::Monitor::print_string("present ");}
+    // if (rw) {UiAOS::IO::Monitor::print_string("read-only ");}
+    // if (us) {UiAOS::IO::Monitor::print_string("user-mode ");}
+    // if (reserved) {UiAOS::IO::Monitor::print_string("reserved ");}
+    // UiAOS::IO::Monitor::print_string(") at 0x");
+    // UiAOS::IO::Monitor::print_hex(faulting_address);
+    // UiAOS::IO::Monitor::print_new_line();
+    // PANIC("Page fault");
 }
 
 
@@ -133,7 +134,7 @@ bool UiAOS::Memory::Page::alloc_frame(uint32_t idx , int is_kernel, int is_write
         if (idx == (uint32_t)-1)
         {
             // PANIC is just a macro that prints a message to the screen then hits an infinite loop.
-            PANIC("There is no free frames!");
+            // PANIC("There is no free frames!");
         }
 
         present = 1; // Mark it as present.

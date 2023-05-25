@@ -10,6 +10,7 @@
 #include "../../stdlib/stdlib/cpp/bitset.h"
 #include "../cpu/include/cpu.h"
 #include "kmalloc.h"
+#include "../../stdlib/stdlib/cpp/bitset.h"
 // #include "../cpu/i386/isr.h"
 
 
