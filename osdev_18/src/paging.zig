@@ -27,6 +27,7 @@ const Directory = struct {
 };
 
 // State for paging
+pub var virtual_address: usize = 0;
 var frames: []BitSet = undefined;
 var kernel_directory: *Directory = undefined;
 
@@ -55,7 +56,7 @@ fn allocateFrame(page: *Page, is_kernel: bool, is_writeable: bool) void {
     } else return;
 }
 
-pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
+fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     const page_address = address / 0x1000;
     const table_index = page_address / 1024;
     if (directory.tables[table_index]) |*table| {
@@ -72,7 +73,7 @@ pub fn getPage(address: u32, create: bool, directory: *Directory) ?*Page {
     } else return null;
 }
 
-pub fn switchPageDirectory(directory: *Directory) void {
+fn switchPageDirectory(directory: *Directory) void {
     asm volatile ("mov %[physical_tables], %%cr3"
         :
         : [physical_tables] "r" (&directory.physical_tables),
@@ -86,6 +87,15 @@ pub fn switchPageDirectory(directory: *Directory) void {
         :
         : [input] "r" (cr0),
     );
+}
+
+pub fn createFrame(address: u32) void {
+    if (getPage(address, true, kernel_directory)) |page|
+        allocateFrame(page, false, false);
+}
+
+pub fn sync() void {
+    switchPageDirectory(kernel_directory);
 }
 
 pub fn handler(registers: isr.Registers) void {
@@ -131,11 +141,8 @@ pub fn init() void {
     };
 
     // Identity map physical address to virtual address from 0x0 to end of used memory
-    var i: usize = 0;
-    while (i < memory.address + 0x1000) : (i += 0x1000) {
-        if (getPage(i, true, kernel_directory)) |page|
-            allocateFrame(page, false, false);
-    }
+    while (virtual_address < memory.address + 0x1000) : (virtual_address += 0x1000)
+        createFrame(virtual_address);
 
     // Register page fault handler, then enable paging
     isr.setHandler(14, handler);
