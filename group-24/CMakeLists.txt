@@ -170,11 +170,13 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/gdt/*.cpp
-        src/kernel/gdt/*.asm
-        src/kernel/gdt/*.h
-        src/kernel/include/*
+        src/kernel/src/main.cpp
+        src/kernel/gdt/gdt.cpp
+        src/kernel/gdt/gdt.asm
+        src/kernel/gdt/gdt.h
+        src/kernel/include/screen.cpp
+        src/kernel/include/screen.h
+
         
 )
 # Set the output binary name

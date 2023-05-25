@@ -1,49 +1,46 @@
-bits 32
+bits 32 ; Declares that the assembler should generate 32-bit code. This is an assembler directive.
 
-MBOOT_PAGE_ALIGN       equ 1<<0    ; Load kernel and modules on a page boundary
-MBOOT_MEM_INFO         equ 1<<1    ; Provide your kernel with memory info
-MBOOT_AOUT_KLUDGE      equ 0x00010000;
-MBOOT_HEADER_MAGIC     equ 0x1BADB002 ; Multiboot Magic value
-MBOOT_HEADER_FLAGS     equ MBOOT_PAGE_ALIGN | MBOOT_MEM_INFO ;| MBOOT_VIDEO_MODE_BIT
-MBOOT_CHECKSUM         equ -(MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 
-; Stack configuration. The size of our stack (16KB).
-KERNEL_STACK_SIZE equ 0x4000
+MULTIBOOT_MAGIC     equ 0x1BADB002  ; Magic number that the bootloader will be looking for, according to the multiboot specification.
+MULTIBOOT_FLAGS     equ 0x0  ;   Flags, currently not using this.
+MULTIBOOT_CHECKSUM  equ -(MULTIBOOT_MAGIC + MULTIBOOT_FLAGS)   ; Checksum. Negated sum of magic number + flags, as sum of checksum + magic number and flags needs to equal 0.
 
-section .multiboot
-multiboot:
+KERNEL_STACK_SIZE equ 0x4000 ; Defines the size of our stack, 16KB. We will use this definition further down in the assembly code.
+
+
+
+; This defines the multiboot header to be located by the bootloader, GRUB.
 align 4
-    dd  MBOOT_HEADER_MAGIC      ; GRUB will search for this value on each 4-byte boundary in your kernel file
-    dd  MBOOT_HEADER_FLAGS      ; How GRUB should load your file / settings
-    dd  MBOOT_CHECKSUM          ; To ensure that the above values are correct
+section .multiboot
 
-		dd 0
-		dd 0
-		dd 0 
-		dd 0 
-		dd 0 
-    ; Graphic field
-    dd 0
-    dd 640
-    dd 480
-    dd 32
+    ;; The following entries are 'linker scripts'.
+    ;; 'dd' means 'define doubleword', and is not an x86 instruction.
+    ;; Instead, it is an assembler directive to define a 32-bit value. 
+    ;; Can be compared to how a preprocessor in languages such as C and C++ works.
+    dd MULTIBOOT_MAGIC
+    dd MULTIBOOT_FLAGS
+    dd MULTIBOOT_CHECKSUM
 
+; Here we set up and provide a stack for our kernel.
 section .bss
-align 16
+align 16 ; Align to 16 bytes.
 stack_bottom:
-resb KERNEL_STACK_SIZE ; 16 KiB
+resb KERNEL_STACK_SIZE ; Reserve space for our stack, in this case 16KB. 
 stack_top:
 
+
 section .text
+global _start:
+extern kernel_main
+extern init_gdt
+
 global _start:function (_start.end - _start)
 _start:
+	;call init_gdt
+
 	mov esp, stack_top
 
-	extern init_gdt
-	call init_gdt 		; call gdt_init() function
-
-	extern kernal_main
-	call kernal_main  	; call our kernel_main() function.
+	call kernel_main  ; call our kernel_main() function.
 	cli
 .hang:	hlt
 	jmp .hang
