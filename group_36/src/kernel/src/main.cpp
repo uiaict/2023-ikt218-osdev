@@ -12,7 +12,7 @@ extern "C"{
 #include "../drivers/_include/driver.h"
 #include <../cpu/include/cpu.h>
 // #include <../cpu/i386/isr.h>
-// #include <../cpu/i386/timer/timer.h>
+#include <../cpu/i386/timer/timer.h>
 #include "../memory/paging.h"
 #include "boot.h"
 
@@ -150,14 +150,14 @@ public:
         printf("Called Interrupt Handler 4!\n");
     }
 
-    // void timer() {
-    //     tick++;
-    //     if (tick % 100 == 0) {
-    //         printf("(Every Second) Tick: ");
-    //         printf("tick");
-    //         printf("\n");
-    //     }
-    // }
+    void timer() {
+        tick++;
+        if (tick % 100 == 0) {
+            printf("(Every Second) Tick: ");
+            printf("tick");
+            printf("\n");
+        }
+    }
 };
 
 void print_uint8(uint8_t scancode) {
@@ -229,11 +229,11 @@ void kernel_main(void)
     // // Disable interrutps
     // asm volatile("sti");
 
-    // // Create a timer on IRQ0 - System Timer
-    // UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){
-    //     auto* os = (OperatingSystem*)context;
-    //     os->timer();
-    // }, &os);
+    // Create a timer on IRQ0 - System Timer
+    UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->timer();
+    }, &os);
 
     // Hook Keyboard
     UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){

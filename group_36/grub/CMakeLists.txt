@@ -43,7 +43,7 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/disk.sh.in ${CMAKE_BINARY_DIR}/disk.s
 
 
 add_custom_target(${GRUB_TARGET}
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${OS_KERNEL_NAME}-kernel> ${CMAKE_BINARY_DIR}/
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${OS_KERNEL_NAME}-kernel> ${CMAKE_BINARY_DIR}/iso/boot/
         COMMAND ${GRUB_MKRESCUE} --output=${GRUB_IMAGE_PATH} ${CMAKE_BINARY_DIR}/iso
         COMMAND /bin/sh ${CMAKE_BINARY_DIR}/disk.sh disk.iso
 )
