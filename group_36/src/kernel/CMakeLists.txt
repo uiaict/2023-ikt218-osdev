@@ -6,17 +6,19 @@
 set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-kernel)
 set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
-        RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        #src/system/*.cpp
-        src/*.cpp
-        src/*.c
-        src/*.asm
-        src/main.cpp
-        #src/system/*.c
-        ../boot/src/boot.cpp
-        # src/gdt.cpp
-        # src/gdt_flush.asm
-        # /include/gdt.h
+RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+#src/system/*.cpp
+# cpu/i386/gdt_a.asm
+# cpu/i386/gdt.cpp
+src/*.cpp
+src/*.c
+src/*.asm
+src/main.cpp
+#src/system/*.c
+../boot/src/boot.cpp
+# src/gdt.cpp
+# src/gdt_flush.asm
+# /include/gdt.h
 )
 # set(OS_MODULE_KERNEL_BINARY ${OS_KERNEL_NAME}.bin)
 # set(OS_MODULE_KERNEL_LINKER ${CMAKE_SOURCE_DIR}/src/arch/i386/linker.ld)

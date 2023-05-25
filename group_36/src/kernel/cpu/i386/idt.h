@@ -30,4 +30,14 @@ struct idt_ptr_struct
 
 typedef struct idt_ptr_struct idt_ptr_t;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+void init_idt();
+#ifdef __cplusplus
+}
+#endif
+
+
+
 #endif //UIAOS_IDT_H

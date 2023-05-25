@@ -36,7 +36,7 @@ namespace UiAOS::CPU::GDT{
 
 }
 
-
+void init_gdt();
 
 
 #endif //UIAOS_GDT_H

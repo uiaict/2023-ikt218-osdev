@@ -8,6 +8,8 @@ extern "C"{
 #include <stddef.h>
 #include <stdint.h>
 // #include "../include/gdt.h"
+#include "../cpu/i386/gdt.h"
+#include "../cpu/i386/idt.h"
 #include <stdlib/c/libc.h>
 #include "../drivers/_include/driver.h"
 #include <../cpu/include/cpu.h>
@@ -204,7 +206,11 @@ void kernel_main(void)
 	/* Initialize GDT */
 	printf("Initializing GDT...\n");
 	// GDT::init();
+    
+    init_gdt();
 	printf("GDT initialized!\n");
+
+    init_idt();
 
 	printf("Hello World!! \n");
 
@@ -223,11 +229,11 @@ void kernel_main(void)
 
     
     // Fire interrupts! Should trigger callback above
-    // asm volatile ("int $0x3");
-    // asm volatile ("int $0x4");
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
 
-    // // Disable interrutps
-    // asm volatile("sti");
+    // Disable interrutps
+    asm volatile("sti");
 
     // Create a timer on IRQ0 - System Timer
     UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){

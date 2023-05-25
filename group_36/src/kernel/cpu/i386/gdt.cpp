@@ -6,7 +6,7 @@
 #include "idt.h"
 
 
-void init_gdt() asm ("init_gdt");
+// void init_gdt() asm ("init_gdt");
 
 extern "C" {
     // Lets us access our ASM functions from our C code.
