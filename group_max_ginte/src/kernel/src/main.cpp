@@ -95,34 +95,37 @@ void kernel_main()
 
 
     // Testing implementation of printf:
-    /*printf("SYSTEM COMPROMISED.\n"
+    /*
+    printf("SYSTEM COMPROMISED.\n"
            "SHUTTING DOWN... SHUTTING DOWN... \tSHUTTING DOWN... SHUTTING DOWN... SHUTTI\tN\n"
            "G DOWN... SHUTTING DOWN... SHUTTING\t\t DOWN... SHUTTING DOWN... \n"
            "SHUTTING DOWN...\n"
            "SHUTTING DOWN...\n"
            "SHUTTING DOWN...\n"
-           "SHUTTING DOWN...\n");*/
+           "SHUTTING DOWN...\n");
+    */
     
     // Testing printf with format specifiers 
-    printf("Your grade is: %s, or %c or %x!", "ABC", 'D', 255);
+    //printf("Your grade is: %s, or %c or %x!", "ABC", 'D', 255);
 
 
     // Verify memory managment 
+    /*
     printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
-
     print_memory_layout();
+    */
     printf("\n");
-
     void* memory1 = malloc(1001);
     char* memory2 = new char[3000]();
+    printf("\n");
     print_memory_layout();
-
+    /*
     delete(memory1);
     printf("\n");
     print_memory_layout();
     //int* memory3 = new int(2002);
+    */
     
-
 
     // Verify the PIT
     int counter = 1;

@@ -185,7 +185,7 @@ int printf(const char *format, ...)
             y++;
         }
 
-        if (y > VGA_HEIGHT)
+        if (y >= VGA_HEIGHT)
         {
             // "Scrolling" functionality
             video = (volatile char*)0xB8000;
