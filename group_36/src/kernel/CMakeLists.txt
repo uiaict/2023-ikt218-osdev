@@ -8,15 +8,19 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         #src/system/*.cpp
+        src/*.cpp
+        src/*.c
+        src/*.asm
         src/main.cpp
         #src/system/*.c
-        boot/src/boot.cpp
-        src/gdt.cpp
+        ../boot/src/boot.cpp
+        # src/gdt.cpp
         src/gdt_flush.asm
+        # /include/gdt.h
 )
-set(OS_MODULE_KERNEL_BINARY ${OS_KERNEL_NAME}.bin)
-# set(OS_MODULE_KERNEL_LINKER ${CMAKE_SOURCE_DIR}/src/arch/${ARCH_TARGET}/linker.ld)
-set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
+# set(OS_MODULE_KERNEL_BINARY ${OS_KERNEL_NAME}.bin)
+# set(OS_MODULE_KERNEL_LINKER ${CMAKE_SOURCE_DIR}/src/arch/i386/linker.ld)
+# set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
 
 ########################################
 ###
@@ -51,6 +55,7 @@ target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         include
         drivers/_include
+        drivers/keyboard/keyboard.*
 )
 
 ########################################
@@ -63,7 +68,6 @@ target_link_libraries(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         ${OS_LIBRARIES}
         ${OS_APPLICATIONS}
-
 )
 ########################################
 ###

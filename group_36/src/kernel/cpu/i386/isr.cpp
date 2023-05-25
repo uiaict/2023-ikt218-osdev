@@ -23,7 +23,7 @@ void init_isr(){
 }
 
 
-void UiAOS::CPU::ISR::register_interrupt_handler(uint8_t n, isr_t handler, void* context)
+void UiAOS::CPU::ISR:: register_interrupt_handler(uint8_t n, isr_t handler, void* context)
 {
     interrupt_handlers[n].handler = handler;
     interrupt_handlers[n].context = context;
@@ -39,7 +39,6 @@ void isr_handler(UiAOS::CPU::ISR::registers_t regs)
     UiAOS::CPU::ISR::interrupt_t intrpt = interrupt_handlers[int_no];
     if (intrpt.handler != 0)
     {
-
         intrpt.handler(&regs, intrpt.context);
     }
     else
