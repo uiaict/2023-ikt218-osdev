@@ -1,8 +1,8 @@
-#ifndef ESOS_GDT_H
-#define ESOS_GDT_H
+#ifndef IJI_OS_GDT_H
+#define IJI_OS_GDT_H
 #include <stdint.h>
 
-namespace ESOS::GDT
+namespace IJI_OS::GDT
 {
   // Structure to hole one global descriptor table entry
   typedef struct
