@@ -43,3 +43,10 @@ _start:
     cli ; Disable interrupts
     call init_gdt ; Call init_gdt which sets up and loads the GDT into memory.
     call kernel_main ; Call the main function of the kernel.
+
+    cli
+
+
+.hang:	hlt
+	jmp .hang
+.end:
