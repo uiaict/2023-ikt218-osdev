@@ -28,3 +28,11 @@ void printString(char * string)
         *vgaBuffer++ = 15; // Print text in colour 'WHITE'. 
     }
 }
+
+// This function writes a char to the VGA memory, so that it is displayed on the screen.
+void printChar(char ch)
+{
+    char * vgaBuffer = (char*)VGA_ADDRESS;
+    *vgaBuffer++ = ch; // Print a single character to the screen.
+    *vgaBuffer++ = 15; // Print text in colour 'WHITE'. 
+}

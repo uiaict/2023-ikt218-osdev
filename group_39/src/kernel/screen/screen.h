@@ -3,3 +3,5 @@
 void clearScreen();
 
 void printString(char * string);
+
+void printChar(char ch);
