@@ -182,6 +182,7 @@ set(OS_MODULE_KERNEL_SOURCES
         src/kernel/src/memory/malloc.c
         src/kernel/src/memory/memory.c
         src/kernel/src/memory/memutils.c
+        src/kernel/src/pit.c
         src/kernel/src/vga.c
 )
 # Set the output binary name

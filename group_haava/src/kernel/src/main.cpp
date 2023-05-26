@@ -2,6 +2,7 @@
 #include "interrupts.h"
 #include "keyboard.h"
 #include "memory.h"
+#include "pit.h"
 #include "system.h"
 #include "vga.h"
 
@@ -49,6 +50,7 @@ void kernel_main(unsigned long magic)
     paging_init();
     print_memory_layout();
     keyboard_init();
+    pit_init();
 
     if (magic != MULTIBOOT_BOOTLOADER_MAGIC) {
         printf("Invalid magic number\n");
@@ -75,6 +77,15 @@ void kernel_main(unsigned long magic)
     __asm__ __volatile__("int $0x7");
 
     // Print a message and enter an infinite loop to wait for interrupts
+    int counter = 0;
     printf("Waiting...\n");
-    while(1){};
+    while(true) {
+        printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(2000);
+        printf("[%d]: Slept using busy-waiting.\n", counter++);
+
+        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(2000);
+        printf("[%d]: Slept using interrupts.\n", counter++);
+    }
 }
