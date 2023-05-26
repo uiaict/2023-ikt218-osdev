@@ -12,7 +12,6 @@ extern "C" {
     // Lets us access our ASM functions from our C code.
     extern void gdt_flush(uint32_t);
     static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
-
 }
 
 UiAOS::CPU::GDT::gdt_entry_t gdt_entries[6];

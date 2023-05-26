@@ -15,7 +15,7 @@ extern "C"{
 #include <../cpu/include/cpu.h>
 // #include <../cpu/i386/isr.h>
 #include <../cpu/i386/timer/timer.h>
-#include "../memory/paging.h"
+// #include "../memory/paging.h"
 #include "boot.h"
 
  
@@ -126,6 +126,35 @@ void printf(const char* data)
 	terminal_write(data, strlen(data));
 }
 
+void print_uint8(uint8_t scancode) {
+    char buffer[4];  // Buffer for up to 3 digits plus null terminator
+    uint8_t n = scancode;
+    int i = 0;
+
+    // Handle 0 explicitly (as the loop below doesn't do that)
+    if (n == 0) {
+        buffer[i++] = '0';
+    }
+    else {
+        // Convert number to string (in reverse order)
+        while (n > 0) {
+            buffer[i++] = '0' + n % 10;
+            n /= 10;
+        }
+
+        // Reverse the string to get it in the correct order
+        for (int j = 0; j < i / 2; ++j) {
+            char temp = buffer[j];
+            buffer[j] = buffer[i - j - 1];
+            buffer[i - j - 1] = temp;
+        }
+    }
+
+    buffer[i] = '\0';  // Null-terminate the string
+
+    printf(buffer);
+}
+
 class OperatingSystem {
     int tick = 0;
 
@@ -156,40 +185,11 @@ public:
         tick++;
         if (tick % 100 == 0) {
             printf("(Every Second) Tick: ");
-            printf("tick");
+            print_uint8(tick);
             printf("\n");
         }
     }
 };
-
-void print_uint8(uint8_t scancode) {
-    char buffer[4];  // Buffer for up to 3 digits plus null terminator
-    uint8_t n = scancode;
-    int i = 0;
-
-    // Handle 0 explicitly (as the loop below doesn't do that)
-    if (n == 0) {
-        buffer[i++] = '0';
-    }
-    else {
-        // Convert number to string (in reverse order)
-        while (n > 0) {
-            buffer[i++] = '0' + n % 10;
-            n /= 10;
-        }
-
-        // Reverse the string to get it in the correct order
-        for (int j = 0; j < i / 2; ++j) {
-            char temp = buffer[j];
-            buffer[j] = buffer[i - j - 1];
-            buffer[i - j - 1] = temp;
-        }
-    }
-
-    buffer[i] = '\0';  // Null-terminate the string
-
-    printf(buffer);
-}
 
 void kernel_main(void) 
 {
@@ -197,7 +197,7 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 
-    init_paging();
+    // init_paging();
 
 	// Create operating system object
     auto os = OperatingSystem(VGA_COLOR_RED);
@@ -229,8 +229,8 @@ void kernel_main(void)
 
     
     // Fire interrupts! Should trigger callback above
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
+    // asm volatile ("int $0x3");
+    // asm volatile ("int $0x4");
 
     // Disable interrutps
     asm volatile("sti");

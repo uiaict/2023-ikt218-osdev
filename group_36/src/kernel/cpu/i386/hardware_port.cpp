@@ -1,8 +1,4 @@
-//
-// Created by per on 12/31/22.
-//
 #include "hardware_port.h"
-
 
 
 // Write a byte out to the specified port.
