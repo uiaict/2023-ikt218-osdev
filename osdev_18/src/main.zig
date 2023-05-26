@@ -77,6 +77,7 @@ fn init() void {
 }
 
 fn main() !void {
+    // Demo of allocator
     const first = try allocator.create(u32);
     first.* = 0x1234;
     try Console.writeFmt("overhead for each allocation: {d} bytes\n", .{@sizeOf(Allocator.Block)});
@@ -93,5 +94,36 @@ fn main() !void {
     Console.write("freeing first...\n");
     try Console.writeFmt("third  [u32] at address 0x{x} with value 0x{x}\n", .{ @ptrToInt(third), third.* });
 
+    // Demo of timer
+    Console.showPrompt();
+    Console.write("\n");
+    {
+        try Console.writeFmt("[{d}] Sleeping with busy-waiting [HIGH CPU] for 1 second 10 times\n", .{Timer.ticks});
+        var i: usize = 0;
+        while (i < 10) : (i += 1) {
+            if (i % 2 == 0)
+                Console.setColor(.light_blue, .light_green)
+            else
+                Console.setColor(.light_green, .light_blue);
+            Timer.sleepBusy(1000);
+            Console.write("[Tick] ");
+        }
+        Console.setColor(.white, .black);
+        try Console.writeFmt("\n[{d}] Slept using busy-waiting\n", .{Timer.ticks});
+    }
+    {
+        try Console.writeFmt("[{d}] Sleeping with interrupts [LOW CPU] for 1 second 10 times\n", .{Timer.ticks});
+        var i: usize = 0;
+        while (i < 10) : (i += 1) {
+            if (i % 2 == 0)
+                Console.setColor(.light_green, .light_blue)
+            else
+                Console.setColor(.light_blue, .light_green);
+            Timer.sleepInterrupt(1000);
+            Console.write("[Tick] ");
+        }
+        Console.setColor(.white, .black);
+        try Console.writeFmt("\n[{d}] Slept using interrupts\n", .{Timer.ticks});
+    }
     Console.showPrompt();
 }

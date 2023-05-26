@@ -2,7 +2,7 @@ const Console = @import("Console.zig");
 const isr = @import("../isr.zig");
 const utils = @import("../utils.zig");
 
-var ticks: u32 = 0;
+pub var ticks: u32 = 0;
 var ticks_per_ms: u32 = undefined;
 
 fn handler(_: isr.Registers) void {
