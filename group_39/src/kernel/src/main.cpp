@@ -2,7 +2,7 @@
 
 #include "../screen/screen.h"
 
-// Define entry point in asm to prevent C++ mangling
+// This enables assembly code to call our kernel_main function. 
 extern "C" {
     void kernel_main();
 }
