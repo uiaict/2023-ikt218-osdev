@@ -9,5 +9,5 @@ extern "C"{
 
 void kernel_main()
 {
-    print("Hello, world");
+    print("Hello, worlddd");
 }
