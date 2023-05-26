@@ -121,6 +121,8 @@ set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/libc/memory.cpp
         src/stdlib/src/libc/string.cpp
         src/stdlib/src/libc/stdio.cpp
+        src/stdlib/src/libc/system.cpp
+
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 

@@ -85,7 +85,7 @@
     int iceil(double x);
     double sqrt(double x);
     char *getenv(const char *name);
-    int strcmp(const char *s1, const char *s2);
+    int strcmp(const char *p1, const char *p2);
     int strcasecmp(const char *s1, const char *s2);
     int strncmp(const char *s1, const char *s2, size_t n);
     int strncasecmp(const char *s1, const char *s2, size_t n);
