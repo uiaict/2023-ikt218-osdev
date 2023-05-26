@@ -25,7 +25,8 @@ const isr = @import("isr.zig");
 const utils = @import("utils.zig");
 const paging = @import("paging.zig");
 const memory = @import("memory.zig");
-const allocator = @import("allocator.zig").kernel_allocator;
+const Allocator = @import("allocator.zig");
+const allocator = Allocator.kernel_allocator;
 
 // Drivers
 const Console = @import("driver/Console.zig");
@@ -76,8 +77,21 @@ fn init() void {
 }
 
 fn main() !void {
+    const first = try allocator.create(u32);
+    first.* = 0x1234;
+    try Console.writeFmt("overhead for each allocation: {d} bytes\n", .{@sizeOf(Allocator.Block)});
+    try Console.writeFmt("first  [u32] at address 0x{x} with value 0x{x}\n", .{ @ptrToInt(first), first.* });
+
+    const second = try allocator.create(u32);
+    second.* = 0x2345;
+
+    allocator.destroy(first);
+    const third = try allocator.create(u32);
+    third.* = 0x3456;
+
+    try Console.writeFmt("second [u32] at address 0x{x} with value 0x{x}\n", .{ @ptrToInt(second), second.* });
+    Console.write("freeing first...\n");
+    try Console.writeFmt("third  [u32] at address 0x{x} with value 0x{x}\n", .{ @ptrToInt(third), third.* });
+
     Console.showPrompt();
-    const number = try allocator.create(u32);
-    number.* = 0x1234;
-    try Console.writeFmt("Number is: 0x{x}", .{number.*});
 }

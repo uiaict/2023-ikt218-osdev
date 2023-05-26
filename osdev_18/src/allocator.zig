@@ -11,7 +11,7 @@ var current_offset: u32 = 0;
 
 // Header for each block, actual data is allocated after
 // *Header + @sizeOf(header)
-const Block = packed struct {
+pub const Block = packed struct {
     size: u31,
     used: bool,
     next: ?*Block,
