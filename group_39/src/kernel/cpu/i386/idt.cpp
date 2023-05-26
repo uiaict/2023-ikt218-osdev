@@ -32,5 +32,5 @@ void init_idt()
     idt_pointer.limit = sizeof(idt_entry) * NUM_IDT_ENTRIES -1; // Set the limit of the IDT pointer. 
 
 
-    memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES);
+    //memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES);
 }
