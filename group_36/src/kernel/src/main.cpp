@@ -1,4 +1,4 @@
-// Define entry point in asm to prevent C++ mangling
+// define entry point
 extern "C"{
     void kernel_main();
 }
@@ -7,15 +7,13 @@ extern "C"{
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
-// #include "../include/gdt.h"
 #include "../cpu/i386/gdt.h"
 #include "../cpu/i386/idt.h"
 #include <stdlib/c/libc.h>
 #include "../drivers/_include/driver.h"
 #include <../cpu/include/cpu.h>
-// #include <../cpu/i386/isr.h>
 #include <../cpu/i386/timer/timer.h>
-// #include "../memory/paging.h"
+#include "../memory/paging.h"
 #include "boot.h"
 
  
@@ -197,7 +195,7 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 
-    // init_paging();
+    init_paging();
 
 	// Create operating system object
     auto os = OperatingSystem(VGA_COLOR_RED);
