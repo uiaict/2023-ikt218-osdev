@@ -1,5 +1,5 @@
 #include <system.h>
-#include "descriptor.h"
+#include <descriptor.h>
 
 void init_gdt() asm ("init_gdt");
 

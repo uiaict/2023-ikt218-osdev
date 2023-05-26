@@ -42,12 +42,15 @@ set(OS_APPLICATIONS)
 # Predefined list for our libraries
 set(OS_LIBRARIES)
 
-# Path to the build directory
-set(BUILD_PATH ${CMAKE_CURRENT_BINARY_DIR})
-# Path to the arch directory
-set(ARCH_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET})
-# Path to the stdlib directory
-set(STDLIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/stdlib)
+
+set(BUILD_PATH ${CMAKE_CURRENT_BINARY_DIR})                             # Path to the build directory
+set(ARCH_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET})   # Path to the arch directory
+set(STDLIB_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/stdlib)                 # Path to the stdlib directory
+set(KERNEL_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/kernel)                 # Path to the kernel directory
+set(KERNEL_INCLUDE ${KERNEL_PATH}/include)                              # Path to the kernel includes
+set(BOOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/boot)                     # Path to the boot directory
+set(CPU_PATH ${KERNEL_PATH}/cpu)                                        # Path to the CPU directory
+                                  # Path to the CPU includes
 
 ########################################
 ###

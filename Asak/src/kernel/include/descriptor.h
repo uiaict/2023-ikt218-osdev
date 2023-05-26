@@ -40,3 +40,5 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 }
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 
+void irq_remapper();
+void gate_setter();
