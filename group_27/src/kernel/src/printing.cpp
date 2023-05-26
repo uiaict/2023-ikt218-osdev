@@ -2,6 +2,7 @@
 #include "cstdint"
 #include "cstddef"
 #include "printing.h"
+#include "commander.h"
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
 {
@@ -88,26 +89,29 @@ void print_char (char c) {
 	switch (c)
 	{
 	case 14:		// BACKSPACE
+		decreaseBuffer();
 		column--;
 		break;
 	case 28:		// ENTER
+		runCommand();
 		column = 0;
 		row++;
 		break;
-	case 72:		// ARROW UP
+	case -72:		// ARROW UP
 		row--;
 		break;
-	case 75:		// ARROW LEFT
+	case -75:		// ARROW LEFT
 		column--;
 		break;
-	case 77:		// ARROW RIGHT
+	case -77:		// ARROW RIGHT
 		column++;
 		break;
-	case 80:		// ARROW DOWN
+	case -80:		// ARROW DOWN
 		row++;
 		break;
 	
 	default:
+	increaseBuffer(c);
 		fb[row][column][color] = c;
 		column++;
 		break;

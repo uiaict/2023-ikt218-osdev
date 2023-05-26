@@ -23,17 +23,24 @@ char scancode_to_ascii(unsigned char* scan_code) {
             capsEnabled = !capsEnabled;
             break;
         case 72:       // ARROW UP
-            return a;     
+            return -a;     
         case 75:       // ARROW LEFT
-            return a;    
+            return -a;    
         case 77:       // ARROW RIGHT
-            return a;   
+            return -a;   
         case 80:       // ARROW DOWN
-            return a; 
+            return -a; 
+        case 170:       // LEFT SHIFT RELEASED
+            capsEnabled = !capsEnabled;
         default:
             break;
         }
         return 0;
+    }
+
+    // Left shift pressed
+    if (a == 42) {
+        capsEnabled = !capsEnabled;
     }
 
     int b = a;
