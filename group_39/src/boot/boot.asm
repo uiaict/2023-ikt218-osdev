@@ -48,5 +48,5 @@ _start:
 
 
 .hang:	hlt
-	jmp .hang
+	jmp .hang ;; This makes an infinite loop. But because interrupts are disabled, the CPU will basically stop and do nothing.
 .end:
