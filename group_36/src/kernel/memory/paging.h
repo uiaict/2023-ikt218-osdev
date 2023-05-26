@@ -1,32 +1,18 @@
-//
-// Created by per on 1/2/23.
-//
-
 #ifndef UIAOS_PAGING_H
 #define UIAOS_PAGING_H
-
 
 #include "stdint.h"
 #include "../../stdlib/stdlib/cpp/bitset.h"
 #include "../cpu/include/cpu.h"
 #include "kmalloc.h"
 #include "../../stdlib/stdlib/cpp/bitset.h"
-// #include "../cpu/i386/isr.h"
 
 
-
-/**
-  Sets up the environment, page directories etc and
-  enables paging.
-**/
 void init_paging() asm ("init_paging");
 
 #define NUM_PAGES 1024
 
-
 namespace UiAOS::Memory {
-
-
     class Page {
     public:
         uint32_t present: 1;   // Page present in memory
@@ -49,36 +35,19 @@ namespace UiAOS::Memory {
 
     class PageDirectory {
     public:
-        /**
-           Array of pointers to pagetables.
-        **/
         PageTable *tables[NUM_PAGES];
-        /**
-           Array of pointers to the pagetables above, but gives their *physical*
-           location, for loading into the CR3 register.
-        **/
         uint32_t tables_physical[NUM_PAGES];
 
         Page *get_page(uint32_t address, int make);
-
-
-
     };
-
 
     class Paging{
         UiAOS::std::Bitset frames;
 
-        // The kernel's page directory
         PageDirectory *kernel_directory = nullptr;
 
-        // The current page directory;
         PageDirectory *current_directory = nullptr;
 
-        /**
-          Causes the specified page directory to be loaded into the
-          CR3 register.
-        **/
         void switch_page_directory(UiAOS::Memory::PageDirectory *dir);
         static void page_fault(UiAOS::CPU::ISR::registers_t* regs, void*);
 
@@ -90,14 +59,7 @@ namespace UiAOS::Memory {
 
         void enable_paging();
     };
-
-
-    /**
-      Handler for page faults.
-    **/
     void page_fault(UiAOS::CPU::ISR::registers_t *regs, void *);
-
-
 }
 
 #endif //UIAOS_PAGING_H

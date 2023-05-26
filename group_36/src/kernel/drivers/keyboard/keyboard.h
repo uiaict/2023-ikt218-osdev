@@ -1,10 +1,3 @@
-//
-// Created by per on 1/1/23.
-//
-
-#ifndef UIAOS_KEYBOARD_H
-#define UIAOS_KEYBOARD_H
-
 #include "../../cpu/include/cpu.h"
 
 #define BACKSPACE 0x0E
@@ -19,16 +12,5 @@ namespace UiAOS::IO{
     public:
         static void hook_keyboard(keyboard_callback cb, void* ctx);
         static char scancode_to_ascii(uint8_t scancode);
-
-    private:
-
-
-
     };
-
-
-
 }
-
-
-#endif //UIAOS_KEYBOARD_H

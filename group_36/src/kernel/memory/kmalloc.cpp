@@ -2,14 +2,8 @@
 
 using namespace UiAOS::std::Memory;
 
-
-
 uint32_t kmalloc_internal(uint32_t sz, int align, uint32_t *phys)
 {
-    // This will eventually call malloc() on the kernel heap.
-    // For now, though, we just assign memory at placement_address
-    // and increment it by sz. Even when we've coded our kernel
-    // heap, this will be useful for use before the heap is initialised.
     if (align == 1 && (placement_address & 0x00000FFF))
     {
         // Align the placement address;

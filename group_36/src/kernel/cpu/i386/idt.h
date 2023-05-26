@@ -1,14 +1,7 @@
-//
-// Created by per on 1/1/23.
-//
-
-#ifndef UIAOS_IDT_H
-#define UIAOS_IDT_H
 #include <stdint.h>
 
 #define NUM_IDT_ENTRIES 256
 
-// A struct describing an interrupt gate.
 struct idt_entry_struct
 {
     uint16_t base_lo;             // The lower 16 bits of the address to jump to when this interrupt fires.
@@ -20,12 +13,10 @@ struct idt_entry_struct
 
 typedef struct idt_entry_struct idt_entry_t;
 
-// A struct describing a pointer to an array of interrupt handlers.
-// This is in a format suitable for giving to 'lidt'.
 struct idt_ptr_struct
 {
     uint16_t limit;
-    uint32_t base;                // The address of the first element in our idt_entry_t array.
+    uint32_t base;
 } __attribute__((packed));
 
 typedef struct idt_ptr_struct idt_ptr_t;
@@ -37,7 +28,3 @@ void init_idt();
 #ifdef __cplusplus
 }
 #endif
-
-
-
-#endif //UIAOS_IDT_H

@@ -1,18 +1,13 @@
-//
-// Created by per on 1/1/23.
-//
 #include "idt.h"
 #include <memory.h>
 #include "hardware_port.h"
 
 
-// void init_idt() asm ("init_idt");
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 
 extern "C"{
     void idt_flush(uint32_t);
 
-    // These extern directives let us access the addresses of our ASM ISR handlers.
     extern void isr0 ();
     extern void isr1 ();
     extern void isr2 ();
@@ -67,6 +62,16 @@ extern "C"{
 idt_entry_t idt_entries[NUM_IDT_ENTRIES];
 idt_ptr_t   idt_ptr;
 
+void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
+{
+    idt_entries[num].base_lo = base & 0xFFFF;
+    idt_entries[num].base_hi = (base >> 16) & 0xFFFF;
+
+    idt_entries[num].sel     = sel;
+    idt_entries[num].always0 = 0;
+    idt_entries[num].flags   = flags  | 0x60;
+}
+
 void init_idt()
 {
     idt_ptr.limit = sizeof(idt_entry_t) * NUM_IDT_ENTRIES -1;
@@ -74,7 +79,7 @@ void init_idt()
 
     memset(&idt_entries, 0, sizeof(idt_entry_t)*NUM_IDT_ENTRIES);
 
-    // Remap the irq table.
+    // remap irq table
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
     outb(0x21, 0x20);
@@ -135,16 +140,5 @@ void init_idt()
     idt_set_gate(46, (uint32_t)irq14, 0x08, 0x8E);
     idt_set_gate(47, (uint32_t)irq15, 0x08, 0x8E);
 
-
     idt_flush((uint32_t)&idt_ptr);
-}
-
-void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
-{
-    idt_entries[num].base_lo = base & 0xFFFF;
-    idt_entries[num].base_hi = (base >> 16) & 0xFFFF;
-
-    idt_entries[num].sel     = sel;
-    idt_entries[num].always0 = 0;
-    idt_entries[num].flags   = flags  | 0x60;
 }

@@ -1,9 +1,7 @@
 #include <cstdint>
-extern "C" void gdt_flush(uint32_t);
-
 #include "gdt.h"
 
-
+extern "C" void gdt_flush(uint32_t);
 
 GDT_entry GDT::gdt_entries[3];
 GDT_pointer GDT::gdt_ptr;

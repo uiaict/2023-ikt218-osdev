@@ -9,5 +9,4 @@ target_include_directories(${OS_MODULE_IO_KEYBOARD_NAME}
         PUBLIC .
 )
 
-
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_IO_KEYBOARD_NAME} PARENT_SCOPE)

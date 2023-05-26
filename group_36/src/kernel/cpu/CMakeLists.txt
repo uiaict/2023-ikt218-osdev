@@ -16,7 +16,6 @@ set(OS_MODULE_CPU_ASM_SOURCES
 
 add_library(${OS_MODULE_CPU_NAME} ${OS_MODULE_CPU_SOURCES} ${OS_MODULE_CPU_ASM_SOURCES})
 
-# add_library(${OS_MODULE_CPU_NAME} ${OS_MODULE_CPU_SOURCES})
 target_link_libraries(${OS_MODULE_CPU_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
 target_include_directories(${OS_MODULE_CPU_NAME} PUBLIC include)
 target_compile_definitions(${OS_MODULE_CPU_NAME} PUBLIC
