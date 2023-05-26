@@ -56,7 +56,7 @@ set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
 set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
 # Common compiler flags for both C and C++
-set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
+set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g -fno-stack-protector")
 # Common include paths for external libraries
 set(COMMON_INCLUDE_PATHS)
 # Conditional based on which architecture we are building. We should use -m32 for i386 and -m64 for x86_64
@@ -176,6 +176,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/cpu/i386/gdt.asm
         src/kernel/cpu/i386/gdt.cpp
         src/kernel/cpu/i386/idt.cpp
+        src/kernel/memory/memory.cpp
 
 )
 # Set the output binary name
