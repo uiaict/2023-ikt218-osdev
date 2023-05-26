@@ -1,88 +1,71 @@
+#include "descriptor_tables.h"
+#include "interrupts.h"
+#include "common.h"
+#include "keyboard.h"
+#include "printing.h"
+#include <cstdlib>
+extern uint32_t end; // This is defined in linker.ld
 
-#include "system.h"
-#include "gdt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+    #include <libc/system.h>
     void kernel_main();
 }
- 
-static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
+
+void kernel_main()
 {
-	return (uint16_t) uc | (uint16_t) color << 8;
-}
- 
-static const size_t VGA_WIDTH = 80; // defalut columns
-static const size_t VGA_HEIGHT = 25; // defalut rows
- 
-size_t terminal_row;
-size_t terminal_column;
-uint8_t terminal_color;
-uint16_t* terminal_buffer;
- 
-// Code from https://wiki.osdev.org/Bare_Bones#Writing_a_kernel_in_C
+    // Initialize Global Descriptor Table (GDT)
+    init_gdt();
 
-void clear_terminal(void) 
-{
-	terminal_row = 0;  // start in the upper left corner in the canvas/terminal
-	terminal_column = 0; // start in the upper left corner
-	terminal_color = 7;     // 7 = VGA_COLOR_LIGHT_GREY
-	terminal_buffer = (uint16_t*) 0xB8000;  // VGA text mode buffer 
-	for (size_t y = 0; y < VGA_HEIGHT; y++) {   // looping through terminal window 
-		for (size_t x = 0; x < VGA_WIDTH; x++) {
-			const size_t index = y * VGA_WIDTH + x; // find position 
-			terminal_buffer[index] = vga_entry(' ', terminal_color); // coloring 
-		}
-	}
-}
+    // Initialize Interrupt Descriptor Table (IDT)
+    init_idt();
 
-int row = 3; // is 3 instead of 0, becaouse we wanted to have some space in the top of the terminal
+    // Initialize Interrupt Requests (IRQs)
+    init_irq();
 
-void print(char word[80])
-{
 
-	int column = 1; 
-	int color = 0;
+    // Create interrupt handlers for interrupt 3 and 4
+    register_interrupt_handler(3,[](registers_t* regs, void* context){
+        print("Interrupt 3 - OK\n");
+    }, NULL);
 
-    uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
+    register_interrupt_handler(4,[](registers_t* regs, void* context){
+        print("Interrupt 4 - OK\n");
+    }, NULL);
 
-    int wordlen = 0;
+    register_interrupt_handler(13,[](registers_t* regs, void* context){
+        print("Interrupt 13 - SHIIT\n");
+    }, NULL);
 
-    while(word[wordlen] != '\0' ){
-        wordlen++; // set wordlength
-    }
-	
 
-    for(int i = 0; i < wordlen; i++){
-	
-		if(word[i] == '\n' || column == VGA_WIDTH) { // check if string include new line command and if the column is on max width
-			column = 0; 					 // set column at 0 again to start printing from left
-			row = row + 1;					// set new row
-		} else {
+    // Trigger interrupts 3 and 4 which should call the respective handlers
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
 
-        	fb[row][column][color] = word[i]; // first parameter: row, second: column, third: color.
-		}
+    // Enable interrupts temporarily
+    asm volatile("sti");
 
-		column = column + 1;
-    }
-}
+    // Create an IRQ handler for IRQ1
+    register_irq_handler(IRQ1, [](registers_t*, void*){
+        //print("Yeah boiiii\n");
 
-void print_logo() {
+        // Read the scan code from keyboard
+        unsigned char scan_code = inb(0x60);
 
-print("                         _________ _______    _______  _______\n"
-"                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\\n"
-"                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/\n"
-"                | |   | |   | |   | (___) |  | |   | || (_____ \n"
-"                | |   | |   | |   |  ___  |  | |   | |(_____  )\n"
-"                | |   | |   | |   | (   ) |  | |   | |      ) |\n"
-"                | (___) |___) (___| )   ( |  | (___) |/\\____) |\n"
-"                (_______)\\_______/|/     \\|  (_______)\\_______)\n"
-"            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
-}
- 
-void kernel_main(void) 
-{
-	clear_terminal();
+        char c = scancode_to_ascii(&scan_code);
 
-    print_logo();
+        if (c != 0) {
+            char* d = &c;
+            print_char(c);
+        }
+
+        // Disable interrupts temporarily
+        asm volatile("cli");
+    }, NULL);
+
+    // Print a message and enter an infinite loop to wait for interrupts
+    print("Waiting...\n");
+    while(1){};
+    print("Done!...\n");
 }
