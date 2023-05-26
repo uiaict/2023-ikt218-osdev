@@ -29,5 +29,8 @@ void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
 void init_idt()
 {
     idt_pointer.base = (uint32_t)&idt_entries; // Set the base address of the IDT pointer.
-    idt_pointer.limit = sizeof(idt_entry) * 256 -1; // Set the limit of the IDT pointer. 
+    idt_pointer.limit = sizeof(idt_entry) * NUM_IDT_ENTRIES -1; // Set the limit of the IDT pointer. 
+
+
+    memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES);
 }
