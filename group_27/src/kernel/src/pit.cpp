@@ -25,8 +25,8 @@ void init_pit(){
    uint8_t h = (uint8_t)( (DIVIDER>>8) & 0xFF );
 
    // Send the frequency divisor.
-   outb(0x40, l);
-   outb(0x40, h);
+   outb(PIT_CHANNEL0_PORT, l);
+   outb(PIT_CHANNEL0_PORT, h);
 }
 
 uint8_t get_current_tick(){
