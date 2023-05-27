@@ -116,6 +116,7 @@
     int rand();
     int ungetc(int c, FILE *stream);
 
+    static volatile char *video = (volatile char*)0xB8000;
     void write_string( int colour, const char *string );
     char* itoa(int num, char* str, int base);
     void reverse(char str[], int length);

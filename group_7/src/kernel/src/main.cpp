@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include "common.h"
 #include "keyboard.h"
+#include "pit.h"
 
 
 extern uint32_t end; // This is defined in linker.ld
@@ -101,6 +102,8 @@ void kernel_main()
     init_irq();
  
     init_paging();
+
+    init_pit();
  
       // Print memory layout
     print_memory_layout();
@@ -126,7 +129,13 @@ void kernel_main()
     
     asm volatile("sti");
 
+    sleep_busy(5000);
+    clearScreen();
     printf("WELCOME TO UIA OS! \nPress delete to clear screen..\n\n" );
+
+    printf("Calling sleep interrupt for 5 seconds..\n");
+    sleep_interrupt(5000);
+    printf("Sleep done!\n");
     
     while (1){}
     
