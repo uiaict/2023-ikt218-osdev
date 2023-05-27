@@ -116,7 +116,7 @@ int printf(const char* format, ...) {
 	}
 
     // Write_string writes the buffer to the terminal with the color green
-    write_string(2, buffer);
+    write_string(7, buffer);
  
 	va_end(variables);
 	return written;
