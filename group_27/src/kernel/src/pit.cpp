@@ -2,6 +2,10 @@
 
 
 void init_pit(){
+
+}
+
+void get_current_tick(){
     
 }
 
