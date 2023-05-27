@@ -1,7 +1,6 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_7",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_7",
-    "C_Cpp.errorSquiggles": "disabled",
-    "cmake.configureOnOpen": false
-
-}
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_name",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_name",
+    "C_Cpp.errorSquiggles": "disabled"
+  }
+  
