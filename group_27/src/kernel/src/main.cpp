@@ -4,6 +4,8 @@
 #include "keyboard.h"
 #include "printing.h"
 #include <cstdlib>
+
+// #include "pit.h"
 extern uint32_t end; // This is defined in linker.ld
 
 
@@ -104,6 +106,15 @@ void kernel_main()
 
     // Print a message and enter an infinite loop to wait for interrupts
     print("Waiting...\n");
-    while(1){};
+    while(1){
+
+        // printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        // sleep_busy(1000);
+        // printf("[%d]: Slept using busy-waiting.\n", counter++);
+
+        // printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        // sleep_interrupt(1000);
+        // printf("[%d]: Slept using interrupts.\n", counter++);
+    };
     print("Done!...\n");
 }
