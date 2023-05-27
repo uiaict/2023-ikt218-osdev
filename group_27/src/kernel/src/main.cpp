@@ -52,9 +52,9 @@ void kernel_main()
 
 
     // Initialize Paging
-    init_paging(); 
+    //init_paging(); 
     // Print memory layout
-    print_memory_layout();
+    //print_memory_layout();
 
     // Setup PIT
     // init_pit();   
