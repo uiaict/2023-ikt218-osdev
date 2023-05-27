@@ -1,88 +1,109 @@
+#include "descriptor_tables.h"
+#include "interrupts.h"
+#include "common.h"
+#include "keyboard.h"
+#include "printing.h"
+#include <cstdlib>
+extern uint32_t end; // This is defined in linker.ld
 
-#include "system.h"
-#include "gdt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+    #include <libc/system.h>
+    #include "memory.h"
     void kernel_main();
 }
- 
-static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
-{
-	return (uint16_t) uc | (uint16_t) color << 8;
-}
- 
-static const size_t VGA_WIDTH = 80; // defalut columns
-static const size_t VGA_HEIGHT = 25; // defalut rows
- 
-size_t terminal_row;
-size_t terminal_column;
-uint8_t terminal_color;
-uint16_t* terminal_buffer;
- 
-// Code from https://wiki.osdev.org/Bare_Bones#Writing_a_kernel_in_C
 
-void clear_terminal(void) 
-{
-	terminal_row = 0;  // start in the upper left corner in the canvas/terminal
-	terminal_column = 0; // start in the upper left corner
-	terminal_color = 7;     // 7 = VGA_COLOR_LIGHT_GREY
-	terminal_buffer = (uint16_t*) 0xB8000;  // VGA text mode buffer 
-	for (size_t y = 0; y < VGA_HEIGHT; y++) {   // looping through terminal window 
-		for (size_t x = 0; x < VGA_WIDTH; x++) {
-			const size_t index = y * VGA_WIDTH + x; // find position 
-			terminal_buffer[index] = vga_entry(' ', terminal_color); // coloring 
-		}
-	}
+// Overload the new operator for single object allocation
+void* operator new(std::size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
 }
 
-int row = 3; // is 3 instead of 0, becaouse we wanted to have some space in the top of the terminal
-
-void print(char word[80])
-{
-
-	int column = 1; 
-	int color = 0;
-
-    uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
-
-    int wordlen = 0;
-
-    while(word[wordlen] != '\0' ){
-        wordlen++; // set wordlength
-    }
-	
-
-    for(int i = 0; i < wordlen; i++){
-	
-		if(word[i] == '\n' || column == VGA_WIDTH) { // check if string include new line command and if the column is on max width
-			column = 0; 					 // set column at 0 again to start printing from left
-			row = row + 1;					// set new row
-		} else {
-
-        	fb[row][column][color] = word[i]; // first parameter: row, second: column, third: color.
-		}
-
-		column = column + 1;
-    }
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
 }
 
-void print_logo() {
-
-print("                         _________ _______    _______  _______\n"
-"                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\\n"
-"                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/\n"
-"                | |   | |   | |   | (___) |  | |   | || (_____ \n"
-"                | |   | |   | |   |  ___  |  | |   | |(_____  )\n"
-"                | |   | |   | |   | (   ) |  | |   | |      ) |\n"
-"                | (___) |___) (___| )   ( |  | (___) |/\\____) |\n"
-"                (_______)\\_______/|/     \\|  (_______)\\_______)\n"
-"            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
+// Overload the new operator for array allocation
+void* operator new[](std::size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
 }
- 
-void kernel_main(void) 
-{
-	clear_terminal();
 
-    print_logo();
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+void kernel_main()
+{
+    // Initialize kernel memory manager with the end of the kernel image
+    init_kernel_memory(&end); 
+
+    // Initialize Global Descriptor Table (GDT)
+    init_gdt();
+
+    // Initialize Interrupt Descriptor Table (IDT)
+    init_idt();
+
+    // Initialize Interrupt Requests (IRQs)
+    init_irq();
+
+
+    // Initialize Paging
+    init_paging(); 
+    // Print memory layout
+    print_memory_layout();
+
+    // Setup PIT
+    // init_pit();   
+
+     // Allocate some memory using kernel memory manager
+    void* some_memory = malloc(12345); 
+    void* memory2 = malloc(54321); 
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
+
+    // Create interrupt handlers for interrupt 3 and 4
+    register_interrupt_handler(3,[](registers_t* regs, void* context){
+        print("Interrupt 3 - OK\n");
+    }, NULL);
+
+    register_interrupt_handler(4,[](registers_t* regs, void* context){
+        print("Interrupt 4 - OK\n");
+    }, NULL);
+
+    register_interrupt_handler(13,[](registers_t* regs, void* context){
+        print("Interrupt 13 - SHIIT\n");
+    }, NULL);
+
+
+    // Trigger interrupts 3 and 4 which should call the respective handlers
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
+
+    // Enable interrupts temporarily
+    asm volatile("sti");
+
+    // Create an IRQ handler for IRQ1
+    register_irq_handler(IRQ1, [](registers_t*, void*){
+        //print("Yeah boiiii\n");
+
+        // Read the scan code from keyboard
+        unsigned char scan_code = inb(0x60);
+
+        char c = scancode_to_ascii(&scan_code);
+
+        if (c != 0) {
+            char* d = &c;
+            print_char(c);
+        }
+
+        // Disable interrupts temporarily
+        asm volatile("cli");
+    }, NULL);
+
+    // Print a message and enter an infinite loop to wait for interrupts
+    print("Waiting...\n");
+    while(1){};
+    print("Done!...\n");
 }

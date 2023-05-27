@@ -13,6 +13,7 @@ typedef short s16int;
 typedef unsigned char u8int;
 typedef char s8int;
 
+void memset(void *dest, int val, unsigned int len);
 void outb(u16int port, u8int value);
 u8int inb(u16int port);
 u16int inw(u16int port);

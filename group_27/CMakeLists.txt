@@ -9,6 +9,15 @@
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
+if(APPLE)
+    set(IS_MACOS "yes")
+endif()
+
+# These forces CMAKE to operate as we were using Linux.
+set(CMAKE_SYSTEM_NAME Linux)
+#set(CMAKE_SYSTEM_PROCESSOR i686)
+
+
 # This defines which is the lowest supported CMake version for this project
 cmake_minimum_required(VERSION 3.22.1)
 
@@ -54,7 +63,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Set the C Version
 set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
-set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
+set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wno-sign-conversion -Wno-frame-address -Wno-unused-parameter")
 # Common compiler flags for both C and C++
 set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
@@ -108,8 +117,11 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
-        src/kernel/src/gdt.asm
+        # C Libraries
+        src/stdlib/src/libc/memory.cpp
+        src/stdlib/src/libc/string.cpp
+        src/stdlib/src/libc/stdio.cpp
+        src/stdlib/src/libc/system.cpp
 
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
@@ -143,6 +155,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
         src/boot/src/boot.asm
+        src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -172,7 +185,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
-        src/kernel/src/gdt.asm
+        src/kernel/src/cpu/isr_asm.asm
+        src/kernel/src/cpu/descriptor_table.asm
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
@@ -188,8 +202,6 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
-        src/kernel/src/gdt.asm
-
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
 target_link_libraries(
@@ -211,3 +223,5 @@ set_target_properties(
 ########################################
 add_subdirectory(grub)
 
+add_custom_target(build)
+add_dependencies(build ${GRUB_TARGET})

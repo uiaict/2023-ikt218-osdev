@@ -72,7 +72,6 @@
     time_t time(time_t *tloc);
     FILE *tmpfile();
     char *tmpnam(char *s);
-    void *memset(void *s, int c, size_t n);
     void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);
     void *malloc(size_t size);
@@ -86,7 +85,7 @@
     int iceil(double x);
     double sqrt(double x);
     char *getenv(const char *name);
-    int strcmp(const char *s1, const char *s2);
+    int strcmp(const char *p1, const char *p2);
     int strcasecmp(const char *s1, const char *s2);
     int strncmp(const char *s1, const char *s2, size_t n);
     int strncasecmp(const char *s1, const char *s2, size_t n);
