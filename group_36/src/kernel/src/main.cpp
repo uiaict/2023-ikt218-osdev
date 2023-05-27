@@ -155,6 +155,7 @@ void print_uint8(uint8_t scancode) {
 
 class OperatingSystem {
     int tick = 0;
+    int seconds = 0;
 
 public:
     OperatingSystem(vga_color color) {
@@ -182,10 +183,17 @@ public:
     void timer() {
         tick++;
         if (tick % 100 == 0) {
-            printf("(Every Second) Tick: ");
-            print_uint8(tick);
-            printf("\n");
+            seconds++;
+            // printf("(Every Second) Tick: ");
+            // print_uint8(tick);
+            // printf("\n");
         }
+    }
+
+    void print_time() {
+        printf("[Time: ");
+        print_uint8(seconds);
+        printf("]:  $");
     }
 };
 
@@ -239,15 +247,22 @@ void kernel_main(void)
         os->timer();
     }, &os);
 
+    os.print_time();
+
     // Hook Keyboard
     UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
-        printf("Keyboard Event: ");
+        // printf("Keyboard Event: ");
         char ascii[2] = {UiAOS::IO::Keyboard::scancode_to_ascii(scancode), '\0'};
         printf(ascii);
-        printf(" (");
-        print_uint8(scancode);
-        printf(")\n");
+
+        if(ascii[0] == 10){
+            os->print_time();
+        } // if newline
+        
+        // printf(" (");
+        // print_uint8(scancode);
+        // printf(")\n");
     }, &os);
 
     while(1){}
