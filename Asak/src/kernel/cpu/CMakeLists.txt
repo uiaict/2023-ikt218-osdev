@@ -17,6 +17,7 @@ target_link_libraries(${OS_MODULE_CPU_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${O
 target_include_directories(
         ${OS_MODULE_CPU_NAME} PUBLIC include
         ${STDLIB_PATH}/include
+        ${STDLIB_PATH}/src
         ${KERNEL_INCLUDE}
 )
 target_compile_definitions(${OS_MODULE_CPU_NAME} PUBLIC

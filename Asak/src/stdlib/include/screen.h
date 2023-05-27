@@ -4,7 +4,7 @@
 
 //Attribute byte for our default colour scheme.
 //Matrix Colors!
-#define WAKE_UP_NEO 0x2a
+#define WAKE_UP_NEO 0xfa0
 
 //Screen device I/O ports.
 #define REG_SCREEN_CTRL 0x3D4
@@ -19,5 +19,6 @@ void clear_screen();
 void memory_copy ( char *source, char *dest, int no_bytes);
 int handle_scrolling(int cursor_offset);
 void print_at (char* message, int col, int row);
-void printf(char* text);
+void print(char* text);
+void print_hex(unsigned int value, unsigned int width, char * buf, int * ptr);
 void play_intro();

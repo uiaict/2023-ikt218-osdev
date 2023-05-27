@@ -1,5 +1,7 @@
 #include <system.h>
+#include <screen.h>
 #include <descriptor.h>
+
 
 void init_gdt() asm ("init_gdt");
 
