@@ -24,7 +24,6 @@
 /// @param string The string you want to display
 void write_string( int colour, const char *string )
 {
-    static volatile char *video = (volatile char*)0xB8000;
     while( *string != 0 )
     {
         *video++ = *string++;
@@ -160,7 +159,9 @@ void clearScreen()
     for (int i = 0; i < 25*80; i++)
         blank[i] = " ";
     
+    video = (volatile char*)0xB8000;
     write_string(0, blank);
+    video = (volatile char*)0xB8000;
 }
 
 char* itoa(int num, char* str, int base)

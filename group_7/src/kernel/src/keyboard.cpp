@@ -22,6 +22,12 @@ const int ascii_key_map[] = {0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', 
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
+const int video_begin[] = {0x0B8000, 0x0B8050, 0x0B8100, 0x0B8150, 0x0B8200, 0x0B8250, 
+                            0x0B8300, 0x0B8350, 0x0B8400, 0x0B8450, 0x0B8500, 0x0B8550, 
+                            0x0B8600, 0x0B8650, 0x0B8700, 0x0B8750, 0x0B8800, 0x0B8850, 
+                            0x0B8900, 0x0B8950, 0x0B8A00, 0x0B8A50, 0x0B8B00, 0x0B8B50, 
+                            0x0B8C00};
+
 /// @brief Function to register the keyboard interrupt handler.
 void keyboard_handler()
 {

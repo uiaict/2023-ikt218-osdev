@@ -24,7 +24,7 @@
 #define DIVIDER (PIT_BASE_FREQUENCY / TARGET_FREQUENCY)
 #define TICKS_PER_MS (TARGET_FREQUENCY / TARGET_FREQUENCY)
 
-static uint32_t Tick;
+static uint32_t Tick = 0;
 
 void init_pit();
 void sleep_interrupt(uint32_t milliseconds);
