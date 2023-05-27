@@ -1,9 +1,14 @@
 #include "keyboard.h"
-#include "system.h"
+// #include "system.h"
 #include "interrupts.h"
 #include "common.h"
 
-/// @brief Array of ascii characters for each scancode.
+extern "C"{
+    #include "system.h"
+}
+
+
+// @brief Array of ascii characters for each scancode.
 const int ascii_key_map[] = {0, 0, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '+', '\\', 0, 0, 
                             'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', 0, 0, 0, 0, 
                             'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 0, 0, 0, 0, 0, 
@@ -54,6 +59,13 @@ char convert_to_ascii(uint8_t scancode)
     {
         printf("\n");
         return 0;
+    }
+
+    /// If the delete button is pressed, clear the screen.
+    if (scancode == 83)
+    {
+        clearScreen();
+        printf("WELCOME TO UIA OS GROUP 7");
     }
 
     /// If the scancode is 42, this means shift is pressed down.
