@@ -4,7 +4,7 @@
 
 //Attribute byte for our default colour scheme.
 //Matrix Colors!
-#define WAKE_UP_NEO 0xfa0
+#define WAKE_UP_NEO 0x0A
 
 //Screen device I/O ports.
 #define REG_SCREEN_CTRL 0x3D4
