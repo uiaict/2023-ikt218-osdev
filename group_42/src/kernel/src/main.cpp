@@ -6,29 +6,48 @@
 class IJI_OS{
     int tick = 0;
     int color = 0x0B;
-     volatile char *address = (volatile char*)0xB8000;
+    volatile char *address = (volatile char*)0xB8000;
+    int line = 0;
     public:
     void init(){
         clearScreen();
         write_string(color, "Hello World!");
 
     }
+
+void write_string_2(const char *string){
+    volatile char *video = (volatile char*)0xB8000;
+    int tmp = 0;
+    video = video + 160*line;
+    tmp = tmp + 160*line;
+ 
+    if(tmp>3500){
+        clearScreen();
+        line = 0;
+    }
    
+    while( *string != 0 )
+    {
+        *video++ = *string++;
+        *video++ = color;
+    }
+}
 
-
-
+void next_line(){
+    line = line + 1;
+}
 
 void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs){
-    write_string(color,"interrupt   3");
-
+    write_string_2("interrupt   3");
+    next_line();
 }
 void interrupt_handler_2(UiAOS::CPU::ISR::registers_t regs){
-    write_string(color,"interrupt  2");
-
+    write_string_2("interrupt  2");
+    next_line();
 }
 void interrupt_handler_1(UiAOS::CPU::ISR::registers_t regs){
-    write_string(color,"interrupt 1");
-
+    write_string_2("interrupt 1");
+    next_line();
 }
 
 
@@ -64,9 +83,11 @@ void kernel_main()
 asm volatile("sti");
  UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
     auto* os = (IJI_OS*)context;
-    write_string(0x0B,"Keyboard Event: ");
+    os->write_string_2("Keyboard Event: ");
+    os->next_line();
     write_char(UiAOS::IO::Keyboard::scancode_to_ascii(scancode));
-    write_string(0x0B,"hello");
+    os->write_string_2("hello");
+    os->next_line();
     },&os); 
  
 while (1)
