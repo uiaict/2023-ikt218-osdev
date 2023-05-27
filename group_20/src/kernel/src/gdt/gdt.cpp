@@ -22,7 +22,12 @@ void start_gdt() {
     // Load the GDT
     gdt_flush((uint32_t)&gdt_ptr);
 
+    // Since GDT is the first thing that is called in boot.asm before main
+    // We clear the screen to get rid of trash
     screenClear();
+
+     // Adds feedback to the terminal
+    screenWrite("Initializing GDT!......");
     screenWrite("Initialized GDT!");
 }
 
@@ -40,3 +45,5 @@ void set_gdt_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
     gdt[num].access      = access;
     
 }
+
+// SOURCES: https://github.com/uiaict/ikt218-osdev/pull/1

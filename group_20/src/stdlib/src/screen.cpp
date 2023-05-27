@@ -2,9 +2,11 @@
 #include <cstddef>
 #include <system.h>
 
+// BASIC DEFINE 
 #define VIDEO_BUFFER 0xB8000
 #define VIDEO_HEIGHT 25
 #define VIDEO_WIDTH 80
+
 
 // COLORS FOR LETTERS IN TERMINAL
 enum vga_color {
@@ -49,16 +51,30 @@ static inline uint16_t vga_entry(unsigned char uc, uint8_t color)
 void screenWrite(const char* data) {
 
 	//VARIABLES
-	const uint8_t color = vga_entry_color(VGA_COLOR_RED,VGA_COLOR_BLACK);
-    size_t stringLenght = size(data);
+    const uint8_t color = vga_entry_color(VGA_COLOR_RED, VGA_COLOR_BLACK);
+    size_t stringLength = size(data);
     uint16_t *video = (uint16_t*)VIDEO_BUFFER;
+    static size_t cursorPos = 0; // Keep track of the cursor position
 
-	for(size_t i = 0; i < stringLenght; i++ )	{
-        video[i] = vga_entry(data[i], color);
+    for (size_t i = 0; i < stringLength; i++) {
+        // Handle line breaks
+        if (data[i] == '\n') {
+            // Move to the beginning of the next line
+            cursorPos = (cursorPos / VIDEO_WIDTH + 1) * VIDEO_WIDTH;
+        } else {
+            video[cursorPos] = vga_entry(data[i], color);
+            cursorPos++;
+        }
+    }
+
+    // Automatically insert a newline after printing "Initialized GDT!"
+    if (size(data) == stringLength) {
+        cursorPos = (cursorPos / VIDEO_WIDTH + 1) * VIDEO_WIDTH;
     }
 }
 
-//CLEAR SCREEN
+
+//CLEAR TERMINAL SCREEN
 void screenClear() {
 
 	//VARIABLES
@@ -73,5 +89,5 @@ void screenClear() {
 
 // SOURCES:
 // USED THIS GUIDE FOR PRINTING IN TERMINAL: https://wiki.osdev.org/Printing_To_Screen
-// USED LECTURERERS REPOSITORY: https://wiki.osdev.org/Bare_Bones#Implementing_the_Kernel
+// AND LECTURERS REPOSITORY : https://github.com/uiaict/ikt218-osdev/pull/1
 

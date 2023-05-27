@@ -18,13 +18,6 @@ multiboot:
     dd  MBOOT_HEADER_FLAGS      ; How GRUB should load your file / settings
     dd  MBOOT_CHECKSUM          ; To ensure that the above values are correct
     
-    ; MULTIBOOT_AOUT_KLUDGE - We dont use this!
-    dd 0
-    dd 0
-    dd 0
-    dd 0
-    dd 0
-
     ; MULTIBOOT_VIDEO_MODE - Graphic fields
     dd 0
     dd 640
@@ -45,6 +38,10 @@ _start:
     ;Initialize Global Desctiptor Table
 	extern start_gdt
 	call start_gdt
+
+    ;Initialize Interupt Descriptor Table
+	extern start_idt
+	call start_idt
 
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
