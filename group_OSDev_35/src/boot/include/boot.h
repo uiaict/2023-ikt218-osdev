@@ -1,43 +1,62 @@
-//
-// Created by per on 1/4/23.
-// https://raw.githubusercontent.com/perara/ikt218-advanced-operating-systems/1ce6e0b734968ad952275b8bbff049b8b690c5fb/src/boot/include/boot.h
-//
-
 #ifndef UIAOS_BOOT_H
 #define UIAOS_BOOT_H
 
+// Include standard library for fixed width integer types
 #include <stdint.h>
 
+// Define multiboot bootloader magic number, a constant often used in bootloader code
+#define MULTIBOOT_BOOTLOADER_MAGIC 0x2BADB002
+
 namespace UiAOS::Boot{
+
+    // Define a new type alias for unsigned integer
     typedef unsigned int multiboot_uint32_t;
+
     struct multiboot_header
     {
-        /* Must be MULTIBOOT_MAGIC - see above.  */
+        // Magic number for the multiboot header
         multiboot_uint32_t magic;
 
-        /* Feature flags.  */
+        // Flags for various options and configurations
         multiboot_uint32_t flags;
 
-        /* The above fields plus this one must equal 0 mod 2^32. */
+        // Checksum, used to verify data integrity
         multiboot_uint32_t checksum;
 
-        /* These are only valid if MULTIBOOT_AOUT_KLUDGE is set.  */
+        // Header address of the multiboot bootloader
         multiboot_uint32_t header_addr;
+
+        // Start of load address in memory
         multiboot_uint32_t load_addr;
+
+        // End of load address in memory
         multiboot_uint32_t load_end_addr;
+
+        // End of BSS (Block Started by Symbol) segment
         multiboot_uint32_t bss_end_addr;
+
+        // Entry address where control is transferred from the bootloader
         multiboot_uint32_t entry_addr;
 
-        /* These are only valid if MULTIBOOT_VIDEO_MODE is set.  */
+        // Mode type for the display
         multiboot_uint32_t mode_type;
+
+        // Width of the display in pixels
         multiboot_uint32_t width;
+
+        // Height of the display in pixels
         multiboot_uint32_t height;
+
+        // Depth of the display (color depth) in bits per pixel
         multiboot_uint32_t depth;
     };
 
-
+    // Static variable for the multiboot address
     static uint32_t multiboot_address;
+
+    // Static variable for the multiboot header
     static multiboot_header* multiboot;
 }
 
-#endif //UIAOS_BOOT_H
+// End of prevention for multiple inclusions of this header file
+#endif

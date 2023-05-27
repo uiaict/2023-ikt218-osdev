@@ -3,9 +3,11 @@
 // https://github.com/perara/ikt218-advanced-operating-systems/blob/1ce6e0b734968ad952275b8bbff049b8b690c5fb/src/boot/src/boot.cpp
 //
 #include "boot.h"
-#include "multiboot.h"
+//#include "multiboot.h"
 
 #include <memory.h>
+
+
 
 // make it avalibale in the asm file
 void init_multiboot() asm ("init_multiboot");
