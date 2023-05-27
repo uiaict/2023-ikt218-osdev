@@ -15,6 +15,9 @@ int a = 900000;
 int b = 100;
 a = b;
 
+int v = 5;
+*((int*)0xb8000)=0x07690748;
+
 }
 
 // Set the color you want to use for the text
