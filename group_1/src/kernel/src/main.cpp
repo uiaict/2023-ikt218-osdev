@@ -2,6 +2,8 @@ extern "C"{
     #include "system.h"
     #include "gdt.h"
     #include "common.h"
+    #include <stdlib.h>
+    #include "paging.h"
     void kernel_main();
 }
 
@@ -35,6 +37,7 @@ void kernel_main()
     clear_screen();
     init_descriptor_tables();
     
+    
     printk("Hello, %s! The answer \n is %d.", "world", 42);
     printk("%d", 696969420);
     //asm volatile ("int $0x28");
@@ -44,10 +47,10 @@ void kernel_main()
     init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Print memory layout
-    print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
+    //print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Setup PIT
-    init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
+    //init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Allocate some memory using kernel memory manager
     // THIS IS PART OF THE ASSIGNMENT
