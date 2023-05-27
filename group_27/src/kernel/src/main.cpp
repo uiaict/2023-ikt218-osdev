@@ -3,6 +3,7 @@
 #include "common.h"
 #include "keyboard.h"
 #include "printing.h"
+#include "pit.h"
 #include <cstdlib>
 extern uint32_t end; // This is defined in linker.ld
 
@@ -10,11 +11,35 @@ extern uint32_t end; // This is defined in linker.ld
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     #include <libc/system.h>
+    #include "memory.h"
     void kernel_main();
+}
+
+// Overload the new operator for single object allocation
+void* operator new(std::size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+// Overload the new operator for array allocation
+void* operator new[](std::size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
 }
 
 void kernel_main()
 {
+    // Initialize kernel memory manager with the end of the kernel image
+    init_kernel_memory(&end); 
+
     // Initialize Global Descriptor Table (GDT)
     init_gdt();
 
@@ -24,6 +49,20 @@ void kernel_main()
     // Initialize Interrupt Requests (IRQs)
     init_irq();
 
+
+    // Initialize Paging
+    //init_paging(); 
+    // Print memory layout
+    //print_memory_layout();
+
+    // Setup PIT
+    init_pit();   
+
+     // Allocate some memory using kernel memory manager
+    void* some_memory = malloc(12345); 
+    void* memory2 = malloc(54321); 
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
 
     // Create interrupt handlers for interrupt 3 and 4
     register_interrupt_handler(3,[](registers_t* regs, void* context){
@@ -66,6 +105,19 @@ void kernel_main()
 
     // Print a message and enter an infinite loop to wait for interrupts
     print("Waiting...\n");
-    while(1){};
+    while(1){
+
+        printf("Sleeping with busy-waiting (HIGH CPU).\n");
+        // print(char(counter))
+        sleep_busy(1000);
+        print("Slept using busy-waiting.\n");
+        // print(char(counter++))
+
+        print("Sleeping with interrupts (LOW CPU).\n");
+        // print(char(counter))
+        sleep_interrupt(1000);
+        print("Slept using interrupts.\n");
+        // print(char(counter++))
+    };
     print("Done!...\n");
 }
