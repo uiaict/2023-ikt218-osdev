@@ -4,8 +4,6 @@
 #include "keyboard.h"
 #include "printing.h"
 #include <cstdlib>
-
-// #include "pit.h"
 extern uint32_t end; // This is defined in linker.ld
 
 
@@ -13,6 +11,7 @@ extern uint32_t end; // This is defined in linker.ld
 extern "C"{
     #include <libc/system.h>
     #include "memory.h"
+    #include "pit.h"
     void kernel_main();
 }
 
@@ -57,7 +56,7 @@ void kernel_main()
     //print_memory_layout();
 
     // Setup PIT
-    // init_pit();   
+    init_pit();   
 
      // Allocate some memory using kernel memory manager
     void* some_memory = malloc(12345); 
