@@ -1,30 +1,33 @@
+// Scancode to ASCII source: http://www.osfree.org/docs/cmdref/cmdref.2.0476.php
+
 #include "./include/sc_to_ascii.h"
 
 unsigned char scancode_table[TABLE_SIZE] = {
-    /*0x76, 0x05, 0x06, 0x04, 0x0C, 0x03, 0x0B, 0x83, 0x0A, 0x01, 0x09, 0x78, 0x07, // ESC, F1, F2, F3, F4, F5, F6, F7, F8, F9, F10, F11, F12
-    0xE012E07C, 0x7E, 0xE11477E1F014E077, 0x0E // Prt Screen, Scroll lock, Pause/Break, `*/
+    // Main keyboard
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, // Esc, 1, 2, 3 ,4 ,5 ,6 ,7, 8, 9, 0, -, =, Backspace
+    16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, // Tab, q, w, e, r, t, y, u, i, o, p, [, ], Enter
+    30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 43, 44, 
+    45, 46, 47, 48, 49, 50, 51, 52, 53, 57,// 1, 2, 3 ,4 ,5 ,6 ,7 ,8, 9, 0, -, =, Backspace
+    59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 133, 134, // F1
 
-    0x16, 0x1E, 0x26, 0x25, 0x2E, 0x36, 0x3D, 0x3E, 0x46, 0x45, 0x4E, 0x55, 0x66, // 1, 2, 3 ,4 ,5 ,6 ,7 ,8, 9, 0, -, =, Backspace
-    0x0D, 0x15, 0x1D, 0x24, 0x2D, 0x2C, 0x35, 0x3C, 0x43, 0x44, 0x4D, 0x54, 0x5B, 0x5D, // Tab, Q, W, E, R, T, Y, U, I, O, P, [, ], \,
-    /*0x58*/ 0x1C, 0x1B, 0x23, 0x34, 0x33, 0x3B, 0x42, 0x4B, 0x4C, 0x52, // Caps Lock, A, S, D, F, G, H, J, K, L, ;, '
-    /*0x5A, 0x12*/ 0x1A, 0x22, 0x21, 0x2A, 0x32, 0x31, 0x3A, 0x41, 0x49, 0x4A // Enter, Shift(left), Z, X, C, V, B, N, M, ",", ".", "/"
-
-    /*0x59, 0x14, 0xE01F, 0x11, 0x29, 0xE011, 0xE027, 0xE02F, 0xE014, 0xE070, // Shift(Right), Ctrl(left), Windows(left), Alt(left), Spacebar, Alt(right), Windows(right), Menus, Ctrl(right), Insert
-    0xE06C, 0xE07D, 0xE071, 0xE069, 0xE07A, 0xE075, 0xE06B, 0xE072,  0xE074, // Home, Page Up, Delete, End, Page Down, Up Arrow, Left Arrow, Down Arrow, Right Arrow
-
-    // Numpad
-    0x77, 0xE04A, 0x7C, 0x7B, // Num Lock, /, *, -
-    0x6C, 0x75, 0x7D, 0x79, // 7, 8, 9, +
-    0x6B, 0x73, 0x74, // 4, 5, 6
-    0x69, 0x72, 0x7A, // 1, 2, 3
-    0x70, 0x71, 0xE05A // 0, ".", Enter*/
+    // Numpad and Control Pad keys
+    55, 71, 71, 72, 72, 73, 73, 74, 75, 75, 76, 77, 77, 78, 79, 79, 80, 80, 
+    81, 81, 82, 82, 83, 83, 224, 224, 55, 0, 0, 0, 0, 0, 42, 0, 224, 0, 224, 
+    0, 0, 0, 224, 0, 224, 0, 224, 0, 45, 0, 0, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+    224, 0, 224, 0, 224, 0, 0, 0, 224, 0, 224, 0, 224, 0, 43, 0, 13
 };
 
 unsigned char ascii_table[TABLE_SIZE] = {
-    49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, 8, // 1, 2, 3 ,4 ,5 ,6 ,7 ,8, 9, 0, -, =, Backspace
-    9, 81, 87, 69, 82, 84, 89, 85, 73, 79, 80, 91, 93, 92, // Tab, Q, W, E, R, T, Y, U, I, O, P, [, ], \,
-    65, 83, 68, 70, 71, 72, 74, 75, 76, 59, 39, // A, S, D, F, G, H, J, K, L, ;, '
-    90, 88, 67, 86, 66, 77, 78, 44, 46, 47 // Z, X, C, V, B, N, M, ",", ".", "/"
+    // Main keyboard
+    27, 49, 50, 51, 52, 53, 54, 55, 56, 57, 48, 45, 61, 8, 9, // Esc, 1, 2, 3 ,4 ,5 ,6 ,7, 8, 9, 0, -, =, Backspace
+    113, 119, 101, 114, 116, 121, 117, 105, 111, 112, 91, 93, 13, // Tab, q, w, e, r, t, y, u, i, o, p, [, ], Enter
+    97, 115, 100, 102, 103, 104, 106, 107, 108, 59, 39, 96, 92,
+    122, 120, 99, 118, 98, 110, 109, 44, 46, 47, 32, 
+
+    // Numpad and Control pad keys
+    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 42, 0, 224, 0, 224, 0, 224, 0, 
+    45, 0, 0, 0, 43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 224, 0, 224, 
+    0, 224, 0, 0, 0, 224, 0, 224, 0, 224, 0, 43, 0, 13
 };
 
 // Convert scancode to ascii
