@@ -6,6 +6,7 @@
 #include <cstdlib>
 #include "common.h"
 #include "keyboard.h"
+#include "pit.h"
 
 
 extern uint32_t end; // This is defined in linker.ld
@@ -101,6 +102,8 @@ void kernel_main()
     init_irq();
  
     init_paging();
+
+    //init_pit();
  
       // Print memory layout
     print_memory_layout();
