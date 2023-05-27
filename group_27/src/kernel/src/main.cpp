@@ -57,7 +57,7 @@ void kernel_main()
     print_memory_layout();
 
     // Setup PIT
-    // init_pit();   
+    //init_pit();   
 
      // Allocate some memory using kernel memory manager
     void* some_memory = malloc(12345); 

@@ -25,31 +25,6 @@
 #define TICKS_PER_MS (TARGET_FREQUENCY / TARGET_FREQUENCY)
 
 
-void sleep_busy(){
-
-}
-	// Set start_tick to get_current_tick()
-	// Set ticks_to_wait to milliseconds * TICKS_PER_MS
-	// Set elapsed_ticks to 0
-	// While elapsed_ticks is less than ticks_to_wait
-	// 	a. While get_current_tick() is equal to start_tick + elapsed_ticks
-	// 		i. Do nothing (busy wait)
-	// 	b. Increment elapsed_ticks
-
-
-void sleep_interrupt(){
-
-}
-	// Set current_tick to get_current_tick()
-	// Set ticks_to_wait to milliseconds * TICKS_PER_MS
-	// Set end_ticks to current_tick + ticks_to_wait
-	// While current_tick is less than end_ticks
-	// 	a. Execute the following assembly instructions:
-	// 		i. Enable interrupts (sti)
-	// 		ii. Halt the CPU until the next interrupt (hlt)
-	// 	b. Set current_tick to get_current_tick()
-
-
 void init_pit();
 void sleep_interrupt(uint32_t milliseconds);
 void sleep_busy(uint32_t milliseconds);
