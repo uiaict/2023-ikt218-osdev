@@ -9,8 +9,9 @@ extern "C"{
 
 void kernel_main()
 {
-int a = 100000;
-*((int*)0xb8000)=0x07690748;
+int a = 900000;
+
+
 int b = 100;
 a = b;
 

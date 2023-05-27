@@ -146,13 +146,13 @@ set(OS_MODULE_BOOT_SOURCES
         src/GDT/gdt.asm
         src/GDT/gdt.cpp
 
-        #src/GDT/idt.cpp
-        #src/GDT/idt_a.asm
+        src/GDT/idt.cpp
+        src/GDT/idt_a.asm
 
-        #src/GDT/isr.cpp
-        #src/GDT/isr.asm
+        src/GDT/isr.cpp
+        src/GDT/isr.asm
 
-        #src/GDT/hardware_port.cpp
+        src/GDT/hardware_port.cpp
         
        
         

@@ -49,8 +49,8 @@ _start:
   
 
     ; Initialize the Interrupt Descriptor Table
-    ;extern init_idt
-    ;call init_idt
+    extern init_idt
+    call init_idt
 
     ; Initialize the Interrupt Service Routine
     ;extern init_isr
@@ -62,6 +62,7 @@ _start:
 
 	
 	cli
+  
 .hang:	hlt
 	jmp .hang
 .end:
