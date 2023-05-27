@@ -3,6 +3,7 @@
 #include "common.h"
 #include "keyboard.h"
 #include "printing.h"
+#include "pit.h"
 #include <cstdlib>
 extern uint32_t end; // This is defined in linker.ld
 
@@ -11,7 +12,6 @@ extern uint32_t end; // This is defined in linker.ld
 extern "C"{
     #include <libc/system.h>
     #include "memory.h"
-    #include "pit.h"
     void kernel_main();
 }
 
