@@ -8,4 +8,4 @@ void screenWrite(const char* data);
 void screenClear();
 
 
-#endif // MONITOR_H
+#endif

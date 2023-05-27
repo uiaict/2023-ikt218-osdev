@@ -8,6 +8,5 @@ extern "C"{
 
 void kernel_main()
 {
-    screenClear();
     screenWrite("HELLO WORLD!");
 }

@@ -1,5 +1,3 @@
-
-
 bits 32
 
 MBOOT_PAGE_ALIGN       equ 1<<0    ; Load kernel and modules on a page boundary
@@ -43,6 +41,10 @@ section .text
 global _start:function (_start.end - _start)
 _start:
 	mov esp, stack_top
+
+    ;Initialize Global Desctiptor Table
+	extern start_gdt
+	call start_gdt
 
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
