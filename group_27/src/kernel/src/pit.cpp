@@ -53,10 +53,13 @@ void sleep_interrupt(uint32_t milliseconds){
 
     while (current_tick < end_ticks)
     {
+        if(current_tick == 250) {
+            int a = current_tick;
+        }
         asm volatile("sti");
         asm volatile("hlt");
-
-        current_tick = get_current_tick();
+        end_ticks--;
+        //current_tick = get_current_tick();
     }
     
 }
