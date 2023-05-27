@@ -10,7 +10,7 @@ void init_multiboot(UiAOS::Boot::multiboot_header* mboot);
 void init_multiboot(UiAOS::Boot::multiboot_header* mboot) {
 
     UiAOS::Boot::multiboot_address = reinterpret_cast<uint32_t>(mboot->header_addr);
-    //memcpy(UiAOS::Boot::multiboot, &mboot, sizeof (*mboot));
+    memcpy(UiAOS::Boot::multiboot, &mboot, sizeof (*mboot));
 
     if (UiAOS::Boot::multiboot->magic != MULTIBOOT_BOOTLOADER_MAGIC) {
         return; // TODO get some error msg

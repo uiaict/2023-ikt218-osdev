@@ -17,9 +17,20 @@ void clearScreen()
         vga[i] = 0;
     }
 }
+// line len = 20?
 void write_string( int colour, const char *string )
 {
     volatile char *video = (volatile char*)0xB8000;
+    int tmp = 0;
+    while (*video != 0)
+    {
+       video = video+ 160;
+       tmp = tmp + 160;
+    }
+    if(tmp>1600){
+        clearScreen();
+    }
+   
     while( *string != 0 )
     {
         *video++ = *string++;

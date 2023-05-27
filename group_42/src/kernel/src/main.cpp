@@ -1,7 +1,8 @@
 
 //#include "system.h"
 #include "test.h"
-#include "../../GDT/isr.h"
+//#include "../../GDT/isr.h"
+#include"drivers/keyboard.h"
 class IJI_OS{
     int tick = 0;
     int color = 0x0B;
@@ -12,6 +13,8 @@ class IJI_OS{
         write_string(color, "Hello World!");
 
     }
+
+
 
 
 void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs){
@@ -60,4 +63,12 @@ asm volatile ("int $0x03");
 asm volatile ("int $0x02");
 asm volatile ("int $0x01");
 
+
+/* UiAOS::IO::Keyboard([](uint8_t scancode, void* context){
+    auto* os = (IJI_OS*)context;
+    //write_string(0x0B,UiAOS::IO::Keyboard::scancode_to_ascii(scancode));
+},&os); */
+
+
+ 
 }
