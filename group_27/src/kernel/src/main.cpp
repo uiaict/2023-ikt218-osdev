@@ -102,12 +102,12 @@ void kernel_main()
         // Disable interrupts temporarily
         asm volatile("cli");
     }, NULL);
-    
+
     // Print a message and enter an infinite loop to wait for interrupts
     print("Waiting...\n");
     while(1){
 
-        print("Sleeping with busy-waiting (HIGH CPU).\n");
+        printf("Sleeping with busy-waiting (HIGH CPU).\n");
         // print(char(counter))
         sleep_busy(1000);
         print("Slept using busy-waiting.\n");

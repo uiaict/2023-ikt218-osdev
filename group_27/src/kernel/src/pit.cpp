@@ -18,15 +18,15 @@ void init_pit(){
     }, NULL);
 
   // Send the command byte.
-   outb(0x43, 0x36);
+   outb(PIT_CMD_PORT, 0x36);
 
    // Divisor has to be sent byte-wise, so split here into upper/lower bytes.
    uint8_t l = (uint8_t)(DIVIDER & 0xFF);
    uint8_t h = (uint8_t)( (DIVIDER>>8) & 0xFF );
 
    // Send the frequency divisor.
-   outb(0x40, l);
-   outb(0x40, h);
+   outb(PIT_CHANNEL0_PORT, l);
+   outb(PIT_CHANNEL0_PORT, h);
 }
 
 uint8_t get_current_tick(){
@@ -43,7 +43,7 @@ void sleep_busy(uint32_t milliseconds){
     {
         while (get_current_tick() == start_tick + elapsed_ticks)
         {
-           ; //i. Do nothing (busy wait)
+            //i. Do nothing (busy wait)
         }
         elapsed_ticks++;
     }
