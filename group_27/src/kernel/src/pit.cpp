@@ -6,7 +6,7 @@ void init_pit(){
 }
 
 void get_current_tick(){
-    
+
 }
 
 
@@ -33,10 +33,8 @@ void sleep_interrupt(uint32_t milliseconds){
 
     while (current_tick < end_ticks)
     {
-        /* code */
-        // 	a. Execute the following assembly instructions:
-	// 		i. Enable interrupts (sti)
-	// 		ii. Halt the CPU until the next interrupt (hlt)
+        asm volatile("sti")
+        asm volatile("hlt")
 
         current_tick = get_current_tick()
     }
