@@ -43,7 +43,7 @@ void sleep_busy(uint32_t milliseconds){
     {
         while (get_current_tick() == start_tick + elapsed_ticks)
         {
-           //i. Do nothing (busy wait)
+           ; //i. Do nothing (busy wait)
         }
         elapsed_ticks++;
     }
