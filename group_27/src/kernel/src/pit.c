@@ -9,13 +9,12 @@
 
 uint32_t tick = 0;
 
-static void timer_callback(registers_t regs)
-{
-   tick++;
-}
 
 void init_pit(){
- register_interrupt_handler(IRQ0, &timer_callback, NULL);
+
+    register_interrupt_handler(IRQ0,[](registers_t* regs, void* context){
+        tick++;
+    }, NULL);
 
   // Send the command byte.
    outb(0x43, 0x36);
