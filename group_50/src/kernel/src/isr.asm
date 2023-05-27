@@ -3,7 +3,7 @@
 %macro ISR_NOERRCODE 1
   global isr%1
   isr%1:
-    ;cli                         ; Disable interrupts firstly.
+    cli                         ; Disable interrupts firstly.
     push byte 0                 ; Push a dummy error code.
     push  %1                    ; Push the interrupt number.
     jmp isr_common_stub         ; Go to our common handler code.
@@ -14,7 +14,7 @@
 %macro ISR_ERRCODE 1
   global isr%1
   isr%1:
-    ;cli                         ; Disable interrupts.
+    cli                         ; Disable interrupts.
     push %1                     ; Push the interrupt number
     jmp isr_common_stub
 %endmacro
@@ -27,13 +27,13 @@ ISR_NOERRCODE 4
 ISR_NOERRCODE 5
 ISR_NOERRCODE 6
 ISR_NOERRCODE 7
-ISR_ERRCODE   8
+ISR_ERRCODE 8
 ISR_NOERRCODE 9
-ISR_ERRCODE   10
-ISR_ERRCODE   11
-ISR_ERRCODE   12
-ISR_ERRCODE   13
-ISR_ERRCODE   14
+ISR_ERRCODE 10
+ISR_ERRCODE 11
+ISR_ERRCODE 12
+ISR_ERRCODE 13
+ISR_ERRCODE 14
 ISR_NOERRCODE 15
 ISR_NOERRCODE 16
 ISR_ERRCODE 17
@@ -54,7 +54,7 @@ ISR_NOERRCODE 31
 ISR_NOERRCODE 128
 
 
-; In isr.c
+; In isr.cpp
 extern isr_handler
 
 ; This is our common ISR stub. It saves the processor state, sets

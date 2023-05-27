@@ -3,7 +3,7 @@
 %macro IRQ 2
   global irq%1
   irq%1:
-    ;cli
+    cli
     push byte 0
     push byte %2
     jmp irq_common_stub

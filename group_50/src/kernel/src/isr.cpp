@@ -11,7 +11,7 @@ void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
     int_handlers[n].data = context;
 }
 
-// Called from ASM interrupt handler stub
+// Called from ASM isr_common_stub
 void isr_handler(registers regs)
 {
     uint8_t int_no = regs.int_no & 0xFF;
