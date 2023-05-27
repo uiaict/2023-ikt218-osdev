@@ -1,6 +1,5 @@
 #include "screen.h"
 #include <cstddef>
-#include "common.h"
 #include <system.h>
 
 #define VIDEO_BUFFER 0xB8000

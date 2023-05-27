@@ -40,9 +40,9 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "UiA Operating System")
+set(OS_NAME "Group 20 UiA Operating System")
 # CMake target name for our operating system
-set(OS_KERNEL_NAME "uia-os")
+set(OS_KERNEL_NAME "uia-os-group20")
 # Predefined list for our application targets
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
@@ -114,11 +114,9 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.cpp
-        src/stdlib/src/common.cpp
+        src/stdlib/include/system.h
         src/stdlib/src/screen.cpp
         src/stdlib/include/screen.h
-        src/stdlib/include/common.h
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
