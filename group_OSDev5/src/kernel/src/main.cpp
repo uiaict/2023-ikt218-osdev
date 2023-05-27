@@ -4,10 +4,12 @@
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
+    
 }
 
 
 void kernel_main()
 {
-    print("Hello, worlddd");
+    
+    print("Hello, world");
 }

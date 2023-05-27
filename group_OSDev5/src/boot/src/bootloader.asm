@@ -42,6 +42,12 @@ _start:
 	extern gdt_init
 	call gdt_init 		; call gdt_init() function
 
+	extern init_idt
+	call init_idt 		; call init_idt() function
+
+	extern init_isr
+	call init_isr 		; call init_isr() function
+
 	extern kernel_main
 	call kernel_main  	; call our kernel_main() function.
 	cli
