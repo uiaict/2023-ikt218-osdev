@@ -1,19 +1,14 @@
 #include "pit.h"
 #include "interrupts.h"
 #include "common.h"
-
-
-#include <stdint.h>
-#include <stdbool.h>
-#include <cstddef>
-#include <cstdlib>
+#include "printing.h"
 
 uint32_t tick = 0;
 
 
 void init_pit(){
 
-    register_interrupt_handler(IRQ0,[](registers_t* regs, void* context){
+    register_irq_handler(IRQ0, [](registers_t*, void*){
         tick++;
     }, NULL);
 
@@ -41,6 +36,7 @@ void sleep_busy(uint32_t milliseconds){
 
     while (elapsed_ticks < ticks_to_wait)
     {
+
         while (get_current_tick() == start_tick + elapsed_ticks)
         {
             //i. Do nothing (busy wait)
