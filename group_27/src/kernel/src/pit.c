@@ -15,14 +15,14 @@ static void timer_callback(registers_t regs)
 }
 
 void init_pit(){
- register_interrupt_handler(IRQ0, &timer_callback);
+ register_interrupt_handler(IRQ0, &timer_callback, NULL);
 
   // Send the command byte.
    outb(0x43, 0x36);
 
    // Divisor has to be sent byte-wise, so split here into upper/lower bytes.
-   uint8_t l = (u8int)(DIVIDER & 0xFF);
-   uint8_t h = (u8int)( (DIVIDER>>8) & 0xFF );
+   uint8_t l = (uint8_t)(DIVIDER & 0xFF);
+   uint8_t h = (uint8_t)( (DIVIDER>>8) & 0xFF );
 
    // Send the frequency divisor.
    outb(0x40, l);
@@ -45,7 +45,7 @@ void sleep_busy(uint32_t milliseconds){
         {
            //i. Do nothing (busy wait)
         }
-        elapsed_ticks++
+        elapsed_ticks++;
     }
     
 }
@@ -57,10 +57,10 @@ void sleep_interrupt(uint32_t milliseconds){
 
     while (current_tick < end_ticks)
     {
-        asm volatile("sti")
-        asm volatile("hlt")
+        asm volatile("sti");
+        asm volatile("hlt");
 
-        current_tick = get_current_tick()
+        current_tick = get_current_tick();
     }
     
 }
