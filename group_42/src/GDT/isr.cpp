@@ -6,6 +6,7 @@
 
 #include "isr.h"
 #include "memory.h"
+#include "../kernel/src/test.h"
 
 #include "hardware_port.h"
 
@@ -39,7 +40,7 @@ void isr_handler(UiAOS::CPU::ISR::registers_t regs)
     UiAOS::CPU::ISR::interrupt_t intrpt = interrupt_handlers[int_no];
     if (intrpt.handler != 0)
     {
-
+       
         intrpt.handler(&regs, intrpt.context);
     }
     else
@@ -47,6 +48,7 @@ void isr_handler(UiAOS::CPU::ISR::registers_t regs)
         /*monitor_write("unhandled interrupt: ");
         monitor_write_hex(int_no);
         monitor_put('\n');*/
+        write_string(0x0B, "Goodbye");
         for(;;);
     }
 }

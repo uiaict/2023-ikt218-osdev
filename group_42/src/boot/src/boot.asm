@@ -53,10 +53,10 @@ _start:
     call init_idt
 
     ; Initialize the Interrupt Service Routine
-    ;extern init_isr
-    ;call init_isr
+    extern init_isr
+    call init_isr
 
-	
+  
 	extern kernel_main
 	call kernel_main  
 
