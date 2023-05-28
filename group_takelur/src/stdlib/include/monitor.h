@@ -1,6 +1,7 @@
 #ifndef MONITOR_H
 #define MONITOR_H
 /* Monitor setup */
+#include "common.h"
 
 // Video memory address
 extern u16int *video_memory;
