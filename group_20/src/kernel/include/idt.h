@@ -22,14 +22,12 @@ struct idt_ptr_t {
 void start_idt();
 
 
-// Function that loads the IDT
-void idt_load();
-
-
 void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 
 static idt_entry_t idt[IDT_ENTRIES];
 static idt_ptr_t idt_ptr;
 
 #endif
+
+// SOURCES: https://github.com/uiaict/ikt218-osdev/pull/1
 

@@ -34,3 +34,5 @@ static gdt_entry_t gdt[GDT_ENTRIES];
 static gdt_ptr_t gdt_ptr;
 
 #endif
+
+// SOURCES: https://github.com/uiaict/ikt218-osdev/pull/1

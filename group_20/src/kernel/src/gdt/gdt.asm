@@ -13,3 +13,5 @@ gdt_flush:
 
 .flush:
     ret ; Returns to the cpp
+
+; SOURCES: https://github.com/uiaict/ikt218-osdev/pull/1

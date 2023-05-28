@@ -34,10 +34,6 @@ void start_idt() {
 
 }
 
-void idt_load() {
-  // Load the IDT using the LIDT instruction
-  asm volatile("lidt %0" : : "m" (idt_ptr));
-}
 
 
 void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
@@ -49,3 +45,5 @@ void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
     idt[num].zero = 0;
     idt[num].flags   = flags  | 0x60;
 }
+
+// SOURCES: https://github.com/uiaict/ikt218-osdev/pull/1
