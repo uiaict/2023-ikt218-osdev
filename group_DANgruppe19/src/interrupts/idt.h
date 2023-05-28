@@ -3,6 +3,7 @@
 
 
 void idt_init();
+void remap_pic();
 
 typedef struct {
   uint16_t base_low;

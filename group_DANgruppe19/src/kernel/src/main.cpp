@@ -24,6 +24,7 @@ void kernel_main()
 {
 init_gdt();
 terminal_initialize();
+remap_pic();
 idt_init(); // Initialize the IDT for interrupt
 terminal_write("Hello World!", 10);
 
