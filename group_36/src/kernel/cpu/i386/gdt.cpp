@@ -1,5 +1,5 @@
 #include "gdt.h"
-#include "isr.h"
+// #include "isr.h"
 #include "idt.h"
 
 

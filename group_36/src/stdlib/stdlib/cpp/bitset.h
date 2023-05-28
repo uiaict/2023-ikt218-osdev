@@ -1,7 +1,3 @@
-//
-// Created by per on 1/2/23.
-//
-
 #ifndef UIAOS_BITSET_H
 #define UIAOS_BITSET_H
 

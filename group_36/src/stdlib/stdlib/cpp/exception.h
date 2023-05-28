@@ -1,7 +1,3 @@
-//
-// Created by per on 1/3/23.
-//
-
 #ifndef UIAOS_EXCEPTION_H
 #define UIAOS_EXCEPTION_H
 #include <stdint.h>

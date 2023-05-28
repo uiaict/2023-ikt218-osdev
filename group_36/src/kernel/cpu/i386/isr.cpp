@@ -6,7 +6,7 @@
 UiAOS::CPU::ISR::interrupt_t interrupt_handlers[256];
 
 extern "C"{
-    void init_isr() asm("init_isr");
+    // void init_isr() asm("init_isr");
     void irq_handler(UiAOS::CPU::ISR::registers_t regs) asm("irq_handler");
     void isr_handler(UiAOS::CPU::ISR::registers_t regs) asm("isr_handler");
 }

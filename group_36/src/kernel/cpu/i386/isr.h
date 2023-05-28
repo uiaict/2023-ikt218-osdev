@@ -48,6 +48,7 @@
 #define IRQ14 46
 #define IRQ15 47
 
+void init_isr();
 
 namespace UiAOS::CPU::ISR{
 
@@ -66,6 +67,4 @@ namespace UiAOS::CPU::ISR{
         isr_t handler;
         void* context;
     } interrupt_t;
-
-
 }

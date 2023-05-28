@@ -1,9 +1,4 @@
-//
-// Created by per on 1/3/23.
-//
 #include "exception.h"
-
-
 
 
 void panic(const char *message, const char *file, uint32_t line)

@@ -1,6 +1,3 @@
-//
-// Created by per on 1/2/23.
-//
 #include "bitset.h"
 #include "memory.h"
 

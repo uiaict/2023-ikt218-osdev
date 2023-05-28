@@ -1,7 +1,3 @@
-//
-// Created by per on 1/4/23.
-//
-
 #ifndef UIAOS_BOOT_H
 #define UIAOS_BOOT_H
 

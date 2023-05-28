@@ -9,6 +9,7 @@ extern "C"{
 #include <stdint.h>
 #include "../cpu/i386/gdt.h"
 #include "../cpu/i386/idt.h"
+// #include "../cpu/i386/isr.h"
 #include <stdlib/c/libc.h>
 #include "../drivers/_include/driver.h"
 #include <../cpu/include/cpu.h>
@@ -20,7 +21,7 @@ extern "C"{
 #if !defined(__i386__)
 #error "This needs to be compiled with a ix86-elf compiler"
 #endif
- 
+
 /* Hardware text mode color constants. */
 enum vga_color {
 	VGA_COLOR_BLACK = 0,
@@ -217,6 +218,7 @@ void kernel_main(void)
 	printf("GDT initialized!\n");
 
     init_idt();
+    // init_isr();
 
 	printf("Hello World!! \n");
 
