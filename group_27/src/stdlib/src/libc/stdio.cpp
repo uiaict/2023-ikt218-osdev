@@ -2,12 +2,12 @@
 #include <stdarg.h>
 #include <limits.h>
 
-extern void monitor_put(char c);
+extern void monitor_put(char c, bool increase_buffer);
 
 
 int putchar(int ic) {
     char c = (char) ic;
-    monitor_put(c);
+    monitor_put(c, false);
 	return ic;
 }
 

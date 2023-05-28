@@ -89,10 +89,10 @@ void print_char (char c) {
 
 	switch (c)
 	{
-	case 14:		// BACKSPACE
-		decreaseBuffer();
-		column--;
-		break;
+	//case 14:		// BACKSPACE
+	//	decreaseBuffer();
+	//	column--;
+	//	break;
 	case 28:		// ENTER
 		runCommand();
 		column = 0;
@@ -112,11 +112,11 @@ void print_char (char c) {
 		break;
 	
 	default:
-	increaseBuffer(c);
+	//increaseBuffer(c, true);
 		//fb[row][column][color] = c;
 		//column++;
-		monitor_put(c);
+		monitor_put(c, true);
 		break;
 	}
-	show_cursor();
+	//show_cursor();
 }

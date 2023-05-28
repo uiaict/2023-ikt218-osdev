@@ -2,7 +2,7 @@
 #include "interrupts.h"
 #include "common.h"
 #include "keyboard.h"
-#include "printing.h"
+#include "monitor.h"
 #include "pit.h"
 #include <cstdlib>
 extern uint32_t end; // This is defined in linker.ld
@@ -66,15 +66,15 @@ void kernel_main()
 
     // Create interrupt handlers for interrupt 3 and 4
     register_interrupt_handler(3,[](registers_t* regs, void* context){
-        print("Interrupt 3 - OK\n");
+        printf("Interrupt 3 - OK\n");
     }, NULL);
 
     register_interrupt_handler(4,[](registers_t* regs, void* context){
-        print("Interrupt 4 - OK\n");
+        printf("Interrupt 4 - OK\n");
     }, NULL);
 
     register_interrupt_handler(13,[](registers_t* regs, void* context){
-        print("Interrupt 13 - SHIIT\n");
+        printf("Interrupt 13 - SHIIT\n");
     }, NULL);
 
 
@@ -96,7 +96,7 @@ void kernel_main()
 
         if (c != 0) {
             char* d = &c;
-            print_char(c);
+            monitor_put(c, true);
         }
 
         // Disable interrupts temporarily
@@ -111,7 +111,7 @@ void kernel_main()
     printf("Interrupt sleep OK\n");
 
     // Print a message and enter an infinite loop to wait for interrupts
-    printf("Ready for input...\n");
+    printf("UIA OS is ready. Type \"help\" to see available commands\n");
     while(1){
 
         /*printf("Sleeping with busy-waiting (HIGH CPU).\n");

@@ -54,19 +54,14 @@ void sleep_busy(uint32_t ms){
  * @param ms The amount of milliseconds to sleep
 */
 void sleep_interrupt(uint32_t ms){
-    int current_tick = get_current_tick();
+    int tick_low = 0;
     int ticks_to_wait = ms * TICKS_PER_MS;
-    int end_ticks = current_tick + ticks_to_wait;
 
-    while (current_tick < end_ticks)
+    while (tick_low < ticks_to_wait)
     {
-        if(current_tick == 250) {
-            int a = current_tick;
-        }
         asm volatile("sti");
         asm volatile("hlt");
-        end_ticks--;
-        //current_tick = get_current_tick();
+        ticks_to_wait--;
     }
 
 }

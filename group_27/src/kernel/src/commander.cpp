@@ -15,8 +15,9 @@ void increaseBuffer(char c) {
 }
 
 void decreaseBuffer() {
-    buffer[bufLen] = '\0';
     bufLen -= 1;
+    buffer[bufLen] = '\0';
+    char a[80] = {*buffer};
 }
 
 char getBuffer() {
@@ -29,13 +30,29 @@ char resetBuffer() {
 }
 
 void runCommand() {
-    if (strcmp(buffer, "test") == 0) {
+    if ((strcmp(buffer, "") == 0)) {
+        printf("\n");
+    }
+    else if (strcmp(buffer, "test") == 0) {
         // This will only run once because the buffer is never reset because of memory stuff
-        printf("\nYay!\n");
+        printf("UIA OS up and running successfully");
+    }
+    else if (strcmp(buffer, "pepsi") == 0) {
+        printf("Voffvoff");
+    }
+    else if (strcmp(buffer, "clear") == 0) {
+        monitor_clear();
+    }
+    else if (strcmp(buffer, "help") == 0) {
+        printf("\nCommands: ");
+        printf("\nclear");
+        printf("\ntest");
+        printf("\npepsi");
     }
     else {
-        printf("\nCommand not found\n");
+        printf("Command not found: ");
+        printf(buffer);
     }
-    printf(buffer);
+    printf("\n");
     resetBuffer();
 }
