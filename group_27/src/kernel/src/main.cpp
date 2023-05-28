@@ -5,6 +5,7 @@
 #include "monitor.h"
 #include "pit.h"
 #include <cstdlib>
+#include <song/song.h>
 extern uint32_t end; // This is defined in linker.ld
 
 
@@ -51,9 +52,9 @@ void kernel_main()
 
 
     // Initialize Paging
-    //init_paging(); 
+    init_paging(); 
     // Print memory layout
-    //print_memory_layout();
+    print_memory_layout();
 
     // Setup PIT
     init_pit();   
