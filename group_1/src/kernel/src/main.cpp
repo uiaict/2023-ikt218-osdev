@@ -3,6 +3,7 @@ extern "C"{
     #include "../include/gdt.h"
     #include "../include/common.h"
     #include "../include/isr.h"
+    #include "memory.h"
 [[noreturn]] void kernel_main();
 }
 
@@ -15,7 +16,7 @@ typedef uint32_t size_t;
 
 // Overload the new operator for single object allocation
 void* operator new(size_t size) {
-return my_malloc(size); // Call the C standard library function malloc() to allocate memory of the given size and return a pointer
+return new_malloc(size); // Call the C standard library function malloc() to allocate memory of the given size and return a pointer
 }
 
 
@@ -27,7 +28,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
 // Overload the new operator for array allocation
 void* operator new[](size_t size) {
-return my_malloc(size); // Call the C standard library function malloc() to allocate memory of the given size and return a pointer
+return new_malloc(size); // Call the C standard library function malloc() to allocate memory of the given size and return a pointer
 }
 
 
@@ -53,18 +54,18 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Print memory layout
-    //print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
+    print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Setup PIT
     //init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Allocate some memory using kernel memory manager
     // THIS IS PART OF THE ASSIGNMENT
-    void* some_memory = my_malloc(12345);
+    void* some_memory = new_malloc(12345);
 
-    void* memory2 = my_malloc(54321);
+    void* memory2 = new_malloc(54321);
     
-    void* memory3 = my_malloc(13331);
+    void* memory3 = new_malloc(13331);
     
     char* memory4 = new char[1000]();
 

@@ -1,9 +1,6 @@
-#include "malloc.h"
-
-//The contents of this file are fetched from the
-// "Assignment files" of assignment 4.
-
-
+#include "memory.h"
+#include <stdint.h>
+#include "system.h"
 
 #define MAX_PAGE_ALIGNED_ALLOCS 32
 
@@ -24,7 +21,7 @@ void init_kernel_memory(uint32_t* kernel_end)
     pheap_begin = pheap_end - (MAX_PAGE_ALIGNED_ALLOCS * 4096);
     heap_end = pheap_begin;
     memset((char *)heap_begin, 0, heap_end - heap_begin);
-    pheap_desc = (uint8_t *)my_malloc(MAX_PAGE_ALIGNED_ALLOCS);
+    pheap_desc = (uint8_t *)new_malloc(MAX_PAGE_ALIGNED_ALLOCS);
     printk("Kernel heap starts at 0x%x\n", last_alloc);
 }
 
@@ -69,16 +66,16 @@ char* pmalloc(size_t size)
     {
         if(pheap_desc[i]) continue;
         pheap_desc[i] = 1;
-        printk("PAllocated from 0x%x to 0x%x\n", pheap_begin + i*4096, pheap_begin + (i+1)*4096);
+        printf("PAllocated from 0x%x to 0x%x\n", pheap_begin + i*4096, pheap_begin + (i+1)*4096);
         return (char *)(pheap_begin + i*4096);
     }
-    printk("pmalloc: FATAL: failure!\n");
+    printf("pmalloc: FATAL: failure!\n");
     return 0;
 }
 
 
 // Allocate a block of memory
-void* my_malloc(size_t size)
+void* new_malloc(size_t size)
 {
     if(!size) return 0;
 
@@ -87,7 +84,7 @@ void* my_malloc(size_t size)
     while((uint32_t)mem < last_alloc)
     {
         alloc_t *a = (alloc_t *)mem;
-        printk("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
+        printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
 
         if(!a->size)
             goto nalloc;
@@ -102,7 +99,7 @@ void* my_malloc(size_t size)
         if(a->size >= size)
         {
             a->status = 1;
-            printk("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
+            printf("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
             memset(mem + sizeof(alloc_t), 0, size);
             memory_used += size + sizeof(alloc_t);
             return (char *)(mem + sizeof(alloc_t));
@@ -126,17 +123,8 @@ void* my_malloc(size_t size)
     last_alloc += size;
     last_alloc += sizeof(alloc_t);
     last_alloc += 4;
-    printk("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
+    printf("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
     memory_used += size + 4 + sizeof(alloc_t);
     memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
     return (char *)((uint32_t)alloc + sizeof(alloc_t));
-}
-
-// Function to set a block of memory with a byte value
-void* memset (void * ptr, int value, size_t num )
-{
-    unsigned char* p=ptr;     // Cast the pointer to unsigned char*
-    while(num--)
-        *p++ = (unsigned char)value;   // Set each byte to the given value
-    return ptr;               // Return the pointer to the block of memory
 }

@@ -1,13 +1,15 @@
-/*
+#include "system.h"
+#include "memory.h"
+
 static uint32_t* page_directory = 0;   // Define a pointer to the page directory and initialize it to zero
 static uint32_t page_dir_loc = 0;      // Define the location of the page directory and initialize it to zero
 static uint32_t* last_page = 0;        // Define a pointer to the last page and initialize it to zero
 
-Paging now will be really simple
-we reserve 0-8MB for kernel stuff
-heap will be from approx 1mb to 4mb
-and paging stuff will be from 4mb
- 
+/* Paging now will be really simple
+ * we reserve 0-8MB for kernel stuff
+ * heap will be from approx 1mb to 4mb
+ * and paging stuff will be from 4mb
+ */
 
 // Function to map virtual addresses to physical addresses
 void paging_map_virtual_to_phys(uint32_t virt, uint32_t phys)
@@ -31,7 +33,7 @@ void paging_enable()
     asm volatile("mov %eax, %cr0");         // Load the EAX register into the CR0 register to enable paging
 }
 
- Function to initialize paging
+// Function to initialize paging
 void init_paging()
 {
     printf("Setting up paging\n");
@@ -47,4 +49,3 @@ void init_paging()
     paging_enable();                          // Enable paging
     printf("Paging was successfully enabled!\n");
 }
-*/
