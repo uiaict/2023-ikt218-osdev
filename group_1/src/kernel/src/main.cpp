@@ -59,10 +59,8 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     // Allocate some memory using kernel memory manager
     // THIS IS PART OF THE ASSIGNMENT
     void* some_memory = new_malloc(12345);
-
-    void* memory2 = new_malloc(54321);
     
-    void* memory3 = new_malloc(13331);
+    uint32_t* memory3 = new uint32_t[1337]();
     
     char* memory4 = new char[1000]();
 
@@ -70,5 +68,6 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
     //asm volatile ("int $0x28");
     
-    while(true){}
+    while(true){
+        asm volatile ("hlt");}
 }
