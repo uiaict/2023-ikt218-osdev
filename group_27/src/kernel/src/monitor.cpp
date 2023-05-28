@@ -3,6 +3,7 @@
 //             but rewritten for JamesM's kernel tutorials.
 
 #include "monitor.h"
+#include "commander.h"
 #include <cstddef>
 #include <libc/system.h>
 
@@ -115,33 +116,60 @@ void monitor_putentryat(char c, uint8_t color, size_t x, size_t y)
 	terminal_buffer[index] = vga_entry(c, color);
 }
 
-void monitor_put(char c) 
+void _show_cursor() {
+    monitor_putentryat('_', terminal_color, terminal_column, terminal_row);
+}
+void _hide_cursor() {
+    monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
+}
+void set_prefix() {
+    printf("> ");
+}
+
+void monitor_put(char c, bool increase_buffer) 
 {
+    _hide_cursor();
+
 	// Deal with special character behavior
+    bool special = false;
 	switch (c)
 	{
-	case '\n':
+	case '\n':                  // ENTER
 		terminal_column = 0;
 		terminal_row++;
         scroll();
+        _show_cursor();
+        if (increase_buffer) {
+            runCommand();
+        }
 		return;
 		break;
-	default:
-		break;
+    case '\016':                // BACKSPACE
+        terminal_column--;
+        decreaseBuffer();
+        monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
+        _show_cursor();
+        return;
+    default:
+        //increaseBuffer();
+	    monitor_putentryat(c, terminal_color, terminal_column, terminal_row);
+	    if (++terminal_column == VGA_WIDTH) {
+		    terminal_column = 0;
+		    if (++terminal_row == VGA_HEIGHT)
+			    terminal_row = 0;
+	    }
 	}
+    if (increase_buffer) {
+        increaseBuffer(c);
+    }
 
-	monitor_putentryat(c, terminal_color, terminal_column, terminal_row);
-	if (++terminal_column == VGA_WIDTH) {
-		terminal_column = 0;
-		if (++terminal_row == VGA_HEIGHT)
-			terminal_row = 0;
-	}
+    _show_cursor();
 }
  
 void monitor_write(const char* data, size_t size) 
 {
 	for (size_t i = 0; i < size; i++)
-		monitor_put(data[i]);
+		monitor_put(data[i], false);
     
     // Scroll the screen if needed.
     scroll();
@@ -153,8 +181,6 @@ void monitor_writestring(const char* data)
 {
 	monitor_write(data, strlen(data));
 }
-
-
 
 
 // Clears the screen, by copying lots of spaces to the framebuffer.
@@ -175,9 +201,6 @@ void monitor_clear()
     terminal_column = 0;
     move_cursor();
 }
-
-
-
 
 void monitor_write_hex(uint32_t n)
 {
@@ -200,23 +223,23 @@ void monitor_write_hex(uint32_t n)
         if (tmp >= 0xA)
         {
             noZeroes = 0;
-            monitor_put (tmp-0xA+'a' );
+            monitor_put (tmp-0xA+'a', false);
         }
         else
         {
             noZeroes = 0;
-            monitor_put( tmp+'0' );
+            monitor_put( tmp+'0', false);
         }
     }
   
     tmp = n & 0xF;
     if (tmp >= 0xA)
     {
-        monitor_put (tmp-0xA+'a');
+        monitor_put (tmp-0xA+'a', false);
     }
     else
     {
-        monitor_put (tmp+'0');
+        monitor_put (tmp+'0', false);
     }
 
 }
@@ -226,7 +249,7 @@ void monitor_write_dec(uint32_t n)
 
     if (n == 0)
     {
-        monitor_put('0');
+        monitor_put('0', false);
         return;
     }
 

@@ -5,7 +5,9 @@
 
 uint32_t tick = 0;
 
-
+/**
+ * Initialize the PIT
+*/
 void init_pit(){
 
     register_irq_handler(IRQ0, [](registers_t*, void*){
@@ -17,7 +19,7 @@ void init_pit(){
 
    // Divisor has to be sent byte-wise, so split here into upper/lower bytes.
    uint8_t l = (uint8_t)(DIVIDER & 0xFF);
-   uint8_t h = (uint8_t)( (DIVIDER>>8) & 0xFF );
+   uint8_t h = (uint8_t)((DIVIDER>>8) & 0xFF );
 
    // Send the frequency divisor.
    outb(PIT_CHANNEL0_PORT, l);
@@ -28,38 +30,38 @@ uint8_t get_current_tick(){
     return tick;
 }
 
-
-void sleep_busy(uint32_t milliseconds){
+/**
+ * Sleep using busy waiting, uses high CPU
+ * @param ms The amount of milliseconds to sleep
+*/
+void sleep_busy(uint32_t ms){
     int start_tick = get_current_tick();
-    int ticks_to_wait = milliseconds * TICKS_PER_MS;
+    int ticks_to_wait = ms * TICKS_PER_MS;
     int elapsed_ticks = 0;
 
     while (elapsed_ticks < ticks_to_wait)
     {
-
         while (get_current_tick() == start_tick + elapsed_ticks)
         {
-            //i. Do nothing (busy wait)
+            // Busy waiting happens here
         }
         elapsed_ticks++;
     }
-    
 }
 
-void sleep_interrupt(uint32_t milliseconds){
-    int current_tick = get_current_tick();
-    int ticks_to_wait = milliseconds * TICKS_PER_MS;
-    int end_ticks = current_tick + ticks_to_wait;
+/**
+ * Sleep using interrupts, uses low CPU
+ * @param ms The amount of milliseconds to sleep
+*/
+void sleep_interrupt(uint32_t ms){
+    int tick_low = 0;
+    int ticks_to_wait = ms * TICKS_PER_MS;
 
-    while (current_tick < end_ticks)
+    while (tick_low < ticks_to_wait)
     {
-        if(current_tick == 250) {
-            int a = current_tick;
-        }
         asm volatile("sti");
         asm volatile("hlt");
-        end_ticks--;
-        //current_tick = get_current_tick();
+        ticks_to_wait--;
     }
-    
+
 }

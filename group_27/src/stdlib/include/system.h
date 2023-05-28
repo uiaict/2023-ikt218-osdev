@@ -72,12 +72,9 @@
     time_t time(time_t *tloc);
     FILE *tmpfile();
     char *tmpnam(char *s);
-    void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);
-    void *malloc(size_t size);
     void *calloc(size_t num, size_t size);
     void *memmove(void *dest, const void *src, size_t n);
-    void free(void *ptr);
     void *realloc(void *ptr, size_t size);
     double fabs(double x);
     int abs(int n);

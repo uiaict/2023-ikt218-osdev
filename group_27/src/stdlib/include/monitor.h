@@ -7,7 +7,7 @@
 #include "common.h"
 
 // Write a single character out to the screen.
-void monitor_put(char c);
+void monitor_put(char c, bool increase_buffer);
 
 // Clear the screen to all black.
 void monitor_clear();

@@ -37,6 +37,7 @@ extern void free(void *mem); /* Frees memory previously allocated */
 /* Function declarations for memory manipulation */
 extern void* memcpy(void* dest, const void* src, size_t num ); /* Copies num bytes from src to dest */
 extern void* memset (void * ptr, int value, size_t num ); /* Sets num bytes starting from ptr to value */
+extern void* mymemset (char *s, char v, size_t n);
 extern void* memset16 (void *ptr, uint16_t value, size_t num); /* Sets num bytes starting from ptr to a 16-bit value */
 
 /* Other helper functions*/

@@ -2,7 +2,7 @@
 #include "interrupts.h"
 #include "common.h"
 #include "keyboard.h"
-#include "printing.h"
+#include "monitor.h"
 #include "pit.h"
 #include <cstdlib>
 extern uint32_t end; // This is defined in linker.ld
@@ -66,15 +66,15 @@ void kernel_main()
 
     // Create interrupt handlers for interrupt 3 and 4
     register_interrupt_handler(3,[](registers_t* regs, void* context){
-        print("Interrupt 3 - OK\n");
+        printf("Interrupt 3 - OK\n");
     }, NULL);
 
     register_interrupt_handler(4,[](registers_t* regs, void* context){
-        print("Interrupt 4 - OK\n");
+        printf("Interrupt 4 - OK\n");
     }, NULL);
 
     register_interrupt_handler(13,[](registers_t* regs, void* context){
-        print("Interrupt 13 - SHIIT\n");
+        printf("Interrupt 13 - SHIIT\n");
     }, NULL);
 
 
@@ -96,18 +96,25 @@ void kernel_main()
 
         if (c != 0) {
             char* d = &c;
-            print_char(c);
+            monitor_put(c, true);
         }
 
         // Disable interrupts temporarily
         asm volatile("cli");
     }, NULL);
 
+    printf("Testing busy waiting...\n");
+    sleep_busy(1000);
+    printf("Busy waiting OK\n");
+    printf("Testing waiting with interrupts...\n");
+    sleep_interrupt(1000);
+    printf("Interrupt sleep OK\n");
+
     // Print a message and enter an infinite loop to wait for interrupts
-    print("Waiting...\n");
+    printf("UIA OS is ready. Type \"help\" to see available commands\n");
     while(1){
 
-        printf("Sleeping with busy-waiting (HIGH CPU).\n");
+        /*printf("Sleeping with busy-waiting (HIGH CPU).\n");
         // print(char(counter))
         sleep_busy(1000);
         print("Slept using busy-waiting.\n");
@@ -117,7 +124,7 @@ void kernel_main()
         // print(char(counter))
         sleep_interrupt(1000);
         print("Slept using interrupts.\n");
-        // print(char(counter++))
+        // print(char(counter++))*/
     };
-    print("Done!...\n");
+    printf("Done!...\n");
 }
