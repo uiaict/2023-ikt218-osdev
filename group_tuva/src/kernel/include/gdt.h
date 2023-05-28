@@ -36,7 +36,7 @@ extern "C" {
 #endif
 
 // Declares the init_descriptor_tables function, which
-// initializes the GDT (and IDT).
+// initializes the GDT.
 void init_descriptor_tables();
 
 // End of the extern C declaration

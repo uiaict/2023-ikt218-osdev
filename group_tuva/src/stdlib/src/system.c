@@ -1,7 +1,6 @@
 #include "system.h"
 #include "stdbool.h"
 
-//Declares printf function
 int printf(const char *string, ...)
     {
         volatile char *video = (volatile char*)0xB8000;
