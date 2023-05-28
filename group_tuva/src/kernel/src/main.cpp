@@ -3,10 +3,11 @@
 #include "idt.h"
 #include "isr.h"
 #include "keyboard.h"
+#include "hardware.h"
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
-    void init_descriptor_tables();
+    //void init_descriptor_tables();
 }
 enum vga_color {
     BLACK = 0,
@@ -90,8 +91,8 @@ void kernel_main()
 
 
     // Fire interrupts! Should trigger callback above
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
+    //asm volatile ("int $0x3");
+    //asm volatile ("int $0x4");
 
     asm volatile("sti");
     Keyboard::hook_keyboard([](uint8_t scancode, void* context){

@@ -1,7 +1,8 @@
 #ifndef ISR_H
 #define ISR_H
-#include "common.h"
+// #include "common.h"
 #include <stdint.h>
+
 #define ISR1 1
 #define ISR2 2
 #define ISR3 3
@@ -52,14 +53,14 @@
 
 typedef struct registers
 {
-   u32int ds;                  // Data segment selector
-   u32int edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha.
-   u32int int_no, err_code;    // Interrupt number and error code (if applicable)
-   u32int eip, cs, eflags, useresp, ss; // Pushed by the processor automatically.
+   uint32_t ds;                  // Data segment selector
+   uint32_t edi, esi, ebp, esp, ebx, edx, ecx, eax; // Pushed by pusha.
+   uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
+   uint32_t eip, cs, eflags, useresp, ss; // Pushed by the processor automatically.
 } registers_t;
 
 typedef void (*isr_t)(registers_t*, void*);
-//void register_interrupt_handler(uint8_t n, isr_t handler, void*);
+void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 
 // Define handlers
 typedef struct interrupt_handlers_type{
@@ -67,6 +68,7 @@ typedef struct interrupt_handlers_type{
     void* context;
 } interrupt_t;
 
+/*
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -76,6 +78,6 @@ void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 // End of the extern C declaration
 #ifdef __cplusplus
 }
-#endif
+#endif */
 
 #endif // ISR_H
