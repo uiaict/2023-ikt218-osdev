@@ -17,5 +17,6 @@ void monitor_clear();
 void monitor_write(const char* data, size_t size);
 void monitor_write_hex(uint32_t n);
 void monitor_write_dec(uint32_t n);
+void set_prefix(char* c);
 
 #endif // MONITOR_H

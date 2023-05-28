@@ -111,7 +111,8 @@ void kernel_main()
     printf("Interrupt sleep OK\n");
 
     // Print a message and enter an infinite loop to wait for interrupts
-    printf("UIA OS is ready. Type \"help\" to see available commands\n");
+    printf("UIA OS is ready. Type \"help\" to see available commands");
+    set_prefix("\n> ");
     while(1){
 
         /*printf("Sleeping with busy-waiting (HIGH CPU).\n");
