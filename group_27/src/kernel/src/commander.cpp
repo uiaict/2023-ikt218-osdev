@@ -30,10 +30,7 @@ char resetBuffer() {
 }
 
 void runCommand() {
-    if ((strcmp(buffer, "") == 0)) {
-        printf("\n");
-    }
-    else if (strcmp(buffer, "test") == 0) {
+    if (strcmp(buffer, "test") == 0) {
         // This will only run once because the buffer is never reset because of memory stuff
         printf("UIA OS up and running successfully");
     }
@@ -50,9 +47,15 @@ void runCommand() {
         printf("\npepsi");
     }
     else {
-        printf("Command not found: ");
-        printf(buffer);
+        if ((strcmp(buffer, "") != 0)) {
+            printf("Command not found: ");
+            printf(buffer);
+        } else {
+            set_prefix("> ");
+            resetBuffer();
+            return;
+        }
     }
-    printf("\n");
+    set_prefix("\n> ");
     resetBuffer();
 }

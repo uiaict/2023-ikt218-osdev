@@ -122,8 +122,8 @@ void _show_cursor() {
 void _hide_cursor() {
     monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
 }
-void set_prefix() {
-    printf("> ");
+void set_prefix(char* c) {
+    printf(c);
 }
 
 void monitor_put(char c, bool increase_buffer) 
@@ -136,7 +136,7 @@ void monitor_put(char c, bool increase_buffer)
 	{
 	case '\n':                  // ENTER
 		terminal_column = 0;
-		terminal_row++;
+        terminal_row++;
         scroll();
         _show_cursor();
         if (increase_buffer) {
@@ -145,6 +145,10 @@ void monitor_put(char c, bool increase_buffer)
 		return;
 		break;
     case '\016':                // BACKSPACE
+        if (terminal_column <= 2) {
+            _show_cursor();
+            return;
+        }
         terminal_column--;
         decreaseBuffer();
         monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
@@ -197,9 +201,10 @@ void monitor_clear()
     }
 
     // Move the hardware cursor back to the start.
-    terminal_row = 0;
+    terminal_row = -1;
     terminal_column = 0;
     move_cursor();
+    _show_cursor();
 }
 
 void monitor_write_hex(uint32_t n)
