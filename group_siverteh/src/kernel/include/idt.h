@@ -2,7 +2,7 @@
 #ifndef IDT_H
 #define IDT_H
 
-#include <cstdint>
+#include <stdint.h>
 
 //Defines the number of entries in the IDT.
 #define IDT_ENTRIES 256
@@ -33,6 +33,6 @@ struct idt_ptr_t
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 
 //Loads the IDT into the processors memory
-void load_idt();
+void init_idt();
 
 #endif

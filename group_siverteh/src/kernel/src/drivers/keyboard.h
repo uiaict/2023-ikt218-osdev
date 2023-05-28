@@ -93,7 +93,6 @@
 #define SCAN_CODE_KEY_F11         0x57
 #define SCAN_CODE_KEY_F12         0x58
 
-void load_keyboard();
-
+void init_keyboard();
 
 #endif

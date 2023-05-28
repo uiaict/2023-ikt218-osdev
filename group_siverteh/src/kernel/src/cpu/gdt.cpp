@@ -2,8 +2,9 @@
 #include "gdt.h"
 
 //The external function gdt_flush() is declared.
-extern "C" {
-  extern void gdt_flush(uint32_t gdt_ptr);
+extern "C"
+{
+    void gdt_flush(uint32_t gdt_ptr);
 }
 
 //Sets up instances of the structs gdt_entry and gdt_ptr.
@@ -28,7 +29,7 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 }
 
 //load_gdt() sets up the GDT by creating GDT entries for the null segment, code segment, data segment, and user mode code/data segments.
-void load_gdt()
+void init_gdt()
 {
     //Sets the limit field to the size of gdt_entry multiplied by the amount of entries.
     gdt_ptr.limit = sizeof(struct gdt_entry_t) * GDT_ENTRIES - 1;

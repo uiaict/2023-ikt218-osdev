@@ -1,7 +1,7 @@
 #ifndef ISR_H
 #define ISR_H
 
-#include <cstdint>
+#include <stdint.h>
 
 //Defines constants for the Interrupt service routines, and interrupt requests.
 #define ISR0 0

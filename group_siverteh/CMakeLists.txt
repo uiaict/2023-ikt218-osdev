@@ -54,7 +54,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Set the C Version
 set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
-set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
+set(WARNING_FLAGS "-Wno-volatile -Wno-write-strings -Wno-unused-variable -Wall -Wextra -Wshadow -Wno-sign-conversion -Wno-frame-address -Wno-unused-parameter")
 # Common compiler flags for both C and C++
 set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
@@ -110,7 +110,6 @@ set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
         src/stdlib/src/strings.c
-        src/stdlib/src/memory.c
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -157,6 +156,20 @@ set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 
 ########################################
 ###
+### OS Module: Applications
+# The operating system kernel
+# 1. Load all kernel applications here
+########################################
+# Define kernel headers target
+add_library(kernel-headers INTERFACE)
+target_include_directories(kernel-headers INTERFACE src/kernel/include)
+
+# Load the song application target
+add_subdirectory(src/apps/song)
+set(OS_APPLICATIONS ${OS_APPLICATIONS} UiAOS-song)
+
+########################################
+###
 ### OS Module: Kernel
 # The operating system kernel
 # 1. Sets compiler and linker configuration
@@ -179,6 +192,9 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/drivers/*.cpp
         src/kernel/src/drivers/*.c
         src/kernel/src/drivers/*.asm
+        src/kernel/src/memory/*.cpp
+        src/kernel/src/memory/*.c
+        src/kernel/src/memory/*.asm
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
@@ -195,6 +211,7 @@ target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
         src/kernel/drivers
+        src/kernel/memory
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
 target_link_libraries(

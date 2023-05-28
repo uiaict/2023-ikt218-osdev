@@ -1,9 +1,9 @@
 #include "idt.h"
-#include "ports.h"
 
 extern "C" 
 {
-    #include "memory.h"
+    #include "../../src/memory/memory_management.h"
+    #include "ports.h"
     extern void idt_flush(uint32_t idt_ptr);
 
     //Lets us access adresses of our ASM ISR handlers.
@@ -77,7 +77,7 @@ void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
     idt_entries[num].flags = flags /* | 0x60*/;
 }
 
-void load_idt()
+void init_idt()
 {
     idt_ptr.limit = sizeof(idt_entry_t) * IDT_ENTRIES - 1;
     idt_ptr.base = (uint32_t)&idt_entries;

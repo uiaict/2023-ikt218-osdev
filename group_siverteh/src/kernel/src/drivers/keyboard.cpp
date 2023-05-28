@@ -1,18 +1,18 @@
 #include "keyboard.h"
 #include "isr.h"
-#include "ports.h"
-#include "screen.h"
 
-//Declare external C functions.
+
+
 extern "C"
 {
+    #include "ports.h"
     #include "strings.h"
+    #include "screen.h"
 }
 
 static int caps_lock = 0;
 static int shift_pressed = 0;
 static int altgr_pressed = 0;
-
 
 //Lookup table for the keyboard. See scan codes defined in keyboard.h for indexes.
 char scan_code_chars[128] = {
@@ -33,7 +33,7 @@ static int get_scancode()
     //Enters an infinite loop.
     while(1)
     {
-        //Keeps checking if the keyboard has sendt a scancode by checking the first bit of the keyboard status port.
+        //Keeps checking if the keyboard has sent a scancode by checking the first bit of the keyboard status port.
         if((inb(KEYBOARD_STATUS_PORT) & 1) != 0)
         {
             //When a scancode has been recieved it stores it in the scancode variable and exits the function.
@@ -216,7 +216,7 @@ static void keyboard_handler(registers_t regs)
 }
    
 //Function to load the keyboard using the register_interrupt_handler function.
-void load_keyboard()
+void init_keyboard()
 {
     register_interrupt_handler(IRQ1, keyboard_handler);
 }

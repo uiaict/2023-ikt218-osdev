@@ -30,7 +30,7 @@ struct gdt_ptr_t
 
 /*FUNCTION DECLARATIONS*/
 //Loads the GDT into the processors memory.
-void load_gdt();
+void init_gdt();
 
 //Sets the value of one GDT entry.
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
