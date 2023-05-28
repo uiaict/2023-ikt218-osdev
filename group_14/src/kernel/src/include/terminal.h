@@ -1,3 +1,5 @@
+// Source: https://wiki.osdev.org/Bare_Bones Fetched: 15.03.2023
+
 #ifndef TERMINAL_H
 #define TERMINAL_H
 
