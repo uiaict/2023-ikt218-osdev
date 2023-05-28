@@ -189,6 +189,11 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/drivers/keyboard.cpp
         src/kernel/src/drivers/keyboard.h
         
+        src/kernel/src/memory/functions.h
+        src/kernel/src/memory/functions.cpp
+        src/kernel/src/memory/paging.cpp
+        src/kernel/src/memory/paging.h
+        
         
         
       

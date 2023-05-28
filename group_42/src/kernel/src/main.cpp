@@ -65,12 +65,15 @@ void init(){
 };
 extern "C"{
     void kernel_main();
+    extern uint32_t end;
 }
 
 void kernel_main()
 {
+    
    auto os = IJI_OS();
    os.init();
+
  
  UiAOS::CPU::ISR::register_interrupt_handler(3,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
     auto* os = (IJI_OS*)context;
@@ -86,13 +89,13 @@ void kernel_main()
  }, (void*)&os);
 
 
-/* 
+
 
 asm volatile ("int $0x03");
 asm volatile ("int $0x02");
 asm volatile ("int $0x01");
 
- */
+ 
 
 
 asm volatile("sti");
