@@ -31,6 +31,6 @@ typedef struct gdt_ptr_struct gdt_ptr_t;
 extern void gdt_flush(u32int); // This is in gdt.asm
 
 // Initialisation function is publicly accessible.
-void init_descriptor_tables(); 
+extern void init_gdt(); 
 
 #endif

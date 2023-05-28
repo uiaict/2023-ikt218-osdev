@@ -12,22 +12,13 @@
 extern void gdt_flush(u32int);
 
 // Internal function prototypes.
-static void init_gdt();
 static void gdt_set_gate(s32int,u32int,u32int,u8int,u8int);
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
-idt_entry_t idt_entries[256];
-idt_ptr_t   idt_ptr;
-
-// Initializeing the descriptor tables
-void init_descriptor_tables()
-{
-    init_gdt();
-}
 
 // Sets up the GDT pointer structure and flushes the new GDT
-static void init_gdt()
+void init_gdt()
 {
    gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;   // 5 entries (code and data segment for both kernel and user mode, plus null segment)
    gdt_ptr.base  = (u32int)&gdt_entries;

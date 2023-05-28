@@ -9,7 +9,7 @@ extern "C" {
 
 void kernel_main() {
     // Initialize the GDT
-    init_descriptor_tables();
+    init_gdt();
 
     clear_monitor();
     monitor_write("Welcome to OS version 0.0.001!\n", 0, 15);
