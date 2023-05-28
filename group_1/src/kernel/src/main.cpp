@@ -4,6 +4,7 @@ extern "C"{
     #include "../include/common.h"
     #include "../include/isr.h"
     #include "memory.h"
+    #include <song/song.h>
     #include "pit.h"
 [[noreturn]] void kernel_main();
 }
@@ -73,7 +74,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
     int counter = 0;
 
-    while(true){
+/*    while(true){
         printk("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
         sleep_busy(1000);
         printk("[%d]: Slept using busy-waiting.\n", counter++);
@@ -81,7 +82,28 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
         printk("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
         sleep_interrupt(1000);
         printk("[%d]: Slept using interrupts.\n", counter++);
+    }*/
+
+    Song* songs[] = {
+        new Song(music_1, sizeof(music_1) / sizeof(Note)),
+        new Song(music_6, sizeof(music_6) / sizeof(Note)),
+        new Song(music_5, sizeof(music_5) / sizeof(Note)),
+        new Song(music_4, sizeof(music_4) / sizeof(Note)),
+        new Song(music_3, sizeof(music_3) / sizeof(Note)),
+        new Song(music_2, sizeof(music_2) / sizeof(Note))
+    };
+    uint32_t n_songs = sizeof(songs) / sizeof(Song*);
+
+    SongPlayer* player = create_song_player();
 
 
-    }
+    while(true){
+	    for(uint32_t i =0; i < n_songs; i++){
+	        printk("Playing Song...\n");
+	        player->play_song(songs[i]);
+	        printk("Finished playing the song.\n");
+	    }
+    };
+
+    while(true){}
 }
