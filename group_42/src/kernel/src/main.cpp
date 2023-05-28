@@ -6,6 +6,8 @@
 #include"drivers/keyboard.h"
 #include"memory/functions.h"
 
+
+
 extern uint32_t end;
 class IJI_OS{
     int tick = 0;
@@ -81,7 +83,7 @@ void kernel_main()
     init_pag();
    auto os = IJI_OS();
    os.init();
-
+   init_init_pit();
  
  UiAOS::CPU::ISR::register_interrupt_handler(3,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
     auto* os = (IJI_OS*)context;

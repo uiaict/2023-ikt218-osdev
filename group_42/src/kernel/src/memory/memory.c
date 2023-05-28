@@ -24,10 +24,14 @@ void init_kernel_memory(uint32_t* kernel_end)
    // printf("Kernel heap starts at 0x%x\n", last_alloc);
 }
 
+ 
+    
+
+
 // Print the current memory layout
 void print_memory_layout()
 {
-    int a = 2;
+  
    /*  printf("Memory used: %d bytes\n", memory_used);
     printf("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
     printf("Heap size: %d bytes\n", heap_end - heap_begin);

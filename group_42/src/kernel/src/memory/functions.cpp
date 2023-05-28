@@ -7,6 +7,7 @@ extern "C"{
 }
 #include "paging.h"
 #include "memory.h"
+#include"../PIT/pit.h"
 static uint32_t* page_directory = 0;   // Define a pointer to the page directory and initialize it to zero
 static uint32_t page_dir_loc = 0;      // Define the location of the page directory and initialize it to zero
 static uint32_t* last_page = 0;        // Define a pointer to the last page and initialize it to zero
@@ -84,3 +85,8 @@ void init_pag(){
 void write_memorylayout(){
     print_memory_layout();
 }
+
+void init_init_pit(){
+    init_pit();
+}
+
