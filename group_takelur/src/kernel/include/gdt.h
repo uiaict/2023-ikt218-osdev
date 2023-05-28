@@ -4,6 +4,10 @@
 
 // From James Molloy's kernel development tutorials: http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html
 
+#ifndef GDT_H
+#define GDT_H
+
+
 struct gdt_entry_struct
 {
    u16int limit_low;           // The lower 16 bits of the limit.
@@ -28,3 +32,5 @@ extern void gdt_flush(u32int); // This is in gdt.asm
 
 // Initialisation function is publicly accessible.
 void init_descriptor_tables(); 
+
+#endif
