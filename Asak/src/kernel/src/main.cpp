@@ -1,6 +1,7 @@
 #include "system.c"
 #include <screen.h>
 
+
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
@@ -8,8 +9,12 @@ extern "C"{
 
 void kernel_main()
 {
-    clear_screen();
-    play_intro();
+    //Clearing the screen and printing welcome message in GDT
+    //Wanted to see the "implemented" messages"
+
     print("print() implemented!\n");
-    print("We can now call the print() function to get output\n");
+    print("Sending IRQ");
+
+    /* Test the interrupts */
+    __asm("int $0x1");
 }

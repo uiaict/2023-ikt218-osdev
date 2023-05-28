@@ -27,6 +27,7 @@ void register_interrupt_handler(uint8_t n, isr_t handler, void* context) {
 }
 
 void isr_handler(registers_t reg) {
+    print("Recieved Interrupt!");
     uint8_t int_no = reg.int_no & 0xFF;
     interrupt_t interrupt = interrupt_handlers[int_no];
     if (interrupt.handler != 0)
@@ -39,6 +40,7 @@ void isr_handler(registers_t reg) {
         // Future work to have a print here?
         for(;;);
     }
+
 }
 
 void irq_handler(registers_t reg)
