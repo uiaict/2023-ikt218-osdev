@@ -14,3 +14,16 @@ struct gdt_entry_struct
    u8int  base_high;           // The last 8 bits of the base.
 } __attribute__((packed));     // Packed prevents GCC from changing any alignment
 typedef struct gdt_entry_struct gdt_entry_t; 
+
+// This struct describes a GDT pointer that points to the start of the array of GDT entries.
+struct gdt_ptr_struct
+{
+   u16int limit;               // The upper 16 bits of all selector limits. (Size of table - 1)
+   u32int base;                // The address of the first gdt_entry_t struct.
+}
+ __attribute__((packed));
+typedef struct gdt_ptr_struct gdt_ptr_t; 
+
+
+// Initialisation function is publicly accessible.
+void init_descriptor_tables(); 
