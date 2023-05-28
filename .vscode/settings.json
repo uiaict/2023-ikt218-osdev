@@ -1,6 +1,6 @@
 {
     "cmake.buildDirectory": "${workspaceFolder}/build_group_20",
-    "cmake.sourceDirectory": "/home/amrapstad/ikt218-osdev/group_20",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_20",
     "C_Cpp.errorSquiggles": "disabled"
 
 }

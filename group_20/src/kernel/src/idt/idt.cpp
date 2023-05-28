@@ -35,7 +35,6 @@ void start_idt() {
 }
 
 
-
 void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
 {
     idt[num].base_low = base & 0xFFFF;
