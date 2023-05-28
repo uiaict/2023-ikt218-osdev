@@ -27,6 +27,9 @@ void isr_handler(registers_t regs)
     }
     else
     {
+        // TODO: Implement a function that prints 
+        // the interrupt number
+        
         /*monitor_write("unhandled interrupt: ");
         monitor_write_hex(int_no);
         monitor_put('\n');*/
