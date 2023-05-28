@@ -19,15 +19,16 @@ void start_gdt() {
     set_gdt_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
     set_gdt_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
-    // Load the GDT
-    gdt_flush((uint32_t)&gdt_ptr);
-
     // Since GDT is the first thing that is called in boot.asm before main
     // We clear the screen to get rid of trash
     screenClear();
 
-     // Adds feedback to the terminal
+    // Adds feedback to the terminal
     screenWrite("Initializing GDT!......");
+
+    // Load the GDT
+    gdt_flush((uint32_t)&gdt_ptr);
+
     screenWrite("Initialized GDT!");
 }
 

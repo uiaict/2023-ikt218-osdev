@@ -25,11 +25,13 @@ void start_idt() {
         idt[i].flags = 0x8E;
     }
 
+    // Adds feedback to the terminal
+    screenWrite("Initializing IDT......");
+
     // Load the IDT
     idt_flush((uint32_t)&idt_ptr);
 
     // Adds feedback to the terminal
-    screenWrite("Initializing IDT......");
     screenWrite("Initialized IDT!");
 
 }
