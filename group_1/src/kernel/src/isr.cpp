@@ -1,66 +1,48 @@
-#include "ascii_lookup_table.h"
-
 extern "C"
 {
-    #include "isr.h"
+    #include "../include/isr.h"
     #include "system.h"
-    #include "common.h"
+    #include "../include/common.h"
+    #include "keyboard.h"
 }
 
-void interrupt_handler_0() {
+void divide_by_zero_error(registers_t regs) {
     printk("\nDivide by zero error!");
 }
 
-void interrupt_handler_1() {
+void debug_exception(registers_t regs) {
     printk("\nDebug exception!");
 }
 
-void interrupt_handler_2() {
+void non_maskable_interrupt(registers_t regs) {
     printk("\nNon maskable interrupt!");
 }
 
+void default_ISR(registers_t regs)
+{
+    printk("\nNot Implemented");
+}
+
 isr_t interrupt_handlers[256];
+
+void initialize_interrupt_handlers()
+{
+    for (int i = 0; i < 256; i++) {
+        interrupt_handlers[i] = default_ISR;
+    }
+    interrupt_handlers[0] = divide_by_zero_error;
+    interrupt_handlers[1] = debug_exception;
+    interrupt_handlers[2] = non_maskable_interrupt;
+}
 
 void register_interrupt_handler(uint8_t n, isr_t handler)
 {
   interrupt_handlers[n] = handler;
 }
 
-
-/*
-void keyboard_handler()
-{
-    uint8_t scancode;
-
-    // Read the scancode from the keyboard data port (0x60)
-    scancode = inb(0x60);
-
-    // Handle the scancode (e.g., translate it to an ASCII character, and process key press/release events)
-    // You can implement a scancode_to_ascii function and a keyboard buffer to store the typed characters
-    printk("Keyboard scancode: %u", scancode);
-}
-*/
-
 void isr_handler(registers_t regs) {
-    switch (regs.int_no) {
-        // ... (other cases for different interrupts)
-        case 0:
-            interrupt_handler_0();
-            break;
-        case 1:
-            interrupt_handler_1();
-            break;
-        case 2:
-            interrupt_handler_2();
-            break;
-        /*case 33:
-            keyboard_handler();
-            break;
-            */
-        default:
-            printk("\nNO, PLEASE GOD NO!");
-            break;
-    }
+    isr_t handler = interrupt_handlers[regs.int_no];
+    handler(regs);
 }
 
 // This gets called from our ASM interrupt handler stub.

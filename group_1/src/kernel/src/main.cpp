@@ -1,10 +1,9 @@
 extern "C"{
     #include "system.h"
-    #include "gdt.h"
-    #include "common.h"
-    #include "malloc.h"
-    #include "paging.h"
-    void kernel_main();
+    #include "../include/gdt.h"
+    #include "../include/common.h"
+    #include "../include/isr.h"
+[[noreturn]] void kernel_main();
 }
 
 
@@ -38,7 +37,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 }
 
 
-void kernel_main()
+[[noreturn]] void kernel_main()
 {
     clear_screen();
     init_descriptor_tables();
@@ -46,6 +45,7 @@ void kernel_main()
     
     printk("Hello, %s! The answer \n is %d.", "world", 42);
     printk("%d", 696969420);
+
     //asm volatile ("int $0x28");
     //asm volatile ("int $0x1");
 
@@ -67,4 +67,9 @@ void kernel_main()
     void* memory3 = my_malloc(13331);
     
     char* memory4 = new char[1000]();
+
+    initialize_interrupt_handlers();
+    asm volatile ("int $0x28");
+    while(true){}
+
 }
