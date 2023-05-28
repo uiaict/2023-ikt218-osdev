@@ -45,7 +45,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     init_descriptor_tables();
 
     printk("Hello, %s! The answer \n is %d.", "world", 42);
-    printk("%d", 696969420);
+    printk("%d\n", 696969420);
 
     // Initialize Paging
     init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
@@ -68,6 +68,5 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
     //asm volatile ("int $0x28");
     
-    while(true){
-        asm volatile ("hlt");}
+    while(true){}
 }
