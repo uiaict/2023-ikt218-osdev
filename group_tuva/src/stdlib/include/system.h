@@ -3,8 +3,12 @@
 #include <stdint.h>
 #include <time.h>
 #include <stdio.h>
+#include <string.h>
+
+void *memset(void *s, int c, size_t n);
 
 
+/*
     int isalnum(int c);
     int iscntrl(int c);
     int isgraph(int c);
@@ -71,8 +75,9 @@
     double tanh(double x);
     time_t time(time_t *tloc);
     FILE *tmpfile();
-    char *tmpnam(char *s);
-    void *memset(void *s, int c, size_t n);
+    char *tmpnam(char *s); */
+    
+    /*
     void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);
     void *malloc(size_t size);
@@ -114,4 +119,4 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
-
+*/

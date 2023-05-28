@@ -169,10 +169,13 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
+        
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/*.asm
-
+        src/stdlib/src/*.c
+        src/kernel/src/keyboard.cpp
+        
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
