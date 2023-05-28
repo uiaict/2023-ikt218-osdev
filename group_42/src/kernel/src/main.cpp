@@ -3,6 +3,8 @@
 #include "test.h"
 //#include "../../GDT/isr.h"
 #include"drivers/keyboard.h"
+#include"memory/functions.h"
+extern uint32_t end;
 class IJI_OS{
     int tick = 0;
     int tmp = 0;
@@ -65,12 +67,11 @@ void init(){
 };
 extern "C"{
     void kernel_main();
-    extern uint32_t end;
 }
 
 void kernel_main()
 {
-    
+
    auto os = IJI_OS();
    os.init();
 
@@ -90,11 +91,13 @@ void kernel_main()
 
 
 
-
+/* 
 asm volatile ("int $0x03");
 asm volatile ("int $0x02");
 asm volatile ("int $0x01");
+ */
 
+ //int* a = new int;
  
 
 
