@@ -1,5 +1,5 @@
 #include "system.c"
-#include "screen.h"
+#include <screen.h>
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{

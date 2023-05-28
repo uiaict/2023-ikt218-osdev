@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #define VIDEO_ADDRESS 0xb8000
 #define MAX_ROWS 25
 #define MAX_COLS 80
@@ -19,6 +21,6 @@ void clear_screen();
 void memory_copy ( char *source, char *dest, int no_bytes);
 int handle_scrolling(int cursor_offset);
 void print_at (char* message, int col, int row);
-void print(char* text);
+void print(char *text);
 void print_hex(unsigned int value, unsigned int width, char * buf, int * ptr);
 void play_intro();

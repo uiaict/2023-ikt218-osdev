@@ -1,8 +1,7 @@
 #include <hardware_port.h>
 #include <system.h>
-#include <screen.h>
 #include "isr.h"
-#include "screen.cpp"
+#include <screen.h>
 
 // Set up handlers
 interrupt_t interrupt_handlers[256];
@@ -18,6 +17,7 @@ extern "C"{
 void init_isr(){
     // Nullify all the interrupt handlers.
     memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
+    print("ISR initialized.\n");
 }
 
 // Registers all 256 handlers

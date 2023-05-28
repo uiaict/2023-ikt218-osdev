@@ -1,6 +1,5 @@
-#include <system.h>
-#include <screen.h>
 #include <descriptor.h>
+#include <screen.h>
 
 
 void init_gdt() asm ("init_gdt");
@@ -27,6 +26,7 @@ void init_gdt()
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
     gdt_flush((uint32_t)&gdt_ptr);
+    print("GDT initialized.\n");
 }
 
 // Set the value of one GDT entry.

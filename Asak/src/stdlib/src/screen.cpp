@@ -1,3 +1,6 @@
+#include "screen.h"
+
+
 int cursor_position = 0;
 
 void set_cursor(int new_offset)

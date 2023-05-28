@@ -1,6 +1,7 @@
 #include <descriptor.h>
 #include "hardware_port.h"
 #include <system.h>
+#include <screen.h>
 
 void init_idt() asm ("init_idt");
 
@@ -70,6 +71,7 @@ void init_idt() {
     irq_remapper();                 // Remaps the IRQ table
     gate_setter();                  // Sets all the IDT gates
     idt_flush((uint32_t)&idt_ptr);  // Reloads the IDT with new descriptors
+    print("IDT initialized.\n");
 }
 
 
