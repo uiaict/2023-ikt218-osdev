@@ -27,7 +27,7 @@ void init_descriptor_tables()
 }
 
 // Sets up the GDT pointer structure and flushes the new GDT
-static void init_gdt();
+static void init_gdt()
 {
    gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;   // 5 entries (code and data segment for both kernel and user mode, plus null segment)
    gdt_ptr.base  = (u32int)&gdt_entries;
