@@ -1,3 +1,6 @@
+#ifndef UIAOS_GDT_H
+#define UIAOS_GDT_H
+
 #include <stdint.h>
 #include "screen.h"
 
@@ -20,3 +23,4 @@ namespace UIAOS::CPU::GDT {
   void gdt_setGate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 } 
 
+#endif //UIAOS_GDT_H
