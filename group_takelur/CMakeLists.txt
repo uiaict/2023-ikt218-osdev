@@ -172,6 +172,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/main.cpp
         src/kernel/src/common.c
         src/kernel/src/monitor.c
+        src/kernel/src/gdt.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
