@@ -109,6 +109,8 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
+        src/stdlib/src/monitor.c
+        src/stdlib/src/common.c
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -170,9 +172,8 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/main.cpp
-        src/kernel/src/common.c
-        src/kernel/src/monitor.c
         src/kernel/src/gdt.c
+        src/kernel/src/gdt.asm
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
