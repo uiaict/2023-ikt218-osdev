@@ -74,7 +74,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
     int counter = 0;
 
-    while(true){
+/*    while(true){
         printk("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
         sleep_busy(1000);
         printk("[%d]: Slept using busy-waiting.\n", counter++);
@@ -82,7 +82,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
         printk("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
         sleep_interrupt(1000);
         printk("[%d]: Slept using interrupts.\n", counter++);
-    }
+    }*/
     Song* songs[] = {
         new Song(music_1, sizeof(music_1) / sizeof(Note)),
         new Song(music_6, sizeof(music_6) / sizeof(Note)),

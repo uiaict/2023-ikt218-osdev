@@ -1,6 +1,10 @@
+
+
+extern "C"{
 #include "song.h"
-#include <kernel/pit.h>
-#include <kernel/common.h>
+#include "../../kernel/include/pit.h"
+#include "../../kernel/include/common.h"
+}
 
 void enable_speaker(){
     // Read the current state of the PC speaker control register
@@ -26,6 +30,18 @@ void disable_speaker() {
     outb(PC_SPEAKER_PORT, speaker_state & 0xFC);
 }
 
+void play_sound(uint32_t frequency) {
+    if (frequency == 0) {
+        return;
+    }
+
+    auto divisor = (uint16_t)(PIT_BASE_FREQUENCY / frequency);
+
+    // Set up the PIT
+    outb(PIT_CMD_PORT, 0b10110110);
+    outb(PIT_CHANNEL2_PORT, (uint8_t)(divisor & 0xFF));
+    outb(PIT_CHANNEL2_PORT, (uint8_t)(divisor >> 8));
+}
 
 void play_song_impl(Song *song) {
     enable_speaker();
@@ -42,18 +58,7 @@ void play_song(Song *song) {
     play_song_impl(song);
 }
 
-void play_sound(uint32_t frequency) {
-    if (frequency == 0) {
-        return;
-    }
 
-    auto divisor = (uint16_t)(PIT_BASE_FREQUENCY / frequency);
-
-    // Set up the PIT
-    outb(PIT_CMD_PORT, 0b10110110); 
-    outb(PIT_CHANNEL2_PORT, (uint8_t)(divisor & 0xFF));
-    outb(PIT_CHANNEL2_PORT, (uint8_t)(divisor >> 8));
-}
 
 
 SongPlayer* create_song_player() {
