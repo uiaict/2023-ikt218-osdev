@@ -3,6 +3,7 @@
 #include "../../stdlib/stdlib/cpp/bitset.h"
 #include "../../stdlib/stdlib/cpp/exception.h"
 #include "../../boot/include/boot.h"
+#include "../include/print.h"
 
 void init_paging()
 {
@@ -38,6 +39,8 @@ bool UiAOS::Memory::Paging::set_directory(UiAOS::Memory::PageDirectory *dir) {
     // UiAOS::IO::Monitor::print_string(" => ");
     // UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(dir));
     // UiAOS::IO::Monitor::print_new_line();
+    printf("[set-directory] ");
+    print_uint8(reinterpret_cast<uint32_t>(current_directory));
     current_directory = dir;
     return false;
 }

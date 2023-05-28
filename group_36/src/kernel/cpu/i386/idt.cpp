@@ -1,12 +1,12 @@
 #include "idt.h"
-#include <memory.h>
+#include "memory.h"
 #include "hardware_port.h"
 
 
-void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 
 extern "C"{
     void idt_flush(uint32_t);
+    void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 
     extern void isr0 ();
     extern void isr1 ();

@@ -16,6 +16,8 @@ extern "C"{
 #include <../cpu/i386/timer/timer.h>
 #include "../memory/paging.h"
 #include "boot.h"
+#include "print.h"
+
 
  
 #if !defined(__i386__)
@@ -240,7 +242,7 @@ void kernel_main(void)
     // asm volatile ("int $0x3");
     // asm volatile ("int $0x4");
 
-    // Disable interrutps
+    // Enable interrutps
     asm volatile("sti");
 
     // Create a timer on IRQ0 - System Timer
@@ -266,6 +268,5 @@ void kernel_main(void)
         // print_uint8(scancode);
         // printf(")\n");
     }, &os);
-
     while(1){}
 }

@@ -48,7 +48,7 @@
 #define IRQ14 46
 #define IRQ15 47
 
-void init_isr();
+// void init_isr();
 
 namespace UiAOS::CPU::ISR{
 

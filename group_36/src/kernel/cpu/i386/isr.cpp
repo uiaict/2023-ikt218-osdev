@@ -1,7 +1,9 @@
 #include "isr.h"
-#include "memory.h"
+// #include "system.h"
 #include "hardware_port.h"
-#include "../../../stdlib/include/system.h"
+// #include "../../../stdlib/include/system.h"
+#include "../../include/print.h"
+#include "memory.h"
 
 UiAOS::CPU::ISR::interrupt_t interrupt_handlers[256];
 
@@ -36,6 +38,10 @@ void isr_handler(UiAOS::CPU::ISR::registers_t regs)
         /*monitor_write("unhandled interrupt: ");
         monitor_write_hex(int_no);
         monitor_put('\n');*/
+        printf("unhandled interrupt: ");
+        print_uint8(int_no);
+        printf("\n");
+
         for(;;);
     }
 }

@@ -1,6 +1,6 @@
 #include "gdt.h"
 // #include "isr.h"
-#include "idt.h"
+// #include "idt.h"
 
 
 extern "C" {
@@ -8,12 +8,12 @@ extern "C" {
     static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
 }
 
-UiAOS::CPU::GDT::gdt_entry_t gdt_entries[6];
+UiAOS::CPU::GDT::gdt_entry_t gdt_entries[5];
 UiAOS::CPU::GDT::gdt_ptr_t   gdt_ptr;
 
 void init_gdt()
 {
-    gdt_ptr.limit = (sizeof(UiAOS::CPU::GDT::gdt_entry_t) * 6) - 1;
+    gdt_ptr.limit = (sizeof(UiAOS::CPU::GDT::gdt_entry_t) * 5) - 1;
     gdt_ptr.base  = (uint32_t)&gdt_entries;
 
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
