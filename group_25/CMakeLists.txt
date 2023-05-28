@@ -34,9 +34,9 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "UiA Operating System")
+set(OS_NAME "Shit OS")
 # CMake target name for our operating system
-set(OS_KERNEL_NAME "uia-os")
+set(OS_KERNEL_NAME "shit-os")
 # Predefined list for our application targets
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
@@ -140,10 +140,8 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
         src/boot/src/boot.asm
-        src/boot/src/boot.cpp
-      
+
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -154,6 +152,7 @@ target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
 # Defines the linking between boot and the boot library
 target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
+
 
 ########################################
 ###
@@ -173,10 +172,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
-        src/kernel/src/*.asm
+        src/kernel/cpu/*.asm
+        src/kernel/cpu/*.cpp
+        src/kernel/cpu/*.c
 )
-
-
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
@@ -191,9 +190,13 @@ add_executable(${OS_MODULE_KERNEL_NAME} ${OS_MODULE_KERNEL_SOURCES})
 target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
-        src/stdlib/include
 )
-
+# Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
+target_link_libraries(
+        ${OS_MODULE_KERNEL_NAME} PUBLIC
+        ${OS_LIBRARIES}
+        ${OS_APPLICATIONS}
+)
 # Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name
 set_target_properties(
         ${OS_MODULE_KERNEL_NAME} PROPERTIES
@@ -201,38 +204,7 @@ set_target_properties(
         LINK_FLAGS "${OS_MODULE_KERNEL_LINK_FLAGS}"
 )
 
-
-
-########################################
-###
-### OS Module: Terminal
-### This module handles the terminal functionality for the operating system kernel.
-### It provides an interface for text-based output to the screen.
-########################################
-set(OS_MODULE_TERMINAL_NAME ${OS_KERNEL_NAME}-terminal)
-set(OS_MODULE_TERMINAL_SOURCES
-        src/kernel/src/terminal.cpp
-)
-add_library(${OS_MODULE_TERMINAL_NAME} ${OS_MODULE_TERMINAL_SOURCES})
-target_include_directories(${OS_MODULE_TERMINAL_NAME} PUBLIC
-        src/kernel/include
-        src/stdlib/include
-      
-)
-target_link_libraries(${OS_MODULE_TERMINAL_NAME} PUBLIC ${OS_LIBRARIES})
-set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_TERMINAL_NAME})
-
-target_link_libraries(${OS_MODULE_KERNEL_NAME} PUBLIC ${OS_MODULE_DESCRIPTOR_TABLES_NAME} ${OS_MODULE_TERMINAL_NAME})
-
-#This was between target_include directories and before set target properties
-# Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
-target_link_libraries(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
-        ${OS_MODULE_TERMINAL_NAME}
-        ${OS_LIBRARIES}
-        ${OS_APPLICATIONS}
-)
-
+message("Libraries: ${OS_LIBRARIES}")
 
 ########################################
 ###
@@ -240,4 +212,3 @@ target_link_libraries(
 # Configure a bootable image of our operating system
 ########################################
 add_subdirectory(grub)
-

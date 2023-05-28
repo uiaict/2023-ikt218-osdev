@@ -3,26 +3,24 @@
 
 #include <stdint.h>
 
-#define GDTBASE 0x00000800
-#define GDTSIZE 8
+#define GDT_SIZE 5
 
-struct gdtdesc {
-    uint16_t lim0_15;
-    uint16_t base0_15;
-    uint8_t base16_23;
-    uint8_t acces;
-    uint8_t lim16_19:4;
-    uint8_t other:4;
-    uint8_t base24_31;
-} __attribute__((packed));
+//
+typedef struct __attribute__((packed)){
+    uint16_t limit_low;  // The lower 16 bits of the limit.
+    uint16_t base_low;   // The lower 16 bits of the base.
+    uint8_t base_middle; // The next 8 bits of the base.
+    uint8_t access;      // Access flags, determine what ring this segment can be used in.
+    uint8_t granularity; // low 4 bits are high 4 bits of limit
+    uint8_t base_high;   // The last 8 bits of the base.
+} gdt_entry_t;
+    
+typedef struct __attribute__((packed)){
+    uint16_t limit; // The upper 16 bits of all selector limits.
+    uint32_t base;  // The address of the first gdt_entry_t struct.
+} gdt_ptr_t;
 
-struct gdtr {
-    uint16_t limite;
-    uint32_t base;
-} __attribute__((packed));
-
-
-void init_gdt(void);
-void init_gdt_desc(uint32_t base, uint32_t limite, uint8_t acces, uint8_t other, struct gdtdesc *desc);
+void init_gdt();
+void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
 #endif

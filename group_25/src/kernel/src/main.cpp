@@ -1,25 +1,36 @@
-#include "gdt.h"
 #include "terminal.h"
-#include "system.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+    #include "system.h"
     void kernel_main();
 }
 
 void kernel_main(){
 
-// Initialize global descriptor table
-init_gdt();
+    terminal_clear();
+    // Print welcome screen
+    terminal_write("                _____ __    _ __      ____  _____\n");
+    terminal_write("               / ___// /_  (_) /_    / __ \\/ ___/\n");
+    terminal_write("               \\__ \\/ __ \\/ / __/   / / / /\\__ \\\n");
+    terminal_write("              ___/ / / / / / /_    / /_/ /___/ /\n");
+    terminal_write("             /____/_/ /_/_/\\__/____\\____//____/\n");
+    terminal_write("         ____     _          /_____/       __    _ __\n");
+    terminal_write("        /  _/    (_)_  _______/ /_   _____/ /_  (_) /_\n");
+    terminal_write("        / /     / / / / / ___/ __/  / ___/ __ \\/ / __/\n");
+    terminal_write("      _/ /     / / /_/ (__  ) /_   (__  ) / / / / /_\n");
+    terminal_write("     /___/  __/ /\\__,_/____/\\__/  /____/_/ /_/_/\\__/ __\n");
+    terminal_write("   __  ____/___/_  __________     ____  ____ _____  / /______\n");
+    terminal_write("  / / / / __ \\/ / / / ___/ _ \\   / __ \\/ __ `/ __ \\/ __/ ___/\n");
+    terminal_write(" / /_/ / /_/ / /_/ / /  /  __/  / /_/ / /_/ / / / / /_(__  )\n");
+    terminal_write(" \\__, /\\____/\\__,_/_/   \\___/  / .___/\\__,_/_/ /_/\\__/____/\n");
+    terminal_write("/____/                        /_/\n");
+    
+    terminal_write("Hello World!\n");
 
-// Initialize terminal
-terminal_initialize();
-
-// Print welcome screen
-// Kinda scuffed because I couldn't find a nice way to space the text out
-terminal_write("                _____ __    _ __      ____  _____                                              / ___// /_  (_) /_    / __ \\/ ___/                                              \\__ \\/ __ \\/ / __/   / / / /\\__ \\                                              ___/ / / / / / /_    / /_/ /___/ /                                             /____/_/ /_/_/\\__/____\\____//____/                                                              /_____/                                                      ____       __           __          __    _ __                                 /  _/      / /_  _______/ /_   _____/ /_  (_) /_                                / /   __  / / / / / ___/ __/  / ___/ __ \\/ / __/                              _/ /   / /_/ / /_/ (__  ) /_   (__  ) / / / / /_                               /___/   \\____/\\__,_/____/\\__/  /____/_/ /_/_/\\__/                                              _                                 __                          __  ______  __  _( )________     ____  ____ _____  / /______                   / / / / __ \\/ / / /// ___/ _ \\   / __ \\/ __ `/ __ \\/ __/ ___/                  / /_/ / /_/ / /_/ / / /  /  __/  / /_/ / /_/ / / / / /_(__  )                   \\__, /\\____/\\__,_/ /_/   \\___/  / .___/\\__,_/_/ /_/\\__/____/                   /____/                          /_/\n\n",
-1317);
-
-terminal_write("Hello World!\n", 14);
+    // Print a message and enter an infinite loop to wait for interrupts
+    terminal_write("Waiting...\n");
+    while(1){};
+    terminal_write("Done!...\n");
 
 }
