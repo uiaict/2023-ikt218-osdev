@@ -1,6 +1,7 @@
 #include "printing.h"
 #include "system.h"
 #include "monitor.h"
+#include <song/song.h>
 
 extern "C"{
     #include "memory.h"
@@ -45,6 +46,19 @@ void runCommand() {
         printf("\nclear");
         printf("\ntest");
         printf("\npepsi");
+        printf("\nmario");
+    }
+    else if (strcmp(buffer, "mario") == 0) {
+        Song* song = new Song(music_1, sizeof(music_1) / sizeof(Note));
+
+        SongPlayer* player = create_song_player();
+
+        printf("Playing Song...\n");
+        player->play_song(song);
+        printf("Finished playing the song.\n");
+        set_prefix("> ");
+        resetBuffer();
+        return;
     }
     else {
         if ((strcmp(buffer, "") != 0)) {
