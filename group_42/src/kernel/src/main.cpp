@@ -74,7 +74,9 @@ extern "C"{
 
 
 void kernel_main()
-{
+{   
+    
+
     
    auto os = IJI_OS();
    os.init();
@@ -101,8 +103,14 @@ asm volatile ("int $0x02");
 asm volatile ("int $0x01");
  */
 
- char* a = new char[499]();
- 
+ char* a = new char[10]();
+ a[9]='5';
+
+void* mem1 = malloc(12);
+ void* mem2 = malloc(12);
+ void* mem3 = malloc(12);
+ free(mem3);
+ void* mem4 = malloc(12);
  int c = 2;
 
 

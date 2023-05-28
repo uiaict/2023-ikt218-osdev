@@ -59,6 +59,7 @@ set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
 set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
 set(COMMON_INCLUDE_PATHS)
+set(WARNING_FLAGS "-Wno-volatile -Wno-write-strings -Wno-unused-variable -Wall -Wextra -Wshadow -Wno-sign-conversion -Wno-frame-address -Wno-unused-parameter")
 # Conditional based on which architecture we are building. We should use -m32 for i386 and -m64 for x86_64
 if(OS_ARCH_TARGET STREQUAL i386)
     set(COMMON_COMPILER_FLAGS "${COMMON_COMPILER_FLAGS} -m32")

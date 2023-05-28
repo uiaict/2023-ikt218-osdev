@@ -12,9 +12,19 @@ extern "C"{
     init_kernel_memory(&end);
     int a = 2;
  }
+
+ 
 void* operator new(std::size_t size){
     return malloc(size);
 }
 void* operator new[](std::size_t size){
     return malloc(size);
 } 
+void operator delete(void* ptr) noexcept{
+    free(ptr);
+}
+
+void operator delete[](void* ptr) noexcept{
+    free(ptr);
+}
+
