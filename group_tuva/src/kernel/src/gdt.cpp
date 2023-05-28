@@ -12,7 +12,6 @@ static void init_idt() asm ("init_idt");
 
 extern "C"{
    extern void gdt_flush(u32int);
-   
    extern void idt_flush(u32int);
    static void gdt_set_gate(s32int,u32int,u32int,u8int,u8int);
    static void idt_set_gate(u8int,u32int,u16int,u8int);

@@ -175,6 +175,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.asm
         src/stdlib/src/*.c
         src/kernel/src/keyboard.cpp
+        src/kernel/src/timer.cpp
         
 )
 # Set the output binary name

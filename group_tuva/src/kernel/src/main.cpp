@@ -4,6 +4,7 @@
 #include "isr.h"
 #include "keyboard.h"
 #include "hardware.h"
+#include "timer.h"
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
@@ -95,6 +96,11 @@ void kernel_main()
     //asm volatile ("int $0x4");
 
     asm volatile("sti");
+    PIT::init_timer(1, [](registers_t*regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->timer();
+    }, &os);
+
     Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
         printf("Keyboard Event: ");
@@ -104,6 +110,9 @@ void kernel_main()
         printf(")");
         print_new_line();*/
     }, &os);
+
+    while (1)
+    {}
     
 }
 
