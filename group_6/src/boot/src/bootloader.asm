@@ -38,7 +38,8 @@ section .text
 global _start:function (_start.end - _start)
 _start:
 	mov esp, stack_top
-
+    extern init_gdt
+    call init_gdt
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
 	cli
