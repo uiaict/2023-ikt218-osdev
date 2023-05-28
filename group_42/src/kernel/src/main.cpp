@@ -127,9 +127,11 @@ asm volatile("sti");
     //os->next_line();
     },&os); 
 
+start_sleep_busy((uint32_t) 2000);
+os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
 while (1)
 {
-    /* code */
+    os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
 }
 
  
