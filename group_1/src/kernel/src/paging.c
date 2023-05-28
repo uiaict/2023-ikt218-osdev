@@ -1,6 +1,7 @@
 #include "paging.h"
 #include <stdint.h>
 #include "bitset.h"
+#include "malloc.h"
 
 // The kernel's page directory
 page_directory_t *kernel_directory=0;
