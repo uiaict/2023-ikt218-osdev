@@ -71,7 +71,7 @@
     double tanh(double x);
     time_t time(time_t *tloc);
     FILE *tmpfile();
-    char *tmpnam(char *s);
+    //char *tmpnam(char *s);
     void* memset (void *dest, int val,  size_t len);
     void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);

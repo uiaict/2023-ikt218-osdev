@@ -1,9 +1,11 @@
 
 //#include "system.h"
 #include "test.h"
+//#include "../../GDT/gdt.h"
 //#include "../../GDT/isr.h"
 #include"drivers/keyboard.h"
 #include"memory/functions.h"
+
 extern uint32_t end;
 class IJI_OS{
     int tick = 0;
@@ -69,9 +71,11 @@ extern "C"{
     void kernel_main();
 }
 
+
+
 void kernel_main()
 {
-
+    
    auto os = IJI_OS();
    os.init();
 
@@ -97,8 +101,9 @@ asm volatile ("int $0x02");
 asm volatile ("int $0x01");
  */
 
- //int* a = new int;
+ char* a = new char[499]();
  
+ int c = 2;
 
 
 asm volatile("sti");

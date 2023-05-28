@@ -41,7 +41,8 @@ _start:
 
 
 	mov esp, stack_top
-
+ extern init_kernel
+ call init_kernel
 
   extern init_gdt
 	call init_gdt
