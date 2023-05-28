@@ -7,7 +7,6 @@ extern "C"{
 [[noreturn]] void kernel_main();
 }
 
-
 extern uint32_t end;
 
 // In order to avoid including stdlib, we define the size_t type here. As this is an x86 OS, we define it as a 32-bit unsigned integer.
@@ -40,15 +39,13 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
 [[noreturn]] void kernel_main()
 {
+    init_kernel_memory(&end);
+
     clear_screen();
     init_descriptor_tables();
 
-    
     printk("Hello, %s! The answer \n is %d.", "world", 42);
     printk("%d", 696969420);
-
-    //asm volatile ("int $0x28");
-    //asm volatile ("int $0x1");
 
     // Initialize Paging
     init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
@@ -63,14 +60,19 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     // THIS IS PART OF THE ASSIGNMENT
     void* some_memory = new_malloc(12345);
 
-    void* memory2 = new_malloc(54321);
+    //void* memory2 = new_malloc(54321);
     
-    void* memory3 = new_malloc(13331);
+    //void* memory3 = new_malloc(13331);
     
     char* memory4 = new char[1000]();
 
+        // Print memory layout
+    print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
+
     initialize_interrupt_handlers();
-    asm volatile ("int $0x28");
+
+    //asm volatile ("int $0x28");
+    
     while(true){}
 
 }

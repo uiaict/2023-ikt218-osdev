@@ -3,6 +3,8 @@
 
 #include "../include/common.h"
 
+typedef uint32_t size_t;
+
 // Write a byte out to the specified port.
 void outb(uint16_t port, uint8_t value)
 {

@@ -1,6 +1,7 @@
 #include "memory.h"
 #include <stdint.h>
 #include "system.h"
+#include "common.h"
 
 #define MAX_PAGE_ALIGNED_ALLOCS 32
 
@@ -28,6 +29,7 @@ void init_kernel_memory(uint32_t* kernel_end)
 // Print the current memory layout
 void print_memory_layout()
 {
+    //int memoryUsed = memory_used;
     printk("Memory used: %d bytes\n", memory_used);
     printk("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
     printk("Heap size: %d bytes\n", heap_end - heap_begin);
@@ -66,10 +68,10 @@ char* pmalloc(size_t size)
     {
         if(pheap_desc[i]) continue;
         pheap_desc[i] = 1;
-        printf("PAllocated from 0x%x to 0x%x\n", pheap_begin + i*4096, pheap_begin + (i+1)*4096);
+        printk("PAllocated from 0x%x to 0x%x\n", pheap_begin + i*4096, pheap_begin + (i+1)*4096);
         return (char *)(pheap_begin + i*4096);
     }
-    printf("pmalloc: FATAL: failure!\n");
+    printk("pmalloc: FATAL: failure!\n");
     return 0;
 }
 
@@ -84,7 +86,7 @@ void* new_malloc(size_t size)
     while((uint32_t)mem < last_alloc)
     {
         alloc_t *a = (alloc_t *)mem;
-        printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
+        printk("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
 
         if(!a->size)
             goto nalloc;
@@ -99,7 +101,7 @@ void* new_malloc(size_t size)
         if(a->size >= size)
         {
             a->status = 1;
-            printf("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
+            printk("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
             memset(mem + sizeof(alloc_t), 0, size);
             memory_used += size + sizeof(alloc_t);
             return (char *)(mem + sizeof(alloc_t));
@@ -114,7 +116,7 @@ void* new_malloc(size_t size)
     nalloc:;
     if(last_alloc + size + sizeof(alloc_t) >= heap_end)
     {
-        panic("Cannot allocate bytes! Out of memory.\n");
+        //panic("Cannot allocate bytes! Out of memory.\n");
     }
     alloc_t *alloc = (alloc_t *)last_alloc;
     alloc->status = 1;
@@ -123,7 +125,7 @@ void* new_malloc(size_t size)
     last_alloc += size;
     last_alloc += sizeof(alloc_t);
     last_alloc += 4;
-    printf("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
+    printk("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
     memory_used += size + 4 + sizeof(alloc_t);
     memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
     return (char *)((uint32_t)alloc + sizeof(alloc_t));
