@@ -4,7 +4,7 @@
 #include "../../memory/memory.h"
 
 // Number of IDT entries
-#define NUM_IDT_ENTRIES 3
+#define NUM_IDT_ENTRIES 256
 
 
 
@@ -32,7 +32,8 @@ void init_idt()
     idt_pointer.base = (uint32_t)&idt_entries; // Set the base address of the IDT pointer.
     idt_pointer.limit = sizeof(idt_entry) * NUM_IDT_ENTRIES -1; // Set the limit of the IDT pointer. 
 
-    memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES); // Zero out all IDT entries, just in case they contain any garbage.
+    // Zero out all IDT entries, just in case they contain any garbage. Should be zero because it is a global variable without any initialiser. 
+    memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES); 
     
 
 }

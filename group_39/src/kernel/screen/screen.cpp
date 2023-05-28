@@ -2,8 +2,6 @@
 #include <stdint.h>
 
 
-
-
 #define VGA_ADDRESS 0xB8000 // The address of the VGA buffer.
 #define BUFSIZE 2200        // The buffer size of the VGA buffer.
 
