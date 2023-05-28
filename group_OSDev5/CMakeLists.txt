@@ -176,6 +176,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/cpu/*.cpp
         src/kernel/cpu/*.c
         src/kernel/cpu/*.asm
+        src/kernel/drivers/*.cpp
         
 )
 # Set the output binary name
@@ -193,6 +194,7 @@ target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
         src/kernel/cpu
+        src/kernel/drivers
         
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
