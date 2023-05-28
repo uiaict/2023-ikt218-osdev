@@ -4,8 +4,11 @@ extern "C"{
     #include "../include/common.h"
     #include "../include/isr.h"
     #include "memory.h"
+    #include <song/song.h>
 [[noreturn]] void kernel_main();
 }
+
+
 
 extern uint32_t end;
 
@@ -69,6 +72,26 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     initialize_interrupt_handlers();
 
     //asm volatile ("int $0x28");
+    Song* songs[] = {
+        new Song(music_1, sizeof(music_1) / sizeof(Note)),
+        new Song(music_6, sizeof(music_6) / sizeof(Note)),
+        new Song(music_5, sizeof(music_5) / sizeof(Note)),
+        new Song(music_4, sizeof(music_4) / sizeof(Note)),
+        new Song(music_3, sizeof(music_3) / sizeof(Note)),
+        new Song(music_2, sizeof(music_2) / sizeof(Note))
+    };
+    uint32_t n_songs = sizeof(songs) / sizeof(Song*);
+
+    SongPlayer* player = create_song_player();
+
+
+    while(true){
+	    for(uint32_t i =0; i < n_songs; i++){
+	        printf("Playing Song...\n");
+	        player->play_song(songs[i]);
+	        printf("Finished playing the song.\n");
+	    }
+    };
     
     while(true){}
 }
