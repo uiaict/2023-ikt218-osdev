@@ -60,19 +60,15 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     // THIS IS PART OF THE ASSIGNMENT
     void* some_memory = new_malloc(12345);
 
-    //void* memory2 = new_malloc(54321);
+    void* memory2 = new_malloc(54321);
     
-    //void* memory3 = new_malloc(13331);
+    void* memory3 = new_malloc(13331);
     
     char* memory4 = new char[1000]();
-
-        // Print memory layout
-    print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
 
     initialize_interrupt_handlers();
 
     //asm volatile ("int $0x28");
     
     while(true){}
-
 }
