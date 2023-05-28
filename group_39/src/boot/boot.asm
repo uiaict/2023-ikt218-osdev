@@ -37,16 +37,16 @@ section .text
 global _start:
 extern kernel_main
 extern init_gdt
+extern init_idt
 
 _start:
     mov esp, stack_top ; Set the esp register to point to top of the stack. 
     cli ; Disable interrupts
     call init_gdt ; Call init_gdt which sets up and loads the GDT into memory.
+    call init_idt ; Call init_idt to set up and load IDT (Interrupt Descriptor Table).
     call kernel_main ; Call the main function of the kernel.
-
-    cli
 
 
 .hang:	hlt
-	jmp .hang ;; This makes an infinite loop. But because interrupts are disabled, the CPU will basically stop and do nothing.
+	jmp .hang ; This makes an infinite loop. But because interrupts are disabled, the CPU will basically stop and do nothing.
 .end:
