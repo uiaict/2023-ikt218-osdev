@@ -103,11 +103,18 @@ void kernel_main()
         asm volatile("cli");
     }, NULL);
 
+    printf("Testing busy waiting...\n");
+    sleep_busy(1000);
+    printf("Busy waiting OK\n");
+    printf("Testing waiting with interrupts...\n");
+    sleep_interrupt(1000);
+    printf("Interrupt sleep OK\n");
+
     // Print a message and enter an infinite loop to wait for interrupts
-    print("Waiting...\n");
+    printf("Ready for input...\n");
     while(1){
 
-        printf("Sleeping with busy-waiting (HIGH CPU).\n");
+        /*printf("Sleeping with busy-waiting (HIGH CPU).\n");
         // print(char(counter))
         sleep_busy(1000);
         print("Slept using busy-waiting.\n");
@@ -117,7 +124,7 @@ void kernel_main()
         // print(char(counter))
         sleep_interrupt(1000);
         print("Slept using interrupts.\n");
-        // print(char(counter++))
+        // print(char(counter++))*/
     };
-    print("Done!...\n");
+    printf("Done!...\n");
 }

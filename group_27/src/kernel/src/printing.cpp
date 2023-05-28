@@ -3,6 +3,7 @@
 #include "cstddef"
 #include "printing.h"
 #include "commander.h"
+#include "monitor.h"
 
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 
 {
@@ -112,8 +113,9 @@ void print_char (char c) {
 	
 	default:
 	increaseBuffer(c);
-		fb[row][column][color] = c;
-		column++;
+		//fb[row][column][color] = c;
+		//column++;
+		monitor_put(c);
 		break;
 	}
 	show_cursor();
