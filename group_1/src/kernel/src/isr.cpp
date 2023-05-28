@@ -20,7 +20,7 @@ void non_maskable_interrupt(registers_t regs) {
 
 void default_ISR(registers_t regs)
 {
-    printk("\nNot Implemented");
+    printk("\nNot Implemented, Interrupt number: ");
 }
 
 isr_t interrupt_handlers[256];
@@ -33,8 +33,9 @@ void initialize_interrupt_handlers()
     interrupt_handlers[0] = divide_by_zero_error;
     interrupt_handlers[1] = debug_exception;
     interrupt_handlers[2] = non_maskable_interrupt;
-
+    interrupt_handlers[33] = reinterpret_cast<isr_t>(keyboard_handler);
 }
+
 
 void register_interrupt_handler(uint8_t n, isr_t handler)
 {
