@@ -21,7 +21,7 @@ void kernel_main()
     UiAOS::IO::Keyboard::hook_keyboard(my_keyboard_callback, nullptr);
 
     asm volatile ("int $0x6");
-    asm volatile ("int $0x8");
+    
 
     
 }
