@@ -111,6 +111,7 @@ set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
         src/stdlib/src/monitor.c
         src/stdlib/src/common.c
+        src/stdlib/src/print.c
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
