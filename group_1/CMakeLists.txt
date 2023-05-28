@@ -146,7 +146,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         src/boot/src/boot.asm
         src/boot/src/boot.cpp
-        src/kernel/include/keyboard.h src/kernel/include/pit.h src/kernel/src/pit.c)
+        )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
 # Defines the include directories for the boot library

@@ -81,5 +81,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
         printk("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
         sleep_interrupt(1000);
         printk("[%d]: Slept using interrupts.\n", counter++);
+
+
     }
 }
