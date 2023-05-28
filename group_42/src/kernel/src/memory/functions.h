@@ -1,4 +1,4 @@
-//#include <stdint.h>
+#include <stdint.h>
 #include <stdlib.h>
 //#include "memory.h"
 
@@ -10,3 +10,4 @@ void operator delete[](void* ptr) noexcept;
 void init_pag();
 void write_memorylayout();
 void init_init_pit();
+void start_sleep_busy(uint32_t milliseconds);
