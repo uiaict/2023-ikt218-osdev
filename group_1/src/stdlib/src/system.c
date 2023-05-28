@@ -65,6 +65,17 @@ void printk(const char *format, ...)
                 print_char(arg, 0x0F, position++);  // Print the character at the current position in the string and increment the position
                 break;
             }
+                case 'x':
+                {
+                    int arg = va_arg(args, int); // Get the integer argument from the list of arguments
+                    char buf[32];                // Declare a buffer to hold the integer as a string
+                    itoa(arg, buf, 16);          // Convert the integer to a string using base 16
+                    for (int i = 0; buf[i]; i++) // Loop over every character in the string
+                    {
+                        print_char(buf[i], 0x0F, position++); // Print the character at the current position in the string and increment the position
+                    }
+                    break;
+                }
             }
         }
         else if (c == '\n') // If the current character is a newline character
