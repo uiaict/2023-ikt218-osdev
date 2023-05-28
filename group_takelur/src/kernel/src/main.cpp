@@ -3,10 +3,14 @@ extern "C" {
     #include "common.h"
     #include "system.h"
     #include "monitor.h"
+    #include "gdt.h"
     void kernel_main();
 }
 
 void kernel_main() {
+    // Initialize the GDT
+    init_descriptor_tables();
+
     clear_monitor();
     monitor_write("Welcome to OS version 0.0.001!\n", 0, 15);
     monitor_write("This should be on a new line\n\n", 0, 15);
