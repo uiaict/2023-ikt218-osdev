@@ -13,6 +13,8 @@ extern "C"
 #define SCANCODE_RIGHT_SHIFT 0x36
 #define SCANCODE_LEFT_SHIFT_RELEASE 0xAA
 #define SCANCODE_RIGHT_SHIFT_RELEASE 0xB6
+#define SCANCODE_ARROW_UP 0x48
+#define SCANCODE_ARROW_DOWN 0x50
 
 // Keyboard state
 static int caps_lock = 0;
@@ -80,6 +82,10 @@ extern "C" void keyboard_handler() {
         case 0x1C: // Enter key
             printk("\n");
             return;
+        case SCANCODE_ARROW_UP:
+
+        case SCANCODE_ARROW_DOWN:
+
         default:
             break;
     }

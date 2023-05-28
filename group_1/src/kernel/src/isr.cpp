@@ -33,6 +33,7 @@ void initialize_interrupt_handlers()
     interrupt_handlers[0] = divide_by_zero_error;
     interrupt_handlers[1] = debug_exception;
     interrupt_handlers[2] = non_maskable_interrupt;
+
 }
 
 void register_interrupt_handler(uint8_t n, isr_t handler)
