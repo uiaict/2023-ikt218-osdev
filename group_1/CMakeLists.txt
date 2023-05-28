@@ -146,7 +146,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         src/boot/src/boot.asm
         src/boot/src/boot.cpp
-        src/kernel/include/keyboard.h)
+        src/kernel/include/keyboard.h src/kernel/include/pit.h src/kernel/src/pit.c)
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
 # Defines the include directories for the boot library
@@ -156,6 +156,21 @@ target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
 # Defines the linking between boot and the boot library
 target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
+
+########################################
+###
+### OS Module: Applications
+# The operating system kernel
+# 1. Load all kernel applications here
+########################################
+# Define kernel headers target
+add_library(kernel-headers INTERFACE)
+target_include_directories(kernel-headers INTERFACE src/kernel/include)
+
+# Load the song application target
+add_subdirectory(src/apps/song)
+set(OS_APPLICATIONS ${OS_APPLICATIONS} UiAOS-song)
+
 
 ########################################
 ###
