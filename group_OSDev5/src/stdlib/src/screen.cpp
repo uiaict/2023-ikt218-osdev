@@ -16,6 +16,39 @@ void clear_screen() {
     }
 }
 
+
+
+void print_int(int32_t num) {
+    char num_str[12]; // Buffer to hold the number as a string, up to 11 digits plus null terminator
+    int i = 0;
+
+    // Handle zero explicitly to simplify the rest of the code
+    if (num == 0) {
+        print("0");
+        return;
+    }
+
+    // Handle negative numbers
+    if (num < 0) {
+        print("-");
+        num = -num; // Make the number positive so the rest of the code works
+    }
+
+    // Convert each digit to a character, starting from the end
+    while (num > 0) {
+        num_str[i] = '0' + num % 10; // Convert the digit to a character
+        num /= 10; // Remove the last digit
+        i++;
+    }
+
+    // The digits are in reverse order, so print them from end to start
+    for (int j = i - 1; j >= 0; j--) {
+        char digit_str[2] = { num_str[j], '\0' }; // Convert the digit character to a string
+        print(digit_str);
+    }
+}
+
+
 void print(const char* str) {
     // Set cursor position to next line
     char* vidmem = (char*)0xb8000;
