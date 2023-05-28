@@ -4,6 +4,7 @@ extern "C"{
     #include "../include/common.h"
     #include "../include/isr.h"
     #include "memory.h"
+    #include "pit.h"
 [[noreturn]] void kernel_main();
 }
 
@@ -53,9 +54,6 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     // Print memory layout
     print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
     
-    // Setup PIT
-    //init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
-    
     // Allocate some memory using kernel memory manager
     // THIS IS PART OF THE ASSIGNMENT
     void* some_memory = new_malloc(12345);
@@ -69,6 +67,19 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     initialize_interrupt_handlers();
 
     //asm volatile ("int $0x28");
-    
-    while(true){}
+
+    // Setup PIT
+    init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
+
+    int counter = 0;
+
+    while(true){
+        printk("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(1000);
+        printk("[%d]: Slept using busy-waiting.\n", counter++);
+
+        printk("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(1000);
+        printk("[%d]: Slept using interrupts.\n", counter++);
+    }
 }
