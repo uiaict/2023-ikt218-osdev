@@ -78,6 +78,7 @@ void kernel_main()
     
 
     
+    init_pag();
    auto os = IJI_OS();
    os.init();
 
@@ -113,7 +114,7 @@ void* mem1 = malloc(12);
  void* mem4 = malloc(12);
  int c = 2;
 
-
+write_memorylayout();
 asm volatile("sti");
  UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
     auto* os = (IJI_OS*)context;
