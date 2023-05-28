@@ -165,3 +165,20 @@ void monitor_write_dec(uint32_t n)
     }
     monitor_write(c2);
 }
+void monitor_write_hex(uint32_t n)
+{
+    const char *hexChars = "0123456789ABCDEF";
+    char hex[9]; // Maximum 8 hex digits for a 32-bit number
+    int i = 0;
+
+    // Convert the number to hexadecimal representation
+    for (int j = 28; j >= 0; j -= 4)
+    {
+        hex[i++] = hexChars[(n >> j) & 0xF];
+    }
+    hex[i] = '\0';
+
+    // Write the hexadecimal number to the monitor
+    monitor_write("0x");
+    monitor_write(hex);
+}

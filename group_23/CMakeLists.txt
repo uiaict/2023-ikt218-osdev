@@ -173,8 +173,11 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/*.asm
+        src/kernel/memory/*c
+        
 
 )
+message(STATUS "Kernel Sources: ${OS_MODULE_KERNEL_SOURCES}")
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
