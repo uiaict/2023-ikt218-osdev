@@ -19,3 +19,34 @@ void register_interrupt_handler(u8int n, isr_t handler)
     interrupt_handlers[n] = handler;
 }
 
+void init_interrupt_handlers()
+{
+    // Default 
+    for (int i = 0; i < 256; i++)
+    {
+        register_interrupt_handler(i, *default_isr);
+    }
+
+    // Register the ISRs
+    register_interrupt_handler(ISR0, *divide_by_zero_isr);
+    register_interrupt_handler(ISR1, *debug_isr);
+    register_interrupt_handler(ISR2, *non_maskable_interrupt_isr);
+    register_interrupt_handler(ISR3, *breakpoint_isr);
+    register_interrupt_handler(ISR4, *overflow_isr);
+    register_interrupt_handler(ISR5, *bound_range_ex_isr);
+    register_interrupt_handler(ISR6, *invalid_opcode_isr);
+    register_interrupt_handler(ISR7, *device_not_available_isr);
+    register_interrupt_handler(ISR8, *double_fault_isr);
+    register_interrupt_handler(ISR9, *coprocessor_segment_overrun_isr);
+    register_interrupt_handler(ISR10, *invalid_tss_isr);
+    register_interrupt_handler(ISR11, *segment_not_present_isr);
+    register_interrupt_handler(ISR12, *stack_segment_fault_isr);
+    register_interrupt_handler(ISR13, *general_protection_fault_isr);
+    register_interrupt_handler(ISR14, *page_fault_isr);
+    register_interrupt_handler(ISR16, *floating_point_error_isr);
+    register_interrupt_handler(ISR17, *alignment_check_isr);
+    register_interrupt_handler(ISR18, *machine_check_isr);
+    register_interrupt_handler(ISR19, *simd_floating_point_isr);
+    register_interrupt_handler(ISR20, *virtualization_isr);
+}
+
