@@ -114,4 +114,5 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
-
+    void reverse(char s[]);
+    void int_to_ascii(int n, char str[]);

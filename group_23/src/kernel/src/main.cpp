@@ -8,6 +8,7 @@ extern "C"{
     #include "../include/heap.h"
     #include "../include/pit.h"
     #include "../include/paging.h"
+    #include "../include/keyboard.h"
 
 }
 
@@ -53,17 +54,31 @@ void kernel_main()
     
     init_descriptor_tables();         // Initialize descriptor tables GDT and IDT
     monitor_write("Hello, World!\n");
-   
+    
+    
 
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");
-
-     init_paging();
-     print_memory_layout();
-
+    //asm volatile ("int $0x5");
     asm volatile("sti");
+    init_timer(50);
+
+    init_keyboard();
+
+    init_paging();
+    print_memory_layout();
+    void* some_memory = malloc(12345);
+    char* memory1 = new char[1000]();
+    monitor_write("memory layout after allocating");
+    monitor_put('\n');
+
+    print_memory_layout();
+    
+   
+
+    //asm volatile("sti");
     // Setup PIT
-    init_timer(50); 
+    //init_pit(50); 
     
    
     

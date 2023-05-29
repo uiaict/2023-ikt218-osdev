@@ -23,13 +23,10 @@
 #define DIVIDER (PIT_BASE_FREQUENCY / TARGET_FREQUENCY)
 #define TICKS_PER_MS (TARGET_FREQUENCY / TARGET_FREQUENCY)
 
-
-void init_pit();
-void sleep_interrupt(uint32_t milliseconds);
-void sleep_busy(uint32_t milliseconds);
+void init_timer(uint32_t frequency);
 
 
 
-void init_pit(uint32_t frequency);
+
 
 #endif

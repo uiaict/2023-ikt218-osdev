@@ -4,10 +4,7 @@
 
 isr_t interrupt_handlers[ISR_SIZE];                             // array of 256 interrupt handlers
 
-void register_interrupt_handler(uint8_t num, isr_t handler)     // registers an interrupt handler for a given interrupt number
-{
-  interrupt_handlers[num] = handler;
-}
+
 
 // exception messages stored in array
 char *exception_messages[] = {
@@ -57,13 +54,19 @@ void isr_handler(registers_t regs)                              // takes in the 
     monitor_write("recieved interrupt: ");
     monitor_write_dec(regs.int_no);
     monitor_put('\n');
-    //monitor_write(exception_messages[regs.int_no]);
+    monitor_write("Exception message: ");
+    monitor_write(exception_messages[regs.int_no]);
+    monitor_put('\n');
     if (interrupt_handlers[regs.int_no] != 0)
     {
         isr_t handler = interrupt_handlers[regs.int_no];
         handler(regs);
     }
     
+}
+void register_interrupt_handler(uint8_t num, isr_t handler)     // registers an interrupt handler for a given interrupt number
+{
+  interrupt_handlers[num] = handler;
 }
 
 

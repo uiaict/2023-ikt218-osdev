@@ -32,13 +32,14 @@ void print_memory_layout()
 {
     monitor_write("Memory used:");
     monitor_write_dec(memory_used);
-    monitor_write("\n");
+    monitor_write("bytes\n");
+
     monitor_write("Memory free:");
     monitor_write_dec(heap_end - heap_begin - memory_used);
-    monitor_write("\n");
+    monitor_write("bytes\n");
     monitor_write("Heap size:");
     monitor_write_dec(heap_end - heap_begin);
-    monitor_write("\n");
+    monitor_write("bytes\n");
     monitor_write("Heap start: 0x");
     monitor_write_hex(heap_begin);
     monitor_write("\n");

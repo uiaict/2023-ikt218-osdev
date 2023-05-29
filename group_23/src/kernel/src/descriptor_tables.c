@@ -84,7 +84,7 @@ void idt_init()
     outb(0x21, 0x0);
     outb(0xA1, 0x0);
 
-    // Call to idt_descriptors function to set values for each entry in idt_entries
+    // Call to idt_descriptors function to set values for each entry in idt_entries, and set IDT gates for IRQ handlers
     idt_descriptors( 0, (uint32_t)isr0 , 0x08, 0x8E);         // index 0, adress of isr0 (interrupt handler function), segment selector 0x08 (kernel code segment), flags 0x8E
     idt_descriptors( 1, (uint32_t)isr1 , 0x08, 0x8E);
     idt_descriptors( 2, (uint32_t)isr2 , 0x08, 0x8E);

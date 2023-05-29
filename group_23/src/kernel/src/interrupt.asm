@@ -1,3 +1,13 @@
+; error code (adds a dummy errcode byte).
+%macro ISR_NOERRCODE 1
+  global isr%1
+  isr%1:
+    cli                         ; Disable interrupts firstly.
+    push byte 0                 ; Push a dummy error code.
+    push byte %1                ; Push the interrupt number.
+    jmp isr_common_stub         ; Go to our common handler code.
+%endmacro
+
 %macro ISR_NOERRCODE 1  ; define a macro, taking one parameter
   global isr%1        ; %1 accesses the first parameter.
   isr%1:
