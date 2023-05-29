@@ -1,4 +1,4 @@
-#include "system.h"
+//#include "system.h"
 #include "gdt.h"
 #include "idt.h"
 #include "isr.h"
@@ -7,6 +7,7 @@
 #include "timer.h"
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
+    #include "system.h"
     void kernel_main();
     //void init_descriptor_tables();
 }
@@ -74,6 +75,7 @@ void kernel_main()
     os.init();
 
     //printf("Hello");
+    monitor_clear();
 
     // Initializes the descriptor tables, and prints to indicate
     // that the GDT has been successfully initialized

@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include <string.h>
 
+
+
+void monitor_clear();
+
+
 //void *memset(void *s, int c, size_t n);
 
 
