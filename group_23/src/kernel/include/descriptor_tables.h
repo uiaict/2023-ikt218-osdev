@@ -1,3 +1,5 @@
+#ifndef DESCRIPTOR_TABLES_H
+#define DESCRIPTOR_TABLES_H
 #include "system.h"
 #include "common.h"
 #include <stdint.h>
@@ -79,6 +81,7 @@ extern void isr28();
 extern void isr29();
 extern void isr30();
 extern void isr31();
+
 extern void irq0 ();
 extern void irq1 ();
 extern void irq2 ();
@@ -97,5 +100,5 @@ extern void irq14();
 extern void irq15();
 
 
-
+#endif
 

@@ -1,3 +1,6 @@
+#ifndef ISR_H
+#define ISR_H
+
 #include <stdint.h>
 #include "common.h"
 #define IRQ0 32
@@ -18,6 +21,7 @@
 #define IRQ15 47
 #define ISR_SIZE 256
 
+
 //store registers in processor
 typedef struct registers
 {
@@ -29,6 +33,11 @@ typedef struct registers
 
 } registers_t;
 
+
+
 //void isr_handler(registers_t regs);                  //interrupt service routine handler to handle interrupts
 typedef void (*isr_t)(registers_t);                  //pointer to function isr_t that takes registers_t as argument 
 void register_interrupt_handler(uint8_t n, isr_t handler);
+
+
+#endif
