@@ -7,7 +7,6 @@
 #ifndef GDT_H
 #define GDT_H
 
-
 struct gdt_entry_struct
 {
    u16int limit_low;           // The lower 16 bits of the limit.
