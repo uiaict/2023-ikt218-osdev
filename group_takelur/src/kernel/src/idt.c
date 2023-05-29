@@ -26,6 +26,19 @@ void init_idt()
 
     memset(&idt_entries, 0, sizeof(idt_entry_t)*256);    // Zero out the IDT
 
+    // Remap the irq table.
+    // See http://wiki.osdev.org/8259_PIC#Initialisation
+    outb(0x20, 0x11);   // Send ICW1 to master PIC
+    outb(0xA0, 0x11);   // Send ICW1 to slave PIC
+    outb(0x21, 0x20);   // Send ICW2 to master PIC (IRQ 0-7 mapped to IDT entries 0x20-0x27)
+    outb(0xA1, 0x28);   // Send ICW2 to slave PIC (IRQ 8-15 mapped to IDT entries 0x28-0x2F)
+    outb(0x21, 0x04);   // Send ICW3 to master PIC (slave PIC at IRQ2)
+    outb(0xA1, 0x02);   // Send ICW3 to slave PIC (slave PIC cascade identity 2)
+    outb(0x21, 0x01);   // Send ICW4 to master PIC
+    outb(0xA1, 0x01);   // Send ICW4 to slave PIC
+    outb(0x21, 0x0);    // Disable all IRQs on master PIC
+    outb(0xA1, 0x0);    // Disable all IRQs on slave PIC
+
     // Set individual gates in the IDT (0x08 = kernel code segment, 0x8E = flag with present bit set)
     idt_set_gate( 0, (u32int)isr0 , 0x08, 0x8E);     
     idt_set_gate( 1, (u32int)isr1 , 0x08, 0x8E);     
