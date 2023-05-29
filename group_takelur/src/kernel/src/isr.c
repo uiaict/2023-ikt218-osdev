@@ -50,3 +50,19 @@ void init_interrupt_handlers()
     register_interrupt_handler(ISR20, *virtualization_isr);
 }
 
+
+// The interrupt handler function which is called from the ASM interrupt handler stub.
+void isr_handler(registers_t regs)
+{
+    // Check if we have a handler to run for this interrupt
+    if (interrupt_handlers[regs.int_no] && regs.int_no < 32) 
+    {
+        printf("Interrupt %d: ", regs.int_no);
+        isr_t handler = interrupt_handlers[regs.int_no];
+        handler(regs);
+    }
+    else // If not, print out a message stating that we have an unhandled interrupt
+    {
+        printf("Unhandled Interrupt: %d\n", regs.int_no);
+    }
+}
