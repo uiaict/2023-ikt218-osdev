@@ -1,6 +1,8 @@
 {
     "cmake.buildDirectory": "${workspaceFolder}/build_group_OSDev-11",
     "cmake.sourceDirectory": "${workspaceFolder}/group_OSDev-11",
-    "C_Cpp.errorSquiggles": "disabled"
-
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "cstddef": "cpp"
+    }
 }

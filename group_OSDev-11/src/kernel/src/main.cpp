@@ -44,8 +44,7 @@ void terminal_write(const char* str) {
 
 
 // Define entry point in asm to prevent C++ mangling
-extern "C"
-{
+extern "C"{
     void kernel_main();
 }
 

@@ -1,16 +1,11 @@
 #include "system.h"
-
-// If the header file GDT_HEADER is not defined, define it
-#if !defined(GDT_HEADER)
-#define GDT_HEADER
-
+#ifndef GDT_H
+#define GDT_H
 #include <stdint.h>
+#define GDT_ENTRIES 5
 
-// Define the number of entries in the GDT
-#define GDT_ENTRY_COUNT 5
 
-// Define the structure of a GDT entry
-typedef struct 
+struct gdt_entry 
 {
     uint16_t limit_low;
     uint16_t base_low;
@@ -18,21 +13,18 @@ typedef struct
     uint8_t access;
     uint8_t granularity;
     uint8_t base_high;
-} __attribute__((packed)) gdt_entry_t; // For gcc to use as little memory as possible
+} __attribute__((packed)); // For gcc to use as little memory as possible
 
-// Define the local descriptor table pointer
-typedef struct {
+// Local descriptor table pointer
+struct gdt_ptr 
+{
     uint16_t limit; // 16 bit limit. Size of the GDT
     uint32_t base; // 32 bit pointer. First entry in GDT
-} __attribute__((packed)) gdt_ptr_t;
+} __attribute__((packed));
 
-// Initialize the GDT
-void init_gdt();
 
-// Set a GDT entry
-void set_gdt_entry(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
+void gdt_init();
 
-// Function in lgdt.asm to reload new segment registers
-extern void flush_gdt();
+void gdt_descriptors(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 
-#endif /* GDT_HEADER */
+#endif /* GDT_H */
