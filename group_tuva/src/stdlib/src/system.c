@@ -127,6 +127,7 @@ void monitor_put(char c)
 
 }
 
+
 void monitor_clear()
 {
     // Make an attribute byte for the default colours
@@ -165,8 +166,6 @@ int printf(const char *string, ...)
             *video++ = 0x0F;
         }
     }
-
-
 
 
 

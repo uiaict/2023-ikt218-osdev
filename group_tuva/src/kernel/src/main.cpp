@@ -60,8 +60,9 @@ public:
     void timer() {
         tick++;
         if (tick % 100 == 0) {
-            printf("(Every Second) Tick: ");
-            //print_int(tick);
+            //monitor_write("(Every Second) Tick: ");
+            //monitor_put(tick);
+            //monitor_write("\n");
             //print_new_line();
         }
 
@@ -74,13 +75,14 @@ void kernel_main()
     auto os = OperatingSystem(WHITE);
     os.init();
 
-    //printf("Hello");
+    
     monitor_clear();
+    monitor_write("Hello, Per!");
 
     // Initializes the descriptor tables, and prints to indicate
     // that the GDT has been successfully initialized
     init_descriptor_tables();
-    //printf("gdt initialized");
+    monitor_write("\nGDT initialized!\n");
     register_interrupt_handler(3,[](registers_t* regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->interrupt_handler_3(*regs);
@@ -102,10 +104,10 @@ void kernel_main()
         auto* os = (OperatingSystem*)context;
         os->timer();
     }, &os);
+   
 
     Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
-        printf("Keyboard Event: ");
         /*print_char(scancode_to_ascii(scancode));
         printf(" (");
         print_int(scancode);
