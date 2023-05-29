@@ -20,20 +20,28 @@ void init_isr(){
     print("ISR initialized.\n");
 }
 
-// Registers all 256 handlers
+// Can register all handlers
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context) {
     interrupt_handlers[n].handler = handler;
     interrupt_handlers[n].context = context;
+}
+
+void register_all_interrupt_handlers() {
+    register_interrupt_handler(2,[](registers_t* regs, void* context)
+    {
+        print("Hello! It's me, Mr.Interrupt 2");
+    }, NULL);
+    register_interrupt_handler(3,[](registers_t* regs, void* context)
+    {
+        print("Hello! It's me, Mr.Interrupt 3");
+    }, NULL);
 }
 
 void isr_handler(registers_t reg) {
     uint8_t int_no = reg.int_no & 0xFF;
     interrupt_t interrupt = interrupt_handlers[int_no];
 
-    //Printing the interrupt int numb to screen
-    print("Recieved Interrupt from ");
-    char int_no_char = int_no + '0';
-    print(&int_no_char);
+    print("Recieved Interrupt! ");
 
     if (interrupt.handler != NULL)
     {
