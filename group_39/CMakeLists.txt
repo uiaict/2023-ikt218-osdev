@@ -176,6 +176,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/cpu/i386/gdt.asm
         src/kernel/cpu/i386/gdt.cpp
         src/kernel/cpu/i386/idt.cpp
+        src/kernel/cpu/i386/idt.asm
         src/kernel/memory/memory.cpp
 
 )

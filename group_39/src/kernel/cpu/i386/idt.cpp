@@ -4,9 +4,12 @@
 #include "../../memory/memory.h"
 
 // Number of IDT entries
-#define NUM_IDT_ENTRIES 256
+#define NUM_IDT_ENTRIES 32
 
-
+extern "C"
+{
+    extern void idt_load(uint32_t); // Refers to a function in assembly that loads the IDT register.
+}
 
 void init_idt() asm ("init_idt"); // This allows assembly code to call our 'init_gdt' function.
 
@@ -22,7 +25,7 @@ void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
     idt_entries[num].base_high = (base >> 16) & 0xFFFF; // Set the upper 16 bits of the base address.
 
     idt_entries[num].selector = sel; // Set segment selector
-    idt_entries[num].reserved = 0; // Set the "always0" field to 0. 
+    idt_entries[num].reserved = 0; // Set the "Reserved/always0" field to 0. 
     idt_entries[num].flags    = flags | 0x60; // Set flags.
 }
 
@@ -34,6 +37,17 @@ void init_idt()
 
     // Zero out all IDT entries, just in case they contain any garbage. Should be zero because it is a global variable without any initialiser. 
     memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES); 
-    
 
+
+    // Set all entries in the IDT to default interrupt handler.
+    for (int i = 0; i < NUM_IDT_ENTRIES; i++)
+    {
+        idt_entries[i].base_low = 0x0000;
+        idt_entries[i].base_high = 0x0000;
+        idt_entries[i].selector = 0x08;
+        idt_entries[i].reserved = 0x00;
+        idt_entries[i].flags = 0x8E;
+    }
+
+    idt_load((uint32_t)&idt_pointer); // Load the IDT into IDT register using the assembly function 'idt_load'.
 }
