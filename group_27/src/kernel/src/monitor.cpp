@@ -67,7 +67,6 @@ static void scroll()
 }
 
 
-
 // Updates the hardware cursor.
 static void move_cursor()
 {
@@ -116,10 +115,10 @@ void monitor_putentryat(char c, uint8_t color, size_t x, size_t y)
 	terminal_buffer[index] = vga_entry(c, color);
 }
 
-void _show_cursor() {
+void show_cursor() {
     monitor_putentryat('_', terminal_color, terminal_column, terminal_row);
 }
-void _hide_cursor() {
+void hide_cursor() {
     monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
 }
 void set_prefix(char* c) {
@@ -128,7 +127,7 @@ void set_prefix(char* c) {
 
 void monitor_put(char c, bool increase_buffer) 
 {
-    _hide_cursor();
+    hide_cursor();
 
 	// Deal with special character behavior
     bool special = false;
@@ -138,7 +137,7 @@ void monitor_put(char c, bool increase_buffer)
 		terminal_column = 0;
         terminal_row++;
         scroll();
-        _show_cursor();
+        show_cursor();
         if (increase_buffer) {
             runCommand();
         }
@@ -146,13 +145,13 @@ void monitor_put(char c, bool increase_buffer)
 		break;
     case '\016':                // BACKSPACE
         if (terminal_column <= 2) {
-            _show_cursor();
+            show_cursor();
             return;
         }
         terminal_column--;
         decreaseBuffer();
         monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
-        _show_cursor();
+        show_cursor();
         return;
     default:
         //increaseBuffer();
@@ -167,7 +166,7 @@ void monitor_put(char c, bool increase_buffer)
         increaseBuffer(c);
     }
 
-    _show_cursor();
+    show_cursor();
 }
  
 void monitor_write(const char* data, size_t size) 
@@ -204,7 +203,7 @@ void monitor_clear()
     terminal_row = -1;
     terminal_column = 0;
     move_cursor();
-    _show_cursor();
+    show_cursor();
 }
 
 void monitor_write_hex(uint32_t n)
@@ -278,5 +277,17 @@ void monitor_write_dec(uint32_t n)
     }
     monitor_write(c2, strlen(c2));
 
+}
+
+void print_logo() {
+printf("                         _________ _______    _______  _______\n"
+"                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\\n"
+"                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/\n"
+"                | |   | |   | |   | (___) |  | |   | || (_____ \n"
+"                | |   | |   | |   |  ___  |  | |   | |(_____  )\n"
+"                | |   | |   | |   | (   ) |  | |   | |      ) |\n"
+"                | (___) |___) (___| )   ( |  | (___) |/\\____) |\n"
+"                (_______)\\_______/|/     \\|  (_______)\\_______)\n"
+"            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
 }
 

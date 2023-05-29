@@ -40,5 +40,4 @@ void irq_handler(registers_t regs)
     {
         intrpt.handler(&regs, intrpt.data);
     }
-
 }

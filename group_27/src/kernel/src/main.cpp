@@ -74,10 +74,9 @@ void kernel_main()
         printf("Interrupt 4 - OK\n");
     }, NULL);
 
-    register_interrupt_handler(13,[](registers_t* regs, void* context){
-        printf("Interrupt 13 - SHIIT\n");
+    register_interrupt_handler(33,[](registers_t* regs, void* context){
+        printf("Interrupt 33 - OK\n");
     }, NULL);
-
 
     // Trigger interrupts 3 and 4 which should call the respective handlers
     asm volatile ("int $0x3");

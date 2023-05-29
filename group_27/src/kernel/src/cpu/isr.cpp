@@ -34,5 +34,3 @@ void isr_handler(registers_t regs)
         for(;;);
     }
 }
-
-

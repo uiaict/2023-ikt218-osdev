@@ -8,7 +8,7 @@
 %macro ISR_NOERRCODE 1
   global isr%1
   isr%1:
-    ;cli                         ; Disable interrupts firstly.
+    cli                         ; Disable interrupts firstly.
     push byte 0                 ; Push a dummy error code.
     push  %1                    ; Push the interrupt number.
     jmp isr_common_stub         ; Go to our common handler code.
@@ -19,7 +19,7 @@
 %macro ISR_ERRCODE 1
   global isr%1
   isr%1:
-    ;cli                         ; Disable interrupts.
+    cli                         ; Disable interrupts.
     push %1                     ; Push the interrupt number
     jmp isr_common_stub
 %endmacro
@@ -29,7 +29,7 @@
 %macro IRQ 2
   global irq%1
   irq%1:
-    ;cli
+    cli
     push byte 0
     push byte %2
     jmp irq_common_stub
@@ -52,11 +52,11 @@ ISR_ERRCODE   13
 ISR_ERRCODE   14
 ISR_NOERRCODE 15
 ISR_NOERRCODE 16
-ISR_ERRCODE 17
+ISR_ERRCODE   17
 ISR_NOERRCODE 18
 ISR_NOERRCODE 19
 ISR_NOERRCODE 20
-ISR_ERRCODE 21
+ISR_ERRCODE   21
 ISR_NOERRCODE 22
 ISR_NOERRCODE 23
 ISR_NOERRCODE 24
@@ -67,23 +67,22 @@ ISR_NOERRCODE 28
 ISR_NOERRCODE 29
 ISR_NOERRCODE 30
 ISR_NOERRCODE 31
-ISR_NOERRCODE 128
-IRQ   0,    32
-IRQ   1,    33
-IRQ   2,    34
-IRQ   3,    35
-IRQ   4,    36
-IRQ   5,    37
-IRQ   6,    38
-IRQ   7,    39
-IRQ   8,    40
-IRQ   9,    41
-IRQ  10,    42
-IRQ  11,    43
-IRQ  12,    44
-IRQ  13,    45
-IRQ  14,    46
-IRQ  15,    47
+IRQ   0,      32
+IRQ   1,      33
+IRQ   2,      34
+IRQ   3,      35
+IRQ   4,      36
+IRQ   5,      37
+IRQ   6,      38
+IRQ   7,      39
+IRQ   8,      40
+IRQ   9,      41
+IRQ  10,      42
+IRQ  11,      43
+IRQ  12,      44
+IRQ  13,      45
+IRQ  14,      46
+IRQ  15,      47
 
 ; In isr.c
 extern isr_handler

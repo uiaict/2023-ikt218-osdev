@@ -1,4 +1,3 @@
-#include "printing.h"
 #include "system.h"
 #include "monitor.h"
 #include <song/song.h>
@@ -35,9 +34,6 @@ void runCommand() {
         // This will only run once because the buffer is never reset because of memory stuff
         printf("UIA OS up and running successfully");
     }
-    else if (strcmp(buffer, "pepsi") == 0) {
-        printf("Voffvoff");
-    }
     else if (strcmp(buffer, "clear") == 0) {
         monitor_clear();
     }
@@ -45,8 +41,10 @@ void runCommand() {
         printf("\nCommands: ");
         printf("\nclear");
         printf("\ntest");
-        printf("\npepsi");
         printf("\nmario");
+        printf("\nlogo");
+        printf("\nred");
+        printf("\nblue");
     }
     else if (strcmp(buffer, "mario") == 0) {
         Song* song = new Song(music_1, sizeof(music_1) / sizeof(Note));
@@ -59,6 +57,21 @@ void runCommand() {
         set_prefix("> ");
         resetBuffer();
         return;
+    }
+    else if (strcmp(buffer, "red") == 0) {
+        monitor_setcolor(4);
+        printf("Set color to red, type \"reset\" to reset");
+    }
+    else if (strcmp(buffer, "blue") == 0) {
+        monitor_setcolor(1);
+        printf("Set color to blue, type \"reset\" to reset");
+    }
+    else if (strcmp(buffer, "reset") == 0) {
+        monitor_setcolor(7);
+        printf("Colour reset");
+    }
+    else if (strcmp(buffer, "logo") == 0) {
+        print_logo();
     }
     else {
         if ((strcmp(buffer, "") != 0)) {
