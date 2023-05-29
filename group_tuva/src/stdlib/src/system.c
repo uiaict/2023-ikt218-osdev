@@ -13,6 +13,8 @@ void *memset(void *s, int c, size_t n) {
     return s;
 }
 
+//----------------------------------MOLLOYSTART------------------------------------------------------------
+
 // The VGA framebuffer starts at 0xB8000.
 u16int *video_memory = (u16int *)0xB8000;
 // Stores the cursor position.
@@ -50,7 +52,7 @@ void monitor_clear()
     move_cursor();
 }
 
-
+//-----------------------------------------------MOLLOYFERDIG------------------------------------------------------------
 int printf(const char *string, ...)
     {
         volatile char *video = (volatile char*)0xB8000;
