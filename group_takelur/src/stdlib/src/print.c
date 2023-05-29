@@ -114,6 +114,13 @@ void printf(char *str, ...)
                 case '%': // Format for literal '%'
                     print_char('%');
                     break;
+                case 'x': // Format for hexadecimal integer
+                    int num = va_arg(args, int);
+                    char buffer[50];        // Ensure the buffer is large enough.
+                    itoa(num, buffer, 16);  // Convert integer to string.
+                    print_str("0x");
+                    print_str(buffer);      // Print hex number
+                    break;
                 default:
                     // Print both the '%' and the following character
                     print_char('%');
