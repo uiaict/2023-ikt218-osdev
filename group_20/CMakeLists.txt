@@ -179,6 +179,11 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
 
+        #Common
+        src/kernel/src/common.cpp
+        src/kernel/include/common.h
+
+
         #GDT
         src/kernel/src/gdt/gdt.asm
         src/kernel/src/gdt/gdt.cpp
@@ -188,6 +193,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/idt/idt.asm
         src/kernel/src/idt/idt.cpp
         src/kernel/include/idt.h
+
+        #ISR
+        src/kernel/src/isr/isr.asm
+        src/kernel/src/isr/isr.cpp
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

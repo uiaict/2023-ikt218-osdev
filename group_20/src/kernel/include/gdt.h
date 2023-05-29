@@ -21,6 +21,8 @@ struct gdt_ptr_t {
   uint32_t base;
 } __attribute__((packed));
 
+
+
 //Starts GDT
 void start_gdt();
 
