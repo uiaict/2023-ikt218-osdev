@@ -35,13 +35,13 @@ void init_gdt()
 // Set the value of one GDT entry.
 static void gdt_set_gate(s32int num, u32int base, u32int limit, u8int access, u8int gran)
 {
-   gdt_entries[num].base_low    = (base & 0xFFFF);
-   gdt_entries[num].base_middle = (base >> 16) & 0xFF;
-   gdt_entries[num].base_high   = (base >> 24) & 0xFF;
+   gdt_entries[num].base_low    = (base & 0xFFFF);       // Lower 16 bits of the base
+   gdt_entries[num].base_middle = (base >> 16) & 0xFF;   // Middle 8 bits of the base
+   gdt_entries[num].base_high   = (base >> 24) & 0xFF;   // Upper 8 bits of the base
 
-   gdt_entries[num].limit_low   = (limit & 0xFFFF);
-   gdt_entries[num].granularity = (limit >> 16) & 0x0F;
+   gdt_entries[num].limit_low   = (limit & 0xFFFF);      // Lower 16 bits of the limit
+   gdt_entries[num].granularity = (limit >> 16) & 0x0F;  // Set granularity and upper 4 bits of limit
 
-   gdt_entries[num].granularity |= gran & 0xF0;
-   gdt_entries[num].access      = access;
+   gdt_entries[num].granularity |= gran & 0xF0;          // Set high 4 bits of granularity
+   gdt_entries[num].access      = access;                // Set access byte
 } 
