@@ -1,5 +1,6 @@
 #include <stdarg.h> // for va_list
 #include "monitor.h"
+#include "print.h"
 
 
 // Reverses a string
