@@ -9,6 +9,12 @@ void timer_handler(registers_t regs)
     //printf("IRQ0: Timer interrupt fired\n");
 }
 
+// Passes the registers to the keyboard controller
+void keyboard_handler(registers_t regs)
+{
+    keyboard_processing(regs);
+}
+
 void cascade_handler(registers_t regs)
 {
     printf("IRQ2: Cascade interrupt fired\n");
