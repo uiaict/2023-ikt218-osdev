@@ -16,5 +16,5 @@ void kernel_main()
     print("Sending IRQ");
 
     /* Test the interrupts */
-    __asm("int $0x1");
+    //__asm("int $0x1");
 }

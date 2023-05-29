@@ -32,6 +32,14 @@ set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAG
 ########################################
 add_subdirectory(cpu)
 
+########################################
+###
+### OS Module: Drivers
+# All drivers for example keyboards etc is in this module.
+########################################
+add_subdirectory(drivers)
+
+
 # Add executable for the kernel.
 # Tutorial: the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
 # A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.
