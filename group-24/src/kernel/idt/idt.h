@@ -22,8 +22,8 @@ struct idt_ptr_t {
 void init_idt();
 void idt_load();
 
-static idt_entry_t idt[IDT_ENTRIES];
-static idt_ptr_t idt_ptr;
+[[maybe_unused]] static idt_entry_t idt[IDT_ENTRIES];
+[[maybe_unused]] static idt_ptr_t idt_ptr;
 
 
 #endif

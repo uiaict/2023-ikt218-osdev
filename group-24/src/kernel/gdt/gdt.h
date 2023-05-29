@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+#define GDT_ENTRIES 3
+
 // Structure representing a GDT entry
 struct gdt_entry {
     uint16_t limit_low;    // The lower 16 bits of the limit
@@ -20,6 +22,11 @@ struct gdt_ptr {
 } __attribute__((packed));
 
 void init_gdt();    // Function to initialize the GDT
-extern void gdt_flush();   // Function to load the GDT
+void gdt_load();   // Function to load the GDT
+
+void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
+
+[[maybe_unused]] static gdt_entry gdt[GDT_ENTRIES];
+[[maybe_unused]] static gdt_ptr gp;
 
 #endif

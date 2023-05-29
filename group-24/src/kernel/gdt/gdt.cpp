@@ -1,13 +1,8 @@
 #include "gdt.h"
 
-extern "C" void gdt_flush(uint32_t);
-
-void init_gdt() asm ("init_gdt");
-
-void gdt_set_entry(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
-
-gdt_entry gdt[3];
-gdt_ptr gp;
+extern "C" {
+    extern void gdt_flush(uint32_t gdt_ptr);
+}
 
 // Set the values of a GDT entry
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
@@ -27,7 +22,7 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 // Initialize the GDT
 void init_gdt()
 {
-    gp.limit = (sizeof(gdt_entry) * 3) - 1;
+    gp.limit = (sizeof(gdt_entry) * GDT_ENTRIES) - 1;
     gp.base = (uint32_t)&gdt;
 
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
