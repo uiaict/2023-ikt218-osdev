@@ -8,6 +8,9 @@
 
 #include "idt.h"
 #include "common.h"
+#include "isr.h"
+#include "irq.h"
+#include "memory.h"
 
 // Access the ASM function to flush IDT.
 extern void idt_flush(u32int);
