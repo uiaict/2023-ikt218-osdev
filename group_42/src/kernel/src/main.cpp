@@ -5,7 +5,7 @@
 //#include "../../GDT/isr.h"
 #include"drivers/keyboard.h"
 #include"memory/functions.h"
-
+#include"PIT/pit.h"
 
 
 extern uint32_t end;
@@ -126,7 +126,7 @@ asm volatile("sti");
     //os->write_string_2("hello");
     //os->next_line();
     },&os); 
-
+sleep_interrupt((uint32_t) 10);
 start_sleep_busy((uint32_t) 2000);
 os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
 while (1)

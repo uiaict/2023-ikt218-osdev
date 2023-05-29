@@ -1,9 +1,9 @@
 #ifndef PIT_H
 #define PIT_H
 
-//#include <stdint.h>
+#include <stdint.h>
 //#include <stdbool.h>
-#include "../../GDT/isr.h"
+
 // PIT (Programmable Interval Timer) related macros
 #define PIT_CMD_PORT 0x43
 #define PIT_CHANNEL0_PORT 0x40
@@ -22,7 +22,7 @@
 #define PIT_BASE_FREQUENCY 1193180
 #define TARGET_FREQUENCY 1000 // 1000 Hz
 #define DIVIDER (PIT_BASE_FREQUENCY / TARGET_FREQUENCY)
-#define TICKS_PER_MS (TARGET_FREQUENCY/ PIT_BASE_FREQUENCY)
+#define TICKS_PER_MS (TARGET_FREQUENCY/ TARGET_FREQUENCY)
 
 
 void init_pit();

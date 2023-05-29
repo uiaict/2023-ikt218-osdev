@@ -1,8 +1,8 @@
 #include "pit.h"
-
+#include "../../GDT/isr.h"
 uint32_t start_tick = 0;
 uint32_t get_current_tick = 0;
-uint32_t ticks_to_wait = 0;
+//uint32_t ticks_to_wait = 0;
 uint32_t current_tick = 0;
 uint32_t end_tick = 0;
 
@@ -40,7 +40,7 @@ void init_pit(){
 void sleep_busy(uint32_t milliseconds){
     uint32_t elapsed_ticks = 0;
     start_tick = current_tick;
-    ticks_to_wait = TICKS_PER_MS * milliseconds;
+    uint32_t ticks_to_wait = TICKS_PER_MS * milliseconds;
     while (1)
     {
         elapsed_ticks = ticks_to_wait;
@@ -62,6 +62,19 @@ void sleep_busy(uint32_t milliseconds){
 }
 
 void sleep_interrupt(uint32_t milliseconds){
+
+
+    uint32_t ticks_to_wait = milliseconds * TICKS_PER_MS;
+    end_tick = current_tick + ticks_to_wait;
+
+    while (current_tick < end_tick)
+    {
+        asm("sti");
+      asm("hlt");
+      ticks_to_wait = current_tick;
+      
+    }
+    
  /*    
     Set current_tick to get_current_tick()
 	Set ticks_to_wait to milliseconds * TICKS_PER_MS
