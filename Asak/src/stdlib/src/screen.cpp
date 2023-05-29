@@ -1,8 +1,6 @@
 #include "screen.h"
 #include "ports.h"
 
-
-
 void print_at(char *message, int col, int row) {
 /* Set cursor if col/row are negative */
     int offset;
@@ -23,8 +21,6 @@ void print_at(char *message, int col, int row) {
         col = get_offset_col(offset);
     }
 }
-
-
 
 /* Print a char on the screen at col , row , or at cursor position */
 int print_char(char character, int col, int row, char attribute_byte)
@@ -169,6 +165,7 @@ void play_intro()
     print(" [..       [..     [..[..   [.. [.. [..   [..     [.. [..    [..     \n");
     print("[..         [..[.. [..  [.. [...[..  [..    [....       [.. ..       \n");
     print("----------------------------------------------------------------\n\n");
+    print("--------------------------Hello World!--------------------------\n\n");
 
     // Til slutt må vi sette cursor til under beskjeden
     set_cursor_offset(get_offset(0, 13));

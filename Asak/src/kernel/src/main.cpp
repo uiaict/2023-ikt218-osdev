@@ -13,8 +13,10 @@ void kernel_main()
     //Wanted to see the "implemented" messages"
 
     print("print() implemented!\n");
-    print("Sending IRQ");
 
     /* Test the interrupts */
-    //__asm("int $0x1");
+    print("\nSending IRQ: ");
+    __asm("int $0x2");
+    print("\nSending IRQ: ");
+    __asm("int $0x3");
 }
