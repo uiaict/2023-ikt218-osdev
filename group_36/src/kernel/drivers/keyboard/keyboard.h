@@ -7,11 +7,9 @@
 
 typedef void (*keyboard_callback)(uint8_t scancode, void*);
 
-namespace UiAOS::IO{
-    class Keyboard {
+class Keyboard {
 
-    public:
-        static void hook_keyboard(keyboard_callback cb, void* ctx);
-        static char scancode_to_ascii(uint8_t scancode);
-    };
-}
+public:
+    static void hook_keyboard(keyboard_callback cb, void* ctx);
+    static char scancode_to_ascii(uint8_t scancode);
+};

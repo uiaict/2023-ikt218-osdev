@@ -4,7 +4,7 @@
 
 #include <stdint.h>
 
-namespace UiAOS::Boot{
+namespace Boot{
     typedef unsigned int		multiboot_uint32_t;
     struct multiboot_header
     {

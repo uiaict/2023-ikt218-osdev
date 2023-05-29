@@ -18,6 +18,7 @@ extern "C"{
 #include "boot.h"
 #include "print.h"
 // #include "../memory/kmalloc.h"
+extern uint32_t end;
 
 
  
@@ -205,6 +206,8 @@ void print_hex(uint32_t d)
 }
 
 
+
+
 class OperatingSystem {
     int tick = 0;
     int seconds = 0;
@@ -217,18 +220,22 @@ public:
 
     void init() {
 
-        printf("Initializing UiA Operating System....\n");
+        // printf("Initializing Operating System....\n");
     }
 
     void debug_print(char *str) {
         printf(str);
     }
 
-    void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs) {
+    void interrupt_handler_1(registers_t regs) {
+        printf("Called Interrupt Handler 1!\n");
+    }
+
+    void interrupt_handler_3(registers_t regs) {
         printf("Called Interrupt Handler 3!\n");
     }
 
-    void interrupt_handler_4(UiAOS::CPU::ISR::registers_t regs) {
+    void interrupt_handler_4(registers_t regs) {
         printf("Called Interrupt Handler 4!\n");
     }
 
@@ -242,10 +249,39 @@ public:
         }
     }
 
+    int get_tick(){
+        return tick;
+    }
+
     void print_time() {
         printf("[Time: ");
         print_uint8(seconds);
         printf("]:  $");
+    }
+
+    void sleep_busy(int seconds) {
+        int start_tick = get_tick();
+        int ticks_to_wait = seconds*1193180;
+        int elapsed_ticks = 0;
+        while(elapsed_ticks < ticks_to_wait){
+            if (get_tick() != start_tick + elapsed_ticks){
+                break;
+            }
+            else{
+                elapsed_ticks += (get_tick()-start_tick)-elapsed_ticks;
+            }
+        }
+    }
+
+    void sleep_interrupt(int seconds) {
+        int current_tick = get_tick();
+        int ticks_to_wait = seconds*1193180;
+        int end_ticks = current_tick + ticks_to_wait;
+        while(current_tick < end_ticks){
+            asm volatile("sti");
+            asm volatile("hlt");
+            current_tick = get_tick();
+        }
     }
 };
 
@@ -259,52 +295,68 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_initialize();
 
+    printf("Starting OS...\n");
+
+    // initialize paging
+    printf("Initializing paging...\n");
     init_paging();
+
+ 
+	// Initialize GDT
+	printf("\nInitializing GDT...\n");
+    init_gdt();
+    
+    // initialize IDT
+    printf("Initializing IDT...\n");
+    init_idt();
+
+
+
+    // initialize ISRs ##########################################
+    printf("Initializing ISRs...");
+    init_isr();
 
 	// Create operating system object
     auto os = OperatingSystem(VGA_COLOR_RED);
     os.init();
- 
-	/* Initialize GDT */
-	printf("Initializing GDT...\n");
-	// GDT::init();
     
-    init_gdt();
-	printf("GDT initialized!\n");
+    // Create interrupt handler for ISR1
+    register_interrupt_handler(1,[](registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_1(*regs);
+    }, (void*)&os);
 
-    init_idt();
-    // init_isr();
-
-	printf("Hello World!! \n");
-
-    
-    // Create some interrupt handlers for 3
-    UiAOS::CPU::ISR::register_interrupt_handler(3,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+    // Create interrupt handler for ISR3
+    register_interrupt_handler(3,[](registers_t* regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->interrupt_handler_3(*regs);
     }, (void*)&os);
     
-    // Create some interrupt handler for 4
-    UiAOS::CPU::ISR::register_interrupt_handler(4,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+    // Create interrupt handler for ISR4
+    register_interrupt_handler(4,[](registers_t* regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->interrupt_handler_4(*regs);
     }, (void*)&os);
 
+    // Create a timer on IRQ0 - System Timer
+    PIT::init_timer(1, [](registers_t*regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->timer();
+    }, &os);
+	printf("Initialized!\n");
+
+	printf("Hello World!! \n");
     
     // Fire interrupts! Should trigger callback above
-    // asm volatile ("int $0x3");
-    // asm volatile ("int $0x4");
+    asm volatile ("int $0x1");
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
 
     // Enable interrutps
     asm volatile("sti");
 
-    // Create a timer on IRQ0 - System Timer
-    UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){
-        auto* os = (OperatingSystem*)context;
-        os->timer();
-    }, &os);
 
-    int memory_1 = kmalloc(12345);
+    // int memory_1 = kmalloc(12345);
     // char* memory4 = new char[2]();
 
 
@@ -315,11 +367,14 @@ void kernel_main(void)
     os.print_time();
 
     // Hook Keyboard
-    UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
+   Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
-        // printf("Keyboard Event: ");
-        char ascii[2] = {UiAOS::IO::Keyboard::scancode_to_ascii(scancode), '\0'};
+        // for assignment:
+        printf("Keyboard interrupt triggered: ");
+
+        char ascii[2] = {Keyboard::scancode_to_ascii(scancode), '\0'};
         printf(ascii);
+        printf("\n");
 
         if(ascii[0] == 10){
             os->print_time();
@@ -329,5 +384,24 @@ void kernel_main(void)
         // print_uint8(scancode);
         // printf(")\n");
     }, &os);
-    while(1){}
+
+    int counter = 0;
+    while(true){
+        printf("Sleeping with busy-waiting (HIGH CPU):");
+        print_int(counter);
+        printf("\n");
+        os.sleep_busy(1000);
+        printf("Slept using busy-waiting:");
+        print_int(counter++);
+        printf("\n");
+        printf("Sleeping with interrupts (LOW CPU):");
+        print_int(counter);
+        printf("\n");
+        os.sleep_interrupt(1000);
+        printf("Slept using interrupts:");
+        print_int(counter++);
+        printf("\n");
+    };
+
+    // while(1){}
 }

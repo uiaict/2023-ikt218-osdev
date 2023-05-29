@@ -7,12 +7,19 @@
 
 void init_paging()
 {
-    UiAOS::Memory::Paging(0x1000000);
+
+    Paging(0x1000000);
 }
 
-UiAOS::Memory::Paging::Paging(uint32_t mem_end_page)
+Paging::Paging(uint32_t mem_end_page)
 : frames(mem_end_page, mem_end_page / 0x100)
 {
+    // printf("\n");
+    // print_int(reinterpret_cast<uint32_t>(this));
+    // printf("\n");
+    // print_int(reinterpret_cast<uint32_t>(this+sizeof(Paging)));
+    // printf("\n");
+
     kernel_directory = (PageDirectory*)kmalloc_a(sizeof(PageDirectory));
     memset(kernel_directory, 0, sizeof(PageDirectory));
 
@@ -25,39 +32,37 @@ UiAOS::Memory::Paging::Paging(uint32_t mem_end_page)
         }
         i += 0x1000;
     }
-    CPU::ISR::register_interrupt_handler(ISR14, [](CPU::ISR::registers_t* regs, void* ctx){
-        UiAOS::Memory::Paging::page_fault(regs, ctx);
+    register_interrupt_handler(ISR14, [](registers_t* regs, void* ctx){
+        Paging::page_fault(regs, ctx);
     }, static_cast<void*>(this));
 
     switch_page_directory(kernel_directory);
     enable_paging();
 }
 
-bool UiAOS::Memory::Paging::set_directory(UiAOS::Memory::PageDirectory *dir) {
-    // UiAOS::IO::Monitor::print_string("[set-directory] ");
-    // UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(current_directory));
-    // UiAOS::IO::Monitor::print_string(" => ");
-    // UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(dir));
-    // UiAOS::IO::Monitor::print_new_line();
+bool Paging::set_directory(PageDirectory *dir) {
     printf("[set-directory] ");
     print_hex(reinterpret_cast<uint32_t>(current_directory));
+    printf(" => ");
+    print_hex(reinterpret_cast<uint32_t>(dir));
+    printf("\n");
     current_directory = dir;
     return false;
 }
 
-void UiAOS::Memory::Paging::enable_paging() {
+void Paging::enable_paging() {
     uint32_t cr0; // Define pointer to cr0
     asm volatile("mov %%cr0, %0": "=r"(cr0)); // Move cr0 register to our cr0 pointer
     cr0 |= 0x80000000; // Enable paging!
     asm volatile("mov %0, %%cr0":: "r"(cr0)); // Update cr0 with our cr0 data pointer
 }
 
-void UiAOS::Memory::Paging::switch_page_directory(UiAOS::Memory::PageDirectory *dir) {
+void Paging::switch_page_directory(PageDirectory *dir) {
     set_directory(dir);
     asm volatile("mov %0, %%cr3":: "r"(&current_directory->tables_physical)); // Move page directory to cr3 register
 }
 
-void UiAOS::Memory::Paging::page_fault(UiAOS::CPU::ISR::registers_t* regs, void*)
+void Paging::page_fault(registers_t* regs, void*)
 {
     uint32_t faulting_address;
     asm volatile("mov %%cr2, %0" : "=r" (faulting_address));
@@ -69,19 +74,18 @@ void UiAOS::Memory::Paging::page_fault(UiAOS::CPU::ISR::registers_t* regs, void*
     auto id = regs->err_code & 0x10;          // Caused by an instruction fetch?
 
     // Output an error message.
-    // UiAOS::IO::Monitor::print_string("Page fault! ( ");
-    // if (present) {UiAOS::IO::Monitor::print_string("present ");}
-    // if (rw) {UiAOS::IO::Monitor::print_string("read-only ");}
-    // if (us) {UiAOS::IO::Monitor::print_string("user-mode ");}
-    // if (reserved) {UiAOS::IO::Monitor::print_string("reserved ");}
-    // UiAOS::IO::Monitor::print_string(") at 0x");
-    // UiAOS::IO::Monitor::print_hex(faulting_address);
-    // UiAOS::IO::Monitor::print_new_line();
-    // PANIC("Page fault");
+    printf("Page fault: '");
+    if (present) {printf("present ");}
+    if (rw) {printf("read-only ");}
+    if (us) {printf("user-mode ");}
+    if (reserved) {printf("reserved ");}
+    printf("' at 0x");
+    print_hex(faulting_address);
+    printf("\n");
 }
 
 
-bool UiAOS::Memory::Page::alloc_frame(uint32_t idx , int is_kernel, int is_writeable)
+bool Page::alloc_frame(uint32_t idx , int is_kernel, int is_writeable)
 {
     if (frame != 0)
     {
@@ -93,6 +97,7 @@ bool UiAOS::Memory::Page::alloc_frame(uint32_t idx , int is_kernel, int is_write
         {
             // PANIC is just a macro that prints a message to the screen then hits an infinite loop.
             // PANIC("There is no free frames!");
+            printf("there are no free frames");
         }
 
         present = 1; // Mark it as present.
@@ -104,7 +109,7 @@ bool UiAOS::Memory::Page::alloc_frame(uint32_t idx , int is_kernel, int is_write
     return true;
 }
 
-bool UiAOS::Memory::Page::free_frame()
+bool Page::free_frame()
 {
     uint32_t _frame = 0x0;
     if (!(frame = _frame))
@@ -119,7 +124,7 @@ bool UiAOS::Memory::Page::free_frame()
     return true;
 }
 
-UiAOS::Memory::Page* UiAOS::Memory::PageDirectory::get_page(uint32_t address, int make)
+Page* PageDirectory::get_page(uint32_t address, int make)
 {
     // Turn the address into an index.
     address /= 0x1000;

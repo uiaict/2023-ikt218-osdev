@@ -48,23 +48,20 @@
 #define IRQ14 46
 #define IRQ15 47
 
-// void init_isr();
+void init_isr();
 
-namespace UiAOS::CPU::ISR{
+typedef struct registers
+{
+    uint32_t ds;                  // Data segment selector
+    uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
+    uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
+    uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
+} registers_t;
 
-    typedef struct registers
-    {
-        uint32_t ds;                  // Data segment selector
-        uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
-        uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
-        uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
-    } registers_t;
+typedef void (*isr_t)(registers_t*, void*);
+void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 
-    typedef void (*isr_t)(registers_t*, void*);
-    void register_interrupt_handler(uint8_t n, isr_t handler, void*);
-
-    typedef struct interrupt_handlers_type{
-        isr_t handler;
-        void* context;
-    } interrupt_t;
-}
+typedef struct interrupt_handlers_type{
+    isr_t handler;
+    void* context;
+} interrupt_t;

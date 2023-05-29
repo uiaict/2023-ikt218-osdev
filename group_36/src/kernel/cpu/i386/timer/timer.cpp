@@ -4,9 +4,9 @@
 
 uint32_t tick = 0;
 
-void UiAOS::CPU::PIT::init_timer(uint32_t freq, UiAOS::CPU::ISR::isr_t handler, void* context) {
+void PIT::init_timer(uint32_t freq, isr_t handler, void* context) {
     
-    UiAOS::CPU::ISR::register_interrupt_handler(IRQ0, handler, context);
+    register_interrupt_handler(IRQ0, handler, context);
 
     uint32_t divisor = 1193180 / freq;
 

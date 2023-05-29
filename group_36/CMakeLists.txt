@@ -1,11 +1,3 @@
-########################################
-###
-### The University of Agder Operating System: UiAOS
-### We will be using C, C++ and NASM Assembly
-### Visual studio code: ctrl+shift+p to get started in CMake.
-########################################
-# These CMAKE flags makes the compiler skip self-tests.
-# (Saves time, and avoids error for some cross compilers)
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 

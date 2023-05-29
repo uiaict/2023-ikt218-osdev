@@ -8,7 +8,7 @@
 #define INDEX_FROM_BIT(a) (a/(8*4))
 #define OFFSET_FROM_BIT(a) (a%(8*4))
 
-namespace UiAOS::std{
+namespace std{
     class Bitset{
         uint32_t *frames;
         uint32_t nframes;

@@ -5,7 +5,7 @@
 extern uint32_t kmalloc(uint32_t);
 
 
-using namespace UiAOS::std;
+using namespace std;
 
 void Bitset::set_frame(uint32_t frame) {
     uint32_t idx = INDEX_FROM_BIT(frame);
