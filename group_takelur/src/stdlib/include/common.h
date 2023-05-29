@@ -12,6 +12,8 @@ typedef unsigned short u16int;
 typedef          short s16int;
 typedef unsigned char  u8int;
 typedef          char  s8int;
+typedef unsigned int   size_t;
+
 
 // Writes byte to specified port
 extern void outb(u16int port, u8int value);
