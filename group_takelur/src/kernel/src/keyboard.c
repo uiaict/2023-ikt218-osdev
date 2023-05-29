@@ -68,6 +68,21 @@ void keyboard_processing(registers_t regs)
     }
 }
 
+// Read character from the buffer
+char keyboard_read() 
+{
+    if (keyboard_buffer_head == keyboard_buffer_tail) 
+    {
+        return '\0';    // Return null to terminate string if buffer is empty
+    }
+
+    char c = keyboard_buffer[keyboard_buffer_tail];  // Get the next character from buffer
+
+    keyboard_buffer_tail = (keyboard_buffer_tail + 1) % KB_BUFFER_SIZE;  // Increment the buffer tial pointer, wrap around if needed
+
+    return c;
+}
+
 char to_uppercase(char c) 
 {
     if (c >= 'a' && c <= 'z') {
