@@ -173,10 +173,18 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/main.cpp
+        src/kernel/src/memory.c
         src/kernel/src/gdt.c
         src/kernel/src/gdt.asm
         src/kernel/src/idt.c
         src/kernel/src/idt.asm
+        src/kernel/src/isr.c
+        src/kernel/src/isr_handlers.c
+        src/kernel/src/isr.asm
+        src/kernel/src/irq.c
+        src/kernel/src/irq_handlers.c
+        src/kernel/src/interrupt_tests.c
+        src/kernel/src/keyboard.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
