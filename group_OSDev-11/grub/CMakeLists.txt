@@ -8,8 +8,7 @@
 # Set target and path for the image
 set(GRUB_IMAGE_EXTENSION img)
 set(GRUB_TARGET ${OS_KERNEL_NAME}-create-image)
-set(GRUB_IMAGE_NAME kernel.${GRUB_IMAGE_EXTENSION})
-set(GRUB_IMAGE_PATH ${CMAKE_BINARY_DIR}/${GRUB_IMAGE_NAME})
+set(GRUB_IMAGE_PATH ${CMAKE_BINARY_DIR}/kernel.${GRUB_IMAGE_EXTENSION})
 
 if(OS_ARCH_TARGET STREQUAL "i386")
     set(GRUB_MULTIBOOT_VERSION multiboot)
@@ -18,24 +17,9 @@ elseif(OS_ARCH_TARGET STREQUAL "x86_64")
 endif()
 
 
-if(IS_MACOS)
-    find_program(DOCKER_PATH docker)
-    if (NOT DOCKER_PATH)
-        message (FATAL_ERROR "Unable to find `docker`. Bootable ISO image generation will not be available.")
-    endif()    
-    set(GRUB_MKRESCUE_COMMAND ${DOCKER_PATH} run --rm -v ${CMAKE_BINARY_DIR}:/mnt ghcr.io/uiaict/ikt218-osdev:master bash -c 'cd /mnt && ls && grub-mkrescue -o ${GRUB_IMAGE_NAME} iso/')
-    set(PARTED_COMMAND ${DOCKER_PATH} run --rm -v ${CMAKE_BINARY_DIR}:/mnt ghcr.io/uiaict/ikt218-osdev:master bash -c 'cd /mnt && /bin/sh disk.sh disk.iso')
-else()
-
-    find_program(GRUB_MKRESCUE grub-mkrescue)
-    if (NOT GRUB_MKRESCUE)
-        message (FATAL_ERROR "Unable to find `grub-mkrescue`. Bootable ISO image generation will not be available.")
-    endif()
-    set(GRUB_MKRESCUE_COMMAND ${GRUB_MKRESCUE} --output=${GRUB_IMAGE_PATH} ${CMAKE_BINARY_DIR}/iso)
-
-
-    set(PARTED_COMMAND /bin/sh ${CMAKE_BINARY_DIR}/disk.sh ${CMAKE_BINARY_DIR}/disk.iso)
-
+find_program(GRUB_MKRESCUE grub-mkrescue)
+if (NOT GRUB_MKRESCUE)
+    message (FATAL_ERROR "Unable to find `grub-mkrescue`. Bootable ISO image generation will not be available.")
 endif()
 
 if(NOT DEFINED OS_NAME)
@@ -60,11 +44,11 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/disk.sh.in ${CMAKE_BINARY_DIR}/disk.s
 
 add_custom_target(${GRUB_TARGET}
         COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:${OS_KERNEL_NAME}-kernel> ${CMAKE_BINARY_DIR}/iso/boot/
-        COMMAND ${GRUB_MKRESCUE_COMMAND} 
-        COMMAND ${PARTED_COMMAND}
+        COMMAND ${GRUB_MKRESCUE} --output=${GRUB_IMAGE_PATH} ${CMAKE_BINARY_DIR}/iso
+        COMMAND /bin/sh ${CMAKE_BINARY_DIR}/disk.sh disk.iso
 )
-add_dependencies(${GRUB_TARGET} ${OS_MODULE_KERNEL_NAME})
 
+add_dependencies(${GRUB_TARGET} ${OS_MODULE_KERNEL_NAME})
 
 ########################################
 ###

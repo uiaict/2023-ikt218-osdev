@@ -9,12 +9,6 @@
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
-if(APPLE)
-    set(IS_MACOS "yes")
-endif()
-
-set(CMAKE_SYSTEM_NAME Linux)
-
 # This defines which is the lowest supported CMake version for this project
 cmake_minimum_required(VERSION 3.22.1)
 
@@ -60,7 +54,7 @@ set(CMAKE_CXX_STANDARD 20)
 # Set the C Version
 set(CMAKE_C_STANDARD 99)
 # GCC Warning Flags
-set(WARNING_FLAGS "-Wall -Wextra -Wshadow -Wconversion -Wsign-conversion")
+set(WARNING_FLAGS "-Wno-volatile -Wno-write-strings -Wno-unused-variable -Wall -Wextra -Wshadow -Wno-sign-conversion -Wno-frame-address -Wno-unused-parameter")
 # Common compiler flags for both C and C++
 set(COMMON_COMPILER_FLAGS "-ffreestanding -O0 -g")
 # Common include paths for external libraries
@@ -214,11 +208,3 @@ set_target_properties(
 # Configure a bootable image of our operating system
 ########################################
 add_subdirectory(grub)
-
-########################################
-###
-### Add a target called 'build', which will build all other targets.
-###
-########################################
-add_custom_target(build)
-add_dependencies(build ${GRUB_TARGET})

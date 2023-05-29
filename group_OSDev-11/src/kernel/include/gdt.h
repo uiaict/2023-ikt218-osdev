@@ -1,9 +1,10 @@
-#include "system.h"
 #ifndef GDT_H
 #define GDT_H
-#include <stdint.h>
-#define GDT_ENTRIES 5
 
+#include "system.h"
+#include <stdint.h>
+
+#define GDT_ENTRIES 5
 
 struct gdt_entry 
 {
@@ -13,18 +14,17 @@ struct gdt_entry
     uint8_t access;
     uint8_t granularity;
     uint8_t base_high;
-} __attribute__((packed)); // For gcc to use as little memory as possible
-
-// Local descriptor table pointer
-struct gdt_ptr 
-{
-    uint16_t limit; // 16 bit limit. Size of the GDT
-    uint32_t base; // 32 bit pointer. First entry in GDT
 } __attribute__((packed));
 
+// Global Descriptor Table pointer
+struct gdt_ptr 
+{
+    uint16_t limit; 
+    uint32_t base; 
+} __attribute__((packed));
 
 void gdt_init();
 
-void gdt_descriptors(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
+void set_gdt_entry(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity);
 
 #endif /* GDT_H */
