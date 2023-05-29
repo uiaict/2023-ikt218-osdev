@@ -28,14 +28,23 @@ void terminal_initialize(void) {
 	}
 }
 
+
+void terminal_newline() {
+    terminal_column = 0;
+    if (++terminal_row == VGA_HEIGHT) {
+        terminal_row = 0;
+    }
+}
+
 void terminal_write(const char *data, size_t size) {
-	for (size_t i = 0; i < size; i++) {
-		terminal_buffer[terminal_row * VGA_WIDTH + terminal_column] = vga_entry(static_cast<unsigned char>(data[i]), 0x07);
-		if (++terminal_column == VGA_WIDTH) {
-			terminal_column = 0;
-			if (++terminal_row == VGA_HEIGHT) {
-				terminal_row = 0;
-			}
-		}
-	}
+    for (size_t i = 0; i < size; i++) {
+        if (data[i] == '\n') {
+            terminal_newline();
+            continue;
+        }
+        terminal_buffer[terminal_row * VGA_WIDTH + terminal_column] = vga_entry(static_cast<unsigned char>(data[i]), 0x07);
+        if (++terminal_column == VGA_WIDTH) {
+            terminal_newline();
+        }
+    }
 }

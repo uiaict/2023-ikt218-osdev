@@ -26,28 +26,25 @@ init_gdt();
 terminal_initialize();
 remap_pic();
 idt_init(); // Initialize the IDT for interrupt
-terminal_write("Hello World!", 10);
-
-test_output();
-
-delay(100);
-asm volatile ("int $0x20");
-//asm volatile ("int $0x20");
-delay(100);
-/*
-delay(1000); // Introduce a delay
-
-    
-    delay(1000); // Introduce a delay
-
-    asm volatile ("int $0xC9");
-    delay(1000); // Introduce a delay
-
-    asm volatile ("int $0xCA");
-    delay(1000); // Introduce a delay
-*/
+terminal_write("Hello World!\n", 14);
 
 
-terminal_write("Hello World!\n", 10);
+
+// Manually trigger interrupts
+    asm volatile ("int $0");   // Divide by Zero Exception
+
+    asm volatile ("int $3");   // Software Breakpoint Exception
+
+    asm volatile ("int $4");   // User-defined Software Interrupt
+
+
+    // To cause an invalid opcode exception, we can use the "ud2" instruction
+    //asm volatile ("ud2");      // Invalid Opcode Exception
+
+    // To cause a general protection fault, we can do an invalid memory access
+    // Be aware that this will likely crash your OS, so you might not want to do this
+    // without setting up a proper recovery mechanism
+    //asm volatile ("mov %cr4, %eax");  // General Protection Fault
+
 
 }

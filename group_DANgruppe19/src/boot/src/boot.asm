@@ -64,7 +64,6 @@ _start:
 	
     ;extern init_gdt
     ;call init_gdt
-
   
 
 
