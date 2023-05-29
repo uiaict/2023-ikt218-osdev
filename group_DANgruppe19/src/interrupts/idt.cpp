@@ -1,14 +1,29 @@
 #include <cstddef>
 #include "idt.h"
 #include "isr.h"
+#include "../kernel/include/terminal.h"
 
 #define IDT_SIZE 256
 
 idt_entry_t idt_entries[IDT_SIZE];
 idt_ptr_t   idt_ptr;
 
-extern "C" void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
-extern "C" void idt_install();
+extern "C" void idt_set_gate(uint8_t num, uintptr_t base, uint16_t sel, uint8_t flags) {
+    idt_entries[num].base_low = base & 0xFFFF;
+    idt_entries[num].base_high = (base >> 16) & 0xFFFF;
+
+    idt_entries[num].sel = sel;
+    idt_entries[num].always0 = 0;
+
+    // Must uncomment the OR below when you get to using user-mode.
+    // It sets the interrupt gate's privilege level to 3.
+    idt_entries[num].flags = flags /* | 0x60 */;
+}
+
+extern "C" void idt_install() {
+    asm volatile("lidt (%0)" :: "r" (&idt_ptr));
+}
+
 
 
 extern "C" void* custom_memset(void* ptr, int value, size_t num) {
@@ -21,6 +36,7 @@ extern "C" void* custom_memset(void* ptr, int value, size_t num) {
 
 
 void idt_init() {
+
     idt_ptr.limit = (sizeof(idt_entry_t) * IDT_SIZE) - 1;
     idt_ptr.base  = (uint32_t)&idt_entries;
 
@@ -30,12 +46,17 @@ void idt_init() {
 
 
     // Fill the IDT with your ISRs
-    idt_set_gate(32, (uintptr_t)isr0, 0x08, 0x8E);
-    idt_set_gate(33, (uint32_t)isr1, 0x08, 0x8E);
-    idt_set_gate(34, (uint32_t)isr2, 0x08, 0x8E);
+    idt_set_gate(0, (uintptr_t)isr0, 0x08, 0x8E);  // Divide by Zero Exception
+    //idt_set_gate(6, (uintptr_t)isr1, 0x08, 0x8E);  // Invalid Opcode Exception
+    //idt_set_gate(13, (uintptr_t)isr2, 0x08, 0x8E); // General Protection Fault
+    idt_set_gate(3, (uintptr_t)isr3, 0x08, 0x8E);
+    idt_set_gate(4, (uintptr_t)isr4, 0x08, 0x8E);
+
+
 
     // Load the IDT using the lidt instruction
     idt_install();
+    
 }
 
 static inline void outb(uint16_t port, uint8_t value) {

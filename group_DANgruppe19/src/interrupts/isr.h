@@ -2,9 +2,10 @@
 
 extern "C" {
     void isr0();
-    void isr1();
-    void isr2();
-    
+    //void isr1();
+    //void isr2();
+    void isr3();
+    void isr4();
 }
 
 
