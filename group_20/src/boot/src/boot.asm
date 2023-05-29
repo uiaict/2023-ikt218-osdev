@@ -41,10 +41,6 @@ _start:
     ;Initialize Interupt Descriptor Table
 	extern start_idt
 	call start_idt
-    
-    ;Initialize Interupt Descriptor Table
-	extern start_idt
-	call start_idt
 
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.

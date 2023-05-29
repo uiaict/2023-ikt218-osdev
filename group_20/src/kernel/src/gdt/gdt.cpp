@@ -24,6 +24,7 @@ void start_gdt() {
     screenClear();
 
     // Adds feedback to the terminal
+    screenWrite("");
     screenWrite("Initializing GDT!......");
 
     // Load the GDT

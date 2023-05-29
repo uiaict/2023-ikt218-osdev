@@ -8,6 +8,7 @@
 #include "common.h"
 
 #define IDT_ENTRIES 256
+#define IRQ_COUNT 15
 
 #define ISR1 1
 #define ISR2 2
@@ -40,6 +41,23 @@
 #define ISR29 29
 #define ISR30 30
 #define ISR31 31
+
+#define IRQ0 32
+#define IRQ1 33
+#define IRQ2 34
+#define IRQ3 35
+#define IRQ4 36
+#define IRQ5 37
+#define IRQ6 38
+#define IRQ7 39
+#define IRQ8 40
+#define IRQ9 41
+#define IRQ10 42
+#define IRQ11 43
+#define IRQ12 44
+#define IRQ13 45
+#define IRQ14 46
+#define IRQ15 47
 
 extern "C"{
 extern void isr0 ();
@@ -75,7 +93,7 @@ extern void isr29();
 extern void isr30();
 extern void isr31();
 
-/*
+
 extern void irq0 ();
 extern void irq1 ();
 extern void irq2 ();
@@ -92,8 +110,6 @@ extern void irq12();
 extern void irq13();
 extern void irq14();
 extern void irq15();
-*/
-
 }
 
 struct idt_entry_t {
@@ -127,17 +143,25 @@ struct int_handler_t {
   void *data;
 };
 
-
-void init_interrupts();
-void start_idt();                                                               // Function that starts the IDT
+// IDT
+void start_idt();                                                                // Function that starts the IDT
 void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
-void register_interrupt_handler(uint8_t n, isr_t handler, void*);
+void init_interrupts();
+
+// IRS
 void isr_handler(registers_t regs);
+void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 void create_interrupt_handlers();
+
+// IRQ
+void start_irq();
+void register_irq_handler(int irq, isr_t handler, void* ctx);
+void irq_handler(registers_t regs);
 
 static idt_entry_t idt[IDT_ENTRIES];
 static idt_ptr_t idt_ptr;
 static int_handler_t int_handlers[IDT_ENTRIES];
+static int_handler_t irq_handlers[IRQ_COUNT];
 
 #endif
 

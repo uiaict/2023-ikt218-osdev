@@ -26,18 +26,19 @@ void start_idt() {
     }
 
 
-    init_interrupts();
-    create_interrupt_handlers();
-
     // Adds feedback to the terminal
+    screenWrite("");
     screenWrite("Initializing IDT......");
-
-    // Load the IDT
-    idt_flush((uint32_t)&idt_ptr);
-
-    // Adds feedback to the terminal
+    idt_flush((uint32_t)&idt_ptr);                      // Load the IDT
     screenWrite("Initialized IDT!");
 
+    // IRS AND IRQ 
+    screenWrite("");
+    screenWrite("Initializing IRQ and IRS......");
+    start_irq();
+    init_interrupts();
+    create_interrupt_handlers();
+    screenWrite("Initialized IRQ and IRS");
 }
 
 
@@ -54,8 +55,6 @@ void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
 void init_interrupts(){
 
     // Remap the irq table.
-
-    /*
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
     outb(0x21, 0x20);
@@ -66,8 +65,9 @@ void init_interrupts(){
     outb(0xA1, 0x01);
     outb(0x21, 0x0);
     outb(0xA1, 0x0);
-    */
+    
 
+    // ISRs
     set_idt_gate( 0, (uint32_t)isr0 , 0x08, 0x8E);
     set_idt_gate( 1, (uint32_t)isr1 , 0x08, 0x8E);
     set_idt_gate( 2, (uint32_t)isr2 , 0x08, 0x8E);
@@ -101,7 +101,8 @@ void init_interrupts(){
     set_idt_gate(30, (uint32_t)isr30, 0x08, 0x8E);
     set_idt_gate(31, (uint32_t)isr31, 0x08, 0x8E);
 
-    /*
+
+    // IRQs
     set_idt_gate(32, (uint32_t)irq0, 0x08, 0x8E);
     set_idt_gate(33, (uint32_t)irq1, 0x08, 0x8E);
     set_idt_gate(34, (uint32_t)irq2, 0x08, 0x8E);
@@ -117,7 +118,7 @@ void init_interrupts(){
     set_idt_gate(44, (uint32_t)irq12, 0x08, 0x8E);
     set_idt_gate(45, (uint32_t)irq13, 0x08, 0x8E);
     set_idt_gate(46, (uint32_t)irq14, 0x08, 0x8E);
-    set_idt_gate(47, (uint32_t)irq15, 0x08, 0x8E);*/
+    set_idt_gate(47, (uint32_t)irq15, 0x08, 0x8E);
 }
 
 

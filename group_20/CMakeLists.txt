@@ -197,6 +197,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         #ISR
         src/kernel/src/isr/isr.asm
         src/kernel/src/isr/isr.cpp
+
+        #IRQ
+        src/kernel/src/irq/irq.asm
+        src/kernel/src/irq/irq.cpp
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
