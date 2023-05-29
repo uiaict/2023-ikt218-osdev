@@ -4,13 +4,24 @@ extern "C" {
     #include "system.h"
     #include "monitor.h"
     #include "gdt.h"
+    #include "idt.h"
+    #include "isr.h"
+    #include "irq.h"
     #include "print.h"
+    #include "interrupt_tests.h"
+    #include "keyboard.h"
     void kernel_main();
 }
 
 void kernel_main() {
     // Initialize the GDT
     init_gdt();
+    init_idt();
+    // Initialize interrupt handlers
+    init_interrupt_handlers();
+    init_irq_handlers();
+    // Enable interrupts
+    asm volatile("sti");
 
     clear_monitor();
 
