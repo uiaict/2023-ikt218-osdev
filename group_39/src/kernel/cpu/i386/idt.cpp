@@ -2,6 +2,7 @@
 
 #include "idt.h"
 #include "../../memory/memory.h"
+#include "interrupts.h"
 
 // Number of IDT entries
 #define NUM_IDT_ENTRIES 32
@@ -10,6 +11,10 @@ extern "C"
 {
     extern void idt_load(uint32_t); // Refers to a function in assembly that loads the IDT register.
 }
+
+
+
+
 
 void init_idt() asm ("init_idt"); // This allows assembly code to call our 'init_gdt' function.
 
@@ -36,11 +41,11 @@ void init_idt()
     idt_pointer.limit = sizeof(idt_entry) * NUM_IDT_ENTRIES -1; // Set the limit of the IDT pointer. 
 
     // Zero out all IDT entries, just in case they contain any garbage. Should be zero because it is a global variable without any initialiser. 
-    memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES); 
+    memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES);
 
 
     // Set all entries in the IDT to default interrupt handler.
-    for (int i = 0; i < NUM_IDT_ENTRIES; i++)
+    /*for (int i = 0; i < NUM_IDT_ENTRIES; i++)
     {
         idt_entries[i].base_low = 0x0000;
         idt_entries[i].base_high = 0x0000;
@@ -48,6 +53,12 @@ void init_idt()
         idt_entries[i].reserved = 0x00;
         idt_entries[i].flags = 0x8E;
     }
+    */
+
+
+    idt_set_entry(0, (uint32_t)isr0, 0x08, 0x8E);
+
+
 
     idt_load((uint32_t)&idt_pointer); // Load the IDT into IDT register using the assembly function 'idt_load'.
 }

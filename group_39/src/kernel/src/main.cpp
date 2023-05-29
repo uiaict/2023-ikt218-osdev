@@ -8,10 +8,21 @@ extern "C" {
 }
 
 
+void dividebyzero()
+{
+    int a = 5/0; //This will cause a division by zero
+}
+
 
 void kernel_main()
 {
     clearScreen(); // Clear screen before writing output
+
+
+
+    dividebyzero();
     printString("Hello World"); // Write "Hello World" to the screen.
+    int b = 55;
+    int c = 76;
 }
 

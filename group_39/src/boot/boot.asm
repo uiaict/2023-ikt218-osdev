@@ -44,6 +44,7 @@ _start:
     cli ; Disable interrupts
     call init_gdt ; Call init_gdt which sets up and loads the GDT into memory.
     call init_idt ; Call init_idt to set up and load IDT (Interrupt Descriptor Table).
+    sti; Enable interrupts
     call kernel_main ; Call the main function of the kernel.
 
 
