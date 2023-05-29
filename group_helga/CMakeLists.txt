@@ -10,7 +10,7 @@ set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
 # This defines which is the lowest supported CMake version for this project
-cmake_minimum_required(VERSION 3.22.1)
+cmake_minimum_required(VERSION 3.16.3)
 
 # This sets the name for our CMake project, and defines which languages we will be using.
 project(UiAOS LANGUAGES C CXX ASM_NASM)
@@ -111,7 +111,7 @@ set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
-target_include_directories(${OS_MODULE_STDLIB_NAME} 
+target_include_directories(${OS_MODULE_STDLIB_NAME}
     PUBLIC src/stdlib/include
 
 )
@@ -140,7 +140,7 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
@@ -172,19 +172,19 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/*.asm
-        )
-        
-        
-        set(ASM_SOURCE_FILES
-            # ${CMAKE_CURRENT_SOURCE_DIR}src/kernel/src/gdt_flush.asm
-        )
-        
-        set_source_files_properties(${ASM_SOURCE_FILES} PROPERTIES LANGUAGE ASM_NASM)
-        
-        # Append the ASM_SOURCE_FILES to the OS_MODULE_KERNEL_SOURCES variable
-        list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
-        message("${OS_MODULE_KERNEL_SOURCES}")
-        
+)
+
+
+set(ASM_SOURCE_FILES
+    # ${CMAKE_CURRENT_SOURCE_DIR}src/kernel/src/gdt_flush.asm
+)
+
+set_source_files_properties(${ASM_SOURCE_FILES} PROPERTIES LANGUAGE ASM_NASM)
+
+# Append the ASM_SOURCE_FILES to the OS_MODULE_KERNEL_SOURCES variable
+list(APPEND OS_MODULE_KERNEL_SOURCES ${ASM_SOURCE_FILES})
+message("${OS_MODULE_KERNEL_SOURCES}")
+
 
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

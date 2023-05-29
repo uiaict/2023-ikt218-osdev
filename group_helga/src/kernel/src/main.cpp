@@ -2,7 +2,6 @@
 extern "C"{
     void kernel_main();
 }
-
 /**
  * Copyright 2019 Ashar <ashar786khan@gmail.com>
  *
@@ -19,15 +18,12 @@ extern "C"{
  * limitations under the License.
  */
 
+
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include "gdt.h"
-
-
-#if !defined(__i386__)
-#error "This needs to be compiled with a ix86-elf compiler"
-#endif
 
 /* Hardware text mode color constants. */
 enum vga_color {
@@ -124,6 +120,8 @@ void terminal_write(const char* data, size_t size)
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
 }
+
+
 
 void printf(const char* data)
 {
