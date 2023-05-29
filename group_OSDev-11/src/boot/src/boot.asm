@@ -42,8 +42,8 @@ section .text
     ; Entry point of kernel
     _start:
         mov esp, stack_end ; Set the stack pointer to the top of the stack
-        extern kernel_main ; Declare the kernel_main function
-        call kernel_main   ; Call the kernel_main function
+        extern main_kernel ; Declare the kernel_main function
+        call main_kernel   ; Call the kernel_main function
         cli                ; Disable interrupts
 
     ; Loop to halt processor execution

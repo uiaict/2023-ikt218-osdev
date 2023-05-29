@@ -1,55 +1,45 @@
-
 #include "system.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include "gdt.h"
 
-// Define VGA text mode buffer
-// Pointer to the memory-mapped VGA buffer that represents the screen
-volatile uint16_t* const VGA_BUFFER = (uint16_t*) 0xB8000; 
+// Constants for VGA text mode buffer
+static volatile uint16_t* const VGA_TEXT_BUFFER = (uint16_t*) 0xB8000; 
+const size_t TEXT_WIDTH = 80;
+const size_t TEXT_HEIGHT = 25;
 
-// Constants to define the dimensions of the text module
-const size_t VGA_WIDTH = 80;
-const size_t VGA_HEIGHT = 25;
-
-// Initialize terminal (fill VGA buffer with blank spaces and black background)
-void terminal_init() {
-
-	for (size_t i = 0; i < VGA_HEIGHT; i++) {
-
-		for (size_t j = 0; j < VGA_WIDTH; j++) {
-
-			const size_t index = i * VGA_WIDTH + j; // Calculate index of current character
-            VGA_BUFFER[index] = ' ' | 0x0700; 		// Write a white character with black background and white foreground to the buffer
+// Initialize terminal by filling the VGA buffer with blank spaces and black background
+void initialize_terminal() {
+    for (size_t row = 0; row < TEXT_HEIGHT; row++) {
+        for (size_t col = 0; col < TEXT_WIDTH; col++) {
+            const size_t index = row * TEXT_WIDTH + col;
+            VGA_TEXT_BUFFER[index] = ' ' | 0x0700; 
         }
     }
 }
 
-// Print string to terminal
-void terminal_write(const char* str) {
+// Function to write a string to the terminal
+void write_to_terminal(const char* str) {
+    size_t position = 0; 
 
-	size_t index = 0; // Index to keep track of current character
+    while (str[position]) {
+        const size_t row = position / TEXT_WIDTH; 
+        const size_t col = position % TEXT_WIDTH;
+        const size_t vga_index = row * TEXT_WIDTH + col;
 
-    while (str[index]) { // Loop until null
-
-		const size_t row = index / VGA_WIDTH; // Calculate row of current character
-        const size_t col = index % VGA_WIDTH; // Calculate column of current character
-        const size_t vga_index = row * VGA_WIDTH + col; // Calculate index in VGA buffer for current character
-
-		VGA_BUFFER[vga_index] = str[index] | 0x0700; // Write current character to the buffer
-        index++;
+        VGA_TEXT_BUFFER[vga_index] = str[position] | 0x0700; 
+        position++;
     }
 }
 
-
-// Define entry point in asm to prevent C++ mangling
+// Entry point for kernel defined in asm to avoid C++ name mangling
 extern "C"{
-    void kernel_main();
+    void main_kernel();
 }
 
-void kernel_main()
+void main_kernel()
 {
-    terminal_init();
-    terminal_write("Hello World");
+    initialize_terminal();
+    write_to_terminal("Hello World");
 }
