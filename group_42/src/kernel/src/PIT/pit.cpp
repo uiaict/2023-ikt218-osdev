@@ -13,7 +13,7 @@ uint32_t get_current_tick(){
 void init_pit(){
     
     UiAOS::CPU::ISR::register_interrupt_handler(IRQ0,[] (UiAOS::CPU::ISR::registers_t* regs, void* context){
-        current_tick = current_tick + 1;
+        current_tick = current_tick + 55;
         
         
        
