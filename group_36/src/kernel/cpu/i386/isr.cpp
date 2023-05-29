@@ -1,17 +1,20 @@
-#include "isr.h"
-// #include "system.h"
+// #include "../../../stdlib/include/system.h"
 #include "hardware_port.h"
 // #include "../../../stdlib/include/system.h"
 #include "../../include/print.h"
-#include "memory.h"
+#include "isr.h"
+// #include "memory.h"
+#include <cstddef>
 
-UiAOS::CPU::ISR::interrupt_t interrupt_handlers[256];
+
 
 extern "C"{
+    void *memset(void *s, int c, size_t n);
     // void init_isr() asm("init_isr");
     void irq_handler(UiAOS::CPU::ISR::registers_t regs) asm("irq_handler");
     void isr_handler(UiAOS::CPU::ISR::registers_t regs) asm("isr_handler");
 }
+UiAOS::CPU::ISR::interrupt_t interrupt_handlers[256];
 
 void init_isr(){
     // Nullify all the interrupt handlers.

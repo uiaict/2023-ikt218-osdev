@@ -1,6 +1,7 @@
 set(OS_MODULE_CPU_NAME ${OS_KERNEL_NAME}-cpu)
 set(OS_MODULE_CPU_SOURCES
         i386/gdt.cpp
+        ../../stdlib/src/system.c
         i386/idt.cpp
         i386/isr.cpp
         i386/hardware_port.cpp

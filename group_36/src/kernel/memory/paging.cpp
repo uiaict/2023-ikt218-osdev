@@ -13,11 +13,11 @@ void init_paging()
 UiAOS::Memory::Paging::Paging(uint32_t mem_end_page)
 : frames(mem_end_page, mem_end_page / 0x100)
 {
-    kernel_directory = (PageDirectory*)UiAOS::std::Memory::kmalloc_a(sizeof(PageDirectory));
+    kernel_directory = (PageDirectory*)kmalloc_a(sizeof(PageDirectory));
     memset(kernel_directory, 0, sizeof(PageDirectory));
 
     int i = 0;
-    while (i < UiAOS::std::Memory::placement_address)
+    while (i < placement_address)
     {
         uint32_t idx = frames.first_available_frame();
         if(kernel_directory->get_page(i, 1)->alloc_frame(idx, 0, 0)){
@@ -40,7 +40,7 @@ bool UiAOS::Memory::Paging::set_directory(UiAOS::Memory::PageDirectory *dir) {
     // UiAOS::IO::Monitor::print_hex(reinterpret_cast<uint32_t>(dir));
     // UiAOS::IO::Monitor::print_new_line();
     printf("[set-directory] ");
-    print_uint8(reinterpret_cast<uint32_t>(current_directory));
+    print_hex(reinterpret_cast<uint32_t>(current_directory));
     current_directory = dir;
     return false;
 }
@@ -132,7 +132,7 @@ UiAOS::Memory::Page* UiAOS::Memory::PageDirectory::get_page(uint32_t address, in
     else if(make)
     {
         uint32_t tmp;
-        tables[table_idx] = (PageTable*)UiAOS::std::Memory::kmalloc_ap(sizeof(PageTable), &tmp);
+        tables[table_idx] = (PageTable*)kmalloc_ap(sizeof(PageTable), &tmp);
         memset(tables[table_idx], 0, 0x1000);
         tables_physical[table_idx] = tmp | 0x7; // PRESENT, RW, US.
         return &tables[table_idx]->pages[address % NUM_PAGES];

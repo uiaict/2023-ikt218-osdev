@@ -17,6 +17,7 @@ extern "C"{
 #include "../memory/paging.h"
 #include "boot.h"
 #include "print.h"
+// #include "../memory/kmalloc.h"
 
 
  
@@ -128,7 +129,7 @@ void printf(const char* data)
 }
 
 void print_uint8(uint8_t scancode) {
-    char buffer[4];  // Buffer for up to 3 digits plus null terminator
+    char buffer[12];  // Buffer for up to 10 digits plus null terminator
     uint8_t n = scancode;
     int i = 0;
 
@@ -155,6 +156,54 @@ void print_uint8(uint8_t scancode) {
 
     printf(buffer);
 }
+
+void print_int(int n) {
+    char buffer[12];  // Buffer for up to 10 digits plus null terminator
+    int i = 0;
+
+    // Handle 0 explicitly (as the loop below doesn't do that)
+    if (n == 0) {
+        buffer[i++] = '0';
+    }
+    else {
+        // Convert number to string (in reverse order)
+        while (n > 0) {
+            buffer[i++] = '0' + n % 10;
+            n /= 10;
+        }
+
+        // Reverse the string to get it in the correct order
+        for (int j = 0; j < i / 2; ++j) {
+            char temp = buffer[j];
+            buffer[j] = buffer[i - j - 1];
+            buffer[i - j - 1] = temp;
+        }
+    }
+
+    buffer[i] = '\0';  // Null-terminate the string
+
+    printf(buffer);
+}
+
+char hex_char(uint32_t val) {
+    val &= 0xF; // keep only lowest 4 bits
+    if (val <= 9) {
+        return '0' + val;
+    } else {
+        return 'A' + (val - 10);
+    }
+}
+
+void print_hex(uint32_t d)
+{
+    printf("0x");
+    for(int i = 28; i >= 0; i-=4)
+    {
+        terminal_putchar(hex_char(d>>i));
+    }
+
+}
+
 
 class OperatingSystem {
     int tick = 0;
@@ -199,6 +248,10 @@ public:
         printf("]:  $");
     }
 };
+
+void* operator new[](size_t size) {
+    return reinterpret_cast<void*>(kmalloc(size));
+}
 
 void kernel_main(void) 
 {
@@ -250,6 +303,14 @@ void kernel_main(void)
         auto* os = (OperatingSystem*)context;
         os->timer();
     }, &os);
+
+    int memory_1 = kmalloc(12345);
+    // char* memory4 = new char[2]();
+
+
+    int phys = kmalloc_ap(54321, 0x000);
+    print_int(phys);
+    printf("\nmemory address^\n");
 
     os.print_time();
 

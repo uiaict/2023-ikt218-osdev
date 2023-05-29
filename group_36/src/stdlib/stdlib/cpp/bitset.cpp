@@ -1,9 +1,8 @@
 #include "bitset.h"
 #include "memory.h"
 
-namespace UiAOS::std::Memory{
-    extern uint32_t kmalloc(uint32_t);
-}
+
+extern uint32_t kmalloc(uint32_t);
 
 
 using namespace UiAOS::std;
@@ -37,7 +36,7 @@ Bitset::Bitset(uint32_t _mem_end_page, uint32_t _n_frames)
         : mem_end_page(_mem_end_page)
         , nframes(_n_frames)
 {
-    frames = (uint32_t*)UiAOS::std::Memory::kmalloc(INDEX_FROM_BIT(nframes));
+    frames = (uint32_t*)kmalloc(INDEX_FROM_BIT(nframes));
     memset(frames, 0, INDEX_FROM_BIT(nframes));
 }
 

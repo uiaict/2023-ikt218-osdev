@@ -2,6 +2,7 @@
 #define UIAOS_BITSET_H
 
 #include <stdint.h>
+// #include "../../../kernel/memory/kmalloc.h"
 
 // Macros used in the bitset algorithm
 #define INDEX_FROM_BIT(a) (a/(8*4))
