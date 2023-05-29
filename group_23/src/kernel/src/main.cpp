@@ -1,50 +1,94 @@
-#include "system.h"
-#include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
-#include "gdt.h"
-//#include "monitor/monitor.h"
+extern "C"{
+    #include "system.h"
+    #include <stddef.h>
+    #include "../include/descriptor_tables.h"
+    #include "../include/common.h"
+    #include "../include/monitor.h"
+    #include "../include/isr.h"
+    #include "../include/heap.h"
+    #include "../include/pit.h"
+    #include "../include/paging.h"
+    #include "../include/keyboard.h"
 
-void clear_screen(int background_color) {
-    volatile char *video = (volatile char *)0xB8000; //pointer to video memory adress 0xB8000
-    const int screen_size = 80 * 25; // total number of characters on screen
+}
 
-    for (int i = 0; i < screen_size; i++) { //loop through all characters
-        *video++ = ' '; // Fill with space
-        *video++ = background_color; // Fill with background color
-    }
-}
-void write_string( int colour, const char *string )
-{
-    volatile char *video = (volatile char*)0xB8000;
-    while( *string != 0 )
-    {
-        *video++ = *string++;
-        *video++ = colour;
-    }
-}
+extern uint32_t end; //defined in linker script
+
+
 
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
 }
-extern "C"{
-    void gdt_init();
+
+// Overload the new operator for single object allocation
+void* operator new(size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
 }
-extern "C"{
-    bool check_gdt_init();
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
 }
+
+
+// Overload the new operator for array allocation
+void* operator new[](size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+
+
 
 void kernel_main()
 {
+    init_kernel_memory(&end);         // Initialize kernel memory
+
+    monitor_clear();
     
-    int terminal_colors = 0x0F; //  black background (0x0) and white text (0xF)
-    clear_screen(terminal_colors);
-    write_string(terminal_colors, "Hello, World!");
+    init_descriptor_tables();         // Initialize descriptor tables GDT and IDT
+    monitor_write("Hello, World!\n");
+    
+    
+
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
+    //asm volatile ("int $0x5");
+    asm volatile("sti");
+    init_timer(50);
+
+    init_keyboard();
+
+    init_paging();
+    print_memory_layout();
+    void* some_memory = malloc(12345);
+    char* memory1 = new char[1000]();
+    monitor_write("memory layout after allocating");
+    monitor_put('\n');
+
+    print_memory_layout();
+    
+   
+
+    //asm volatile("sti");
+    // Setup PIT
+    //init_pit(50); 
+    
+   
+    
+
+    
+    
+    //clear_screen();
+    //write_string("Hello, World!");
 	
-    gdt_init();
-    check_gdt_init(); 
-    while (true);
+    
+    while(1);
     
 }
