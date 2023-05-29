@@ -67,3 +67,11 @@ void keyboard_processing(registers_t regs)
         }
     }
 }
+
+char to_uppercase(char c) 
+{
+    if (c >= 'a' && c <= 'z') {
+        return c - 'a' + 'A';
+    }
+    return c;
+}
