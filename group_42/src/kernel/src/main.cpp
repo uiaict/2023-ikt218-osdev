@@ -126,13 +126,13 @@ asm volatile("sti");
     //os->write_string_2("hello");
     //os->next_line();
     },&os); 
-sleep_interrupt((uint32_t) 10);
-start_sleep_busy((uint32_t) 2000);
-os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
-while (1)
-{
-    os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
-}
+//sleep_interrupt((uint32_t) 10);
+asm volatile ("int $0x01");
+start_sleep_busy((uint32_t) 200);
+
+asm volatile ("int $0x01");
+//os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
+
 
  
 }
