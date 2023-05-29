@@ -10,6 +10,7 @@ void kernel_main(){
 
     terminal_clear();
     // Print welcome screen
+
     terminal_write("                _____ __    _ __      ____  _____\n");
     terminal_write("               / ___// /_  (_) /_    / __ \\/ ___/\n");
     terminal_write("               \\__ \\/ __ \\/ / __/   / / / /\\__ \\\n");
@@ -24,13 +25,11 @@ void kernel_main(){
     terminal_write("  / / / / __ \\/ / / / ___/ _ \\   / __ \\/ __ `/ __ \\/ __/ ___/\n");
     terminal_write(" / /_/ / /_/ / /_/ / /  /  __/  / /_/ / /_/ / / / / /_(__  )\n");
     terminal_write(" \\__, /\\____/\\__,_/_/   \\___/  / .___/\\__,_/_/ /_/\\__/____/\n");
-    terminal_write("/____/                        /_/\n");
+    terminal_write("/____/                        /_/\n\n");
     
     terminal_write("Hello World!\n");
 
-    // Print a message and enter an infinite loop to wait for interrupts
-    terminal_write("Waiting...\n");
+    // Wait for interrupts
     while(1){};
-    terminal_write("Done!...\n");
 
 }
