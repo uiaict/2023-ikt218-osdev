@@ -6,9 +6,9 @@
 #include <string.h>
 
 
-
+void monitor_put(char c);
 void monitor_clear();
-
+void monitor_write(char *c);
 
 //void *memset(void *s, int c, size_t n);
 

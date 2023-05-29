@@ -111,6 +111,7 @@ void kernel_main()
         print_int(scancode);
         printf(")");
         print_new_line();*/
+        monitor_put(Keyboard::scancode_to_ascii(scancode));
     }, &os);
 
     while (1)
