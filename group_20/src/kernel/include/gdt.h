@@ -23,6 +23,7 @@ struct gdt_ptr_t {
 
 
 
+
 //Starts GDT
 void start_gdt();
 

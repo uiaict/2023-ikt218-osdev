@@ -143,6 +143,13 @@ struct int_handler_t {
   void *data;
 };
 
+// SOURCE: https://www.lookuptables.com/coding/keyboard-scan-codes
+// Only implemented 1-9 and some letters
+const char ASCII_LT[] = {
+  '?','?','1', '2','3','4','5','6','7','8','9','0',
+  '?','?','?','?','Q','W','E','R','T','Y','U','I','O','P'
+};
+
 // IDT
 void start_idt();                                                                // Function that starts the IDT
 void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);

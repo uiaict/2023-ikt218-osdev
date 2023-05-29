@@ -54,7 +54,6 @@ void screenWrite(const char* data) {
     const uint8_t color = vga_entry_color(VGA_COLOR_RED, VGA_COLOR_BLACK);
     size_t stringLength = size(data);
     uint16_t *video = (uint16_t*)VIDEO_BUFFER;
-    static size_t cursorPos = 0; // Keep track of the cursor position
 
     for (size_t i = 0; i < stringLength; i++) {
         // Handle line breaks
@@ -67,11 +66,23 @@ void screenWrite(const char* data) {
         }
     }
 
-    // Automatically insert a newline after printing "Initialized GDT!"
+    // Automatically insert a newline after printing
     if (size(data) == stringLength) {
         cursorPos = (cursorPos / VIDEO_WIDTH + 1) * VIDEO_WIDTH;
     }
 }
+
+void screenWriteCharacter(char character) {
+
+	//VARIABLES
+    const uint8_t color = vga_entry_color(VGA_COLOR_RED, VGA_COLOR_BLACK);
+    uint16_t *video = (uint16_t*)VIDEO_BUFFER;
+    
+    video[cursorPos] = vga_entry(character, color);
+    cursorPos = (cursorPos / VIDEO_WIDTH) * VIDEO_WIDTH;
+
+}
+
 
 
 //CLEAR TERMINAL SCREEN

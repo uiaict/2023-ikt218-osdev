@@ -20,8 +20,21 @@ void kernel_main()
     screenWrite("");
     screenWrite("HELLO WORLD!");
 
-    screenWrite("Waiting...");
+    asm volatile("sti");
+    
+    screenWrite("");
+
+    //Interrupt for IRQ1
+    register_irq_handler(IRQ1, [](registers_t*, void*){
+        unsigned char scan_code = inb(0x60);
+        const char character = ASCII_LT[scan_code];
+        if (scan_code > 0) {
+            screenWriteCharacter(character);
+        }
+    }, NULL);
+
+    screenWrite("");
+    screenWrite("Press between 1-9");
     while(1){};
-    screenWrite("Done!...");
 }
 
