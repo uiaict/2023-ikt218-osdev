@@ -50,7 +50,26 @@ void keyboard_processing(registers_t regs)
             char ascii = scancode_table[scancode];
             if ((left_shift_pressed || right_shift_pressed) != caps_lock_active) 
             {
-            ascii = to_uppercase(ascii);  // Convert to uppercase
+                switch (ascii) // Adding a few special characters while holding shift
+                {
+                    case '1': ascii = '!'; break;
+                    case '2': ascii = '\"'; break;
+                    case '3': ascii = '#'; break;
+                    case '5': ascii = '%'; break;
+                    case '6': ascii = '&'; break;
+                    case '7': ascii = '/'; break;
+                    case '8': ascii = '('; break;
+                    case '9': ascii = ')'; break;
+                    case '0': ascii = '='; break;
+                    case '+': ascii = '?'; break;
+                    case '\'': ascii = '*'; break;
+                    case '.': ascii = ':'; break;
+                    case '-': ascii = '_'; break;
+                    case ',': ascii = ';'; break;
+                    default: ascii = to_uppercase(ascii); // Convert to uppercase for other characters
+                }
+            }
+
             }
         
         // Put the ASCII character in the buffer
