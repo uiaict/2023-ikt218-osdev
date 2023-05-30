@@ -8,7 +8,9 @@ extern "C"{
 
 void kernel_main()
 {
+    // Will clear the terminal
     terminal_initialize();
  
-	terminal_writestring("Hello, kernel World!\n");
+    // Will print the given string to the terminal
+	terminal_writestring("Hello World\n");
 }

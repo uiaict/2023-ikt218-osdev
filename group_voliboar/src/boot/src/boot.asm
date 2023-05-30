@@ -37,11 +37,6 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-	;extern init_multiboot
-	;push ebx ; multiboot_info struct
-	;push eax ; magic number
-	;call init_multiboot
-
 	;Initialize Global Desctiptor Table
 	extern init_gdt
 	call init_gdt
@@ -49,8 +44,7 @@ _start:
 	mov esp, stack_top
 	
 	extern kernel_main
-	;call kernel_main  ; call our kernel_main() function.
-	cli
+	call kernel_main  ; call our kernel_main() function
 .hang:	hlt
 	jmp .hang
 .end:

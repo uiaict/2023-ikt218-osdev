@@ -115,6 +115,6 @@
     int rand();
     int ungetc(int c, FILE *stream);
 
-    // Our custom shit
+    // Our printing functions that are used in kernel_main
     void terminal_initialize(void);
     void terminal_writestring(const char* data);
