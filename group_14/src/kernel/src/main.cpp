@@ -62,9 +62,6 @@ void kernel_main()
     // Print memory layout
     print_memory_layout();
 
-    // Print string "Welcome! "
-    terminal_writestring("Welcome! ");
-
 	// Create interrupt handlers for interrupt 3 and 4
     /*
     register_interrupt_handler(3,[](registers_t* regs, void* context){

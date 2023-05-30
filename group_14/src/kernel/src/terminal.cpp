@@ -53,7 +53,14 @@ void terminal_putchar(char c)
 void terminal_write(const char* data, size_t size) 
 {
 	for (size_t i = 0; i < size; i++)
-		terminal_putchar(data[i]);
+		  if (data[i] == '\n') {
+            // Move to the beginning of the next line
+            terminal_column = 0;
+            if (++terminal_row == VGA_HEIGHT)
+                terminal_row = 0;
+        } else {
+            terminal_putchar(data[i]);
+	}
 }
  
 void terminal_writestring(const char* data) 
@@ -82,8 +89,7 @@ int printf(const char* __restrict__ format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-			// if (!print(format, amount))
-				// return -1;
+			terminal_write(format, amount);
 			format += amount;
 			written += amount;
 			continue;
