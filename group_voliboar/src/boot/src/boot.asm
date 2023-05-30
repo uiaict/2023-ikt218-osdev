@@ -37,17 +37,23 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-	; extern init_multiboot
-	; push ebx ; multiboot_info struct
-	; push eax ; magic number
-	; call init_multiboot
+	;extern init_multiboot
+	;push ebx ; multiboot_info struct
+	;push eax ; magic number
+	;call init_multiboot
 
+	;Initialize Global Desctiptor Table
+	extern init_gdt
+	call init_gdt
 	
 	mov esp, stack_top
 	
 	extern kernel_main
-	call kernel_main  ; call our kernel_main() function.
+	;call kernel_main  ; call our kernel_main() function.
 	cli
 .hang:	hlt
 	jmp .hang
 .end:
+
+; SOURCE:
+; https://perara.notion.site/Lecture-2-x86-and-the-bootloader-d9c08d86e6c7442fa939861506a84b2a
