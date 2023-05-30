@@ -4,18 +4,49 @@
 
 // Custom files
 #include "include/descriptor_tables.h"
-#include "include/terminal.h"
+//#include "include/terminal.h"
 #include "include/interrupts.h"
 #include "include/common.h"
 #include "include/sc_to_ascii.h"
+#include "include/memory.h"
+
+
+extern uint32_t end;
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
    void kernel_main();
 }
 
+// Overload the new operator for single object allocation
+void* operator new(size_t size) {
+    return custom_malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    custom_free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+// Overload the new operator for array allocation
+void* operator new[](size_t size) {
+    return custom_malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    custom_free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
 void kernel_main()
 {
+
+    // Initialize terminal and
+    terminal_initialize();
+
+    // Initialize kernel memory manager with the end of the kernel image
+    init_kernel_memory(&end);
+
 	// Initialize Global Descriptor Table
 	init_gdt();
 
@@ -25,10 +56,11 @@ void kernel_main()
 	// Initialize Interupt Descriptor Table
 	init_irq();
 
-	// Initialize terminal and
-	// and display a string.
-    terminal_initialize();
-    terminal_writestring("Welcome! ");
+    // Initialize Paging
+    init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
+
+    // Print memory layout
+    print_memory_layout();
 
 	// Create interrupt handlers for interrupt 3 and 4
     /*
