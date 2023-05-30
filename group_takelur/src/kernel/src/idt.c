@@ -24,7 +24,7 @@ idt_ptr_t   idt_ptr;
 
 void init_idt()
 {
-    idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;        // Limit for IDT (256 entries)
+    idt_ptr.limit = sizeof(idt_entry_t) * 256 - 1;        // Limit for IDT (256 entries)
     idt_ptr.base  = (u32int)&idt_entries;                // Base address for IDT
 
     memset(&idt_entries, 0, sizeof(idt_entry_t)*256);    // Zero out the IDT

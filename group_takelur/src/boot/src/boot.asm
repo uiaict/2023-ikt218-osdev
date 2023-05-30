@@ -31,16 +31,12 @@ global _start                           ; Tells the linker to make the _start sy
 _start:                                 ; Label = _start
     mov esp, stack_top                  ; Set the stack pointer (esp) to the top of the stack
 
-    ; TODO : load GDT here
-
     ; Tells the assembler that the kernel_main function is defined elsewhere and should be resolved by the linker
     extern kernel_main
     call kernel_main                    ; Calls the kernel_main function
-
     cli                                 ; Disable interrupts
 
 .hang:                                  ; Label = .hang
     hlt                                 ; Halt the processor (waits for an interrupt)
     jmp .hang                           ; Infinite loop even if a non-maskable interrupt occurs
-
 .end:                                   ; Label = .end

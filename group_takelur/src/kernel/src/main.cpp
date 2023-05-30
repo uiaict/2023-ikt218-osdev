@@ -10,8 +10,10 @@ extern "C" {
     #include "print.h"
     #include "interrupt_tests.h"
     #include "keyboard.h"
+    #include "memory.h"
     void kernel_main();
 }
+
 
 void kernel_main() {
     // Initialize the GDT
@@ -29,9 +31,10 @@ void kernel_main() {
     printf("This should insert decimal %d as hex: %x\n", 1452, 1452);
     printf("This should insert percentage char: %%\n");
 
-    // Interrupt tests (uncomment to test)
-    // Since no exception handling is implemented except printing information about the interrupt, one can only try one at a time
-    // since the CPU will just retry the same instruction for ever.
+    /* INTERRUPT TESTS
+    Since no exception handling is implemented except printing information about the interrupt, one can only try one at a time
+    since I set CPU in a loop after the interrupt is triggered to prevent running bad code.
+    */
     //printf("Triggering divide by zero exception...\n");     // Trigger divide by zero exception
     //int test_1 = test_divide_by_zero(2);
     //trigger_debug_exception();
@@ -39,7 +42,7 @@ void kernel_main() {
     //trigger_invalid_opcode_exception();
     //trigger_unhandled_interrupt(); // Trigger interrupt 27, which only has the default handler I created
 
-    /*
+    /* MONITOR WRITING TESTS
     monitor_write("Welcome to OS version 0.0.001!\n", 0, 15);
     monitor_write("This should be on a new line\n\n", 0, 15);
     monitor_write("Does tabs work? : 1\t2\t3\t4\t5\n", 0, 15);
