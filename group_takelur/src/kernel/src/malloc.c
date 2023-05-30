@@ -1,5 +1,5 @@
-#include "kernel/memory.h"
-#include <libc/system.h>
+#include "memory.h"
+#include <system.h>
 
 #define MAX_PAGE_ALIGNED_ALLOCS 32
 
@@ -10,6 +10,15 @@ uint32_t pheap_begin = 0;
 uint32_t pheap_end = 0;
 uint8_t *pheap_desc = 0;
 uint32_t memory_used = 0;
+
+// Panic function, (called when out of memory)
+void panic(const char *message)
+{
+    printf("PANIC: %s\n", message); // Print the message
+    asm volatile("cli");            // Disable interrupts
+    while(1);                       // Halt
+}
+
 
 // Initialize the kernel memory manager
 void init_kernel_memory(uint32_t* kernel_end)
