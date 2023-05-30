@@ -1,6 +1,3 @@
-#ifndef UIAOS_PAGING_H
-#define UIAOS_PAGING_H
-
 #include "stdint.h"
 #include "../../stdlib/stdlib/cpp/bitset.h"
 #include "../cpu/include/cpu.h"
@@ -59,6 +56,3 @@ public:
     void enable_paging();
 };
 void page_fault(registers_t *regs, void *);
-
-
-#endif //UIAOS_PAGING_H

@@ -13,6 +13,7 @@ RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
 src/*.cpp
 src/*.c
 src/*.asm
+src/print.cpp
 src/main.cpp
 #src/system/*.c
 ../boot/src/boot.cpp

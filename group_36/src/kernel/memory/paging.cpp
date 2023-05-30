@@ -7,7 +7,6 @@
 
 void init_paging()
 {
-
     Paging(0x1000000);
 }
 

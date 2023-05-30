@@ -5,7 +5,6 @@ set(OS_MODULE_CPU_SOURCES
         i386/idt.cpp
         i386/isr.cpp
         i386/hardware_port.cpp
-        i386/hardware.cpp
         i386/timer/timer.cpp
 )
 
