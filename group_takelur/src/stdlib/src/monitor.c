@@ -57,6 +57,16 @@ static void scroll_monitor() {
     }
 }
 
+// Function to show the cursor
+void show_cursor() {
+    outb(MONITOR_COMMAND_PORT, 0x0A);
+    outb(MONITOR_DATA_PORT, (inb(MONITOR_DATA_PORT) & 0xC0) | 14);  // cursor start = line 14 in the character cell
+
+    outb(MONITOR_COMMAND_PORT, 0x0B);
+    outb(MONITOR_DATA_PORT, (inb(MONITOR_DATA_PORT) & 0xE0) | 15);  // cursor end = line 15 in the character cell
+}
+
+
 // Writes a byte to the command port
 void monitor_put(u8int c, u8int bg_color, u8int fg_color) {
     // Get the color byte (high nibble is background color and low nibble is foreground color)
@@ -135,6 +145,7 @@ void clear_monitor() {
         video_memory[i] = blank;
     }
 
+    show_cursor();  // Show the cursor
     // Move the hardware cursor back to the start.
     cursor_row = 0;
     cursor_column = 0;
