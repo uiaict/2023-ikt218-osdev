@@ -87,6 +87,9 @@ void monitor_put(u8int c, u8int bg_color, u8int fg_color) {
             cursor_column = MONITOR_WIDTH - 1;
             cursor_row--;
         }
+
+        // Handles backspaces by writing space characters to the video memory
+        video_memory[cursor_row * MONITOR_WIDTH + cursor_column] = ' ' | attribute; // Write a space character
     }
     // Newline moves cursor to the first column of the next row
     else if (c == '\n') {
