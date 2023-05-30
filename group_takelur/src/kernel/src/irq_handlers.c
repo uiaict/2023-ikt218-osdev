@@ -2,6 +2,7 @@
 #include "isr.h"
 #include "print.h"
 #include "keyboard.h"
+#include "common.h"
 
 void timer_handler(registers_t regs)
 {
@@ -12,6 +13,9 @@ void timer_handler(registers_t regs)
 // Passes the registers to the keyboard controller
 void keyboard_handler(registers_t regs)
 {
+    //static u8int scancode;
+    //scancode = inb(0x60);
+    //printf("Scancode: %d\n", scancode);
     keyboard_processing(regs);
 }
 
