@@ -176,6 +176,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/screen/*.cpp
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
