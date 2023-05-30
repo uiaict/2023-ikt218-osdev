@@ -17,14 +17,15 @@ void kernel_main()
     printf("Test!\n");
 
     // Initialize memory
-    mm_init(end);
+    mm_print_out();
+    //mm_init(end);
     /* Test the interrupts */
     //print("\nSending IRQ: ");
     //__asm("int $0x2");
     //print("\nSending IRQ: ");
     //__asm("int $0x3");
-    void* some_memory = malloc(12345); 
-    void* memory2 = malloc(54321); 
-    void* memory3 = malloc(13331);
-    char* memory4 = new char[1000]();
+    //void* some_memory = malloc(12345); 
+    //void* memory2 = malloc(54321); 
+    //void* memory3 = malloc(13331);
+    //char* memory4 = new char[1000]();
 }
