@@ -5,6 +5,8 @@
 #include <stdio.h>
 
 
+
+
     int isalnum(int c);
     int iscntrl(int c);
     int isgraph(int c);

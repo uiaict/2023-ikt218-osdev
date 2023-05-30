@@ -10,6 +10,9 @@
 #include <stdint.h> /* Include standard integer types */
 #include <stddef.h> /* Include standard definitions */
 
+// Custom includes
+#include "../include/terminal.h"
+
 /*
  * Definition of a struct that represents a memory allocation.
  * It contains a status field (0 or 1) indicating if the memory

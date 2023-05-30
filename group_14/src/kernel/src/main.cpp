@@ -4,12 +4,11 @@
 
 // Custom files
 #include "include/descriptor_tables.h"
-#include "include/terminal.h"
+//#include "include/terminal.h"
 #include "include/interrupts.h"
 #include "include/common.h"
 #include "include/sc_to_ascii.h"
 #include "include/memory.h"
-#include "../../stdlib/include/system.h"
 
 
 extern uint32_t end;

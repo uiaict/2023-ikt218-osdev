@@ -164,7 +164,6 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/memory/memory.cpp
         src/kernel/src/memory/memutils.cpp
         src/kernel/src/memory/malloc.cpp
-        src/stdlib/src/system.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
