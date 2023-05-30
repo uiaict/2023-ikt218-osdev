@@ -98,8 +98,7 @@ int printf(const char* __restrict__ format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-			// if (!print(&c, sizeof(c)))
-				// return -1;
+			terminal_putchar(c);
 			written++;
 		} else if (*format == 's') {
 			format++;
@@ -109,8 +108,7 @@ int printf(const char* __restrict__ format, ...) {
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}
-			// if (!print(str, len))
-				// return -1;
+			terminal_writestring(str);
 			written += len;
 		} else if (*format == 'd') {
             format++;
@@ -132,8 +130,7 @@ int printf(const char* __restrict__ format, ...) {
                     // TODO: Set errno to EOVERFLOW.
                     return -1;
                 }
-                // if (!print(&buffer[--i], 1))
-                    // return -1;
+                terminal_putchar(buffer[--i]);
                 written++;
             }
         } else if (*format == 'x') {
@@ -158,8 +155,7 @@ int printf(const char* __restrict__ format, ...) {
                 // TODO: Set errno to EOVERFLOW.
                 return -1;
             }
-            // if (!print(&buffer[--i], 1))
-                // return -1;
+            terminal_putchar(buffer[--i]);
             written++;
 			}
 
