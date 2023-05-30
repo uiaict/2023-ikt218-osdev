@@ -16,7 +16,7 @@ extern "C"{
 // Initialize ISR
 void init_isr(){
     // Nullify all the interrupt handlers.
-    memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
+    //memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
     print("ISR initialized.\n");
 }
 

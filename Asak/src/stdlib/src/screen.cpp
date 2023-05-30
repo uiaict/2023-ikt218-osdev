@@ -1,5 +1,26 @@
 #include "screen.h"
 #include "ports.h"
+#include <stdarg.h>
+#include <stddef.h> 
+#include <limits.h>
+#include <system.h>
+
+// Prints every char on the terminal
+int putchar(int i) {
+    char c = (char) i;
+    print_char(c, -1, -1, WAKE_UP_NEO);
+	return i;
+}
+
+// Bool print, necessary for printf down below
+static bool print(const char* data, size_t length) {
+	const unsigned char* bytes = (const unsigned char*) data;
+	for (size_t i = 0; i < length; i++)
+		if (putchar(bytes[i]) == -1)
+			return false;
+	return true;
+}
+
 
 void print_at(char *message, int col, int row) {
 /* Set cursor if col/row are negative */
@@ -69,37 +90,6 @@ int print_char(char character, int col, int row, char attribute_byte)
     return offset;
 }
 
-void print_hex(unsigned int value, unsigned int width, char *buf, int *ptr)
-{
-    int i = width;
-
-    if (i == 0)
-        i = 8;
-
-    unsigned int n_width = 1;
-    unsigned int j = 0x0F;
-    while (value > j && j < UINT32_MAX)
-    {
-        n_width += 1;
-        j *= 0x10;
-        j += 0x0F;
-    }
-
-    while (i > (int)n_width)
-    {
-        buf[*ptr] = '0';
-        *ptr += 1;
-        i--;
-    }
-
-    i = (int)n_width;
-    while (i-- > 0)
-    {
-        buf[*ptr] = "0123456789abcdef"[(value >> (i * 4)) & 0xF];
-        *ptr += +1;
-    }
-}
-
 int get_screen_offset(int col, int row)
 {
     port_byte_out(REG_SCREEN_CTRL, 14);
@@ -126,7 +116,6 @@ void set_cursor_offset(int offset) {
     port_byte_out(REG_SCREEN_DATA, (unsigned char)(offset & 0xff));
 }
 
-
 void clear_screen() {
     int screen_size = MAX_COLS * MAX_ROWS;
     int i;
@@ -149,10 +138,132 @@ void memory_copy(char *source, char *dest, int no_bytes)
     }
 }
 
+// Standard printing function without formatting
 void print(char *message) {
     print_at(message, -1, -1);
 }
 
+// Printf for formatting purposes
+int printf(const char* __restrict__ format, ...) {
+	va_list parameters;
+	va_start(parameters, format);
+ 
+	int written = 0;
+ 
+	while (*format != '\0') {
+		size_t maxrem = INT_MAX - written;
+ 
+		if (format[0] != '%' || format[1] == '%') {
+			if (format[0] == '%')
+				format++;
+			size_t amount = 1;
+			while (format[amount] && format[amount] != '%')
+				amount++;
+			if (maxrem < amount) {
+				// TODO: Set errno to EOVERFLOW.
+				return -1;
+			}
+			if (!print(format, amount))
+				return -1;
+			format += amount;
+			written += amount;
+			continue;
+		}
+ 
+		const char* format_begun_at = format++;
+ 
+		if (*format == 'c') {
+			format++;
+			char c = (char) va_arg(parameters, int /* char promotes to int */);
+			if (!maxrem) {
+				return -1;
+			}
+			if (!print(&c, sizeof(c)))
+				return -1;
+			written++;
+		} else if (*format == 's') {
+			format++;
+			const char* str = va_arg(parameters, const char*);
+			size_t len = strlen(str);
+			if (maxrem < len) {
+				return -1;
+			}
+			if (!print(str, len))
+				return -1;
+			written += len;
+		} else if (*format == 'd') {
+            format++;
+            int num = va_arg(parameters, int);
+            char buffer[20];
+            int i = 0;
+            if (num == 0) {
+                buffer[i++] = '0';
+            } else if (num < 0) {
+                buffer[i++] = '-';
+                num = -num;
+            }
+            while (num != 0) {
+                buffer[i++] = num % 10 + '0';
+                num /= 10;
+            }
+            while (i > 0) {
+                if (maxrem < 1) {
+                    return -1;
+                }
+                if (!print(&buffer[--i], 1))
+                    return -1;
+                written++;
+            }
+        } else if (*format == 'x') {
+            format++;
+            unsigned int num = va_arg(parameters, unsigned int);
+            char buffer[20];
+            int i = 0;
+            if (num == 0) {
+                buffer[i++] = '0';
+            }
+            while (num != 0) {
+                int rem = num % 16;
+                if (rem < 10) {
+                    buffer[i++] = rem + '0';
+                } else {
+                    buffer[i++] = rem - 10 + 'a';
+                }
+                num /= 16;
+            }
+            while (i > 0) {
+                if (maxrem    < 1) {
+                return -1;
+            }
+            if (!print(&buffer[--i], 1))
+                return -1;
+            written++;
+			}
+
+		} else {
+			format = format_begun_at;
+			size_t len = strlen(format);
+			if (maxrem < len) {
+				return -1;
+			}
+			if (!print(format, len))
+				return -1;
+			written += len;
+			format += len;
+		}
+	}
+	va_end(parameters);
+	return written;
+}
+
+
+
+
+void panic(...) {
+    printf("***KERNEL PANIC*** in %s at line %d in function: %s\n", __FILE__, __LINE__, __func__); 
+    asm volatile("cli");
+    for(;;);
+    }
 
 void play_intro()
 {

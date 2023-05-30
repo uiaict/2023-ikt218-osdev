@@ -1,4 +1,11 @@
+#include <system.h>
+#include <screen.h>
+#include <stdint.h>
 #include "mem.h"
+
+
+#define MAX_PAGE_ALIGNED_ALLOCS 32
+
 
 uint32_t last_alloc = 0;
 uint32_t heap_end = 0;
@@ -17,50 +24,24 @@ void mm_init(uint32_t kernel_end)
 	heap_end = pheap_begin;
 	memset((char *)heap_begin, 0, heap_end - heap_begin);
 	pheap_desc = (uint8_t *)malloc(MAX_PAGE_ALIGNED_ALLOCS);
-	mprint("Kernel heap starts at 0x%x\n", last_alloc);
+	printf("Kernel heap starts at 0x%x\n", last_alloc);
 }
 
 void mm_print_out()
 {
-	kprintf("Memory used: %d bytes\n", memory_used);
-	kprintf("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
-	kprintf("Heap size: %d bytes\n", heap_end - heap_begin);
-	kprintf("Heap start: 0x%x\n", heap_begin);
-	kprintf("Heap end: 0x%x\n", heap_end);
-	kprintf("PHeap start: 0x%x\nPHeap end: 0x%x\n", pheap_begin, pheap_end);
+	printf("Memory used: %d bytes\n", memory_used);
+	printf("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
+	printf("Heap size: %d bytes\n", heap_end - heap_begin);
+	printf("Heap start: 0x%x\n", heap_begin);
+	printf("Heap end: 0x%x\n", heap_end);
+	printf("PHeap start: 0x%x\nPHeap end: 0x%x\n", pheap_begin, pheap_end);
 }
 
 void free(void *mem)
 {
-	alloc_t *alloc = (mem - sizeof(alloc_t));
+	alloc_t *alloc = (alloc_t*)mem - 1;
 	memory_used -= alloc->size + sizeof(alloc_t);
 	alloc->status = 0;
-}
-
-void pfree(void *mem)
-{
-	if(mem < pheap_begin || mem > pheap_end) return;
-	/* Determine which page is it */
-	uint32_t ad = (uint32_t)mem;
-	ad -= pheap_begin;
-	ad /= 4096;
-	/* Now, ad has the id of the page */
-	pheap_desc[ad] = 0;
-	return;
-}
-
-char* pmalloc(size_t size)
-{
-	/* Loop through the avail_list */
-	for(int i = 0; i < MAX_PAGE_ALIGNED_ALLOCS; i++)
-	{
-		if(pheap_desc[i]) continue;
-		pheap_desc[i] = 1;
-		mprint("PAllocated from 0x%x to 0x%x\n", pheap_begin + i*4096, pheap_begin + (i+1)*4096);
-		return (char *)(pheap_begin + i*4096);
-	}
-	mprint("pmalloc: FATAL: failure!\n");
-	return 0;
 }
 
 char* malloc(size_t size)
@@ -93,7 +74,7 @@ char* malloc(size_t size)
 			/* Set to allocated */
 			a->status = 1;
 
-			mprint("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
+			printf("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
 			memset(mem + sizeof(alloc_t), 0, size);
 			memory_used += size + sizeof(alloc_t);
 			return (char *)(mem + sizeof(alloc_t));
@@ -110,7 +91,6 @@ char* malloc(size_t size)
 	nalloc:;
 	if(last_alloc+size+sizeof(alloc_t) >= heap_end)
 	{
-		set_task(0);
 		panic("Cannot allocate %d bytes! Out of memory.\n", size);
 	}
 	alloc_t *alloc = (alloc_t *)last_alloc;
@@ -120,14 +100,35 @@ char* malloc(size_t size)
 	last_alloc += size;
 	last_alloc += sizeof(alloc_t);
 	last_alloc += 4;
-	mprint("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
+	printf("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
 	memory_used += size + 4 + sizeof(alloc_t);
 	memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
 	return (char *)((uint32_t)alloc + sizeof(alloc_t));
 
-void *memset(void* ptr, int value, size_t num) {
-   unsigned char* ptr_byte = (unsigned char*)ptr;
+}
+void* memset(void* bufptr, int value, size_t size) {
+	unsigned char* buf = (unsigned char*) bufptr;
+	for (size_t i = 0; i < size; i++)
+		buf[i] = (unsigned char) value;
+	return bufptr;
+}
 
-   for (size_t i = 0; i < num; ptr_byte[i] = (unsigned char)value, i++);   
-   return ptr;
-};
+// Overload the new operator for single object allocation
+void* operator new(size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+// Overload the new operator for array allocation
+void* operator new[](size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}

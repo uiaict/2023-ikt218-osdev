@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 #include <time.h>
-#include <stdio.h>
 
 
     int isalnum(int c);
@@ -18,30 +17,15 @@
     double asin(double x);
     double atan2(double y, double x);
     double ceil(double x);
-    void clearerr(FILE *stream);
     clock_t clock();
     double cos(double x);
     double cosh(double x);
     double difftime(time_t t1, time_t t2);
     void exit(int status);
     double exp(double x);
-    int fclose(FILE *stream);
-    int feof(FILE *stream);
-    int ferror(FILE *stream);
-    int fflush(FILE *stream);
-    char *fgets(char *s, int size, FILE *stream);
     double floor(double x);
     double fmod(double x, double y);
-    FILE *fopen(const char *path, const char *mode);
-    int fprintf(FILE *stream, const char *format, ...);
-    int fputs(const char *s, FILE *stream);
-    size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);
-    FILE *freopen(const char *path, const char *mode, FILE *stream);
     double frexp(double x, int *exp);
-    int fseek(FILE *stream, long offset, int whence);
-    long ftell(FILE *stream);
-    size_t fwrite(const void *ptr, size_t size, size_t nmemb, FILE *stream);
-    int getc(FILE *stream);
     struct tm *gmtime(const time_t *time);
     double ldexp(double x, int exp);
     struct tm *localtime(const time_t *time);
@@ -53,7 +37,6 @@
     int remove(const char *path);
     int rename(const char *oldPath, const char *newPath);
     char *setlocale(int category, const char *locale);
-    int setvbuf(FILE *stream, char *buf, int mode, size_t size);
     void (*signal(int sig, void (*func)(int)))(int);
     double sin(double x);
     double sinh(double x);
@@ -70,12 +53,10 @@
     double tan(double x);
     double tanh(double x);
     time_t time(time_t *tloc);
-    FILE *tmpfile();
     char *tmpnam(char *s);
     void *memset(void *s, int c, size_t n);
     void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);
-    void *malloc(size_t size);
     void *calloc(size_t num, size_t size);
     void *memmove(void *dest, const void *src, size_t n);
     void free(void *ptr);
@@ -113,5 +94,4 @@
     int isdigit(int c);
     struct lconv *localeconv();
     int rand();
-    int ungetc(int c, FILE *stream);
 

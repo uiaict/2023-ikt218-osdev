@@ -1,5 +1,4 @@
 #include <stdint.h>
-
 #define VIDEO_ADDRESS 0xb8000
 #define MAX_ROWS 25
 #define MAX_COLS 80
@@ -16,9 +15,11 @@ void set_cursor(int cursor);
 void set_cursor_offset(int offset);
 
 void print(char *text);
+int printf (const char* str, ...);
 int print_char(char c, int col, int row, char attr);
 void print_at (char* message, int col, int row);
 void print_hex(unsigned int value, unsigned int width, char * buf, int * ptr);
+void panic(...);
 
 int get_cursor();
 int get_offset(int col, int row);

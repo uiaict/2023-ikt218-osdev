@@ -65,8 +65,6 @@ Asak::CPU::Descriptors::idt_ptr_t   idt_ptr;            // IDT pointer
 void init_idt() {
     idt_ptr.limit = (sizeof(idt_entries) * 256) - 1;
     idt_ptr.base = (uint32_t)&idt_entries;
-
-    //memset(&idt_entries, 0, sizeof(idt_entries)*256); Wack ass function, wasted my whole day  
     
     // Copies the 0 to the first size n characters
     for(int i = 0; i < 256; ++i) {
