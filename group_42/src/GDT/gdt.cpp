@@ -5,18 +5,10 @@
 IJI_OS::GDT::gdt_entry_t gdt[GDT_ENTRIES];
 IJI_OS::GDT::gdt_ptr_t gdt_ptr;
 
-/**
- * Here we are forcing the compiler to name the function init_gdt
- * this is usefull because we a re calling this function from the
- * boot.asm file and we need to be 100% sure what its name is.
-*/
+
 void IJI_OS::GDT::init_gdt() asm ("init_gdt");
 
-/**
- * Here we are doing the oposite of above, instead of allowing our
- * c++ function to be called from assembly we are now allowing the
- * assembly function gdt_flush to be called from c++
-*/
+
 extern "C" {
     extern void gdt_flush(uint32_t);
 }
@@ -25,18 +17,17 @@ extern "C" {
 void IJI_OS::GDT::init_gdt()
 {
     
-    // Set the GDT limit
     gdt_ptr.limit = sizeof( IJI_OS::GDT::gdt_entry_t) * GDT_ENTRIES - 1;
     gdt_ptr.base = (uint32_t)&gdt;
 
-    // num, base, limit, access, granularity
-    gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
-    gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Code segment
-    gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); // Data segment
-    gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
-    gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
+    
+    gdt_set_gate(0, 0, 0, 0, 0);            
+    gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); 
+    gdt_set_gate(2, 0, 0xFFFFFFFF, 0x92, 0xCF); 
+    gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); 
+    gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); 
 
-    // Flush GDT pointer
+   
     
     gdt_flush((uint32_t)&gdt_ptr);
 }

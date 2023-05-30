@@ -1,6 +1,4 @@
-//
-// Created by per on 1/1/23.
-//
+
 #include "idt.h"
 #include <memory.h>
 #include "hardware_port.h"
@@ -14,7 +12,7 @@ void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 extern "C"{
     void idt_flush(uint32_t);
 
-    // These extern directives let us access the addresses of our ASM ISR handlers.
+   
     extern void isr0 ();
     extern void isr1 ();
     extern void isr2 ();
@@ -76,7 +74,7 @@ void init_idt()
 
     memset(&idt_entries, 0, sizeof(idt_entry_t)*NUM_IDT_ENTRIES);
 
-    // Remap the irq table.
+   
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
     outb(0x21, 0x20);
