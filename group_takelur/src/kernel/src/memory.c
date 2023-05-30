@@ -1,7 +1,7 @@
 #include "memory.h"
 
-#include <libc/system.h>
-#include "kernel/memory.h"
+#include <system.h>
+#include "memory.h"
 
 // Simple memset implementation
 void *my_memset(void *dest, int val, unsigned long len)

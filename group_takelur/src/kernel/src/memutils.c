@@ -1,4 +1,4 @@
-#include "kernel/memory.h"   // Include the header file that defines the functions
+#include "memory.h"   // Include the header file that defines the functions
 
 #include <stdint.h>          // Include the standard integer types
 #include <stddef.h>          // Include the standard size types
