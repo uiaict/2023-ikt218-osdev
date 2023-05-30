@@ -65,4 +65,7 @@ void isr_handler(registers_t regs)
     {
         printf("Unhandled Interrupt: %d\n", regs.int_no);
     }
+
+    // Loop forever to prevent the CPU from executing bad code
+    for(;;); 
 }
