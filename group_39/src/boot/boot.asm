@@ -38,14 +38,16 @@ global _start:
 extern kernel_main
 extern init_gdt
 extern init_idt
+extern init_interrupts
+extern init_pic
 
 _start:
     mov esp, stack_top ; Set the esp register to point to top of the stack. 
-    cli ; Disable interrupts
     call init_gdt ; Call init_gdt which sets up and loads the GDT into memory.
     call init_idt ; Call init_idt to set up and load IDT (Interrupt Descriptor Table).
-    sti; Enable interrupts
+    ;sti; Enable interrupts
     call kernel_main ; Call the main function of the kernel.
+    cli
 
 
 .hang:	hlt

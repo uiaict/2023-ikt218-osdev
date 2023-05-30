@@ -7,10 +7,18 @@ extern "C" {
     void kernel_main();
 }
 
+int error = 0;
 
 void dividebyzero()
 {
-    int a = 5/0; //This will cause a division by zero
+
+    int a;
+    if (error == 0)
+    {
+        error += 1;
+        a = 5/0; //This will cause a division by zero
+    }
+
 }
 
 

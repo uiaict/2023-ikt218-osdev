@@ -5,6 +5,7 @@
 ; and our lecturer's examples.
 
 [GLOBAl idt_load] ; This allows us to call this subroutine from our C code. 
+[GLOBAL init_pic]
 
 ; Defines the label of this subroutine. 
 idt_load:

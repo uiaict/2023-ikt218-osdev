@@ -5,19 +5,21 @@
 #include "interrupts.h"
 
 // Number of IDT entries
-#define NUM_IDT_ENTRIES 32
+#define NUM_IDT_ENTRIES 256
 
 extern "C"
 {
     extern void idt_load(uint32_t); // Refers to a function in assembly that loads the IDT register.
 }
 
-
+void outb(uint16_t port, uint8_t value)
+{
+    asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));
+}
 
 
 
 void init_idt() asm ("init_idt"); // This allows assembly code to call our 'init_gdt' function.
-
 
 idt_entry idt_entries[NUM_IDT_ENTRIES];
 
@@ -33,6 +35,8 @@ void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
     idt_entries[num].reserved = 0; // Set the "Reserved/always0" field to 0. 
     idt_entries[num].flags    = flags | 0x60; // Set flags.
 }
+
+
 
 // This function sets up and loads the IDT. 
 void init_idt()
@@ -57,8 +61,6 @@ void init_idt()
 
 
     idt_set_entry(0, (uint32_t)isr0, 0x08, 0x8E);
-
-
 
     idt_load((uint32_t)&idt_pointer); // Load the IDT into IDT register using the assembly function 'idt_load'.
 }
