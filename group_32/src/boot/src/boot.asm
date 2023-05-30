@@ -1,4 +1,5 @@
-bits 32 ; https://perara.notion.site/Lecture-2-x86-and-the-bootloader-d9c08d86e6c7442fa939861506a84b2a#4ea92907979f4075ac815e2e994d3e29
+; https://perara.notion.site/Lecture-2-x86-and-the-bootloader-d9c08d86e6c7442fa939861506a84b2a
+bits 32
 
 MBOOT_PAGE_ALIGN       equ 1<<0    ; Load kernel and modules on a page boundary
 MBOOT_MEM_INFO         equ 1<<1    ; Provide your kernel with memory info
