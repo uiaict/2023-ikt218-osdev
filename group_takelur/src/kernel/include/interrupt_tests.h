@@ -1,7 +1,7 @@
 #ifndef INTERRUPT_TESTS_H
 #define INTERRUPT_TESTS_H
 
-extern int test_divide_by_zero(int a);
+extern int test_divide_by_zero();
 
 extern void trigger_debug_exception();
 

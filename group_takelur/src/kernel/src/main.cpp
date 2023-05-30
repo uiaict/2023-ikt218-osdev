@@ -49,27 +49,32 @@ void kernel_main()
     
     init_interrupt_handlers();  // Initialize interrupt handlers
     init_irq_handlers();        // Initialize IRQ handlers
-    // Enable interrupts
-    asm volatile("sti");
 
-    // Trigger interrupt
+    asm volatile("sti");        // Enable interrupts
+
     clear_monitor();
-    printf("This should insert string: %s\n", "Hello World!");
-    printf("This should insert integer: %d\n", 12345);
-    printf("This should insert decimal %d as hex: %x\n", 1452, 1452);
-    printf("This should insert percentage char: %%\n");
+
+    /* PRINT TESTS */
+    //printf("This should insert string: %s\n", "Hello World!");
+    //printf("This should insert integer: %d\n", 12345);
+    //printf("This should insert decimal %d as hex: %x\n", 1452, 1452);
+    //printf("This should insert percentage char: %%\n");
+    
 
     /* INTERRUPT TESTS
-    Since no exception handling is implemented except printing information about the interrupt, one can only try one at a time
-    since I set CPU in a loop after the interrupt is triggered to prevent running bad code.
+    I have not implementet any actual exception handling. My service routines only print information about which interrupt
+    was triggered, and do not handle the fault. These tests therefore only triggers the ISR, and do not create an actual exception.
     */
-    //printf("Triggering divide by zero exception...\n");     // Trigger divide by zero exception
-    //asm volatile("int $0x0");
-    //int test_1 = test_divide_by_zero(2);
+    //printf("Triggering divide by zero exception...\n");
+    //test_divide_by_zero();
+    //printf("Triggering debug exception...\n"); 
     //trigger_debug_exception();
+    //printf("Triggering breakpoint exception...\n");
     //trigger_breakpoint_exception();
+    //printf("Triggering invalid opcode exception...\n");
     //trigger_invalid_opcode_exception();
-    //trigger_unhandled_interrupt(); // Trigger interrupt 27, which only has the default handler I created
+    //printf("Triggering unhandled interrupt exception...\n");
+    //trigger_unhandled_interrupt(); // Trigger interrupt 27, which only has the default handler I created and is not set explicitly
 
     /* MONITOR WRITING TESTS
     monitor_write("Welcome to OS version 0.0.001!\n", 0, 15);
