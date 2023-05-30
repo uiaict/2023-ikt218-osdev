@@ -70,6 +70,20 @@ void keyboard_processing(registers_t regs)
                 }
             }
 
+            if (alt_gr_pressed) 
+            {
+                switch (ascii) // Adding a few special characters while holding alt gr
+                {
+                    case '2': ascii = '@'; break;
+                    case '3': ascii = '£'; break;
+                    case '4': ascii = '$'; break;
+                    case '7': ascii = '{'; break;
+                    case '8': ascii = '['; break;
+                    case '9': ascii = ']'; break;
+                    case '0': ascii = '}'; break;
+                    case '^': ascii = '~'; break;
+                    default: break; // I do not modify other characters
+                }
             }
         
         // Put the ASCII character in the buffer
