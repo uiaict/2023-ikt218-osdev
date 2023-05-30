@@ -174,6 +174,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/main.cpp
         src/kernel/src/memory.c
+        src/kernel/src/malloc.c
+        src/kernel/src/memutils.c
         src/kernel/src/gdt.c
         src/kernel/src/gdt.asm
         src/kernel/src/idt.c

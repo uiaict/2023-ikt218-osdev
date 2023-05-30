@@ -27,7 +27,7 @@ void init_idt()
     idt_ptr.limit = sizeof(idt_entry_t) * 256 - 1;        // Limit for IDT (256 entries)
     idt_ptr.base  = (u32int)&idt_entries;                // Base address for IDT
 
-    memset(&idt_entries, 0, sizeof(idt_entry_t)*256);    // Zero out the IDT
+    my_memset(&idt_entries, 0, sizeof(idt_entry_t)*256);    // Zero out the IDT
 
     // Remap the irq table.
     // See http://wiki.osdev.org/8259_PIC#Initialisation
