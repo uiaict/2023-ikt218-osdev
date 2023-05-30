@@ -11,20 +11,48 @@ extern "C" {
     #include "interrupt_tests.h"
     #include "keyboard.h"
     #include "memory.h"
+    #include "pit.h"
     void kernel_main();
 }
 
+// THE FOLLOWING FROM LINE 19 TO 39 ARE FROM ASSIGNMENT FILES:
 
-void kernel_main() {
-    // Initialize the GDT
-    init_gdt();
-    init_idt();
-    // Initialize interrupt handlers
-    init_interrupt_handlers();
-    init_irq_handlers();
+extern uint32_t end; // This is defined in linker.ld
+typedef uint32_t size_t;
+
+// Overload the new operator for single object allocation
+void* operator new(size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+// Overload the new operator for array allocation
+void* operator new[](size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+void kernel_main() 
+{
+    init_kernel_memory(&end);   // Initialize kernel memory
+   
+    init_gdt();                 // Initialize the GDT
+    init_idt();                 // Initialize the IDT
+    
+    init_interrupt_handlers();  // Initialize interrupt handlers
+    init_irq_handlers();        // Initialize IRQ handlers
     // Enable interrupts
     asm volatile("sti");
 
+    // Trigger interrupt
     clear_monitor();
     printf("This should insert string: %s\n", "Hello World!");
     printf("This should insert integer: %d\n", 12345);
@@ -36,6 +64,7 @@ void kernel_main() {
     since I set CPU in a loop after the interrupt is triggered to prevent running bad code.
     */
     //printf("Triggering divide by zero exception...\n");     // Trigger divide by zero exception
+    //asm volatile("int $0x0");
     //int test_1 = test_divide_by_zero(2);
     //trigger_debug_exception();
     //trigger_breakpoint_exception();
