@@ -17,7 +17,7 @@ extern "C"{
 void init_isr(){
     // Nullify all the interrupt handlers.
     memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
-    print("ISR initialized.\n");
+    print("ISR's initialized.\n");
 }
 
 // Can register all handlers
@@ -49,25 +49,48 @@ void isr_handler(registers_t reg) {
     }
     else
     {
-        print(" -Something went wrong! Handler == NULL");
+        print("Error! No registered interrupt handler");
     }
+}
+
+// The IRQ follows the same layout as ISR here, codewise.
+
+void init_irq() {
+  for (int i = 0; i < IRQ_COUNT; i++) {
+    irq_handlers[i].data = NULL;
+    irq_handlers[i].handler = NULL;
+    irq_handlers[i].num = i;
+  }
+  print("IRQ's initialized.\n");
+}
+
+void register_irq_handler(int irq, isr_t handler, void* ctx) {
+  irq_handlers[irq].handler = handler;
+  irq_handlers[irq].data = ctx;
+}
+
+void register_all_irq_handlers() {
+    
 }
 
 void irq_handler(registers_t reg)
 {
-    // Send an EOI (end of interrupt) signal to the PICs.
-    // If this interrupt involved the slave.
+    print("Recieved Interrupt request! ");
+    
     if (reg.int_no >= 40)
     {
-        // Send reset signal to slave.
         outb(0xA0, 0x20);
     }
-    // Send reset signal to master. (As well as slave, if necessary).
+    // Send reset signal
     outb(0x20, 0x20);
 
     interrupt_t interrupt = interrupt_handlers[reg.int_no];
-    if (interrupt.handler != 0)
+    if (interrupt.handler != NULL)
     {
         interrupt.handler(&reg, interrupt.context);
+    }
+    else
+    {
+        print("Error! No registered IRQ handler");
     }
 }
