@@ -67,5 +67,5 @@ void isr_handler(registers_t regs)
     }
 
     // Loop forever to prevent the CPU from executing bad code
-    for(;;); 
+    //for(;;); 
 }
