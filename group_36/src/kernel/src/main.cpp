@@ -259,23 +259,19 @@ public:
         printf("]:  $");
     }
 
-    void sleep_busy(int seconds) {
-        int start_tick = get_tick();
-        int ticks_to_wait = seconds*1193180;
-        int elapsed_ticks = 0;
-        while(elapsed_ticks < ticks_to_wait){
-            if (get_tick() != start_tick + elapsed_ticks){
-                break;
-            }
-            else{
-                elapsed_ticks += (get_tick()-start_tick)-elapsed_ticks;
-            }
+    void sleep_busy(int seconds_) {
+        int current_tick = get_tick();
+        int ticks_to_wait = seconds_*100;
+        int end_ticks = current_tick + ticks_to_wait;
+        while(current_tick < end_ticks){
+            current_tick = get_tick();
         }
     }
+    
 
-    void sleep_interrupt(int seconds) {
+    void sleep_interrupt(int seconds_) {
         int current_tick = get_tick();
-        int ticks_to_wait = seconds*1193180;
+        int ticks_to_wait = seconds_*100;
         int end_ticks = current_tick + ticks_to_wait;
         while(current_tick < end_ticks){
             asm volatile("sti");
@@ -353,7 +349,7 @@ void kernel_main(void)
     asm volatile ("int $0x4");
 
     // Enable interrutps
-    asm volatile("sti");
+    // asm volatile("sti");
 
 
     // int memory_1 = kmalloc(12345);
@@ -386,22 +382,22 @@ void kernel_main(void)
     }, &os);
 
     int counter = 0;
-    while(true){
-        printf("Sleeping with busy-waiting (HIGH CPU):");
-        print_int(counter);
-        printf("\n");
-        os.sleep_busy(1000);
-        printf("Slept using busy-waiting:");
-        print_int(counter++);
-        printf("\n");
-        printf("Sleeping with interrupts (LOW CPU):");
-        print_int(counter);
-        printf("\n");
-        os.sleep_interrupt(1000);
-        printf("Slept using interrupts:");
-        print_int(counter++);
-        printf("\n");
-    };
+    printf("Sleeping with busy-waiting for 5 seconds (HIGH CPU)...\n");
+    // print_int(counter);
+    // printf("\n");
+    os.sleep_busy(5);
+    printf("Slept using busy-waiting.\n");
+    // print_int(counter++);
+    // printf("\n");
+    printf("Sleeping with interrupts for 5 seconds (LOW CPU)...\n");
+    // print_int(counter);
+    // printf("\n");
+    os.sleep_interrupt(5);
+    printf("Slept using interrupts.\n");
+    // print_int(counter++);
+    // printf("\n");
 
+
+    while(true){}
     // while(1){}
 }
