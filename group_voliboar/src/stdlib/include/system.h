@@ -115,3 +115,6 @@
     int rand();
     int ungetc(int c, FILE *stream);
 
+    // Our custom shit
+    void terminal_initialize(void);
+    void terminal_writestring(const char* data);

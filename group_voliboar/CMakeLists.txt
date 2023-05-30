@@ -146,7 +146,7 @@ set(OS_MODULE_BOOT_SOURCES
         # GDT
         src/kernel/cpu/gdt.asm
         src/kernel/cpu/gdt.cpp
-        src/kernel/include/gdt.h
+        src/kernel/cpu/gdt.h
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -174,9 +174,8 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/*.cpp
-        src/kernel/*.c
-        src/kernel/*.asm
+        src/kernel/src/*.cpp
+        src/kernel/src/*.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
