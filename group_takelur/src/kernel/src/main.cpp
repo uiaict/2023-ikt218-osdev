@@ -52,7 +52,49 @@ void kernel_main()
 
     asm volatile("sti");        // Enable interrupts
 
+    init_paging();              // Initialize paging
+
+    //init_pit();                 // Initialize PIT
+
     clear_monitor();
+
+    printf("Printing memory layout after initialization\n\n");
+    print_memory_layout();      // Print memory layout
+
+    // Allocate some memory using kernel memory manager
+    // THIS IS PART OF THE ASSIGNMENT
+    void* some_memory = malloc(12345); 
+    void* memory2 = malloc(54321); 
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
+
+    // TODO: sleep for 10 sec
+    for (int i = 0; i < 1000000000; i++) {
+        i = i + 1;
+    }
+
+    clear_monitor();
+    printf("Printing memory layout after after allocation\n\n");
+    print_memory_layout();      // Print memory layout
+
+    // Free some memory using kernel memory manager
+    free(some_memory);  // Free memory allocated using malloc
+    free(memory2);
+    free(memory3);
+    delete[] memory4;   // Delete because memory was allocated using new[]
+
+    // TODO: sleep for 10 sec
+    for (int i = 0; i < 1000000000; i++) {
+        i = i + 1;
+    }
+
+    clear_monitor();
+    printf("Printing memory layout after after freeing memory\n\n");
+    print_memory_layout();      // Print memory layout
+    // TODO: sleep for 10 sec
+    for (int i = 0; i < 1000000000; i++) {
+        i = i + 1;
+    }
 
     /* PRINT TESTS */
     //printf("This should insert string: %s\n", "Hello World!");
@@ -93,7 +135,6 @@ void kernel_main()
      Since no sleep function is implemented I will temporarily juse use a busy loop
     for (int i = 0; i < 1000000000; i++) {
         i = i + 1;
-        i = i - 1;
     }
     monitor_write("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25", 0, 15);
     */
