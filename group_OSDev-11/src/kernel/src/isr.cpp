@@ -21,21 +21,21 @@ void isr_handler(registers regs)
         intrpt.handler(&regs, intrpt.data);
     }
     else {
-        terminal_write("Unhandled interrupt");
+        write_to_terminal("Unhandled interrupt");
     }
 }
 
-void init_interrupt_handlers()
+void initialize_interrupt_handlers()
 {
     register_interrupt_handler(3, [](registers* regs, void* data) {
-        terminal_write("Interrupt 3 was triggered");
+        write_to_terminal("Interrupt 3 was triggered");
     }, NULL);
     
     register_interrupt_handler(4, [](registers* regs, void* data) {
-        terminal_write("Interrupt 4 was triggered");
+        write_to_terminal("Interrupt 4 was triggered");
     }, NULL);
 
     register_interrupt_handler(5, [](registers* regs, void* data) {
-        terminal_write("Interrupt 5 was triggered");
+        write_to_terminal("Interrupt 5 was triggered");
     }, NULL);
 }

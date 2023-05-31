@@ -14,7 +14,7 @@ const size_t VGA_WIDTH = 80;
 const size_t VGA_HEIGHT = 25;
 
 // Initialize terminal
-void terminal_init() {
+void initialize_terminal() {
     
 	for (size_t i = 0; i < VGA_HEIGHT; i++) {
         
@@ -26,7 +26,7 @@ void terminal_init() {
 }
 
 // Print string to terminal
-void terminal_write(const char* str) {
+void write_to_terminal(const char* str) {
     
 	size_t index = 0; // Index to keep track of current character
 
@@ -74,7 +74,7 @@ void terminal_write_char(char c) {
         }
     }
     if (terminal_row == VGA_HEIGHT) {
-        terminal_init(); 
+        initialize_terminal(); 
         terminal_row = 0;
         terminal_col = 0;
     }
@@ -87,13 +87,13 @@ extern "C"{
 
 void kernel_main()
 {
-    terminal_init();
-    terminal_write("Hello World");
+    initialize_terminal();
+    write_to_terminal("Hello World");
     
     asm volatile("int $0x3");
     asm volatile("int $0x4");
     //asm volatile("int $0x5");
 
-   terminal_init();
+   initialize_terminal();
    while(true){};
 }

@@ -16,14 +16,14 @@ struct gdt_entry
 } __attribute__((packed)); // For gcc to use as little memory as possible
 
 // Local descriptor table pointer
-struct gdt_ptr 
+struct gdt_pointer 
 {
     uint16_t limit; // 16 bit limit. Size of the GDT
     uint32_t base; // 32 bit pointer. First entry in GDT
 } __attribute__((packed));
 
 
-void gdt_init();
+void initialize_gdt();
 
 void gdt_descriptors(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 

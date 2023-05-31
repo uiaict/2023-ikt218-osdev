@@ -117,7 +117,7 @@ struct idt_entry
 } __attribute__((packed));
 
 // idt pointer
-struct idt_ptr 
+struct idt_pointer 
 {
     uint16_t limit;
     uint32_t base;
@@ -144,10 +144,10 @@ struct int_handler
 static struct int_handler int_handlers[IDT_ENTRIES];
 static struct int_handler irq_handlers[IRQ_COUNT];
 
-void idt_init();
+void idt_initialize();
 void init_interrupts();
 void irq_init();
-void init_interrupt_handlers();
+void initialize_interrupt_handlers();
 void init_irq_handlers();
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 void register_irq_handler(int irq, isr_t handler, void* ctx);

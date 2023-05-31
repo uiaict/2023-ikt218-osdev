@@ -3,19 +3,19 @@
 #include <cstddef>
 #include "common.h"
 
-void idt_init() asm("idt_init");
+void idt_initialize() asm("idt_initialize");
 
 extern "C" {
     extern void idt_flush(uint32_t);
 }
 
 struct idt_entry idt[IDT_ENTRIES];
-struct idt_ptr idt_ptr;
+struct idt_pointer idt_pointer;
 
-void idt_init() {
+void idt_initialize() {
     // IDT limit
-    idt_ptr.limit = sizeof(struct idt_entry) * IDT_ENTRIES - 1;
-    idt_ptr.base = (uint32_t) &idt;
+    idt_pointer.limit = sizeof(struct idt_entry) * IDT_ENTRIES - 1;
+    idt_pointer.base = (uint32_t) &idt;
 
     // Initialize IDT entries
     for (int i = 0; i < IDT_ENTRIES; i++) {
@@ -29,12 +29,12 @@ void idt_init() {
     }
 
     init_interrupts();
-    init_interrupt_handlers();
+    initialize_interrupt_handlers();
     irq_init();
     init_irq_handlers();
 
     // Load IDT
-    idt_flush((uint32_t)&idt_ptr);
+    idt_flush((uint32_t)&idt_pointer);
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) 
