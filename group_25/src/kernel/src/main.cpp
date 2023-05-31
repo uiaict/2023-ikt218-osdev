@@ -3,11 +3,12 @@
 
 #include "terminal.h"
 #include "pit.h"
-//#include "memory.h"
+
+#define TEST_MEMORY false
+#define TEST_INTERRUPT false
 
 // This is defined in linker.ld
 extern uint32_t end;
-
 
 // Overload the new operator for single object allocation
 void* operator new(std::size_t size) {
@@ -72,39 +73,39 @@ void kernel_main(){
     printf("Hello World!\n");
 
     // Test memory
+    if(TEST_MEMORY){
+        terminal_newpage();
     
-    terminal_newpage();
-    
-    // Allocate some memory using kernel memory manager
-    void* memory1 = malloc(12345); 
-    void* memory2 = malloc(54321); 
-    void* memory3 = new char;
-    char* memory4 = new char[1000]();
+        // Allocate some memory using kernel memory manager
+        void* memory1 = malloc(12345); 
+        void* memory2 = malloc(54321); 
+        void* memory3 = new char;
+        char* memory4 = new char[1000]();
 
-    print_memory_layout();
+        print_memory_layout();
 
-    delete memory1;
-    delete memory2;
-    delete memory3;
-    delete memory4;
+        delete memory1;
+        delete memory2;
+        delete memory3;
+        delete memory4;
 
-    print_memory_layout();
-    
+        print_memory_layout();
+    }
 
     // Wait for interrupts
     while(1){
         
         // Test interrupts
-        
-        printf("Sleeping with interrupts...   ");
-        sleep_interrupt(1000);
-        printf("Finished sleeping\n");
-        printf("Sleeping with busy-waiting... ");
-        sleep_busy(1000);
-        printf("Finished sleeping\n");
-        
-
-        //sleep_interrupt(1000);
+        if(TEST_INTERRUPT){
+            printf("Sleeping with interrupts...   ");
+            sleep_interrupt(1000);
+            printf("Finished sleeping\n");
+            printf("Sleeping with busy-waiting... ");
+            sleep_busy(1000);
+            printf("Finished sleeping\n");
+        }else{
+            sleep_interrupt(1000);
+        }
     };
 
 }
