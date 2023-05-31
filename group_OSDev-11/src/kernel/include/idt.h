@@ -144,7 +144,7 @@ struct int_handler
 static struct int_handler int_handlers[IDT_ENTRIES];
 static struct int_handler irq_handlers[IRQ_COUNT];
 
-void idt_initialize();
+void initialize_idt();
 void init_interrupts();
 void irq_init();
 void initialize_interrupt_handlers();

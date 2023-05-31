@@ -49,12 +49,12 @@ _start:
 	mov esp, stack_top
 
 	; initialize GDT
-	extern gdt_init
-	call gdt_init
+	extern initialize_gdt
+	call initialize_gdt
 
 	; initialize IDT
-	extern idt_init
-	call idt_init
+	extern initialize_idt
+	call initialize_idt
 
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.

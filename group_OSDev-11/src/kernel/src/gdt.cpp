@@ -19,10 +19,10 @@ void gdt_descriptors(int num, uint32_t base, uint32_t limit, uint8_t access, uin
     gdt_descriptor[num].access = access;
 }
 
-void initialize_gdt() asm ("gdt_init");
+void initialize_gdt() asm ("initialize_gdt");
 
 extern "C" {
-    extern void gdt_flush(uint32_t);
+    extern void flush_gdt(uint32_t);
 }
 
 void initialize_gdt()
@@ -37,5 +37,5 @@ void initialize_gdt()
     gdt_descriptors(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
     //flush old GDT implemented by GRUB and load new GDT
-    gdt_flush((uint32_t)&gdt_pointer); 
+    flush_gdt((uint32_t)&gdt_pointer); 
 }

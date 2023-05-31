@@ -3,7 +3,7 @@
 #include <cstddef>
 #include "common.h"
 
-void idt_initialize() asm("idt_initialize");
+void initialize_idt() asm("initialize_idt");
 
 extern "C" {
     extern void idt_flush(uint32_t);
@@ -12,7 +12,7 @@ extern "C" {
 struct idt_entry idt[IDT_ENTRIES];
 struct idt_pointer idt_pointer;
 
-void idt_initialize() {
+void initialize_idt() {
     // IDT limit
     idt_pointer.limit = sizeof(struct idt_entry) * IDT_ENTRIES - 1;
     idt_pointer.base = (uint32_t) &idt;

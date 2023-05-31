@@ -1,6 +1,6 @@
-[GLOBAL gdt_flush]    ; Allows the C code to call gdt_flush().
+[GLOBAL flush_gdt]    ; Allows the C code to call flush_gdt().
 
-gdt_flush:
+flush_gdt:
     mov eax, [esp+4]  ; Get the pointer to the GDT, passed as a parameter.
     lgdt [eax]        ; Load the new GDT pointer
 
