@@ -3,9 +3,8 @@
 #include <cstddef>
 #include "common.h"
 
-void idt_init() asm("idt_init");
-
 extern "C" {
+    void idt_init();
     extern void idt_flush(uint32_t);
     extern void (*isr_arr[])(void);
 }

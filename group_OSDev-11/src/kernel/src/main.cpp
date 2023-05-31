@@ -1,8 +1,8 @@
-#include "system.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #include "gdt.h"
+#include "idt.h"
 
 // Constants for VGA text mode buffer
 static volatile uint16_t* const VGA_TEXT_BUFFER = (uint16_t*) 0xB8000; 
