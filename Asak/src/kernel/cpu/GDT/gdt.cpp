@@ -1,4 +1,4 @@
-#include <descriptor.h>
+#include <cpu/descriptor.h>
 #include <screen.h>
 
 

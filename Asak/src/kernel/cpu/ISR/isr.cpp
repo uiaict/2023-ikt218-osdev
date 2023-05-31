@@ -1,16 +1,18 @@
 #include <hardware_port.h>
 #include <system.h>
-#include "isr.h"
+#include <cpu/isr.h>
 #include <screen.h>
 
 // Set up handlers
 interrupt_t interrupt_handlers[256];
 
 extern "C"{
+    #include <kernel/memory.h>
     void init_isr() asm("init_isr");
     void init_irq() asm("init_irq");
     void irq_handler(registers_t reg) asm("irq_handler");
     void isr_handler(registers_t reg) asm("isr_handler");
+    
 }
 
 // Initialize ISR

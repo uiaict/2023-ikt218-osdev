@@ -1,4 +1,4 @@
-#include <descriptor.h>
+#include <cpu/descriptor.h>
 #include "hardware_port.h"
 #include <system.h>
 #include <screen.h>
