@@ -7,6 +7,8 @@ extern "C" {
 
 
 void init_gdt() {
+  screenWriteString("Initializing GDT. ");
+
   // Set the GDT limit
   gdt_ptr.limit = sizeof(struct gdt_entry_t) * GDT_ENTRIES - 1;
   gdt_ptr.base = (uint32_t) &gdt;
@@ -20,7 +22,7 @@ void init_gdt() {
   // Load the GDT
   gdt_flush((uint32_t)&gdt_ptr);
   
-  screenWriteString("Gdt funker");
+  screenWriteString("GDT initialized. ");
 }
 
 
@@ -36,5 +38,5 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 
     gdt[num].granularity |= gran & 0xF0;
     gdt[num].access      = access;
-    screenWriteString("Gdt funker");
+    screenWriteString("Set value of a GDT entry. ");
 }
