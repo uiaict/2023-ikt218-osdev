@@ -28,8 +28,8 @@ void kernel_main()
 
 
 
-    dividebyzero();
-    printString("Hello World"); // Write "Hello World" to the screen.
+    asm volatile("int $0x0");
+    printString("Hello Worlgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggd"); // Write "Hello World" to the screen.
     int b = 55;
     int c = 76;
 }
