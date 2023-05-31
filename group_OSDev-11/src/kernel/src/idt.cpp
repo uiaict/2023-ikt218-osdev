@@ -4,7 +4,6 @@
 #include "common.h"
 
 extern "C" {
-    void idt_init();
     extern void idt_flush(uint32_t);
     extern void (*isr_arr[])(void);
 }
@@ -31,7 +30,7 @@ void idt_init() {
     irq_init();
     init_irq_handlers();
 
-    idt_flush(reinterpret_cast<uint32_t>(&idt_ptr));
+    idt_flush((uint32_t)&idt_ptr);
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {

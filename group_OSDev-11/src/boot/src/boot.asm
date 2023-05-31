@@ -49,7 +49,7 @@ section .text
 
         ; initialize IDT
 	    extern idt_init
-	    call idt_init
+        call idt_init
         
         extern main_kernel ; Declare the kernel_main function
         call main_kernel   ; Call the kernel_main function
