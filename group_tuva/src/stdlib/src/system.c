@@ -3,7 +3,6 @@
 #include "stdint.h"
 #include "stdio.h"
 #include "time.h"
-//#include "/home/tuvaea/ikt218-osdev/group_tuva/src/kernel/include/common.h"
 #include <stdint.h>
 
 

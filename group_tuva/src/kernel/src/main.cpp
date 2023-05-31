@@ -5,6 +5,10 @@
 #include "keyboard.h"
 #include "hardware.h"
 #include "timer.h"
+
+
+
+
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     #include "system.h"
@@ -38,23 +42,23 @@ public:
 
     void init() {
 
-        printf("Initializing UiA Operating System....");
-        //print_new_line();
+        monitor_write("Initializing UiA Operating System....\n");
+        
     }
 
     void debug_print(char *str) {
-        printf(str);
-        //print_new_line();
+        monitor_write(str);
+        
     }
 
     void interrupt_handler_3(registers_t regs) {
-        printf("Called Interrupt Handler 3!");
-        //print_new_line();
+        monitor_write("Called Interrupt Handler 3!\n");
+       
     }
 
     void interrupt_handler_4(registers_t regs) {
-        printf("Called Interrupt Handler 4!");
-        //print_new_line();
+        monitor_write("Called Interrupt Handler 4!\n");
+       
     }
 
     void timer() {
@@ -72,17 +76,20 @@ public:
 // Main entry point for kernel
 void kernel_main()
 {
+    monitor_clear();
     auto os = OperatingSystem(WHITE);
     os.init();
 
     
-    monitor_clear();
-    monitor_write("Hello, Per!");
+    
+    //monitor_write("Hello, World!\n");
 
     // Initializes the descriptor tables, and prints to indicate
     // that the GDT has been successfully initialized
     init_descriptor_tables();
-    monitor_write("\nGDT initialized!\n");
+    //monitor_write("\nGDT initialized!\n");
+
+
     register_interrupt_handler(3,[](registers_t* regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->interrupt_handler_3(*regs);
