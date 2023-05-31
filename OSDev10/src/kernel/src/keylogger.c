@@ -1,16 +1,17 @@
 #include "keylogger.h"
-#include "monitor.h"
+#include "print.h"
 #include "isr.h"
 #include "scancode.h"
 
-static void logger_callback(){
+static void keylogger(){
+    // Disable interupt to prevent other interupts to interfere.
     asm volatile ("cli");
     char key = scancode_to_ascii(inb(0x60));
-    monitor_put(key);
+    print_char(key);
+    // Re-enable interupts.
     asm volatile ("sti");
 }
 
 void init_keylogger(){
-    register_interrupt_handler(IRQ1, &logger_callback);
-
+    register_interrupt_handler(IRQ1, &keylogger);
 }

@@ -1,4 +1,4 @@
-//
+// From jamesm's kernel development tutorials:
 // descriptor_tables.c - Initialises the GDT and IDT, and defines the 
 //                       default ISR and IRQ handler.
 //                       Based on code from Bran's kernel development tutorials.
@@ -27,12 +27,8 @@ idt_ptr_t   idt_ptr;
 // initialises the GDT and IDT.
 void init_descriptor_tables()
 {
-
-    // Initialise the global descriptor table.
     init_gdt();
-    // Initialise the interrupt descriptor table.
     init_idt();
-
 }
 
 static void init_gdt()
@@ -142,7 +138,5 @@ static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
 
     idt_entries[num].sel     = sel;
     idt_entries[num].always0 = 0;
-    // We must uncomment the OR below when we get to using user-mode.
-    // It sets the interrupt gate's privilege level to 3.
-    idt_entries[num].flags   = flags /* | 0x60 */;
+    idt_entries[num].flags   = flags;
 }

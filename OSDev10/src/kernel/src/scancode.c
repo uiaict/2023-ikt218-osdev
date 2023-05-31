@@ -1,6 +1,7 @@
 #include "scancode.h"
 #include "common.h"
 
+// Translate scancode to ascii.
 char scancode_to_ascii(u32int scancode)
 {
     switch(scancode)

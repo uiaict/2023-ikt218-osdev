@@ -1,5 +1,5 @@
 #include "descriptor_tables.h"
-#include "monitor.h"
+#include "print.h"
 #include "isr.h"
 #include "keylogger.h"
 
@@ -13,8 +13,8 @@ void kernel_main()
 {
     init_descriptor_tables();
 
-    monitor_clear();
-    monitor_write("Welcome to OS10!\n");
+    clear_screen();
+    print_string("Welcome to OS10!\n");
 
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");
@@ -24,7 +24,7 @@ void kernel_main()
 
     init_keylogger();
 
-    monitor_write("Starting keylogger...\n");
+    print_string("Starting keylogger...\n");
     while(1){};
-    monitor_write("Goodbye");
+    print_string("Goodbye");
 }

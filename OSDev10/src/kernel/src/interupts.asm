@@ -14,6 +14,7 @@
     push byte %1
     jmp isr_common_stub
 %endmacro 
+; Taken from JamesM Kernel tutorials.
 
 ; This macro creates a stub for an IRQ - the first parameter is
 ; the IRQ number, the second is the ISR number it is remapped to.
