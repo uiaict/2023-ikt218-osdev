@@ -49,6 +49,9 @@ _start:
     extern init_isr ; Interrupt Service Routine
     call init_isr
 
+    extern init_irq ; IRQ
+    call init_irq
+
     ; Kernel call
     extern kernel_main
     call kernel_main  ; call our kernel_main() function.

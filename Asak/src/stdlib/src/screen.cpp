@@ -164,11 +164,11 @@ void play_intro()
     print("  [...... [..    [... [..   [.. [.[..   [..        [..      [..      \n");
     print(" [..       [..     [..[..   [.. [.. [..   [..     [.. [..    [..     \n");
     print("[..         [..[.. [..  [.. [...[..  [..    [....       [.. ..       \n");
-    print("----------------------------------------------------------------\n\n");
+    print("----------------------------------------------------------------\n");
     print("--------------------------Hello World!--------------------------\n\n");
 
     // Til slutt må vi sette cursor til under beskjeden
-    set_cursor_offset(get_offset(0, 13));
+    set_cursor_offset(get_offset(0, 10));
 }
 
 int get_offset(int col, int row) { 
