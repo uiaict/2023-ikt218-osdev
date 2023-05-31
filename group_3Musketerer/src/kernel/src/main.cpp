@@ -1,4 +1,7 @@
-#include "system.h"
+extern "C" {
+
+    #include "print.h"
+}
 
 
 // Define entry point in asm to prevent C++ mangling
@@ -18,7 +21,8 @@ extern "C"{
 
 void kernel_main()
 {
-    //write_terminal(11, "Hello WORLD"); //TODO: implement scroll/cursor (http://www.osdever.net/bkerndev/Docs/printing.htm)
+    print_clear();
+    print_str("Hello World");
 }
 
 
