@@ -117,6 +117,24 @@ void idt_init()
     idt_descriptors(29, (uint32_t)isr29, 0x08, 0x8E);
     idt_descriptors(30, (uint32_t)isr30, 0x08, 0x8E);
     idt_descriptors(31, (uint32_t)isr31, 0x08, 0x8E);
+    idt_descriptors(32, (uint32_t)irq0 , 0x08, 0x8E);
+    idt_descriptors(33, (uint32_t)irq1 , 0x08, 0x8E);
+    idt_descriptors(34, (uint32_t)irq2 , 0x08, 0x8E);
+    idt_descriptors(35, (uint32_t)irq3 , 0x08, 0x8E);
+    idt_descriptors(36, (uint32_t)irq4 , 0x08, 0x8E);
+    idt_descriptors(37, (uint32_t)irq5 , 0x08, 0x8E);
+    idt_descriptors(38, (uint32_t)irq6 , 0x08, 0x8E);
+    idt_descriptors(39, (uint32_t)irq7 , 0x08, 0x8E);
+    idt_descriptors(40, (uint32_t)irq8 , 0x08, 0x8E);
+    idt_descriptors(41, (uint32_t)irq9 , 0x08, 0x8E);
+    idt_descriptors(42, (uint32_t)irq10, 0x08, 0x8E);
+    idt_descriptors(43, (uint32_t)irq11, 0x08, 0x8E);
+    idt_descriptors(44, (uint32_t)irq12, 0x08, 0x8E);
+    idt_descriptors(45, (uint32_t)irq13, 0x08, 0x8E);
+    idt_descriptors(46, (uint32_t)irq14, 0x08, 0x8E);
+    idt_descriptors(47, (uint32_t)irq15, 0x08, 0x8E);
+    
+
   
 
     idt_flush((uint32_t)&idtr);                                 // Call to idt_flush function to load the IDT register with the new values

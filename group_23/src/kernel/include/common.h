@@ -16,6 +16,9 @@ void outb(uint16_t port, uint8_t value);
 uint8_t inb(uint16_t port);
 uint16_t inw(uint16_t port);
 
+#define low_16(address) (u16)((address) & 0xFFFF)
+#define high_16(address) (u16)(((address) >> 16) & 0xFFFF)
+
 
 
 #define PANIC(msg) panic(msg, __FILE__, __LINE__);

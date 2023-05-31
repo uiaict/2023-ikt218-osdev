@@ -2,13 +2,15 @@
 #include "../include/isr.h"
 #include "../include/monitor.h"
 #include "../include/common.h"
+#include <stdint.h>
+#include <string.h>
 
 #define SC_MAX 57
 #define BACKSPACE 0x0E
 #define ENTER 0x1C
 static char key_buffer[256];
 
-const char *sc_name[] = { "ERROR", "Esc", "1", "2", "3", "4", "5", "6", 
+/*const char *sc_name[] = { "ERROR", "Esc", "1", "2", "3", "4", "5", "6", 
     "7", "8", "9", "0", "-", "=", "Backspace", "Tab", "Q", "W", "E", 
         "R", "T", "Y", "U", "I", "O", "P", "[", "]", "Enter", "Lctrl", 
         "A", "S", "D", "F", "G", "H", "J", "K", "L", ";", "'", "`", 
@@ -19,21 +21,37 @@ const char sc_ascii[] = { '?', '?', '1', '2', '3', '4', '5', '6',
     '7', '8', '9', '0', '-', '=', '?', '?', 'Q', 'W', 'E', 'R', 'T', 'Y', 
         'U', 'I', 'O', 'P', '[', ']', '?', '?', 'A', 'S', 'D', 'F', 'G', 
         'H', 'J', 'K', 'L', ';', '\'', '`', '?', '\\', 'Z', 'X', 'C', 'V', 
-        'B', 'N', 'M', ',', '.', '/', '?', '?', '?', ' '};
+        'B', 'N', 'M', ',', '.', '/', '?', '?', '?', ' '};*/
 
-static void keyboard_callback(registers_t *regs) {
-    /* The PIC leaves us the scancode in port 0x60 */
-    uint8_t scancode = inb(0x60);
+static void keyboard_callback(registers_t *regs){
+    uint8_t scancode= inb(0x60);
+    if(scancode>SC_MAX) return;
+    if(scancode==BACKSPACE){
+        monitor_put(key_buffer);
+        
+    }
     
-    print_letter(scancode);
-
-
+    else{
+        //char *sc_ascii;
+        //int_to_ascii(scancode, sc_ascii);
+        monitor_put('\n');
+        monitor_write("Keyboard scancode: ");
+        //monitor_write(sc_ascii);
+        print_letter(scancode);
+        
+    }
     
 }
 
 void init_keyboard() {
-   register_interrupt_handler(IRQ1, keyboard_callback); 
+    
+
+    register_interrupt_handler(IRQ1, keyboard_callback);
+    
 }
+
+
+
 void print_letter(uint8_t scancode) 
 {
     switch (scancode) 
@@ -164,5 +182,28 @@ void print_letter(uint8_t scancode)
         case 0x29:
             monitor_put('`');
             break;
+        case 0x2A:
+            monitor_write("LShift");
+            break;
+        case 0x2B:
+            monitor_put('\\');
+            break;
+        case 0x39:
+            monitor_write("Spacebar");
+            break;
+        default:
+            /* 'keyboard.c' defines all scancodes above as 'ERROR' */
+            if (scancode <= 0x7f){
+                monitor_write("Unknown key down");
+            }
+            else if (scancode <= 0x39 + 0x80){
+                monitor_write("key up");
+                print_letter(scancode - 0x80);
+            }
+            else{
+                monitor_write("Unknown key up");
+            }
+            break;
+        
     }
 }

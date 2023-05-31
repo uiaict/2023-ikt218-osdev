@@ -1,5 +1,5 @@
 #include "../include/heap.h"
-#include "system.h"
+//#include "system.h"
 #include "../include/monitor.h"
 #define MAX_PAGE_ALIGNED_ALLOCS 32
 
@@ -21,11 +21,12 @@ void init_kernel_memory(uint32_t* kernel_end)
     heap_end = pheap_begin;                                     // kernel heap end address, where page heap begins                                   
     memset((char *)heap_begin, 0, heap_end - heap_begin);       // clear memory withing kernel heap range, set all bytes to 0
     pheap_desc = (uint8_t *)malloc(MAX_PAGE_ALIGNED_ALLOCS);    // set to 0, pointer to page heap descriptor
-    monitor_write("Kernel heap starts at 0x");
+    monitor_write("Kernel heap starts at ");
     monitor_write_hex(last_alloc);
     monitor_write("\n");
-    //printf("Kernel heap starts at 0x%x\n", last_alloc);        
+          
 }
+
 
 // Print the current memory layout
 void print_memory_layout()
@@ -40,15 +41,15 @@ void print_memory_layout()
     monitor_write("Heap size:");
     monitor_write_dec(heap_end - heap_begin);
     monitor_write("bytes\n");
-    monitor_write("Heap start: 0x");
+    monitor_write("Heap start: ");
     monitor_write_hex(heap_begin);
     monitor_write("\n");
-    monitor_write("Heap end: 0x");
+    monitor_write("Heap end: ");
     monitor_write_hex(heap_end);
     monitor_write("\n");
-    monitor_write("PHeap start: 0x");
+    monitor_write("PHeap start: ");
     monitor_write_hex(pheap_begin);
-    monitor_write("\nPHeap end: 0x");
+    monitor_write("\nPHeap end: ");
     monitor_write_hex(pheap_end);
 
     
@@ -103,9 +104,9 @@ void* malloc(size_t size)
 
     // Loop through blocks to find an available block with enough size
     uint8_t *mem = (uint8_t *)heap_begin;
-    while((uint32_t)mem < last_alloc)
+    while((uint32_t)mem < last_alloc)                                     // while the pointer is less than the last allocated address
     {
-        alloc_t *a = (alloc_t *)mem;
+        alloc_t *a = (alloc_t *)mem;                                     // cast the pointer to alloc_t
         monitor_write("mem=0x");
         monitor_write_hex(mem);
         monitor_write(" a={.status=");
@@ -113,58 +114,55 @@ void* malloc(size_t size)
         monitor_write(", .size=");
         monitor_write_dec(a->size);
         monitor_write("}\n");
-        //printf("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
+        
 
-        if(!a->size)
-            goto nalloc;
-        if(a->status) {
-            mem += a->size;
-            mem += sizeof(alloc_t);
-            mem += 4;
+        if(!a->size)                                                    // if the block is not allocated                   
+            goto nalloc;                                                  // go to nalloc
+
+        if(a->status)                                                     // if the block is allocated
+        {
+            mem += a->size + sizeof(alloc_t) + 4;                         // move to the next block
             continue;
         }
-        // If the block is not allocated and its size is big enough,
-        // adjust its size, set the status, and return the location.
-        if(a->size >= size)
+        
+        
+        if(a->size >= size)                                               // if the block is not allocated and its size is big enough
         {
-            a->status = 1;
-            monitor_write("Allocated from 0x");
+            a->status = 1;                                                // set the status to 1, allocated
+            monitor_write("Allocated from: ");
             monitor_write_hex(mem + sizeof(alloc_t));
-            monitor_write(" to 0x");
+            monitor_write(" to ");
             monitor_write_hex(mem + sizeof(alloc_t) + size);
             monitor_write("\n");
 
-            //printf("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
-            memset(mem + sizeof(alloc_t), 0, size);
-            memory_used += size + sizeof(alloc_t);
-            return (char *)(mem + sizeof(alloc_t));
+            
+            memset(mem + sizeof(alloc_t), 0, size);                         // clear memory withing the block
+            memory_used += size + sizeof(alloc_t);                          // add the size of the block to the memory used
+            return (char *)(mem + sizeof(alloc_t));                         // return the location of the block
         }
-        // If the block is not allocated and its size is not big enough,
-        // add its size and the sizeof(alloc_t) to the pointer and continue.
-        mem += a->size;
-        mem += sizeof(alloc_t);
-        mem += 4;
+        
+        mem += a->size + sizeof(alloc_t) + 4;                               // if block not allocated and not big enough, add hte size and continue
+        
     }
 
-    nalloc:;
+    nalloc:
     /*if(last_alloc + size + sizeof(alloc_t) >= heap_end)
     {
         panic("Cannot allocate bytes! Out of memory.\n");
     }*/
-    alloc_t *alloc = (alloc_t *)last_alloc;
-    alloc->status = 1;
-    alloc->size = size;
+        alloc_t *alloc = (alloc_t *)last_alloc;                              // cast the pointer to alloc_t
+        alloc->status = 1;                                                   // set the status to 1, allocated
+        alloc->size = size;                                                  // set the size of the block
 
-    last_alloc += size;
-    last_alloc += sizeof(alloc_t);
-    last_alloc += 4;
-    monitor_write("Allocated from 0x");
-    monitor_write_hex((uint32_t)alloc + sizeof(alloc_t));
-    monitor_write(" to 0x");
-    monitor_write_hex(last_alloc);
-    monitor_write("\n");
-    //printf("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
-    memory_used += size + 4 + sizeof(alloc_t);
-    memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
-    return (char *)((uint32_t)alloc + sizeof(alloc_t));
+        last_alloc += size + sizeof(alloc_t) + 4;                                 
+
+        monitor_write("Allocated from ");
+        monitor_write_hex((uint32_t)alloc + sizeof(alloc_t));
+        monitor_write(" to ");
+        monitor_write_hex(last_alloc);
+        monitor_write("\n");
+        
+        memory_used += size + 4 + sizeof(alloc_t);
+        memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
+        return (char *)((uint32_t)alloc + sizeof(alloc_t));
 }

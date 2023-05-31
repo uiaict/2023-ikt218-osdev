@@ -12,6 +12,7 @@ extern "C"{
 
 }
 
+
 extern uint32_t end; //defined in linker script
 
 
@@ -50,20 +51,21 @@ void kernel_main()
 {
     init_kernel_memory(&end);         // Initialize kernel memory
 
+    init_descriptor_tables(); 
     monitor_clear();
     
-    init_descriptor_tables();         // Initialize descriptor tables GDT and IDT
+    
     monitor_write("Hello, World!\n");
-    
-    
 
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
-    //asm volatile ("int $0x5");
-    asm volatile("sti");
-    init_timer(50);
-
+   
+    //asm volatile ("int $0x3");
+    //asm volatile ("int $0x4");
+    
+    asm volatile("sti");            // Enable interrupts
+    //init_timer(50);
+    
     init_keyboard();
+    
 
     init_paging();
     print_memory_layout();
@@ -74,11 +76,7 @@ void kernel_main()
 
     print_memory_layout();
     
-   
-
-    //asm volatile("sti");
-    // Setup PIT
-    //init_pit(50); 
+ 
     
    
     
@@ -88,7 +86,7 @@ void kernel_main()
     //clear_screen();
     //write_string("Hello, World!");
 	
-    
     while(1);
+    
     
 }
