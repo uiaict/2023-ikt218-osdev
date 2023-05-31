@@ -36,11 +36,11 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
-        extern init_multiboot
-        push ebx ; multiboot_info struct
-    push eax ; magic number
-        call init_multiboot
-        mov esp, stack_top
+        ;extern init_multiboot
+        ;push ebx ; multiboot_info struct
+    ;push eax ; magic number
+        ;call init_multiboot
+        ;mov esp, stack_top
 
         ; Initialize Global Descriptor Table
         ; extern init_gdt
