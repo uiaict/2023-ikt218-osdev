@@ -26,6 +26,8 @@ void init_gdt()
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
     gdt_flush((uint32_t)&gdt_ptr);
+    clear_screen();
+    play_intro();
     print("GDT initialized.\n");
 }
 

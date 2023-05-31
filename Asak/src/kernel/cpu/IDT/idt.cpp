@@ -65,8 +65,16 @@ Asak::CPU::Descriptors::idt_ptr_t   idt_ptr;            // IDT pointer
 void init_idt() {
     idt_ptr.limit = (sizeof(idt_entries) * 256) - 1;
     idt_ptr.base = (uint32_t)&idt_entries;
+    
+    // Copies the 0 to the first size n characters
+    for(int i = 0; i < 256; ++i) {
+        idt_entries[i].base_low = 0;
+        idt_entries[i].base_high = 0;
+        idt_entries[i].selector = 0;
+        idt_entries[i].zero = 0;
+        idt_entries[i].flags = 0;
+    }
 
-    memset(&idt_entries, 0, sizeof(idt_entries)*256);   // Copies the 0 to the first size n characters
 
     irq_remapper();                 // Remaps the IRQ table
     gate_setter();                  // Sets all the IDT gates
@@ -76,16 +84,16 @@ void init_idt() {
 
 
 void gate_setter() {
-    idt_set_gate( 0, (uint32_t)isr0 , 0x08, 0x8E);
-    idt_set_gate( 1, (uint32_t)isr1 , 0x08, 0x8E);
-    idt_set_gate( 2, (uint32_t)isr2 , 0x08, 0x8E);
-    idt_set_gate( 3, (uint32_t)isr3 , 0x08, 0x8E);
-    idt_set_gate( 4, (uint32_t)isr4 , 0x08, 0x8E);
-    idt_set_gate( 5, (uint32_t)isr5 , 0x08, 0x8E);
-    idt_set_gate( 6, (uint32_t)isr6 , 0x08, 0x8E);
-    idt_set_gate( 7, (uint32_t)isr7 , 0x08, 0x8E);
-    idt_set_gate( 8, (uint32_t)isr8 , 0x08, 0x8E);
-    idt_set_gate( 9, (uint32_t)isr9 , 0x08, 0x8E);
+    idt_set_gate(0, (uint32_t)isr0 , 0x08, 0x8E);
+    idt_set_gate(1, (uint32_t)isr1 , 0x08, 0x8E);
+    idt_set_gate(2, (uint32_t)isr2 , 0x08, 0x8E);
+    idt_set_gate(3, (uint32_t)isr3 , 0x08, 0x8E);
+    idt_set_gate(4, (uint32_t)isr4 , 0x08, 0x8E);
+    idt_set_gate(5, (uint32_t)isr5 , 0x08, 0x8E);
+    idt_set_gate(6, (uint32_t)isr6 , 0x08, 0x8E);
+    idt_set_gate(7, (uint32_t)isr7 , 0x08, 0x8E);
+    idt_set_gate(8, (uint32_t)isr8 , 0x08, 0x8E);
+    idt_set_gate(9, (uint32_t)isr9 , 0x08, 0x8E);
     idt_set_gate(10, (uint32_t)isr10, 0x08, 0x8E);
     idt_set_gate(11, (uint32_t)isr11, 0x08, 0x8E);
     idt_set_gate(12, (uint32_t)isr12, 0x08, 0x8E);
