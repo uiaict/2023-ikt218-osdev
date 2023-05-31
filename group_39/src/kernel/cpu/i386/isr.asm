@@ -31,7 +31,7 @@ isr_common:
     popa                 ; Pops edi,esi,ebp,esp,ebx,edx,ecx,eax
     mov al, 0x20
     out 0x20, al
-    ;add esp, 8          ; Cleans up the pushed error code and pushed ISR number
+    add esp, 8          ; Cleans up the pushed error code and pushed ISR number
     sti                  ; Reenables interrupts
     iret                 ; Pops 5 registers and returns
 
@@ -42,18 +42,19 @@ isr_common:
 ; "Division by zero"
 isr0:
     push byte 0 ; Push dummy error code 
+    push 0      ; Push interrupt number
     jmp isr_common ; Jump to assembly handler
 
 ; "Debug"
 isr1:
-    push byte 1 ; Push dummy error code
+    push byte 0 ; Push dummy error code
     push 1      ; Push interrupt number
-    jmp isr_default ; Jump to assembly handler
+    jmp isr_common ; Jump to assembly handler
 
 ; "Device not available"
 isr7:
     push byte 0; Push dummy code
     push 7     ; Push interrupt number
-    jmp isr_default ; Jump to assembly handler
+    jmp isr_common ; Jump to assembly handler
 
 
