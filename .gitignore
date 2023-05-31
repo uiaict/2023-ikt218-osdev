@@ -5,3 +5,5 @@ web/venv
 !build_*/kernel.img
 *.lock
 *.egg-info*
+build_group_OSDev-11/kernel.bin
+build_group_OSDev-11/kernel.img
