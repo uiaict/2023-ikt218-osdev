@@ -17,6 +17,7 @@ extern "C"
 
 
 
+void default_isr();
 
 
 struct registers
@@ -26,6 +27,9 @@ struct registers
     uint32_t interrupt_number, error_code;
     uint32_t eip, cs, eflags, useresp, ss;
 };
+
+
+
 
 
 #endif

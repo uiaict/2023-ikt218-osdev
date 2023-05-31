@@ -44,15 +44,12 @@ void init_idt()
 
 
     // Set all entries in the IDT to default interrupt handler.
-    /*for (int i = 0; i < NUM_IDT_ENTRIES; i++)
+    for (int i = 0; i < NUM_IDT_ENTRIES; i++)
     {
-        idt_entries[i].base_low = 0x0000;
-        idt_entries[i].base_high = 0x0000;
-        idt_entries[i].selector = 0x08;
-        idt_entries[i].reserved = 0x00;
-        idt_entries[i].flags = 0x8E;
-    }*/
+        idt_set_entry(i, (uint32_t)default_isr, 0x08, 0x8E);
+    }
     
+
 
 
     idt_set_entry(0, (uint32_t)isr0, 0x08, 0x8E);

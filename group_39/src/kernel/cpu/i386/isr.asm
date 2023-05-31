@@ -8,8 +8,9 @@
 [GLOBAL isr7]
 
 
-; make isr_handler function in C callable from assembly
+; make C functions callable/referenceable from assembly
 extern isr_handler
+extern default_isr
 
 ; This assembly "handler" gets called by each service routine. 
 isr_common:
@@ -56,5 +57,3 @@ isr7:
     push byte 0; Push dummy code
     push 7     ; Push interrupt number
     jmp isr_common ; Jump to assembly handler
-
-

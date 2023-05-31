@@ -31,6 +31,12 @@ void isr_handler(registers regs)
     }
 }
 
+void default_isr()
+{
+    clearScreen();
+    printString("This interrupt is not implemented yet!");
+}
+
 void isr0_handler() 
 {
     clearScreen();
