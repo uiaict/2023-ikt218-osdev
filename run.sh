@@ -2,6 +2,11 @@
 
 #script som builder alle de create-image, kernel og module-stdlib før den kjører qemu
 
+#sletter kernel.img før hver build
+if [ -f build_group_1/kernel.img ]; then
+  rm build_group_1/kernel.img
+fi
+
 cmake --build build_group_1 --target uia-os-create-image
 cmake --build build_group_1 --target uia-os-kernel
 cmake --build build_group_1 --target uia-os-module-stdlib
