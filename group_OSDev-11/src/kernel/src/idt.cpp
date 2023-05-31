@@ -31,10 +31,10 @@ void initialize_idt() {
         int_handlers[i].handler = NULL;         // Set the interrupt handler for the corresponding IDT entry to NULL
     }
 
-    init_interrupts();                          // Initialize interrupts
+    initialize_interrupts();                          // Initialize interrupts
     initialize_interrupt_handlers();            // Initialize interrupt handlers
-    irq_init();                                 // Initialize IRQs
-    init_irq_handlers();                        // Initialize IRQ handlers
+    initialize_irq();                                 // Initialize IRQs
+    initialize_irq_handlers();                        // Initialize IRQ handlers
 
     // Load the IDT:
     flush_idt((uint32_t)&idt_pointer);
@@ -61,7 +61,7 @@ void (*irq_functions[16])(void) = {
     irq8, irq9, irq10, irq11, irq12, irq13, irq14, irq15
 };
 
-void init_interrupts()
+void initialize_interrupts()
 {
     write_to_port(0x20, 0x11);
     write_to_port(0xA0, 0x11);

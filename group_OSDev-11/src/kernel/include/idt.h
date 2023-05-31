@@ -145,10 +145,10 @@ static struct int_handler int_handlers[IDT_ENTRIES];
 static struct int_handler irq_handlers[IRQ_COUNT];
 
 void initialize_idt();
-void init_interrupts();
-void irq_init();
+void initialize_interrupts();
+void initialize_irq();
 void initialize_interrupt_handlers();
-void init_irq_handlers();
+void initialize_irq_handlers();
 void configure_interrupt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 void register_irq_handler(int irq, isr_t handler, void* ctx);
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context);

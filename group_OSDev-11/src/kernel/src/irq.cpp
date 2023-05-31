@@ -9,7 +9,7 @@ extern "C" {
     void irq_handler(registers regs) asm("irq_handler");
 }
 
-void irq_init()
+void initialize_irq()
 {
     for (int i = 0; i < IRQ_COUNT; i++) {
         irq_handlers[i].data = NULL;
@@ -39,7 +39,7 @@ void irq_handler(registers regs)
     }
 }
 
-void init_irq_handlers()
+void initialize_irq_handlers()
 {
     asm volatile("sti"); // Enable interrupts
 
