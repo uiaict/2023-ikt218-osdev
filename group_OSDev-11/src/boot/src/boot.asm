@@ -37,10 +37,10 @@ align 4
 ; Define the stack
 section .bss
 align 16
-stack_bottom:
+bottom_of_stack:
     resb STACK_SIZE ; Reserve bytes for stack
-top_of_stack:
 
+top_of_stack:
 ; Entry point of our program
 section .text
 global _start:function (_start.end - _start)
@@ -65,4 +65,4 @@ _start:
 	; Enter an infinite loop
 	hlt
 	jmp .hang
-.end:
+.finish:
