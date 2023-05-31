@@ -12,11 +12,6 @@ extern "C"
     extern void idt_load(uint32_t); // Refers to a function in assembly that loads the IDT register.
 }
 
-void outb(uint16_t port, uint8_t value)
-{
-    asm volatile ("outb %1, %0" : : "dN" (port), "a" (value));
-}
-
 
 
 void init_idt() asm ("init_idt"); // This allows assembly code to call our 'init_gdt' function.
@@ -56,11 +51,14 @@ void init_idt()
         idt_entries[i].selector = 0x08;
         idt_entries[i].reserved = 0x00;
         idt_entries[i].flags = 0x8E;
-    }
-    */
+    }*/
+    
 
 
     idt_set_entry(0, (uint32_t)isr0, 0x08, 0x8E);
+    idt_set_entry(1, (uint32_t)isr1, 0x08, 0x8E);
+    idt_set_entry(7, (uint32_t)isr7, 0x08, 0x8E);
+
 
     idt_load((uint32_t)&idt_pointer); // Load the IDT into IDT register using the assembly function 'idt_load'.
 }

@@ -5,12 +5,17 @@
 
 #include <stdint.h>
 
-extern "C" 
+
+extern "C"
 {
-    extern void isr0 ();
-    extern void isr1 ();
-    extern void isr2 ();
+    extern void isr0();
+
+    extern void isr1();
+
+    extern void isr7();
 }
+
+
 
 
 

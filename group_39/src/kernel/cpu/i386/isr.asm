@@ -3,9 +3,9 @@
 
 
 ; make the functions callable/referencable from C. 
-[GLOBAL] isr0
-[GLOBAL] isr1
-[GLOBAL] isr2
+[GLOBAL isr0]
+[GLOBAL isr1]
+[GLOBAL isr7]
 
 
 ; make isr_handler function in C callable from assembly
