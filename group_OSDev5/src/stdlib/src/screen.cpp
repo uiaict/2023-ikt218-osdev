@@ -24,13 +24,13 @@ void print_int(int32_t num) {
 
     // Handle zero explicitly to simplify the rest of the code
     if (num == 0) {
-        print("0");
+        print("0", 0);
         return;
     }
 
     // Handle negative numbers
     if (num < 0) {
-        print("-");
+        print("-", 0);
         num = -num; // Make the number positive so the rest of the code works
     }
 
@@ -40,16 +40,25 @@ void print_int(int32_t num) {
         num /= 10; // Remove the last digit
         i++;
     }
+/*
+    char digit_str[2] = {num_str[1], '\0'};
+    print(digit_str, 0);
 
+    char digit_str_1[2] = {num_str[0], '\0'};
+    print(digit_str_1, -158);
+    */
     // The digits are in reverse order, so print them from end to start
-    for (int j = i - 1; j >= 0; j--) {
+    
+    for (int j = i-1; j >= 0; j--) {
         char digit_str[2] = { num_str[j], '\0' }; // Convert the digit character to a string
-        print(digit_str);
+        
+        print(digit_str, -158*(i-j-1));
     }
+    
 }
 
 
-void print(const char* str) {
+void print_adjust(const char* str, int adjust) {
     // Set cursor position to next line
     char* vidmem = (char*)0xb8000;
     int last_line = 0;
@@ -60,13 +69,18 @@ void print(const char* str) {
     }
 
     int i = 0;
-    last_line += 160;
+    last_line += 160 + adjust;
     if(last_line >= 80 * 25 * 2){
         unset_screen();
+        last_line-=160;
     }
     while (str[i] != '\0') {
         vidmem[last_line + i * 2] = str[i];
         vidmem[last_line + i * 2 + 1] = 0x0f; // Set color attribute to white on blue
         i++;
     }
+}
+
+void print(const char* str){
+    print_adjust(str, 0);
 }

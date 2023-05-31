@@ -23,24 +23,21 @@ struct payload_t {
 payload_t payload; 
 
 void UiAOS::IO::Keyboard::hook_keyboard(keyboard_callback a, void *b) {
-    print("Hook keyboard");
-
     payload = {a, b};
 
     UiAOS::CPU::ISR::isr_t static_cb = [](UiAOS::CPU::ISR::registers_t *regs, void* cb_ptr){
-        //print("Inside the keyboard handler");
         auto pay = (payload_t*)cb_ptr;
         uint8_t scancode = inb(0x60);
-        //print("Scancode read");
         if (scancode > SC_MAX) return; 
-
         pay->cb(scancode, pay->ctx);
+        print_int(sc_ascii[(int)scancode]);
+        
     };
 
     UiAOS::CPU::ISR::register_interrupt_handler(IRQ1, static_cb, &payload);
 }
 
 char UiAOS::IO::Keyboard::scancode_to_ascii(uint8_t scancode){
-    //print("scancode to ascii");
+    
     return sc_ascii[(int) scancode];
 }
