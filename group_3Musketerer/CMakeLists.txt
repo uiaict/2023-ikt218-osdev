@@ -143,6 +143,8 @@ set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
         src/boot/src/boot.cpp
         src/boot/src/boot.asm
+        #src/arch/i386/gdt.cpp
+
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -172,6 +174,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
+        src/kernel/src/gdt.asm
+        src/kernel/src/gdt.h
+        src/kernel/src/gdt.cpp
+        
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

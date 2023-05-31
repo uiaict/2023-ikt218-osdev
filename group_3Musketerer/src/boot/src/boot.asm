@@ -43,8 +43,8 @@ _start:
         ;mov esp, stack_top
 
         ; Initialize Global Descriptor Table
-        ; extern init_gdt
-        ; call init_gdt
+         extern init_gdt
+         call init_gdt
 
         extern kernel_main
         call kernel_main ; call our kernel_main() function.

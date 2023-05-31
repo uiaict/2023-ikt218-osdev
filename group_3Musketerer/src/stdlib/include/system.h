@@ -114,4 +114,5 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
+    void write_terminal(int colour, const char *string);
 
