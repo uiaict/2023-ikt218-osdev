@@ -3,7 +3,7 @@
 #include "test.h"
 //#include "../../GDT/gdt.h"
 //#include "../../GDT/isr.h"
-#include"drivers/keyboard.h"
+#include"keyboard/keyboard.h"
 #include"memory/functions.h"
 #include"PIT/pit.h"
 

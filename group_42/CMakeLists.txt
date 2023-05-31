@@ -189,8 +189,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/main.cpp
         src/kernel/src/test.cpp
         src/kernel/src/*.h      
-        src/kernel/src/drivers/keyboard.cpp
-        src/kernel/src/drivers/keyboard.h
+        src/kernel/src/keyboard/keyboard.cpp
+        src/kernel/src/keyboard/keyboard.h
         
         src/kernel/src/memory/functions.h
         src/kernel/src/memory/functions.cpp
