@@ -21,19 +21,18 @@ void isr_handler(registers_t regs){
         intrpt.handler(&regs, intrpt.data);
     }
     else{
-        
         terminal_write("Unhandled ISR.\n");
     }
 }
 
 void init_interrupt_handlers(){
-    register_int_handler(3,[](registers_t* regs, void* data){
-        terminal_write("Triggered interrupt 3\n");
+    register_int_handler(ISR3,[](registers_t* regs, void* data){
+        terminal_write("Triggered ISR3\n");
     },NULL);
-    register_int_handler(4,[](registers_t* regs, void* data){
-        terminal_write("Interrupt 4 was triggered\n");
+    register_int_handler(ISR4,[](registers_t* regs, void* data){
+        terminal_write("Triggered ISR4\n");
     },NULL);
-    register_int_handler(5,[](registers_t* regs, void* data){
-        terminal_write("Interrupt 5 was triggered\n");
+    register_int_handler(ISR5,[](registers_t* regs, void* data){
+        terminal_write("Triggered ISR5\n");
     },NULL);
 }

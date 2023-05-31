@@ -2,7 +2,6 @@
 #define IDT_H
 
 #include <stdint.h>
-
 #include "terminal.h"
 
 #define IDT_ENTRIES 256
@@ -41,7 +40,6 @@
 #define ISR30 30
 #define ISR31 31
 
-// Interrupt service routines
 #define IRQ0 32
 #define IRQ1 33
 #define IRQ2 34

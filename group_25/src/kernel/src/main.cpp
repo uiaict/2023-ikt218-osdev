@@ -1,35 +1,110 @@
+#include <cstdlib>
+#include <cstdint>
+
 #include "terminal.h"
+#include "pit.h"
+//#include "memory.h"
+
+// This is defined in linker.ld
+extern uint32_t end;
+
+
+// Overload the new operator for single object allocation
+void* operator new(std::size_t size) {
+    // Call the C standard library function malloc()
+    //to allocate memory of the given size and return a pointer to it
+    return malloc(size);
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    // Call the C standard library function free()
+    // to deallocate the memory pointed to by the given pointer
+    free(ptr);
+}
+
+// Overload the new operator for array allocation
+void* operator new[](std::size_t size) {
+    // Call the C standard library function malloc()
+    // to allocate memory of the given size and return a pointer to it
+    return malloc(size);
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    // Call the C standard library function free()
+    // to deallocate the memory pointed to by the given pointer
+    free(ptr);
+}
+
+void operator delete(void* ptr, unsigned int) noexcept {
+    free(ptr);
+}
+
+void operator delete[](void* ptr, unsigned int) noexcept {
+    free(ptr);
+}
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
-    #include "system.h"
+    #include <system.h>
+    #include "memory.h"
     void kernel_main();
 }
 
 void kernel_main(){
 
+    // Remove this 
     terminal_clear();
-    // Print welcome screen
 
-    terminal_write("                _____ __    _ __      ____  _____\n");
-    terminal_write("               / ___// /_  (_) /_    / __ \\/ ___/\n");
-    terminal_write("               \\__ \\/ __ \\/ / __/   / / / /\\__ \\\n");
-    terminal_write("              ___/ / / / / / /_    / /_/ /___/ /\n");
-    terminal_write("             /____/_/ /_/_/\\__/____\\____//____/\n");
-    terminal_write("         ____     _          /_____/       __    _ __\n");
-    terminal_write("        /  _/    (_)_  _______/ /_   _____/ /_  (_) /_\n");
-    terminal_write("        / /     / / / / / ___/ __/  / ___/ __ \\/ / __/\n");
-    terminal_write("      _/ /     / / /_/ (__  ) /_   (__  ) / / / / /_\n");
-    terminal_write("     /___/  __/ /\\__,_/____/\\__/  /____/_/ /_/_/\\__/ __\n");
-    terminal_write("   __  ____/___/_  __________     ____  ____ _____  / /______\n");
-    terminal_write("  / / / / __ \\/ / / / ___/ _ \\   / __ \\/ __ `/ __ \\/ __/ ___/\n");
-    terminal_write(" / /_/ / /_/ / /_/ / /  /  __/  / /_/ / /_/ / / / / /_(__  )\n");
-    terminal_write(" \\__, /\\____/\\__,_/_/   \\___/  / .___/\\__,_/_/ /_/\\__/____/\n");
-    terminal_write("/____/                        /_/\n\n");
+    // Initialize kernel memory manager with the end of the kernel image
+    init_kernel_memory(&end);
+
+    // Initialize Paging
+    init_paging();
+
+    // Setup PIT
+    init_pit();
     
-    terminal_write("Hello World!\n");
+    // Print strating screen
+    terminal_clear();
+    terminal_print_title(true);
+    printf("Hello World!\n");
+
+    // Test memory
+    
+    terminal_newpage();
+    
+    // Allocate some memory using kernel memory manager
+    void* memory1 = malloc(12345); 
+    void* memory2 = malloc(54321); 
+    void* memory3 = new char;
+    char* memory4 = new char[1000]();
+
+    print_memory_layout();
+
+    delete memory1;
+    delete memory2;
+    delete memory3;
+    delete memory4;
+
+    print_memory_layout();
+    
 
     // Wait for interrupts
-    while(1){};
+    while(1){
+        
+        // Test interrupts
+        
+        printf("Sleeping with interrupts...   ");
+        sleep_interrupt(1000);
+        printf("Finished sleeping\n");
+        printf("Sleeping with busy-waiting... ");
+        sleep_busy(1000);
+        printf("Finished sleeping\n");
+        
+
+        //sleep_interrupt(1000);
+    };
 
 }

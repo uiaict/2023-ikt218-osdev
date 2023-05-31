@@ -5,7 +5,6 @@
 
 #define GDT_SIZE 5
 
-//
 typedef struct __attribute__((packed)){
     uint16_t limit_low;  // The lower 16 bits of the limit.
     uint16_t base_low;   // The lower 16 bits of the base.

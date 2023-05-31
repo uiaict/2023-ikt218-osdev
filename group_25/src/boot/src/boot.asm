@@ -40,15 +40,12 @@ _start:
 	
 	mov esp, stack_top
 
-	;Initialize Global Desctiptor Table
 	extern init_gdt
 	call init_gdt
 
-	;Initialize Interupt Descriptor Table
 	extern init_idt
 	call init_idt
 
-	;Enter OS kernel
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
 	cli

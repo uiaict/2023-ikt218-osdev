@@ -2,7 +2,7 @@
 #define TERMINAL_H
 
 #include <stdint.h>
-#include "system.h"
+#include <system.h>
 
 // Text color constants
 enum vga_color {
@@ -34,8 +34,10 @@ static uint8_t terminal_row = 0;
 static uint8_t terminal_column = 0;
 
 void terminal_clear();
-void terminal_write_char(char c);
-void terminal_write(const char *str);
 void terminal_newline();
+void terminal_write_char(char c);
+bool terminal_write(const char *str);
+void terminal_print_title(bool full);
+void terminal_newpage();
 
 #endif
