@@ -30,7 +30,7 @@ void init_interrupt_handlers()
     register_interrupt_handler(3, [](registers* regs, void* data) {
         terminal_write("Interrupt 3 was triggered");
     }, NULL);
-
+    
     register_interrupt_handler(4, [](registers* regs, void* data) {
         terminal_write("Interrupt 4 was triggered");
     }, NULL);
