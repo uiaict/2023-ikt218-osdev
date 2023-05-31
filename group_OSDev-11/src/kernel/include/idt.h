@@ -5,16 +5,56 @@
 #define IDT_ENTRIES 256
 #define IRQ_COUNT 16
 
-enum INTERRUPT_SERVICE_ROUTINES {
-    ISR0 = 0, ISR1, ISR2, ISR3, ISR4, ISR5, ISR6, ISR7, ISR8, ISR9,
-    ISR10, ISR11, ISR12, ISR13, ISR14, ISR15, ISR16, ISR17, ISR18, ISR19,
-    ISR20, ISR21, ISR22, ISR23, ISR24, ISR25, ISR26, ISR27, ISR28, ISR29,
-    ISR30, ISR31,
-    IRQ0 = 32, IRQ1, IRQ2, IRQ3, IRQ4, IRQ5, IRQ6, IRQ7, IRQ8, IRQ9,
-    IRQ10, IRQ11, IRQ12, IRQ13, IRQ14, IRQ15
-};
+#define ISR1 1
+#define ISR2 2
+#define ISR3 3
+#define ISR4 4
+#define ISR5 5
+#define ISR6 6
+#define ISR7 7
+#define ISR8 8
+#define ISR9 9
+#define ISR10 10
+#define ISR11 11
+#define ISR12 12
+#define ISR13 13
+#define ISR14 14
+#define ISR15 15
+#define ISR16 16
+#define ISR17 17
+#define ISR18 18
+#define ISR19 19
+#define ISR20 20
+#define ISR21 21
+#define ISR22 22
+#define ISR23 23
+#define ISR24 24
+#define ISR25 25
+#define ISR26 26
+#define ISR27 27
+#define ISR28 28
+#define ISR29 29
+#define ISR30 30
+#define ISR31 31
 
-extern "C" {
+#define IRQ0 32
+#define IRQ1 33
+#define IRQ2 34
+#define IRQ3 35
+#define IRQ4 36
+#define IRQ5 37
+#define IRQ6 38
+#define IRQ7 39
+#define IRQ8 40
+#define IRQ9 41
+#define IRQ10 42
+#define IRQ11 43
+#define IRQ12 44
+#define IRQ13 45
+#define IRQ14 46
+#define IRQ15 47
+
+extern "C"{
     extern void isr0();
     extern void isr1();
     extern void isr2();
