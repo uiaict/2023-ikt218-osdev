@@ -7,6 +7,13 @@
 namespace IJI_OS::GDT
 {
   
+
+  typedef struct __attribute__((packed))
+  {
+    uint16_t limit; // limits the size of the object
+    uint32_t base;  // memmory address of the size
+  } gdt_ptr_t;
+  
   typedef struct
   {
     uint16_t limit_low;     // limits the size 
@@ -18,11 +25,8 @@ namespace IJI_OS::GDT
   } gdt_entry_t;
 
 
-  typedef struct __attribute__((packed))
-  {
-    uint16_t limit; // limits the size of the object
-    uint32_t base;  // memmory address of the size
-  } gdt_ptr_t;
+
+ 
 
 
   void init_gdt();  // function that inizilases the GDT

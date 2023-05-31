@@ -43,7 +43,47 @@ void write_char_2( char c){
     *address++ = color;
     *address = 0x0B;
 }
-
+void write_integer(uint32_t a){
+    char reverseDigits[64];
+    int counter = 0;
+    while (a>0){
+        char nextDigit = a%10+'0';
+        reverseDigits[counter] = nextDigit;
+        a = a/10;
+        counter = counter + 1;
+    }
+    counter = counter-1;
+    while (counter>=0){
+           *address++ = reverseDigits[counter];
+            *address++ = color;
+            counter = counter-1;
+        }
+    }
+ 
+void write_hexadecimal(uint32_t a){
+    char reverseDigits[64];
+    char nextDigit;
+    int counter = 0;
+    while (a>0){
+        int leftovers = a%16;
+        if (leftovers < 10){
+            nextDigit = leftovers + '0';
+        }
+        else{
+            nextDigit = leftovers - 10 + 'a';
+        }
+        reverseDigits[counter] = nextDigit;
+        a = a/16;
+        counter = counter + 1;
+    }
+    counter = counter-1;
+    while (counter>=0){
+           *address++ = reverseDigits[counter];
+            *address++ = color;
+            counter = counter-1;
+        }
+ 
+}
 
 void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs){
     write_string_2("interrupt   3");
@@ -124,10 +164,10 @@ asm volatile("sti");
     //os->next_line();
     },&os); 
 //sleep_interrupt((uint32_t) 10);
-asm volatile ("int $0x01");
+//asm volatile ("int $0x01");
 start_sleep_busy((uint32_t) 10000);
 
-asm volatile ("int $0x01");
+//asm volatile ("int $0x01");
 //os.write_string_2("hello dwadwajifohesifuhwiuegfydguywuda");
 
 

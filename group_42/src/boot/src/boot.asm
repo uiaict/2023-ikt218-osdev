@@ -51,13 +51,13 @@ _start:
    
   
 
-     ; call the cpp function init IDT wich initialize the interrupt deskriptor table
-    extern init_idt
-    call init_idt
+  ; call the cpp function init IDT wich initialize the interrupt deskriptor table
+  extern init_idt
+  call init_idt
 
-   ; call the cpp function init IDT wich initialize the interrupt servise rutines
-    extern init_isr
-    call init_isr
+  ; call the cpp function init IDT wich initialize the interrupt servise rutines
+  extern init_isr
+  call init_isr
 
   ; call the kernel_main function
 	extern kernel_main
