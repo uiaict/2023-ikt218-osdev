@@ -44,7 +44,7 @@ void write_to_terminal(const char* str) {
 size_t terminal_row = 0;
 size_t terminal_col = 0;
 
-void terminal_write_char(char c) {
+void output_char_to_terminal(char c) {
     
     if (c == '\b') { // Backspace
         if (terminal_col > 0) {

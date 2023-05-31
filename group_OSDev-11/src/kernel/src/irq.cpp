@@ -50,7 +50,7 @@ void init_irq_handlers()
 
         if (scancode < sizeof(keyboard_map)) {
             char c = keyboard_map[scancode];
-            terminal_write_char(c);
+            output_char_to_terminal(c);
         }
     }, NULL);
 }
