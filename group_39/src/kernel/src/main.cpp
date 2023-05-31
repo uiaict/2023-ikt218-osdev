@@ -7,30 +7,11 @@ extern "C" {
     void kernel_main();
 }
 
-int error = 0;
-
-void dividebyzero()
-{
-
-    int a;
-    if (error == 0)
-    {
-        error += 1;
-        a = 5/0; //This will cause a division by zero
-    }
-
-}
-
 
 void kernel_main()
 {
     clearScreen(); // Clear screen before writing output
 
-
-
-    asm volatile("int $0x0");
-    printString("Hello Worlgggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggggd"); // Write "Hello World" to the screen.
-    int b = 55;
-    int c = 76;
+    printString("Hello World"); // Write "Hello World" to the screen.
 }
 
