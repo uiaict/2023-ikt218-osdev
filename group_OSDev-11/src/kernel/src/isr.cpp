@@ -38,6 +38,6 @@ void isr_handler(registers regs)
     if (intrpt.handler) {
         intrpt.handler(&regs, intrpt.data);
     } else {
-        write_to_terminal("Unhandled interrupt");
+        write_to_terminal("Interrupt not handled.");
     }
 }
