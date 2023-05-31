@@ -3,13 +3,16 @@
 
 #include <stdint.h>
 
-
-#define PIC1_CMD    0x20 /** Master PIC - Command */
-#define PIC1_DATA   0x21 /** Master PIC - Data */
-#define PIC2_CMD    0xA0 /** Slave PIC - Command */
-#define PIC2_DATA   0xA1 /** Slave PIC - Data */
-
-#define PIC_EOI     0x20 /** End-of-interrupt command code */
+/** Master PIC - Command */
+#define PIC1_CMD    0x20
+/** Master PIC - Data */
+#define PIC1_DATA   0x21
+/** Slave PIC - Command */
+#define PIC2_CMD    0xA0
+/** Slave PIC - Data */
+#define PIC2_DATA   0xA1
+/** End-of-interrupt command code */
+#define PIC_EOI     0x20
 
 #ifdef __cplusplus
 extern "C" {

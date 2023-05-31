@@ -1,3 +1,8 @@
+/**
+ * @file
+ * @brief Common information needed for interrupts.
+ */
+
 #ifndef INTERRUPTS_H
 #define INTERRUPTS_H
 
@@ -49,11 +54,14 @@ extern void irq13();
 extern void irq14();
 extern void irq15();
 
+/**
+ * @brief Holds information on stack switch during interrupts.
+ */
 struct registers {
-    uint32_t ds;                  // Data segment selector
-    uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
-    uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
-    uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
+    uint32_t ds; /*!< Data segment selector */
+    uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; /*!< CPU registers, pushed by pusha */
+    uint32_t int_no, err_code; /*!< Interrupt number and error code (if applicable). */
+    uint32_t eip, cs, eflags, esp, ss; /*!< Pushed by the processor automatically.  */
 };
 
 #ifdef __cplusplus
@@ -62,8 +70,6 @@ extern "C" {
 
 /**
  * @brief Initialize IDT.
- *
- * For now we only initialize the NULL, code and data segment.
  */
 void idt_init();
 
@@ -77,11 +83,10 @@ typedef void (*isr_t)(struct registers*);
 
 /** Holds information about an interrupt handler */
 struct int_handler {
-    int num;
+    int num; /*!< Interrupt vector */
     isr_t handler;
 };
 
-// Define an interrupt handler
 void register_irq_handler(uint8_t n, isr_t handler);
 void register_interrupt_handler(uint8_t n, isr_t handler);
 

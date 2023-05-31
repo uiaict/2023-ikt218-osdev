@@ -26,8 +26,21 @@
 extern "C" {
 #endif
 
+/**
+* @brief Initialize PIT.
+*/
 void pit_init();
+
+/**
+ * @Brief Sleep with interrupt, uses low resources.
+ * @param milliseconds time to sleep.
+ */
 void sleep_interrupt(uint32_t milliseconds);
+
+/**
+ * @Brief Sleep with busy waiting, resource intensive.
+ * @param milliseconds time to sleep.
+ */
 void sleep_busy(uint32_t milliseconds);
 
 #ifdef __cplusplus
