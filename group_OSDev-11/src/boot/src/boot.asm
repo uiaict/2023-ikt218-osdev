@@ -1,3 +1,4 @@
+
 bits 32
 
 ; Configuration of Multiboot flags
@@ -42,6 +43,13 @@ section .text
     ; Entry point of kernel
     _start:
         mov esp, stack_end ; Set the stack pointer to the top of the stack
+        ; initialize GDT
+	    extern gdt_init
+	    call gdt_init 
+
+        ; initialize IDT
+	    extern idt_init
+	    call idt_init
         extern main_kernel ; Declare the kernel_main function
         call main_kernel   ; Call the kernel_main function
         cli                ; Disable interrupts
@@ -53,3 +61,4 @@ section .text
 
     ; End of kernel execution
     .finish:
+    

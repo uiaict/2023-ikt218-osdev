@@ -6,7 +6,7 @@ struct gdt_entry gdt_entries[GDT_ENTRIES];
 struct gdt_ptr ptr_to_gdt;
 
 extern "C" {
-    extern void gdt_flush(uint32_t);
+    extern void flush_gdt(uint32_t);
 }
 
 void set_gdt_entry(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t granularity)
@@ -36,5 +36,5 @@ void gdt_init()
     set_gdt_entry(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);      // User mode data segment
 
     // Flush old GDT implemented by GRUB and load new GDT
-    gdt_flush((uint32_t)&ptr_to_gdt); 
+    flush_gdt((uint32_t)&ptr_to_gdt); 
 }

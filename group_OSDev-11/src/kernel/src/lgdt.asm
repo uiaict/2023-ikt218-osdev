@@ -1,8 +1,8 @@
 ; Define the flush_gdt function to allow it to be called from C code
-[GLOBAL gdt_flush]
+[GLOBAL flush_gdt]
 
 ; Implementation of the flush_gdt function
-gdt_flush:
+flush_gdt:
     ; Get the pointer to the new GDT, which is passed as a parameter to the function
     ; and store it in the eax register
     mov eax, [esp + 4]
@@ -26,3 +26,4 @@ gdt_flush:
 .update:
     ; Return from the function using the ret instruction
     ret
+    
