@@ -1,4 +1,7 @@
-; This macro creates a stub for an ISR which does NOT pass it's own
+; In isr.c
+extern isr_handler
+
+; This macro creates a stub for an ISR which does NOT pass its own
 ; error code (adds a dummy errcode byte).
 %macro ISR_NOERRCODE 1
   global isr%1
@@ -9,7 +12,7 @@
     jmp isr_common_stub         ; Go to our common handler code.
 %endmacro
 
-; This macro creates a stub for an ISR which passes it's own
+; This macro creates a stub for an ISR which passes its own
 ; error code.
 %macro ISR_ERRCODE 1
   global isr%1
@@ -36,11 +39,11 @@ ISR_ERRCODE   13
 ISR_ERRCODE   14
 ISR_NOERRCODE 15
 ISR_NOERRCODE 16
-ISR_ERRCODE 17
+ISR_ERRCODE   17
 ISR_NOERRCODE 18
 ISR_NOERRCODE 19
 ISR_NOERRCODE 20
-ISR_ERRCODE 21
+ISR_ERRCODE   21
 ISR_NOERRCODE 22
 ISR_NOERRCODE 23
 ISR_NOERRCODE 24
@@ -53,20 +56,16 @@ ISR_NOERRCODE 30
 ISR_NOERRCODE 31
 ISR_NOERRCODE 128
 
-
-; In isr.c
-extern isr_handler
-
 ; This is our common ISR stub. It saves the processor state, sets
 ; up for kernel mode segments, calls the C-level fault handler,
 ; and finally restores the stack frame.
 isr_common_stub:
-    pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
+    pusha                    ; Pushes edi, esi, ebp, esp, ebx, edx, ecx, eax
 
     mov ax, ds               ; Lower 16-bits of eax = ds.
-    push eax                 ; save the data segment descriptor
+    push eax                 ; Save the data segment descriptor
 
-    mov ax, 0x10  ; load the kernel data segment descriptor
+    mov ax, 0x10             ; Load the kernel data segment descriptor
     mov ds, ax
     mov es, ax
     mov fs, ax
@@ -74,13 +73,13 @@ isr_common_stub:
 
     call isr_handler
 
-    pop ebx        ; reload the original data segment descriptor
+    pop ebx                  ; Reload the original data segment descriptor
     mov ds, bx
     mov es, bx
     mov fs, bx
     mov gs, bx
 
-    popa                     ; Pops edi,esi,ebp...
-    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
+    popa                     ; Pops edi, esi, ebp...
+    add esp, 8               ; Cleans up the pushed error code and pushed ISR number
     sti
-    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+    iret                     ; Pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
