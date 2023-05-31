@@ -10,8 +10,8 @@ extern "C" {
     extern void (*isr_arr[])(void);
 }
 
-idt_entry idt[IDT_ENTRIES];
-idt_ptr idt_ptr;
+struct idt_entry idt[IDT_ENTRIES];
+struct idt_ptr idt_ptr;
 
 void idt_init() {
     idt_ptr.limit = sizeof(idt_entry) * IDT_ENTRIES - 1;

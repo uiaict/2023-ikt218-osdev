@@ -33,7 +33,7 @@ multiboot:
 section .bss
     align 16
 stack_base:
-    resb STACK_SIZE      ; Reserve memory for the stack
+    resb STACK_SIZE      ; Reserve memory for the stackz
 stack_end:
 
 ; Section for executable code
@@ -50,6 +50,7 @@ section .text
         ; initialize IDT
 	    extern idt_init
 	    call idt_init
+        
         extern main_kernel ; Declare the kernel_main function
         call main_kernel   ; Call the kernel_main function
         cli                ; Disable interrupts
