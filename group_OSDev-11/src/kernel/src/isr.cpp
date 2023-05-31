@@ -5,7 +5,7 @@
 
 void isr_handler(registers regs) asm("isr_handler");
 
-void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
+void assign_interrupt_handler(uint8_t n, isr_t handler, void* context)
 {
     int_handlers[n].handler = handler;
     int_handlers[n].data = context;
@@ -27,15 +27,15 @@ void isr_handler(registers regs)
 
 void initialize_interrupt_handlers()
 {
-    register_interrupt_handler(3, [](registers* regs, void* data) {
+    assign_interrupt_handler(3, [](registers* regs, void* data) {
         write_to_terminal("Interrupt 3 was triggered");
     }, NULL);
     
-    register_interrupt_handler(4, [](registers* regs, void* data) {
+    assign_interrupt_handler(4, [](registers* regs, void* data) {
         write_to_terminal("Interrupt 4 was triggered");
     }, NULL);
 
-    register_interrupt_handler(5, [](registers* regs, void* data) {
+    assign_interrupt_handler(5, [](registers* regs, void* data) {
         write_to_terminal("Interrupt 5 was triggered");
     }, NULL);
 }
