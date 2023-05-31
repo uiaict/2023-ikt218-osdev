@@ -6,7 +6,7 @@
 void initialize_idt() asm("initialize_idt");
 
 extern "C" {
-    extern void idt_flush(uint32_t);
+    extern void flush_idt(uint32_t);
 }
 
 struct idt_entry idt[IDT_ENTRIES];
@@ -34,7 +34,7 @@ void initialize_idt() {
     init_irq_handlers();
 
     // Load IDT
-    idt_flush((uint32_t)&idt_pointer);
+    flush_idt((uint32_t)&idt_pointer);
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) 

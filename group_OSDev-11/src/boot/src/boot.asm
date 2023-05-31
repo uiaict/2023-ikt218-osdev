@@ -43,7 +43,7 @@ bottom_of_stack:
 top_of_stack:
 ; Entry point of our program
 section .text
-global _start:function (_start.end - _start)
+global _start:function (_start.finish - _start)
 _start:
 	; Set the stack pointer
 	mov esp, top_of_stack
