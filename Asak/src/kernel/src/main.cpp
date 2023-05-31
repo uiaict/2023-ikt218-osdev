@@ -17,11 +17,10 @@ void kernel_main()
     register_all_irq_handlers();
 
     // Test the interrupts 
-    print("\nTriggering Interrupt 2: ");
-    __asm("int $0x2");
-    print("\nTriggering Interrupt 3: ");
-    __asm("int $0x3");
-
+    //print("\nTriggering Interrupt 2: ");
+    //__asm("int $0x2");
+    //print("\nTriggering Interrupt 3: ");
+    //__asm("int $0x3");
 
     print("\n\nWaiting for interrupts... *Cricket Noises*\n");
     while(1){};

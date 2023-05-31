@@ -72,21 +72,7 @@ void register_all_irq_handlers() {
     asm volatile("sti");
 
     register_irq_handler(IRQ0, [](registers_t*, void*){
-        //print("IRQ0 Handler Here!\n");
-
-        /*
-        // Read from keyboard
-        unsigned char scan_code = inb(0x60);
-        char c = scancode_to_ascii(&scan_code);
-
-        if (c != 0) {
-            char* d = &c;
-            print_char(c);
-        }
-        */
-
-       // For testing
-       // asm volatile("cli");
+        
     }, NULL);
 
     register_irq_handler(IRQ1, [](registers_t*, void*){
@@ -103,7 +89,7 @@ void register_all_irq_handlers() {
         }
         */
 
-       // For testing
+        // For testing
         //asm volatile("cli");
     }, NULL);
 }
