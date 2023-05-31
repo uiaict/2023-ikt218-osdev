@@ -1,4 +1,5 @@
 #include "table.h"
+#include "../screen/screen.h"
 
 extern "C" {
   extern void gdt_flush(uint32_t gdt_ptr);
@@ -18,7 +19,8 @@ void init_gdt() {
 
   // Load the GDT
   gdt_flush((uint32_t)&gdt_ptr);
-
+  
+  screenWriteString("Gdt funker");
 }
 
 
@@ -34,4 +36,5 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 
     gdt[num].granularity |= gran & 0xF0;
     gdt[num].access      = access;
+    screenWriteString("Gdt funker");
 }
