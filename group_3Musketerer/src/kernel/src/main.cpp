@@ -1,5 +1,7 @@
+extern "C" {
 
-#include "system.h"
+    #include "print.h"
+}
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -8,5 +10,6 @@ extern "C"{
 
 void kernel_main()
 {
-
+    print_clear();
+    print_str("Hello World");
 }
