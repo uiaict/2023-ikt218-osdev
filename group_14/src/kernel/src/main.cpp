@@ -9,6 +9,7 @@
 #include "include/common.h"
 #include "include/sc_to_ascii.h"
 #include "include/memory.h"
+#include "include/pit.h"
 
 
 extern uint32_t end;
@@ -57,10 +58,33 @@ void kernel_main()
 	init_irq();
 
     // Initialize Paging
-    init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
-
+    init_paging();
+    
     // Print memory layout
     print_memory_layout();
+
+    // Initialize PIT
+    init_pit();
+
+    // Enable interrupts temporarily
+    asm volatile("sti");
+
+    // Show that PIT works   
+    uint16_t counter = 0;  
+    while(true){
+        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(1000);
+        printf("[%d]: Slept using interrupts.\n", counter++);
+    };
+      
+
+
+    /*
+    void* some_memory = custom_malloc(12345); 
+    void* memory2 = custom_malloc(54321); 
+    void* memory3 = custom_malloc(13331);
+    char* memory4 = new char[1000]();
+    */
 
 	// Create interrupt handlers for interrupt 3 and 4
     /*
@@ -77,11 +101,17 @@ void kernel_main()
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");*/
 
-    // Disable interrupts temporarily
-    asm volatile("sti");
+    // Create an IRQ handler for IRQ1
+    register_irq_handler(IRQ0, [](registers_t*, void*) {
+        printf("IRQ0 triggered!\n");
+
+        send_EOI();
+        // Disable interrupts temporarily
+        asm volatile("cli");
+    }, NULL);
 
     // Create an IRQ handler for IRQ1
-    register_irq_handler(IRQ1, [](registers_t*, void*){
+    register_irq_handler(IRQ1, [](registers_t*, void*) {
          // Read the scan code from keyboard
         unsigned char scan_code = inb(0x60);
         unsigned char ascii = scancode_to_ascii(scan_code);
