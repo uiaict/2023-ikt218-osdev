@@ -1,14 +1,37 @@
-; This macro creates a stub for an IRQ - the first parameter is
-; the IRQ number, the second is the ISR number it is remapped to.
+; Forward declare irq_handler function from extern
+extern irq_handler
+
+; A macro that generates an IRQ stub with given IRQ number and corresponding ISR number
 %macro IRQ 2
   global irq%1
   irq%1:
-    ;cli
-    push byte 0
-    push byte %2
-    jmp irq_common
+    push byte 0             ; Push a dummy error code
+    push byte %2            ; Push the associated ISR number
+    jmp irq_common          ; Jump to the common IRQ handler
 %endmacro
 
+; The Common IRQ stub: saves the processor state, switches to kernel mode segments,
+; calls the C-level handler and finally restores the processor state.
+irq_common:
+    pusha                   ; Preserve all general purpose registers
+    mov ax, ds              ; Copy Data Segment Descriptor into AX
+    push eax                ; Push Data Segment Descriptor onto the stack
+    mov ax, 0x10            ; Load the Kernel Data Segment Descriptor
+    mov ds, ax
+    mov es, ax
+    mov fs, ax
+    mov gs, ax
+    call irq_handler        ; Call C-level IRQ handler
+    pop ebx                 ; Restore original Data Segment Descriptor from stack
+    mov ds, bx
+    mov es, bx
+    mov fs, bx
+    mov gs, bx
+    popa                    ; Restore all general purpose registers
+    add esp, 8              ; Remove dummy error code and ISR number from stack
+    iret                    ; Return from the interrupt
+
+; Generate IRQ stubs for each IRQ line, mapped to appropriate ISR numbers
 IRQ   0,    32
 IRQ   1,    33
 IRQ   2,    34
@@ -25,33 +48,3 @@ IRQ  12,    44
 IRQ  13,    45
 IRQ  14,    46
 IRQ  15,    47
-
-extern irq_handler
-
-; This is our common IRQ stub. It saves the processor state, sets
-; up for kernel mode segments, calls the C-level fault handler,
-; and finally restores the stack frame.
-irq_common:
-    pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
-
-    mov ax, ds               ; Lower 16-bits of eax = ds.
-    push eax                 ; save the data segment descriptor
-
-    mov ax, 0x10  ; load the kernel data segment descriptor
-    mov ds, ax
-    mov es, ax
-    mov fs, ax
-    mov gs, ax
-
-    call irq_handler
-
-    pop ebx        ; reload the original data segment descriptor
-    mov ds, bx
-    mov es, bx
-    mov fs, bx
-    mov gs, bx
-
-    popa                     ; Pops edi,esi,ebp...
-    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-
-    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP

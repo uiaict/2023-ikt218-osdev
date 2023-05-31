@@ -1,7 +1,7 @@
-#include "idt.h"
-#include <stdint.h>
 #include "terminal.h"
 #include <cstddef>
+#include "idt.h"
+#include <stdint.h>
 
 // Forward declaration
 void isr_handler(registers regs) asm("isr_handler");
