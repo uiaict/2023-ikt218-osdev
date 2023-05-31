@@ -6,6 +6,22 @@
 // Forward declaration
 void isr_handler(registers regs) asm("isr_handler");
 
+// Initializes the interrupt handlers
+void initialize_interrupt_handlers()
+{
+    assign_interrupt_handler(3, [](registers* regs, void* data) {
+        write_to_terminal("Interrupt 3 has been triggered!");
+    }, nullptr);
+
+    assign_interrupt_handler(4, [](registers* regs, void* data) {
+        write_to_terminal("Interrupt 4 has been triggered!");
+    }, nullptr);
+
+    assign_interrupt_handler(5, [](registers* regs, void* data) {
+        write_to_terminal("Interrupt 5 has been triggered!");
+    }, nullptr);
+}
+
 // Assigns a handler function to a specific interrupt
 void assign_interrupt_handler(uint8_t n, isr_t handler, void* context)
 {
@@ -13,7 +29,7 @@ void assign_interrupt_handler(uint8_t n, isr_t handler, void* context)
     int_handlers[n].data = context;
 }
 
-// Handles ISR; is called from the assembly interrupt handler stub
+// Handles ISR; called from the assembly interrupt handler stub
 void isr_handler(registers regs)
 {
     uint8_t int_no = regs.int_no & 0xFF;
@@ -21,24 +37,7 @@ void isr_handler(registers regs)
 
     if (intrpt.handler) {
         intrpt.handler(&regs, intrpt.data);
-    }
-    else {
+    } else {
         write_to_terminal("Unhandled interrupt");
     }
-}
-
-// Initializes the interrupt handlers
-void initialize_interrupt_handlers()
-{
-    assign_interrupt_handler(3, [](registers* regs, void* data) {
-        write_to_terminal("Interrupt 3 was triggered");
-    }, NULL);
-
-    assign_interrupt_handler(4, [](registers* regs, void* data) {
-        write_to_terminal("Interrupt 4 was triggered");
-    }, NULL);
-
-    assign_interrupt_handler(5, [](registers* regs, void* data) {
-        write_to_terminal("Interrupt 5 was triggered");
-    }, NULL);
 }
