@@ -39,14 +39,14 @@ section .bss
 align 16
 stack_bottom:
     resb STACK_SIZE ; Reserve bytes for stack
-stack_top:
+top_of_stack:
 
 ; Entry point of our program
 section .text
 global _start:function (_start.end - _start)
 _start:
 	; Set the stack pointer
-	mov esp, stack_top
+	mov esp, top_of_stack
 
 	; Call the functions to initialize GDT and IDT
 	extern initialize_gdt
@@ -55,8 +55,8 @@ _start:
 	call initialize_idt
 
 	; Call the main function of the kernel
-	extern kernel_main
-	call kernel_main
+	extern main_kernel
+	call main_kernel
 
 	; Disable interrupts
 	cli

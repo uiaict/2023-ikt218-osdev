@@ -75,11 +75,11 @@ void output_char_to_terminal(char c) {
 
 // Main function declaration, using extern to prevent C++ name mangling
 extern "C"{
-    void kernel_main();
+    void main_kernel();
 }
 
 // Main function definition
-void kernel_main()
+void main_kernel()
 {
     // Initialize terminal and display a string
     initialize_terminal();
