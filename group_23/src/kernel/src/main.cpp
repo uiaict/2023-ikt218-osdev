@@ -61,14 +61,10 @@ void kernel_main()
     //asm volatile ("int $0x3");
     //asm volatile ("int $0x4");
     
-    asm volatile("sti");
+    asm volatile("sti");            // Enable interrupts
     //init_timer(50);
     
     init_keyboard();
-    
-
-    
-
     
 
     init_paging();

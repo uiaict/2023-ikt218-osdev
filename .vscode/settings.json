@@ -3,7 +3,8 @@
     "cmake.sourceDirectory": "${workspaceFolder}/group_23",
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "system.h": "c"
+        "system.h": "c",
+        "keyboard.h": "c"
     }
 
 }
