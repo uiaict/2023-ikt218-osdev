@@ -3,10 +3,10 @@
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
-    void kernel_main();
+    void main_kernel();
 }
 
-void kernel_main()
+void main_kernel()
 {
 
 }
