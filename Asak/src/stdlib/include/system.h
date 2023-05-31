@@ -42,7 +42,6 @@
     double sinh(double x);
     int snprintf(char *str, size_t size, const char *format, ...);
     int sprintf(char *str, const char *format, ...);
-    int printf(const char *format, ...);
     void srand(unsigned int seed);
     int strcoll(const char *s1, const char *s2);
     char *strerror(int errnum);
@@ -54,12 +53,9 @@
     double tanh(double x);
     time_t time(time_t *tloc);
     char *tmpnam(char *s);
-    void *memset(void *s, int c, size_t n);
-    void *memcpy(void *dest, const void *src, size_t n);
     size_t strlen(const char *s);
     void *calloc(size_t num, size_t size);
     void *memmove(void *dest, const void *src, size_t n);
-    void free(void *ptr);
     void *realloc(void *ptr, size_t size);
     double fabs(double x);
     int abs(int n);

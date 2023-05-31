@@ -259,7 +259,7 @@ int printf(const char* __restrict__ format, ...) {
 
 
 
-void panic(...) {
+void panic(const char* format, ...) {
     printf("***KERNEL PANIC*** in %s at line %d in function: %s\n", __FILE__, __LINE__, __func__); 
     asm volatile("cli");
     for(;;);

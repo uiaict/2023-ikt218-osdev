@@ -2,7 +2,8 @@ set(OS_MODULE_MEMORY_NAME ${OS_KERNEL_NAME}-memory)
 
 # Memory source
 set(OS_MODULE_MEMORY_SOURCES
-    malloc.cpp
+    malloc.c
+    memutils.c
 )
 
 add_library(${OS_MODULE_MEMORY_NAME} ${OS_MODULE_MEMORY_SOURCES})

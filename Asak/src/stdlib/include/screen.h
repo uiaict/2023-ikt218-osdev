@@ -15,11 +15,21 @@ void set_cursor(int cursor);
 void set_cursor_offset(int offset);
 
 void print(char *text);
-int printf (const char* str, ...);
+
+// C++ code -> C code
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+extern int printf(const char* __restrict__ format, ...);
+extern void panic(const char* format, ...);
+#ifdef __cplusplus
+}
+#endif
+
 int print_char(char c, int col, int row, char attr);
 void print_at (char* message, int col, int row);
 void print_hex(unsigned int value, unsigned int width, char * buf, int * ptr);
-void panic(...);
 
 int get_cursor();
 int get_offset(int col, int row);
