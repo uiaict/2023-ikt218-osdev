@@ -34,7 +34,7 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "UiA Operating System")
+set(OS_NAME "JET Operating System")
 # CMake target name for our operating system
 set(OS_KERNEL_NAME "uia-os")
 # Predefined list for our application targets
@@ -113,7 +113,6 @@ set(OS_MODULE_STDLIB_SOURCES
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
     PUBLIC src/stdlib/include
-
 )
 target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
         ${OS_LIBRARIES}
@@ -140,7 +139,7 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
+        src/boot/src/boot.asm
         src/boot/src/boot.cpp
 )
 # Creates a library for our multi-boot section
@@ -150,9 +149,28 @@ target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
     src/boot/include/
 )
 # Defines the linking between boot and the boot library
-target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
+target_link_libraries(${OS_MODULE_BOOT_NAME} 
+PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 
+########################################
+set(OS_MODULE_DESCRIPTOR_TABLES_NAME ${OS_KERNEL_NAME}-table)
+set(OS_MODULE_DESCRIPTOR_TABLES_SOURCES
+        src/kernel/src/CPU/GDT.cpp
+        src/kernel/src/CPU/IDT.cpp
+        src/kernel/src/CPU/IRQ.cpp
+        src/kernel/src/CPU/descriptor_table.asm
+        src/kernel/include/descriptor_tables.h
+)
+add_library(${OS_MODULE_DESCRIPTOR_TABLES_NAME} ${OS_MODULE_DESCRIPTOR_TABLES_SOURCES})
+target_link_libraries(${OS_MODULE_DESCRIPTOR_TABLES_NAME})
+target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
+    src/kernel/include/
+    src/kernel/src/
+)
+target_link_libraries(${OS_MODULE_DESCRIPTOR_TABLES_NAME} 
+PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
+set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_DESCRIPTOR_TABLES_NAME})
 ########################################
 ###
 ### OS Module: Kernel
@@ -189,7 +207,7 @@ target_include_directories(
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.
 target_link_libraries(
-        ${OS_MODULE_KERNEL_NAME} PUBLIC
+        ${OS_MODULE_KERNEL_NAME} PUBLIC c
         ${OS_LIBRARIES}
         ${OS_APPLICATIONS}
 )

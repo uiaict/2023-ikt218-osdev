@@ -1,6 +1,9 @@
 {
     "cmake.buildDirectory": "${workspaceFolder}/build_group_jet",
     "cmake.sourceDirectory": "${workspaceFolder}/group_jet",
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "isr.h": "c"
+    }
 
 }
