@@ -1,6 +1,7 @@
 
 
 extern "C"{
+#include "../../../stdlib/include/system.h"
 #include "song.h"
 #include "../../kernel/include/pit.h"
 #include "../../kernel/include/common.h"
@@ -44,10 +45,11 @@ void play_sound(uint32_t frequency) {
 }
 
 void play_song_impl(Song *song) {
-    enable_speaker();
+
     for (uint32_t i = 0; i < song->length; i++) {
+        enable_speaker();
         Note* note = &song->notes[i];
-        //printf("Note: %d, Freq=%d, Sleep=%d\n", i, note->frequency, note->duration);
+        printk("Note: %d, Freq=%d, Sleep=%d\n", i, note->frequency, note->duration);
         play_sound(note->frequency);
         sleep_interrupt(note->duration);
         disable_speaker();
