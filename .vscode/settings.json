@@ -1,6 +1,9 @@
 {
     "cmake.buildDirectory": "${workspaceFolder}/build_group_3Musketerer",
     "cmake.sourceDirectory": "${workspaceFolder}/group_3Musketerer",
-    "C_Cpp.errorSquiggles": "disabled"
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "*.asm": "cpp"
+    }
 
 }

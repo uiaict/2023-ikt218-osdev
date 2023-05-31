@@ -142,6 +142,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
         src/boot/src/boot.cpp
+        src/boot/src/boot.asm
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
