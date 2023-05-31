@@ -3,17 +3,14 @@
 #include "../screen/screen.h"
 
 
-void isr_default(registers regs) asm ("isr_default");
+void isr_handler(registers regs) asm ("isr_default");
 
 
-void isr_default(registers regs)
+void isr_handler(registers regs)
 {
-    uint32_t a = interrupt;
-    printString("Interrupt occurred!");
-    uint32_t b = interrupt;
+    int a = regs.interrupt_number;
+
 }
-
-
 
 void isr0_handler() 
 {
