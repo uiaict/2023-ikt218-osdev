@@ -1,86 +1,84 @@
-; This macro creates a stub for an ISR which does NOT pass it's own
-; error code (adds a dummy errcode byte).
-%macro ISR_NOERRCODE 1
+; This macro generates an Interrupt Service Routine (ISR) stub that doesn't provide its own error code,
+; it pushes a dummy error code instead.
+%macro NOERR_ISR 1
   global isr%1
   isr%1:
-    cli                         ; Disable interrupts firstly.
-    push byte 0                 ; Push a dummy error code.
-    push  %1                    ; Push the interrupt number.
-    jmp isr_common_stub         ; Go to our common handler code.
+    cli                     ; Temporarily disable interrupts for safe state preservation
+    push byte 0             ; Push dummy error code to stack
+    push  %1                ; Push the ISR number to stack
+    jmp isr_common     ; Transfer control to the common ISR handler
 %endmacro
 
-; This macro creates a stub for an ISR which passes it's own
-; error code.
-%macro ISR_ERRCODE 1
-  global isr%1
-  isr%1:
-    cli                         ; Disable interrupts.
-    push %1                     ; Push the interrupt number
-    jmp isr_common_stub
-%endmacro
-
-ISR_NOERRCODE 0
-ISR_NOERRCODE 1
-ISR_NOERRCODE 2
-ISR_NOERRCODE 3
-ISR_NOERRCODE 4
-ISR_NOERRCODE 5
-ISR_NOERRCODE 6
-ISR_NOERRCODE 7
-ISR_ERRCODE 8
-ISR_NOERRCODE 9
-ISR_ERRCODE 10
-ISR_ERRCODE 11
-ISR_ERRCODE 12
-ISR_ERRCODE 13
-ISR_ERRCODE 14
-ISR_NOERRCODE 15
-ISR_NOERRCODE 16
-ISR_ERRCODE 17
-ISR_NOERRCODE 18
-ISR_NOERRCODE 19
-ISR_NOERRCODE 20
-ISR_ERRCODE 21
-ISR_NOERRCODE 22
-ISR_NOERRCODE 23
-ISR_NOERRCODE 24
-ISR_NOERRCODE 25
-ISR_NOERRCODE 26
-ISR_NOERRCODE 27
-ISR_NOERRCODE 28
-ISR_NOERRCODE 29
-ISR_NOERRCODE 30
-ISR_NOERRCODE 31
-ISR_NOERRCODE 128
-
-
-; In isr.cpp
+; Declare the isr_handler function, defined in isr.cpp
 extern isr_handler
 
-; This is our common ISR stub. It saves the processor state, sets
-; up for kernel mode segments, calls the C-level fault handler,
-; and finally restores the stack frame.
-isr_common_stub:
-    pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
+; Common ISR stub saves processor state, adjusts for kernel mode segments, calls the isr_handler in C,
+; and finally restores the original stack frame.
+isr_common:
+    pusha                  ; Save all general-purpose registers
 
-    mov ax, ds               ; Lower 16-bits of eax = ds.
-    push eax                 ; save the data segment descriptor
+    mov ax, ds             ; Copy data segment descriptor into AX
+    push eax               ; Push it onto stack
 
-    mov ax, 0x10  ; load the kernel data segment descriptor
+    mov ax, 0x10  ; Load kernel data segment descriptor into AX
     mov ds, ax
     mov es, ax
     mov fs, ax
     mov gs, ax
 
-    call isr_handler
+    call isr_handler       ; Call C handler
 
-    pop ebx        ; reload the original data segment descriptor
+    pop ebx        ; Restore original data segment descriptor from stack
     mov ds, bx
     mov es, bx
     mov fs, bx
     mov gs, bx
 
-    popa                     ; Pops edi,esi,ebp...
-    add esp, 8     ; Cleans up the pushed error code and pushed ISR number
-    sti
-    iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+    popa                   ; Restore all general-purpose registers
+    add esp, 8     ; Remove the error code and ISR number that were initially pushed onto the stack
+    sti                    ; Enable interrupts
+    iret           ; Return from the interrupt, restoring flags, CS, EIP, SS, ESP from stack
+
+; This macro generates an Interrupt Service Routine (ISR) stub that provides its own error code.
+%macro ERR_ISR 1
+  global isr%1
+  isr%1:
+    cli                     ; Disable interrupts temporarily for safe state preservation
+    push %1                 ; Push the ISR number to the stack
+    jmp isr_common     ; Jump to common ISR handler
+%endmacro
+
+; Create ISR stubs for various interrupts using the macros
+NOERR_ISR 0
+NOERR_ISR 1
+NOERR_ISR 2
+NOERR_ISR 3
+NOERR_ISR 4
+NOERR_ISR 5
+NOERR_ISR 6
+NOERR_ISR 7
+ERR_ISR   8
+NOERR_ISR 9
+ERR_ISR   10
+ERR_ISR   11
+ERR_ISR   12
+ERR_ISR   13
+ERR_ISR   14
+NOERR_ISR 15
+NOERR_ISR 16
+ERR_ISR   17
+NOERR_ISR 18
+NOERR_ISR 19
+NOERR_ISR 20
+ERR_ISR   21
+NOERR_ISR 22
+NOERR_ISR 23
+NOERR_ISR 24
+NOERR_ISR 25
+NOERR_ISR 26
+NOERR_ISR 27
+NOERR_ISR 28
+NOERR_ISR 29
+NOERR_ISR 30
+NOERR_ISR 31
+NOERR_ISR 128
