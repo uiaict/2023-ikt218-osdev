@@ -2,6 +2,7 @@
 #include "print.h"
 #include "isr.h"
 #include "keylogger.h"
+#include "timer.h"
 
 extern u32int end; // This is defined in linker.ld
 
@@ -22,9 +23,16 @@ void kernel_main()
 
     asm volatile ("sti");
 
+    // Start tick tack timer.
+    // tick tack every 10 seconds.
+    init_ticktack(100);
+
+    print_string("Starting timer running...\n");
+
+    // Start keylogger.
     init_keylogger();
 
-    print_string("Starting keylogger...\n");
+    print_string("Starting keylogger running...\n");
     while(1){};
     print_string("Goodbye");
 }
