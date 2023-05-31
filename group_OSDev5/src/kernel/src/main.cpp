@@ -18,6 +18,22 @@ public:
         print("Initializing UiA Operating System....");
     }
 
+    
+    void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs) {
+        print("Called Interrupt Handler 3!");
+    }
+
+    void interrupt_handler_4(UiAOS::CPU::ISR::registers_t regs) {
+        print("Called Interrupt Handler 4!");
+        
+    }
+
+    void interrupt_handler_5(UiAOS::CPU::ISR::registers_t regs) {
+        print("Called Interrupt Handler 5!");
+    }
+
+
+
     void timer() {
         tick++;
         if(tick % 100 == 0){
@@ -31,33 +47,47 @@ public:
 
 
 
-
-
-void my_keyboard_callback(uint8_t scancode, void* ctx) {
-    print("Inside callback");
-    // Add your code to handle the keyboard callback here
-}
-
-
-
 void kernel_main()
 {
     
-    print("Hello, world");
-    print_int(5);
+    //print("Hello, world");
+    //print_int(5);
 
     auto os = OperatingSystem();
     os.init();
 
+
+     UiAOS::CPU::ISR::register_interrupt_handler(3,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_3(*regs);
+    }, (void*)&os);
+
+     UiAOS::CPU::ISR::register_interrupt_handler(4,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_4(*regs);
+    }, (void*)&os);
+
+     UiAOS::CPU::ISR::register_interrupt_handler(5,[](UiAOS::CPU::ISR::registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_5(*regs);
+    }, (void*)&os);
+
+  
+    asm volatile ("int $0x4");
+    asm volatile ("int $0x5");
+    asm volatile ("int $0x5");
+    asm volatile ("int $0x5");
+
+
     asm volatile("sti");
+    
 
      UiAOS::CPU::PIT::init_timer(1, [](UiAOS::CPU::ISR::registers_t*regs, void* context){
         auto* os = (OperatingSystem*)context;
         os->timer();
     }, &os);
 
-    // Hook the keyboard
-    UiAOS::IO::Keyboard::hook_keyboard(my_keyboard_callback, nullptr);
+    
     
      UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
