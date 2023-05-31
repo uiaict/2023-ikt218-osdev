@@ -46,9 +46,10 @@ void kernel_main()
     init_gdt();
 	//Initialize the Interrupt Descriptor Table.
 	init_idt();
+	//Turns on interrupts
+	asm volatile("sti");
 	//Initialize the keyboard.
 	init_keyboard();
-	asm volatile("sti");
 	//Initialize paging.
 	init_paging();
 	//Print memory layout.
@@ -56,11 +57,15 @@ void kernel_main()
 	//Initialize the System Timer
 	init_pit();
 
+	//Uncomment this code to test memory allocation
+	/*
 	void* some_memory = malloc(12345); 
     void* memory2 = malloc(54321); 
     void* memory3 = malloc(13331);
     char* memory4 = new char[1000]();
+	*/
 
+	//Uncomment this code to test sleeping with busy waiting and sleeping with interrupts.
 	/*
 	int counter = 0;
 	while(true)
@@ -75,7 +80,8 @@ void kernel_main()
  	};
 	*/
 
-	
+	//Uncomment this code to test the music player
+	/*
 	Song* songs[] = {
         new Song(music_1, sizeof(music_1) / sizeof(Note)),
         new Song(music_6, sizeof(music_6) / sizeof(Note)),
@@ -96,6 +102,7 @@ void kernel_main()
 	        printf("Finished playing the song.\n");
 	    }
     };
+	*/
 	
 	
 	while(1){}
