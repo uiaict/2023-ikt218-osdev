@@ -13,7 +13,7 @@ set(CMAKE_CXX_COMPILER_WORKS 1)
 cmake_minimum_required(VERSION 3.22.1)
 
 # This sets the name for our CMake project, and defines which languages we will be using.
-project(UiAOS LANGUAGES C CXX ASM_NASM)
+project(VoliOS LANGUAGES C CXX ASM_NASM)
 
 # This line creates a lock file to prevent parallell run of CMake.
 file(LOCK ${CMAKE_SOURCE_DIR} DIRECTORY GUARD FILE)
@@ -34,9 +34,9 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "UiA Operating System")
+set(OS_NAME "Voli Operating System")
 # CMake target name for our operating system
-set(OS_KERNEL_NAME "uia-os")
+set(OS_KERNEL_NAME "voli-os")
 # Predefined list for our application targets
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
@@ -140,8 +140,13 @@ endif()
 set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 # Defines all source-files that are related to the bootloader
 set(OS_MODULE_BOOT_SOURCES
-        #${ARCH_TARGET}/boot.asm
-        src/boot/src/boot.cpp
+        # Multiboot header
+        src/boot/src/boot.asm
+
+        # GDT
+        src/kernel/cpu/gdt.asm
+        src/kernel/cpu/gdt.cpp
+        src/kernel/cpu/gdt.h
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
