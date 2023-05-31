@@ -33,7 +33,6 @@ void Keyboard::hook_keyboard(keyboard_callback a, void *b) {
         if (scancode > SC_MAX) return;
 
         pay->cb(scancode, pay->ctx);
-
     };
 
     register_interrupt_handler(IRQ1, static_cb, &payload);
