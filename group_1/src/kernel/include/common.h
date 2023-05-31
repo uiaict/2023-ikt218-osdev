@@ -5,7 +5,6 @@
 #define COMMON_H
 #include <stdint.h>
 
-
 // Some nice typedefs, to standardise sizes across platforms.
 // These typedefs are written for 32-bit X86.
 typedef unsigned int   u32int;

@@ -1,5 +1,5 @@
 #include "system.h" // Include system header file
-#include "stdio.h"  // Include standard input/output header file
+//#include "stdio.h"  // Include standard input/output header file
 #include "stdarg.h" // Include standard argument header file
 
 #define VIDEO_MEMORY_ADDRESS 0xB8000  // Define constant for the memory address of video memory
@@ -28,6 +28,18 @@ void printk(const char *format, ...)
     static unsigned int position = 0; // Initialize the previous position to 0
     va_list args;           // Declare a list of arguments
     va_start(args, format); // Start the list of arguments at the format parameter
+
+    if (position >= 80 * 25){
+        for (unsigned int i = 0; i < (80 * 24); ++i) {
+            ((char*)VIDEO_MEMORY_ADDRESS)[i * 2] = ((char*)VIDEO_MEMORY_ADDRESS)[(i + 80) * 2];
+            ((char*)VIDEO_MEMORY_ADDRESS)[i * 2 + 1] = ((char*)VIDEO_MEMORY_ADDRESS)[(i + 80) * 2 + 1];
+        }
+        for (unsigned int i = 80 * 24; i < 80 * 25; ++i) {
+            ((char*)VIDEO_MEMORY_ADDRESS)[i * 2] = ' ';
+            ((char*)VIDEO_MEMORY_ADDRESS)[i * 2 + 1] = 0x0F;
+        }
+        position -= 80;
+    }
 
     char c; // Declare a character to hold the current character in the format string
 
@@ -75,6 +87,17 @@ void printk(const char *format, ...)
                 else{
                 print_char(arg, 0x0F, position++);  // Print the character at the current position in the string and increment the position
                 break;
+            }
+                case 'x':
+                {
+                    int arg = va_arg(args, int); // Get the integer argument from the list of arguments
+                    char buf[32];                // Declare a buffer to hold the integer as a string
+                    itoa(arg, buf, 16);          // Convert the integer to a string using base 16
+                    for (int i = 0; buf[i]; i++) // Loop over every character in the string
+                    {
+                        print_char(buf[i], 0x0F, position++); // Print the character at the current position in the string and increment the position
+                    }
+                    break;
                 }
             }
             }
@@ -136,3 +159,4 @@ void itoa(int value, char *str, int base)
 
     reverse(str, i); // Reverse the string in place
 }
+
