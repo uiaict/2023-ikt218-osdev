@@ -206,6 +206,9 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.c
         src/kernel/src/asm/*.asm
 
+        src/kernel/keyboard/*.cpp
+        src/kernel/keyboard/*.c
+
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

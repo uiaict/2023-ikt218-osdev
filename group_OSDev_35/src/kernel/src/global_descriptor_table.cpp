@@ -3,12 +3,14 @@
   * https://github.com/perara/ikt218-advanced-operating-systems/blob/1ce6e0b734968ad952275b8bbff049b8b690c5fb/src/kernel/cpu/i386/gdt.cpp
 */
 
-#include "global_discriptor_table.h"
+#include "global_descriptor_table.h"
+
 
 void init_gdt() asm ("init_gdt");
 
 
 extern "C" {
+    #include "system.h"
     extern void gdt_flush(uint32_t);
 }
 
@@ -30,6 +32,9 @@ void init_gdt() {
 	
   // Flush GDT pointer
   gdt_flush((uint32_t)&gdt_ptr);
+
+  printf("Global Descriptor Table initialized!\n");
+  
 }
 
 void gdt_load(struct gdt_ptr *gdt_ptr) {

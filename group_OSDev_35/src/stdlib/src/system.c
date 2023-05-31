@@ -4,6 +4,9 @@
 #define VGA_WIDTH 80
 #define VGA_HEIGHT 25
 
+// make it avalibale in the asm file
+void clear_terminal() asm ("clear_terminal");
+
 // Function to clear the terminal
 void clear_terminal() {
 
@@ -21,6 +24,7 @@ void clear_terminal() {
 
 // Function to print logo presentation
 void print_logo() {
+    printf("\n");
     printf("                   _    _   _                 ____     _____ \n");
     printf("                  | |  | | (_)     /\\        / __ \\   / ____|\n");
     printf("                  | |  | |  _     /  \\      | |  | | | (___  \n");
@@ -111,6 +115,10 @@ int printf(const char *format, ...)
                             *(output_buffer + pos++) = 0x0F;
                         }
                     }
+                    break;
+                case 'c': // added %c format specifier 
+                    *(output_buffer + pos++) = (char)va_arg(arg, int);
+                    *(output_buffer + pos++) = 0x0F;
                     break;
                 default:
                     *(output_buffer + pos++) = *format;

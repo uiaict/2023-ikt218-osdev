@@ -40,13 +40,22 @@ stack_top:
 section .text
 global _start:function (_start.end - _start)
 _start:
+
+	extern clear_terminal 
+	call clear_terminal ; clear the terminal
+
+
 	extern init_multiboot
 	push ebx ; multiboot_info struct
 	push eax ; magic number
 	call init_multiboot
 
-	extern init_gdt
-	call init_gdt
+	extern init_gdt 
+	call init_gdt ; initialize golobal discriptor table
+
+	extern init_idt
+	call init_idt ; initialize interrupt discriptor table
+
 	
 	mov esp, stack_top
 
