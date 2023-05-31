@@ -73,7 +73,18 @@ void printk(const char *format, ...)
             }
             case 'c': // If the format is for a character
             {
+
                 char arg = (char)va_arg(args, int); // Get the character argument from the list of arguments
+                if (arg == 0x0E) //Backslash
+                {
+                    if (position > 0)
+                    {
+                        position -= 1;// Set the character to space (0x20) and attribute to black on black (0x00)
+                        print_char(0x20, 0x00, position);
+                    }
+                    break;
+                }
+                else{
                 print_char(arg, 0x0F, position++);  // Print the character at the current position in the string and increment the position
                 break;
             }
@@ -89,6 +100,7 @@ void printk(const char *format, ...)
                     break;
                 }
             }
+            }
         }
         else if (c == '\n') // If the current character is a newline character
         {
@@ -101,6 +113,7 @@ void printk(const char *format, ...)
     }
 
     va_end(args);    // End the list of arguments
+    //return position; // Return the final position after printing the formatted string
 }
 
 void reverse(char *str, int length)

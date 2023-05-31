@@ -44,6 +44,7 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     init_kernel_memory(&end);
 
     clear_screen();
+    printk("Hello");
     init_descriptor_tables();
 //
 //    printk("Hello, %s! The answer \n is %d.", "world", 42);
