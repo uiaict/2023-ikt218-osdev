@@ -1,9 +1,9 @@
 section .text
-global _gdt_flush
-extern _gdt_ptr
+[GLOBAL gdt_flush]
+extern gdt_ptr
 
-_gdt_flush:
-    lgdt [_gdt_ptr]
+gdt_flush:
+    lgdt [gdt_ptr]
     mov ax, 0x10
     mov ds, ax
     mov es, ax

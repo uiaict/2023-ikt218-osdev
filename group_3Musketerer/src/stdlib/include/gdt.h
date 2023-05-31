@@ -11,7 +11,7 @@ struct gdt_entry_struct
     uint8_t  access;              // Access flags, determine what ring this segment can be used in.
     uint8_t  granularity;
     uint8_t  base_high;           // The last 8 bits of the base.
-};
+}__attribute__((packed));
 
 typedef struct gdt_entry_struct gdt_entry_t;
 
@@ -29,6 +29,8 @@ typedef struct gdt_ptr_struct gdt_ptr_t;
 gdt_entry_t gdt_entries[6]; // 6 Entries limit
 gdt_ptr_t   gdt_ptr;
 
+
 extern void gdt_flush();
+
 extern void init_gdt() asm ("init_gdt");
 extern void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);

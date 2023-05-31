@@ -1,8 +1,13 @@
 /*
 Based on code from http://www.osdever.net/bkerndev/Docs/gdt.htm
 */
+
 #include "gdt.h"
-#include "gdt.asm"
+//#include "gdt.asm"
+
+extern "C" {
+  extern void gdt_flush(uint32_t gdt_ptr);
+}
 
 void init_gdt()
 {
@@ -37,5 +42,4 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
     gdt_entries[num].granularity |= gran & 0xF0;
     gdt_entries[num].access      = access;
 }
-
 
