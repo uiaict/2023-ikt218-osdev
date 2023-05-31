@@ -43,7 +43,19 @@ void write_char_2( char c){
     *address++ = color;
     *address = 0x0B;
 }
-void write_integer(uint32_t a){
+void write_integer(char* string, uint32_t a){
+    if(tmp>3500){
+        clearScreen();
+        line = 0;
+    }
+   
+    while( *string != 0 )
+    {
+        *address++ = *string++;
+        *address++ = color;
+        tmp = tmp+1;
+    }
+
     char reverseDigits[64];
     int counter = 0;
     while (a>0){
@@ -60,7 +72,18 @@ void write_integer(uint32_t a){
         }
     }
  
-void write_hexadecimal(uint32_t a){
+void write_hexadecimal(char* string, uint32_t a){
+    if(tmp>3500){
+        clearScreen();
+        line = 0;
+    }
+   
+    while( *string != 0 )
+    {
+        *address++ = *string++;
+        *address++ = color;
+        tmp = tmp+1;
+    }
     char reverseDigits[64];
     char nextDigit;
     int counter = 0;
@@ -152,7 +175,7 @@ void* mem1 = malloc(12);
  free(mem3);
  void* mem4 = malloc(12);
  int c = 2;
-
+os.write_hexadecimal("Check out this, a memory address!!!: 0x", 5042);
 write_memorylayout();
 asm volatile("sti");
  UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
