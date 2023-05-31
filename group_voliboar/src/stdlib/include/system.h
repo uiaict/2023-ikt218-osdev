@@ -114,7 +114,3 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
-
-    // Our printing functions that are used in kernel_main
-    void terminal_initialize(void);
-    void terminal_writestring(const char* data);
