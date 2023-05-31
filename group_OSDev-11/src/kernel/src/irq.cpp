@@ -27,10 +27,10 @@ void register_irq_handler(int irq, isr_t handler, void *ctx)
 void irq_handler(registers regs)
 {
     if (regs.int_no >= 40) {
-        outb(0xA0, 0x20); // Send reset signal to slave
+        write_to_port(0xA0, 0x20); // Send reset signal to slave
     }
 
-    outb(0x20, 0x20); // Send EOI to master
+    write_to_port(0x20, 0x20); // Send EOI to master
 
     int_handler intrpt = irq_handlers[regs.int_no];
 
@@ -46,7 +46,7 @@ void init_irq_handlers()
     // Create IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers*, void*) 
     {
-        uint8_t scancode = inb(0x60);
+        uint8_t scancode = read_byte_from_port(0x60);
 
         if (scancode < sizeof(keyboard_map)) {
             char c = keyboard_map[scancode];
