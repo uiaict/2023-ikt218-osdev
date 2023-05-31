@@ -148,7 +148,7 @@ extern "C"{
 // Function declarations
 void configure_interrupt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 void isr_handler(registers regs);
-void register_irq_handler(int irq, isr_t handler, void* ctx);
+void assign_irq_handler(int irq, isr_t handler, void* ctx);
 void assign_interrupt_handler(uint8_t n, isr_t handler, void* context);
 void initialize_idt();
 void initialize_interrupts();
