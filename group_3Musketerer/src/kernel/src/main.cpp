@@ -2,7 +2,7 @@ extern "C" {
 
     #include "print.h"
 }
-
+#include "gdt.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -21,6 +21,7 @@ extern "C"{
 
 void kernel_main()
 {
+    init_gdt();
     print_clear();
     print_str("Hello World");
 }
