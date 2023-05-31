@@ -6,7 +6,7 @@
     ;cli
     push byte 0
     push byte %2
-    jmp irq_common_stub
+    jmp irq_common
 %endmacro
 
 IRQ   0,    32
@@ -31,7 +31,7 @@ extern irq_handler
 ; This is our common IRQ stub. It saves the processor state, sets
 ; up for kernel mode segments, calls the C-level fault handler,
 ; and finally restores the stack frame.
-irq_common_stub:
+irq_common:
     pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax
 
     mov ax, ds               ; Lower 16-bits of eax = ds.

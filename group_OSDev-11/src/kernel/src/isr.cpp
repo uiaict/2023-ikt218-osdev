@@ -3,7 +3,6 @@
 #include "terminal.h"
 #include <cstddef>
 
-// Forward declaration
 void isr_handler(registers regs) asm("isr_handler");
 
 // Assigns a handler function to a specific interrupt
@@ -21,7 +20,8 @@ void isr_handler(registers regs)
 
     if (intrpt.handler != 0) {
         intrpt.handler(&regs, intrpt.data);
-    } else {
+    }
+    else {
         write_to_terminal("Unhandled interrupt");
     }
 }
@@ -30,14 +30,14 @@ void isr_handler(registers regs)
 void initialize_interrupt_handlers()
 {
     assign_interrupt_handler(3, [](registers* regs, void* data) {
-        write_to_terminal("Interrupt 3 has been triggered!");
+        write_to_terminal("Interrupt 3 was triggered");
     }, NULL);
-
+    
     assign_interrupt_handler(4, [](registers* regs, void* data) {
-        write_to_terminal("Interrupt 4 has been triggered!");
+        write_to_terminal("Interrupt 4 was triggered");
     }, NULL);
 
     assign_interrupt_handler(5, [](registers* regs, void* data) {
-        write_to_terminal("Interrupt 5 has been triggered!");
+        write_to_terminal("Interrupt 5 was triggered");
     }, NULL);
 }
