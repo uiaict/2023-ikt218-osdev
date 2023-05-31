@@ -3,11 +3,10 @@
 #include "../screen/screen.h"
 
 
-void isr_default(uint32_t interrupt) asm ("isr_default");
-void isr_default(uint32_t interrupt) asm ("isr_default");
+void isr_default(registers regs) asm ("isr_default");
 
 
-void isr_default(uint32_t interrupt)
+void isr_default(registers regs)
 {
     uint32_t a = interrupt;
     printString("Interrupt occurred!");
