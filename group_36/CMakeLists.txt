@@ -232,14 +232,14 @@ add_subdirectory(grub)
 ### QEMU is the virtual machine that we'll be using
 ### config/QEMURunner.sh.in is a template file which we will "fill in the blanks" using the below variables
 ########################################
-set(QEMU_ARCH i386)
-set(QEMU_KERNEL_IMAGE ${GRUB_IMAGE_PATH})
-set(QEMU_MEMORY 32)
-set(QEMU_RUN_TARGET ${OS_KERNEL_NAME}-run)
-set(QEMU_ARGS -daemonize)
-configure_file(
-        config/QEMURunner.sh.in QEMURunner.sh
-        FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
-)
-add_custom_target(${QEMU_RUN_TARGET} COMMAND bash -c "${CMAKE_CURRENT_BINARY_DIR}/QEMURunner.sh")
-add_dependencies(${QEMU_RUN_TARGET} ${GRUB_TARGET})
+# set(QEMU_ARCH i386)
+# set(QEMU_KERNEL_IMAGE ${GRUB_IMAGE_PATH})
+# set(QEMU_MEMORY 32)
+# set(QEMU_RUN_TARGET ${OS_KERNEL_NAME}-run)
+# set(QEMU_ARGS -daemonize)
+# configure_file(
+#         config/QEMURunner.sh.in QEMURunner.sh
+#         FILE_PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE
+# )
+# add_custom_target(${QEMU_RUN_TARGET} COMMAND bash -c "${CMAKE_CURRENT_BINARY_DIR}/QEMURunner.sh")
+# add_dependencies(${QEMU_RUN_TARGET} ${GRUB_TARGET})

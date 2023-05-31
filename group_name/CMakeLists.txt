@@ -173,11 +173,11 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.c
 )
 # Set the output binary name
-set(OS_MODULE_KERNEL_BINARY kernel.bin)
+# set(OS_MODULE_KERNEL_BINARY kernel.bin)
 # Defines the linker location
-set(OS_MODULE_KERNEL_LINKER ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET}/linker.ld)
+# set(OS_MODULE_KERNEL_LINKER ${CMAKE_CURRENT_SOURCE_DIR}/src/arch/${OS_ARCH_TARGET}/linker.ld)
 # Define custom linker flags for the kernel
-set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
+# set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
 # Add executable for the kernel.
 # Tutorial: the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
 # A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.

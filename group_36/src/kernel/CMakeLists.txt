@@ -21,9 +21,9 @@ src/main.cpp
 # src/gdt_flush.asm
 # /include/gdt.h
 )
-# set(OS_MODULE_KERNEL_BINARY ${OS_KERNEL_NAME}.bin)
-# set(OS_MODULE_KERNEL_LINKER ${CMAKE_SOURCE_DIR}/src/arch/i386/linker.ld)
-# set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
+set(OS_MODULE_KERNEL_BINARY kernel.bin)
+set(OS_MODULE_KERNEL_LINKER ${CMAKE_SOURCE_DIR}/src/arch/i386/linker.ld)
+set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAGS}")
 
 ########################################
 ###
