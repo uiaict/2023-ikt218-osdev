@@ -13,6 +13,7 @@ extern "C"
 #define SCANCODE_RIGHT_SHIFT 0x36
 #define SCANCODE_LEFT_SHIFT_RELEASE 0xAA
 #define SCANCODE_RIGHT_SHIFT_RELEASE 0xB6
+#define SCANCODE_BACKSPACE 0x0E
 
 // Keyboard state
 static int caps_lock = 0;
@@ -76,6 +77,9 @@ extern "C" void keyboard_handler() {
             return;
         case SCANCODE_RIGHT_SHIFT_RELEASE:
             right_shift = 0;
+            return;
+        case SCANCODE_BACKSPACE:
+            printk("%c", SCANCODE_BACKSPACE);
             return;
         case 0x1C: // Enter key
             printk("\n");

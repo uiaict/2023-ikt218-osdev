@@ -10,6 +10,7 @@ extern "C" void test_gdt();
 [[noreturn]] void kernel_main()
 {
     clear_screen();
+    printk("Hello");
     init_descriptor_tables();
     /*asm volatile ("int $0x28");
     asm volatile ("int $0x1");*/
