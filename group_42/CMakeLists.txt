@@ -186,8 +186,9 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/src/*.h
+        src/kernel/src/main.cpp
+        src/kernel/src/test.cpp
+        src/kernel/src/*.h      
         src/kernel/src/drivers/keyboard.cpp
         src/kernel/src/drivers/keyboard.h
         
