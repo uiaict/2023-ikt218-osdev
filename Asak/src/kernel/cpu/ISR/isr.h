@@ -56,7 +56,16 @@ typedef struct registers {
 } registers_t;
 
 typedef void (*isr_t)(registers_t*, void*);
-void register_interrupt_handler(uint8_t n, isr_t handler, void*);
+
+struct int_handler_t {
+  int num;
+  isr_t handler;
+  void *data;
+};
+
+static int_handler_t irq_handlers[16];
+void register_all_interrupt_handlers();
+void register_all_irq_handlers();
 
 // Define handlers
 typedef struct interrupt_handlers_type{

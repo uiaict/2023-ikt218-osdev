@@ -1,5 +1,6 @@
 #include <screen.h>
 #include "system.c"
+#include "../cpu/ISR/isr.h"
 
 extern uint32_t end;
 // Define entry point in asm to prevent C++ mangling
@@ -33,20 +34,23 @@ void operator delete[](void* ptr) noexcept {
 void kernel_main()
 {
     //Clearing the screen and printing welcome message in GDT
-    //Wanted to see the "implemented" messages"
-
     print("print() implemented!\n");
-    printf("Test!\n");
 
     // Initialize memory
     memory_init(&end);
 
-    /* Test the interrupts */
-    //print("\nSending IRQ: ");
+    // Register our handlers
+    register_all_interrupt_handlers();
+    register_all_irq_handlers();
+  
+    // Test the interrupts 
+    //print("\nTriggering Interrupt 2: ");
     //__asm("int $0x2");
-    //print("\nSending IRQ: ");
+    //print("\nTriggering Interrupt 3: ");
     //__asm("int $0x3");
 
+    print("\n\nWaiting for interrupts... *Cricket Noises*\n");
+   
     void* some_memory = malloc(12345); 
     void* memory2 = malloc(54321); 
     void* memory3 = malloc(13331);
@@ -54,7 +58,5 @@ void kernel_main()
 
     memory_print();
 
-    while(1) {
-
-    }
+    while(1){};
 }
