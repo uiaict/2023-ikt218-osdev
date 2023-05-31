@@ -48,8 +48,8 @@ void init_irq_handlers()
     {
         uint8_t scancode = read_byte_from_port(0x60);
 
-        if (scancode < sizeof(keyboard_map)) {
-            char c = keyboard_map[scancode];
+        if (scancode < sizeof(key_map)) {
+            char c = key_map[scancode];
             output_char_to_terminal(c);
         }
     }, NULL);
