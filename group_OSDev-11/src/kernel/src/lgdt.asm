@@ -18,7 +18,7 @@ flush_gdt:
 
     ; Perform a far jump to the new code segment by setting the cs register to 0x08
     ; and jumping to the .update label using the jmp instruction
-    jmp 0x08:.update    ; 0x08 is the offset to our code segment: Far jump!
+    jmp 0x08:.flush    ; 0x08 is the offset to our code segment: Far jump!
 
 .flush:
     ; Return from the function using the ret instruction

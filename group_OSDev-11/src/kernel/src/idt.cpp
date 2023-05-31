@@ -37,11 +37,7 @@ void initialize_idt() {
     init_irq_handlers();                        // Initialize IRQ handlers
 
     // Load IDT
-<<<<<<< HEAD
     flush_idt((uint32_t)&idt_pointer);
-=======
-    idt_flush((uint32_t)&idt_pointer);           // Load the IDT by calling the idt_flush function with the address of the IDT pointer
->>>>>>> 397ef1844a8374368fc7d40bbe000a86748b8f94
 }
 
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {
