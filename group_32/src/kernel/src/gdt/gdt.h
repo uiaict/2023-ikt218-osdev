@@ -1,5 +1,7 @@
-#ifndef DESCRIPTOR_TABLES_H
-#define DESCRIPTOR_TABLES_H
+#ifndef GDT_H
+#define GDT_H
+
+// https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/include/descriptor_tables.h
 
 #include <stdint.h>
 

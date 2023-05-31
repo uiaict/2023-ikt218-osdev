@@ -1,6 +1,8 @@
 #include "gdt.h"
 #include "../screen/screen.h"
 
+// https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/gdt.cpp
+
 extern "C" {
   extern void gdt_flush(uint32_t gdt_ptr);
 }
