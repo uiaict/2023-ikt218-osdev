@@ -1,8 +1,7 @@
-
+#include "screen.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
-    #include "screen.cpp"
     void kernel_main();
 }
 
