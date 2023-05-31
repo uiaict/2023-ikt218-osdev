@@ -9,42 +9,45 @@ extern "C" {
     extern void idt_flush(uint32_t);
 }
 
-struct idt_entry idt[IDT_ENTRIES];
-struct idt_pointer idt_pointer;
+struct idt_entry idt[IDT_ENTRIES];            // IDT entry array
+struct idt_pointer idt_pointer;               // IDT pointer structure
 
 void initialize_idt() {
     // IDT limit
-    idt_pointer.limit = sizeof(struct idt_entry) * IDT_ENTRIES - 1;
-    idt_pointer.base = (uint32_t) &idt;
+    idt_pointer.limit = sizeof(struct idt_entry) * IDT_ENTRIES - 1;    // Set the IDT limit based on the size of an IDT entry multiplied by the number of entries
+    
+    // IDT base address
+    idt_pointer.base = (uint32_t) &idt;         // Set the IDT base address to the start of the IDT array
+
 
     // Initialize IDT entries
     for (int i = 0; i < IDT_ENTRIES; i++) {
-        idt[i].base_low = 0x0000;
-        idt[i].base_high = 0x0000;
-        idt[i].selector = 0x08;
-        idt[i].always0 = 0x00;
-        idt[i].flags = 0x8E;
+        idt[i].base_low = 0x0000;               // Set the low 16 bits of the base address of the IDT entry to 0x0000
+        idt[i].base_high = 0x0000;              // Set the high 16 bits of the base address of the IDT entry to 0x0000
+        idt[i].selector = 0x08;                  // Set the selector field of the IDT entry to 0x08
+        idt[i].always0 = 0x00;                   // Set the 'always0' field of the IDT entry to 0x00
+        idt[i].flags = 0x8E;                     // Set the flags field of the IDT entry to 0x8E
 
-        int_handlers[i].handler = NULL;
+        int_handlers[i].handler = NULL;         // Set the interrupt handler for the corresponding IDT entry to NULL
     }
 
-    init_interrupts();
-    initialize_interrupt_handlers();
-    irq_init();
-    init_irq_handlers();
+    init_interrupts();                          // Initialize interrupts
+    initialize_interrupt_handlers();            // Initialize interrupt handlers
+    irq_init();                                 // Initialize IRQs
+    init_irq_handlers();                        // Initialize IRQ handlers
 
     // Load IDT
-    idt_flush((uint32_t)&idt_pointer);
+    idt_flush((uint32_t)&idt_pointer);           // Load the IDT by calling the idt_flush function with the address of the IDT pointer
 }
 
-void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) 
-{
-    idt[num].base_low = base & 0xFFFF;
-    idt[num].base_high = (base >> 16) & 0xFFFF;
-    idt[num].selector = sel;
-    idt[num].always0 = 0;
-    idt[num].flags = flags | 0x60;
+void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags) {
+    idt[num].base_low = base & 0xFFFF;           // Set the low 16 bits of the base address of the IDT entry
+    idt[num].base_high = (base >> 16) & 0xFFFF;  // Set the high 16 bits of the base address of the IDT entry
+    idt[num].selector = sel;                     // Set the selector field of the IDT entry
+    idt[num].always0 = 0;                        // Set the 'always0' field of the IDT entry
+    idt[num].flags = flags | 0x60;               // Set the flags field of the IDT entry
 }
+
 
 void init_interrupts()
 {
