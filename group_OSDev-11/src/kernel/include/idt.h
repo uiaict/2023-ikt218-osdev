@@ -5,6 +5,7 @@
 #define IDT_ENTRIES 256
 #define IRQ_COUNT 16
 
+// Define the individual Interrupt Service Routine (ISR) numbers:
 #define ISR1 1
 #define ISR2 2
 #define ISR3 3
@@ -37,6 +38,7 @@
 #define ISR30 30
 #define ISR31 31
 
+// Define the individual Interrupt Request (IRQ) numbers:
 #define IRQ0 32
 #define IRQ1 33
 #define IRQ2 34
@@ -54,6 +56,43 @@
 #define IRQ14 46
 #define IRQ15 47
 
+
+// Structure representing the registers during an interrupt:
+struct registers
+{
+    uint32_t ds, edi, esi, ebp, useless_value, ebx, edx, ecx, eax; 
+    uint32_t int_no, err_code;
+    uint32_t eip, cs, eflags, esp, ss; 
+};
+
+typedef void (*isr_t)(registers*, void*);
+
+// Structure representing an IDT entry
+struct idt_entry 
+{
+    uint16_t base_low;
+    uint16_t selector;
+    uint8_t always0;
+    uint8_t flags;
+    uint16_t base_high;
+} __attribute__((packed));
+
+// Structure representing the IDT pointer
+struct idt_pointer 
+{
+    uint16_t limit;
+    uint32_t base;
+} __attribute__((packed));
+
+// Structure representing an interrupt handler
+struct int_handler 
+{
+    int num;
+    isr_t handler;
+    void *data;
+};
+
+// Declare external assembly functions for ISRs and IRQs
 extern "C"{
     extern void isr0 ();
     extern void isr1 ();
@@ -106,44 +145,7 @@ extern "C"{
     extern void irq15();
 }
 
-// idt entry
-struct idt_entry 
-{
-    uint16_t base_low;
-    uint16_t selector;
-    uint8_t always0;
-    uint8_t flags;
-    uint16_t base_high;
-} __attribute__((packed));
-
-// idt pointer
-struct idt_pointer 
-{
-    uint16_t limit;
-    uint32_t base;
-} __attribute__((packed));
-
-struct registers
-{
-    uint32_t ds;                                                    // Data segment selector
-    uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; 
-    uint32_t int_no, err_code;                                      // Interrupt number and error code
-    uint32_t eip, cs, eflags, esp, ss; 
-};
-
-typedef void (*isr_t)(registers*, void*);
-
-// interrupt handler
-struct int_handler 
-{
-    int num;
-    isr_t handler;
-    void *data;
-};
-
-static struct int_handler int_handlers[IDT_ENTRIES];
-static struct int_handler irq_handlers[IRQ_COUNT];
-
+// Function declarations
 void initialize_idt();
 void initialize_interrupts();
 void initialize_irq();
@@ -153,5 +155,9 @@ void configure_interrupt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t 
 void register_irq_handler(int irq, isr_t handler, void* ctx);
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context);
 void isr_handler(registers regs);
+
+// Arrays to store interrupt and IRQ handlers
+static struct int_handler irq_handlers[IRQ_COUNT];
+static struct int_handler int_handlers[IDT_ENTRIES];
 
 #endif
