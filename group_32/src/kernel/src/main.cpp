@@ -1,7 +1,7 @@
 
 #include "system.h"
 #include "../screen/screen.h"
-#include "../src/CPU/table.h"
+#include "../src/gdt/gdt.h"
 
 /*#include <cstdlib>*/
 /*extern uint32_t end; // This is defined in linker.ld*/

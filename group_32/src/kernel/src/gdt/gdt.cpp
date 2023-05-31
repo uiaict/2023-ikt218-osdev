@@ -1,4 +1,4 @@
-#include "table.h"
+#include "gdt.h"
 #include "../screen/screen.h"
 
 extern "C" {
