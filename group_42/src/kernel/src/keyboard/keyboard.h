@@ -1,6 +1,4 @@
-//
-// Created by per on 1/1/23.
-//
+
 
 #ifndef UIAOS_KEYBOARD_H
 #define UIAOS_KEYBOARD_H
@@ -31,4 +29,4 @@ namespace UiAOS::IO{
 }
 
 
-#endif //UIAOS_KEYBOARD_H
+#endif 
