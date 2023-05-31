@@ -1,4 +1,5 @@
 set(OS_MODULE_CPU_NAME ${OS_KERNEL_NAME}-cpu)
+# CPU source
 set(OS_MODULE_CPU_SOURCES
         hardware_port.cpp
 
