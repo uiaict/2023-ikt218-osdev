@@ -114,7 +114,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
+        src/stdlib/src/system.cpp
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -148,6 +148,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         #${ARCH_TARGET}/boot.asm
         src/boot/src/boot.cpp
+        src/boot/src/boot.asm
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -178,6 +179,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/cpu/descriptor_tables.asm
+        src/kernel/src/cpu/gdt.cpp
 )
 # Set the output binary names
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
