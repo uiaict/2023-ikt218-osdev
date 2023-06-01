@@ -26,4 +26,5 @@ class IJI_OS{
     void interrupt_handler_2(UiAOS::CPU::ISR::registers_t regs);
     void interrupt_handler_1(UiAOS::CPU::ISR::registers_t regs);
     void init();
+    void clearScreen();
 };

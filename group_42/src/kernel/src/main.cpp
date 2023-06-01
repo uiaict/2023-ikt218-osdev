@@ -47,14 +47,14 @@ asm volatile ("int $0x01");
  a[9]='5';
 
 void* mem1 = malloc(12);
- void* mem2 = malloc(12);
+ void* mem2 = malloc(1200);
  void* mem3 = malloc(12);
- free(mem3);
+ free(mem2);
  void* mem4 = malloc(12);
  int c = 2;
 os.write_hexadecimal("Check out this, a memory address!!!: 0x", 5042);
 os.next_line();
-os.print_memory_layout();
+//os.print_memory_layout();
 asm volatile("sti");
  UiAOS::IO::Keyboard::hook_keyboard([](uint8_t scancode, void* context){
     auto* os = (IJI_OS*)context;

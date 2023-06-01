@@ -6,7 +6,8 @@
 #include"../memory/functions.h"
 //#include "../memory/memory.h"
 #include"../PIT/pit.h"
-
+#define VGA_ADDRESS 0xB8000 // The address of the VGA buffer.
+#define BUFSIZE 4000        // The buffer size of the VGA buffer.
 extern "C"{
     uint32_t get_heap_end();
 
@@ -101,8 +102,19 @@ void IJI_OS::write_hexadecimal(char* string, uint32_t a){
         }
  
 }
+void IJI_OS::clearScreen()
+{
+     uint8_t *vga = (uint8_t*) VGA_ADDRESS;
+    for (int i = 0; i < BUFSIZE; i++)
+    {
+        vga[i] = 0;
+    } 
+    address = (volatile char*)0xB8000;
+    next_address = (volatile char*)0xB8000 + 160;
+}
 
 void IJI_OS::print_memory_layout(){
+    clearScreen();
     uint32_t last_alloc = get_last_alloc();
     uint32_t heap_end = get_heap_end();
     uint32_t heap_begin = get_heap_begin();
@@ -143,7 +155,7 @@ void IJI_OS::interrupt_handler_1(UiAOS::CPU::ISR::registers_t regs){
 }
 
 void IJI_OS::init(){
-        
+        clearScreen();
         write_string( "Hello World!");
         next_line();
 
