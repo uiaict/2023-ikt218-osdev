@@ -1,20 +1,16 @@
 #include "gdt.h"
-//#include "isr.h"
-//#include "idt.h"
-
-
-void init_gdt() asm ("init_gdt");
 
 extern "C" {
     // Lets us access our ASM functions from our C code.
     extern void gdt_flush(uint32_t);
-    static void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
 }
+
+void VOLI::CPU::GDT::init_gdt() asm ("init_gdt");
 
 VOLI::CPU::GDT::gdt_entry_t gdt_entries[6];
 VOLI::CPU::GDT::gdt_ptr_t   gdt_ptr;
 
-void init_gdt()
+void VOLI::CPU::GDT::init_gdt()
 {
     gdt_ptr.limit = (sizeof(VOLI::CPU::GDT::gdt_entry_t) * 6) - 1;
     gdt_ptr.base  = (uint32_t)&gdt_entries;
@@ -29,7 +25,7 @@ void init_gdt()
 }
 
 // Set the value of one GDT entry.
-void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+void VOLI::CPU::GDT::gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
     gdt_entries[num].base_low    = (base & 0xFFFF);
     gdt_entries[num].base_middle = (base >> 16) & 0xFF;

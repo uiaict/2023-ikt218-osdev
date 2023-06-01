@@ -1,10 +1,3 @@
-;
-; Gdt.s -- contains global descriptor table and interrupt descriptor table
-;          setup code.
-;          Based on code from Bran's kernel development tutorials.
-;          Rewritten for JamesM's kernel development tutorials.
-;          Taken from Per Arne
-
 [GLOBAL gdt_flush]    ; Allows the C code to call gdt_flush().
 
 gdt_flush:
