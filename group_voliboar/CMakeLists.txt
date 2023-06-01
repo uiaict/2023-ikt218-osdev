@@ -142,6 +142,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         # Multiboot header
         src/boot/src/boot.asm
+   
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -177,6 +178,9 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/cpu/*.asm
         src/kernel/cpu/*.cpp
         src/kernel/cpu/*.c
+        src/kernel/include/*.h
+
+    
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
