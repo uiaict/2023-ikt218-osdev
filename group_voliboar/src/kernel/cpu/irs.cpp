@@ -1,5 +1,5 @@
 #include "idt.h"
-#include <stdio.h>
+#include "screen.h"
 
 
 void ESOS::IDT::isr_handler(registers_t regs) asm("isr_handler");
@@ -25,19 +25,19 @@ void ESOS::IDT::isr_handler(registers_t regs)
     }
     else
     {
-        printf("Unhandled interrupt");
+        terminal_writestring("Unhandled interrupt");
     }
 }
 
 void ESOS::IDT::init_interrupt_handlers()
 {
     ESOS::IDT::register_interrupt_handler(3,[](ESOS::IDT::registers_t* regs, void* data){
-        printf("Interrupt 3 was triggered");
+        terminal_writestring("Interrupt 3 was triggered");
     },NULL);
     ESOS::IDT::register_interrupt_handler(4,[](ESOS::IDT::registers_t* regs, void* data){
-        printf("Interrupt 4 was triggered");
+        terminal_writestring("Interrupt 4 was triggered");
     },NULL);
     ESOS::IDT::register_interrupt_handler(5,[](ESOS::IDT::registers_t* regs, void* data){
-        printf("Interrupt 5 was triggered");
+        terminal_writestring("Interrupt 5 was triggered");
     },NULL);
 }
