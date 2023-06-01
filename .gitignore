@@ -4,4 +4,6 @@ web/venv
 !build_*/kernel.bin
 !build_*/kernel.img
 *.lock
-*.egg-info*
+*.egg-info*¨
+.vscode/settings.json
+boot/kernel.bin

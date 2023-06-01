@@ -1,6 +1,15 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_name",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_name",
-    "C_Cpp.errorSquiggles": "disabled"
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_siverteh",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_siverteh",
+    "C_Cpp.errorSquiggles": "disabled",
+    "files.associations": {
+        "string_view": "c",
+        "print.h": "c",
+        "strings.h": "c",
+        "stdio.h": "c",
+        "stdarg.h": "c",
+        "stdint.h": "c",
+        "cstdint": "c"
+    }
 
 }
