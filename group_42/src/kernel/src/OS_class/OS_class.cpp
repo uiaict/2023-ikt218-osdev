@@ -4,8 +4,19 @@
 
 #include"../keyboard/keyboard.h"
 #include"../memory/functions.h"
-#include "../memory/memory.h"
+//#include "../memory/memory.h"
 #include"../PIT/pit.h"
+
+extern "C"{
+    uint32_t get_heap_end();
+
+    uint32_t get_pheap_end();
+    uint32_t get_last_alloc();
+    uint32_t get_heap_begin();
+    uint32_t get_pheap_begin();
+     uint32_t get_memory_used();
+//    uint32_t get_pheap_begin();
+}
 
 
 void IJI_OS::write_string(const char *string){
