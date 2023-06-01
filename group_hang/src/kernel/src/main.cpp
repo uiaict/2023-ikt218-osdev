@@ -14,11 +14,11 @@ void kernel_main()
 
     //init_keyboard();
     monitor_clear();
+    init_pit();
 
 
     asm volatile("sti"); 
 
-    init_pit();
 
 
     //initialise_paging();
@@ -28,8 +28,16 @@ void kernel_main()
     //u32int do_page_fault = *ptr;
     monitor_write("Hello, world!");
     monitor_put('\n');
-    
+    int counter = 0;
     while (1){
-        sleep_interrupt(2);
+        monitor_write("Sleep with busy wait:)\n");
+        sleep_busy(200);
+        monitor_write("Slept with busy wait:)\n");
+        sleep_busy(200);
+        counter++;
+        monitor_write("Sleep with interrupt:)\n");
+        sleep_interrupt(200);
+        monitor_write("Slept with interrupt:)\n");
+        counter++;
     }
 }
