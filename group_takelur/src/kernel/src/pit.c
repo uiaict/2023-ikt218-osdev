@@ -14,7 +14,7 @@ static int get_current_tick()
 // Initialize the PIT (Programmable Interval Timer)
 void init_pit()
 {
-    u32int divisor = PIT_DEFAULT_DIVISOR;
+    u32int divisor = DIVIDER;
 
     // Send the command byte
     outb(PIT_CMD_PORT, 0x36);
