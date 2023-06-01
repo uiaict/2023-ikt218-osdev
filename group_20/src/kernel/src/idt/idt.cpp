@@ -1,13 +1,11 @@
 #include "idt.h"
 #include <cstddef>
-#include "screen.h"
-
-void start_idt() asm ("start_idt");
-
 
 extern "C" {
   extern void idt_flush(uint32_t);
+  #include "screen.h"
 }
+
 
 
 void start_idt() {

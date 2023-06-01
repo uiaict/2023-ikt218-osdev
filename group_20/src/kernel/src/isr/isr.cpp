@@ -1,6 +1,9 @@
 #include "idt.h"
-#include "screen.h"
 #include <stdio.h>
+
+extern "C"{
+    #include "screen.h"
+}
 
 void isr_handler(registers_t regs) asm("isr_handler");
 

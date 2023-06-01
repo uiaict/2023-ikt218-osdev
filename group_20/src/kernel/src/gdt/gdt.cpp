@@ -1,7 +1,8 @@
 #include "gdt.h"
-#include "screen.h"
+extern "C"{
+    #include "screen.h"
+}
 
-void start_gdt() asm ("start_gdt");
 
 extern "C" {
   extern void gdt_flush(uint32_t gdt_ptr);
@@ -21,7 +22,6 @@ void start_gdt() {
 
     // Since GDT is the first thing that is called in boot.asm before main
     // We clear the screen to get rid of trash
-    screenClear();
 
     // Adds feedback to the terminal
     screenWrite("");
