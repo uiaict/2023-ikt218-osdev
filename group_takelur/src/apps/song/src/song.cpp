@@ -1,6 +1,14 @@
-#include "song.h"
-#include <kernel/pit.h>
-#include <kernel/common.h>
+// FROM Per: https://perara.notion.site/Assignment-4-Memory-and-PIT-2dbf775240da488299c67828f5ce8e93
+
+extern "C"
+{
+    #include "song.h"
+    #include "../../../kernel/include/pit.h"
+    #include "../../../stdlib/include/common.h"
+}
+
+
+void play_sound(uint32_t frequency);
 
 void enable_speaker(){
     // Read the current state of the PC speaker control register
