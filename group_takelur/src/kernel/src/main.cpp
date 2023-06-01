@@ -137,6 +137,43 @@ void kernel_main()
     monitor_write("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25", 0, 15);
     */
 
+
+
+    /* PIT tests */
+    /*
+    int counter = 0;    // counter for PIT tests
+    while(1)
+    {
+        printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(1000);
+        printf("[%d]: Slept using busy-waiting.\n", counter++);
+
+        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(1000);
+        printf("[%d]: Slept using interrupts.\n", counter++);
+    }
+    */
+
+
+
+    /* MONITOR WRITING TESTS (assignment 2) */
+    /*
+    monitor_write("Welcome to Tåkelur OS version 0.1!\n", 0, 15);
+    monitor_write("This should be on a new line\n\n", 0, 15);
+    monitor_write("Does tabs work? : 1\t2\t3\t4\t5\n", 0, 15);
+    monitor_write("Backspaces? : 1 \b2\b3 \b4\b5\n", 0, 15);
+    monitor_write("BG colors? : ", 0, 15);
+    monitor_write("RED ", 4, 15);
+    monitor_write("GREEN ", 2, 15);
+    monitor_write("BLUE \n", 1, 15);
+    monitor_write("FG colors? : ", 0, 15);
+    monitor_write("RED ", 0, 4);
+    monitor_write("GREEN ", 0, 2);
+    monitor_write("BLUE \n", 0, 1);
+    */
+
+   
+
     /* WELCOME SCREEN */
     printf("\
                  _____     _        _               ___  ____  \n\
@@ -150,7 +187,13 @@ void kernel_main()
    monitor_write("caps lock", 0, 2); printf(", and "); monitor_write("AltGr", 0, 2); printf(" keys.\n");
    printf("You can do "); monitor_write("AltGr + c", 0, 4); printf(" to clear the screen.\n\n");
    
+
+
+   // While loop to read from keyboard and print to monitor
+    while(1)
+    {
+         char c = keyboard_read();
          if (c != 0)
               printf("%c", c);
-   };
+    }
 }
