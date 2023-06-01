@@ -2,7 +2,6 @@
 #include "system.h"
 
 #define MAX_PAGE_ALIGNED_ALLOCS 32
-
 uint32_t last_alloc = 0;
 uint32_t heap_end = 0;
 uint32_t heap_begin = 0;
@@ -31,7 +30,7 @@ void init_kernel_memory(uint32_t* kernel_end)
 // Print the current memory layout
 void print_memory_layout()
 {
-  
+   //os.write_hexadecimal("Hey, check this out: ", 5042);
    /*  printf("Memory used: %d bytes\n", memory_used);
     printf("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
     printf("Heap size: %d bytes\n", heap_end - heap_begin);

@@ -61,7 +61,6 @@ void init_paging()
  void init_kernel(){
    
     init_kernel_memory(&end);
-    int a = 2;
  }
 
  
