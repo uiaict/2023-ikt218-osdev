@@ -3,11 +3,15 @@
 #include "print.h"
 #include "keyboard.h"
 #include "common.h"
+#include "pit.h"
 
 void timer_handler(registers_t regs)
 {
     // Commented due to spam
-    //printf("IRQ0: Timer interrupt fired\n");
+    tick++;
+    printf("IRQ0: Timer interrupt fired, tick: %d\n", tick);
+
+    // EOI is sent in irq_ack after exiting this handler
 }
 
 // Passes the registers to the keyboard controller
