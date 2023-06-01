@@ -4,10 +4,10 @@
 
 #include"../keyboard/keyboard.h"
 #include"../memory/functions.h"
-//#include "../memory/memory.h"
+
 #include"../PIT/pit.h"
 #define VGA_ADDRESS 0xB8000 // The starting address of the VGA buffer 
-#define BUFSIZE 4000       // the size of the memory area
+#define BUFSIZE 4000       // the size of the memory area used when clearing the screen
 extern "C"{ // functions imported from c
     uint32_t get_heap_end();
     uint32_t get_pheap_end();

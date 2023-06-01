@@ -88,7 +88,7 @@ char* pmalloc(size_t size) // this function allowcates a paage of memory
 
 void* malloc(size_t size)// this function allowcates a block of memory 
 {
-    if(!size) return 0; // 
+    if(!size) return 0; // emty no memory to allowcate
 
     // find available big enough block
     uint8_t *mem = (uint8_t *)heap_begin;
