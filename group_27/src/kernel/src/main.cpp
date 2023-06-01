@@ -50,6 +50,9 @@ void kernel_main()
     // Initialize Interrupt Requests (IRQs)
     init_irq();
 
+    // Initialize Interrupt Service Routines ( ISRs )
+    init_isr();
+
 
     // Initialize Paging
     init_paging(); 
