@@ -2,6 +2,7 @@
 #include <system.h>
 #include <cpu/isr.h>
 #include <screen.h>
+#include <cpu/input.h>
 
 // Set up handlers
 interrupt_t interrupt_handlers[256];
@@ -55,7 +56,7 @@ void isr_handler(registers_t reg) {
     }
 }
 
-// The IRQ follows the same layout as ISR here, codewise.
+// -- IRQ --
 void init_irq() {
   for (int i = 0; i < 16; i++) {
     irq_handlers[i].data = NULL;
@@ -71,6 +72,7 @@ void register_irq_handler(int irq, isr_t handler, void* ctx) {
 }
 
 void register_all_irq_handlers() {
+    // Enable
     asm volatile("sti");
 
     register_irq_handler(IRQ0, [](registers_t*, void*){
@@ -78,21 +80,18 @@ void register_all_irq_handlers() {
     }, NULL);
 
     register_irq_handler(IRQ1, [](registers_t*, void*){
-        print("IRQ1 Handler Here!\n");
-
-        /*
         // Read from keyboard
         unsigned char scan_code = inb(0x60);
-        char c = scancode_to_ascii(&scan_code);
+        char f = scancode_to_ascii(&scan_code);
+        char n = 'b';
 
-        if (c != 0) {
-            char* d = &c;
-            print_char(c);
+        if (f != 0) {
+            char *k = &f;
+            print(&f);
         }
-        */
 
-        // For testing
-        //asm volatile("cli");
+        // Disable
+        asm volatile("cli");
     }, NULL);
 }
 
@@ -112,6 +111,6 @@ void irq_handler(registers_t reg)
     }
     else
     {
-        print("Error! No registered IRQ handler");
+        //print("Error! No registered IRQ handler");
     }
 }

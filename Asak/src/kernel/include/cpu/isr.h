@@ -63,6 +63,7 @@ struct int_handler_t {
   void *data;
 };
 
+
 static int_handler_t irq_handlers[16];
 void register_all_interrupt_handlers();
 void register_all_irq_handlers();

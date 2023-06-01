@@ -47,8 +47,6 @@ void kernel_main()
     //__asm("int $0x2");
     //print("\nTriggering Interrupt 3: ");
     //__asm("int $0x3");
-
-    print("\n\nWaiting for interrupts... *Cricket Noises*\n");
    
     void* some_memory = malloc(12345); 
     void* memory2 = malloc(54321); 
@@ -57,5 +55,6 @@ void kernel_main()
 
     memory_print();
 
+    print("\n\nWaiting for interrupts... *Cricket Noises*\n");
     while(1){};
 }

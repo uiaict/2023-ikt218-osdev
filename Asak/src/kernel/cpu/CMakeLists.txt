@@ -11,6 +11,7 @@ set(OS_MODULE_CPU_SOURCES
 
         ISR/isr.cpp
         ISR/isr.asm
+        ISR/input.cpp
 )
 
 add_library(${OS_MODULE_CPU_NAME} ${OS_MODULE_CPU_SOURCES})
