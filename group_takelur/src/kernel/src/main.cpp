@@ -21,43 +21,45 @@ extern uint32_t end; // This is defined in linker.ld
 typedef uint32_t size_t;
 
 // Overload the new operator for single object allocation
-void* operator new(size_t size) {
+void* operator new(size_t size) 
+{
     return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
 }
 
 // Overload the delete operator for single object deallocation
-void operator delete(void* ptr) noexcept {
+void operator delete(void* ptr) noexcept 
+{
     free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
 }
 
 // Overload the new operator for array allocation
-void* operator new[](size_t size) {
+void* operator new[](size_t size) 
+{
     return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
 }
 
 // Overload the delete operator for array deallocation
-void operator delete[](void* ptr) noexcept {
+void operator delete[](void* ptr) noexcept 
+{
     free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
 }
 
 void kernel_main() 
 {
+    /* INITIALIZATION */
     init_kernel_memory(&end);   // Initialize kernel memory
-   
     init_gdt();                 // Initialize the GDT
     init_idt();                 // Initialize the IDT
-    
     init_interrupt_handlers();  // Initialize interrupt handlers
     init_irq_handlers();        // Initialize IRQ handlers
-
     asm volatile("sti");        // Enable interrupts
-
     init_paging();              // Initialize paging
-
     init_pit();                 // Initialize PIT
 
-    clear_monitor();
 
+
+    /* MEMORY INFORMATION PRINTS */
+    clear_monitor();
     printf("Printing memory layout after initialization\n\n");
     print_memory_layout();      // Print memory layout
 
@@ -67,11 +69,7 @@ void kernel_main()
     void* memory2 = malloc(54321); 
     void* memory3 = malloc(13331);
     char* memory4 = new char[1000]();
-
-    // TODO: sleep for 10 sec
-    for (int i = 0; i < 1000000000; i++) {
-        i = i + 1;
-    }
+    sleep_interrupt(6000);
 
     clear_monitor();
     printf("Printing memory layout after after allocation\n\n");
@@ -82,27 +80,24 @@ void kernel_main()
     free(memory2);
     free(memory3);
     delete[] memory4;   // Delete because memory was allocated using new[]
-
-    // TODO: sleep for 10 sec
-    for (int i = 0; i < 1000000000; i++) {
-        i = i + 1;
-    }
-
+    sleep_interrupt(6000);
+    
     clear_monitor();
     printf("Printing memory layout after after freeing memory\n\n");
     print_memory_layout();      // Print memory layout
-    // TODO: sleep for 10 sec
-    for (int i = 0; i < 1000000000; i++) {
-        i = i + 1;
-    }
+    sleep_interrupt(6000);
     
+
+
     clear_monitor();
+
     /* PRINT TESTS */
     //printf("This should insert string: %s\n", "Hello World!");
     //printf("This should insert integer: %d\n", 12345);
     //printf("This should insert decimal %d as hex: %x\n", 1452, 1452);
     //printf("This should insert percentage char: %%\n");
     
+
 
     /* INTERRUPT TESTS
     I have not implementet any actual exception handling. My service routines only print information about which interrupt
@@ -119,8 +114,10 @@ void kernel_main()
     //printf("Triggering unhandled interrupt exception...\n");
     //trigger_unhandled_interrupt(); // Trigger interrupt 27, which only has the default handler I created and is not set explicitly
 
-    /* MONITOR WRITING TESTS
-    monitor_write("Welcome to OS version 0.0.001!\n", 0, 15);
+
+
+    /* MONITOR WRITING TESTS (assignment 2)
+    monitor_write("Welcome to Tåkelur OS version 0.1!\n", 0, 15);
     monitor_write("This should be on a new line\n\n", 0, 15);
     monitor_write("Does tabs work? : 1\t2\t3\t4\t5\n", 0, 15);
     monitor_write("Backspaces? : 1 \b2\b3 \b4\b5\n", 0, 15);
