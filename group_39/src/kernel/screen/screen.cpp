@@ -5,6 +5,7 @@
 #define VGA_ADDRESS 0xB8000 // The address of the VGA buffer.
 #define BUFSIZE 4000       // The buffer size of the VGA buffer (80x25 characters, 2 bytes per character)
 
+uint64_t cursor_position = 0;
 
 // This function clears the screen by writing blank spaces to the VGA memory.
 void clearScreen()
@@ -24,10 +25,12 @@ void clearScreen()
 void printString(char * string)
 {
     char * vgaBuffer = (char*)VGA_ADDRESS;
+    vgaBuffer += cursor_position*2;
     while(*string != 0)
     {
         *vgaBuffer++ = *string++; // Print a single character to the screen.
         *vgaBuffer++ = 15; // Print text in colour 'WHITE'.
+        cursor_position++;
     }
 }
 
@@ -37,6 +40,8 @@ void printString(char * string)
 void printChar(char ch)
 {
     char * vgaBuffer = (char*)VGA_ADDRESS;
+    vgaBuffer += cursor_position*2;
     *vgaBuffer++ = ch; // Print a single character to the screen.
     *vgaBuffer++ = 15; // Print text in colour 'WHITE'. 
+    cursor_position++;
 }

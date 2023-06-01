@@ -22,12 +22,8 @@ void kernel_main()
     clearScreen(); // Clear screen before writing output.
 
     printString("Hello World"); // Write "Hello World" to the screen.
-
-
-
-
-
-
-    while(1){}; // Loop
+    printString(" And another test "); // Write "And another test" to the screen.
+    printChar('O');
+    printChar('K');
 }
 
