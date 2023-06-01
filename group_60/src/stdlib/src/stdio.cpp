@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <limits.h>
 
-// extern void monitor_put(char c);
+extern void monitor_put(char c);
 
 
 int putchar(int ic) {
