@@ -1,38 +1,56 @@
-; Derived from https://wiki.osdev.org/Bare_Bones_with_NASM
-; Set constants for the multiboot header
-MBALIGN equ 1<<0                ; Sets MBALIGN to 1
-MEMINFO equ 1<<1                ; Sets MEMINFO to 2
-FLAGS equ MBALIGN | MEMINFO     ; Set these two as flags
-MAGIC equ 0x1BADB002            ; Assigning multiboot magic header
-CHECKSUM equ -(MAGIC + FLAGS)   ; Create a checksum to make sure that the MAGIC and flags are correct
+bits 32
 
-; Multiboot header
-section .multiboot              ; Create multiboot section       
-align 4                         ;
-    dd MAGIC                    ; Set MAGIC header so GRUB will know this is multiboot
-    dd FLAGS                    ; Sets the flags
-    dd CHECKSUM                 ; Create checksum to make sure the flags are set correctly
+MBOOT_PAGE_ALIGN       equ 1<<0    ; Load kernel and modules on a page boundary
+MBOOT_MEM_INFO         equ 1<<1    ; Provide your kernel with memory info
+MBOOT_AOUT_KLUDGE      equ 0x00010000 ; WE dont use this.
+MBOOT_VIDEO_MODE       equ 0x00000004 ; We use this
+MBOOT_HEADER_MAGIC     equ 0x1BADB002 ; Multiboot Magic value
+MBOOT_HEADER_FLAGS     equ MBOOT_PAGE_ALIGN | MBOOT_MEM_INFO ; | MBOOT_VIDEO_MODE
+MBOOT_CHECKSUM         equ -(MBOOT_HEADER_MAGIC + MBOOT_HEADER_FLAGS)
 
-; Specify the block starting symbol
-; BSS contains statically allocated variables that are declared but have not been assigned a value yet
-; https://en.wikipedia.org/wiki/.bss
+; Stack configuration. The size of our stack (16KB).
+KERNEL_STACK_SIZE equ 0x4000
+
+section .multiboot
+    align 4
+multiboot:
+    dd  MBOOT_HEADER_MAGIC      ; GRUB will search for this value on each 4-byte boundary in your kernel file
+    dd  MBOOT_HEADER_FLAGS      ; How GRUB should load your file / settings
+    dd  MBOOT_CHECKSUM          ; To ensure that the above values are correct
+    
+    ; MULTIBOOT_AOUT_KLUDGE - We dont use this!
+    dd 0
+    dd 0
+    dd 0
+    dd 0
+    dd 0
+
+    ; MULTIBOOT_VIDEO_MODE - Graphic fields
+    dd 0
+    dd 640
+    dd 480
+    dd 32
+
 section .bss
 align 16
-    stack_bottom:               ; Assigns the bottom of the stack
-    resb 16384                  ; 16 KiB
-    stack_top:                  ; Sets the top of the stack. The stack grows downwards
+stack_bottom:
+resb KERNEL_STACK_SIZE ; 16 KiB
+stack_top:
 
-; Specify the code section
 section .text
 global _start:function (_start.end - _start)
 _start:
-    mov esp, stack_top          ;
-    extern init_gdt             ; Set the initi_gdt entry point
-    call init_gdt               ; Set up the GDT
-    extern kernel_main          ; Set the kernel_main entry point
-    call kernel_main            ; Call the kernel_main function
-    cli                         ; Disable interrupts (CLear Interrupt bit)
-.hang:                          ; Set keyword "hang" as function hlt (halt)
-    hlt
-    jmp .hang                   ; Run hang (loop intializer)
-.end:                           ; End of assembly program
+	extern init_multiboot
+	push ebx
+    push eax
+	call init_multiboot
+
+	
+	mov esp, stack_top
+
+	extern kernel_main
+	call kernel_main  ; call our kernel_main() function.
+	cli
+.hang:	hlt
+	jmp .hang
+.end:
