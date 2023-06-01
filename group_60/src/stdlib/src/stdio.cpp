@@ -11,6 +11,8 @@ int putchar(int ic) {
 	return ic;
 }
 
+
+
 static bool print(const char* data, size_t length) {
 	const unsigned char* bytes = (const unsigned char*) data;
 	for (size_t i = 0; i < length; i++)
@@ -18,10 +20,18 @@ static bool print(const char* data, size_t length) {
 			return false;
 	return true;
 }
- 
+
+// A helper function to reverse a string
+void reverse(char* start, char* end) {
+    while (start < end) {
+        char tmp = *start;
+        *start++ = *end;
+        *end-- = tmp;
+    }
+}
+
+// print f implementation
 int printf(const char* __restrict__ format, ...) {
-    // TODO %d and alot of formatting is missing!
-    // This you can implement yourtself!
 	va_list parameters;
 	va_start(parameters, format);
  
@@ -37,7 +47,7 @@ int printf(const char* __restrict__ format, ...) {
 			while (format[amount] && format[amount] != '%')
 				amount++;
 			if (maxrem < amount) {
-				// TODO: Set errno to EOVERFLOW.
+				errno = EOVERFLOW;
 				return -1;
 			}
 			if (!print(format, amount))
@@ -53,7 +63,7 @@ int printf(const char* __restrict__ format, ...) {
 			format++;
 			char c = (char) va_arg(parameters, int /* char promotes to int */);
 			if (!maxrem) {
-				// TODO: Set errno to EOVERFLOW.
+				errno = EOVERFLOW;
 				return -1;
 			}
 			if (!print(&c, sizeof(c)))
@@ -64,7 +74,7 @@ int printf(const char* __restrict__ format, ...) {
 			const char* str = va_arg(parameters, const char*);
 			size_t len = strlen(str);
 			if (maxrem < len) {
-				// TODO: Set errno to EOVERFLOW.
+				errno = EOVERFLOW;
 				return -1;
 			}
 			if (!print(str, len))
@@ -85,15 +95,10 @@ int printf(const char* __restrict__ format, ...) {
                 buffer[i++] = num % 10 + '0';
                 num /= 10;
             }
-            while (i > 0) {
-                if (maxrem < 1) {
-                    // TODO: Set errno to EOVERFLOW.
-                    return -1;
-                }
-                if (!print(&buffer[--i], 1))
-                    return -1;
-                written++;
-            }
+            reverse(buffer, buffer + i - 1);
+            if (!print(buffer, i))
+                return -1;
+            written += i;
         } else if (*format == 'x') {
             format++;
             unsigned int num = va_arg(parameters, unsigned int);
@@ -111,21 +116,15 @@ int printf(const char* __restrict__ format, ...) {
                 }
                 num /= 16;
             }
-            while (i > 0) {
-                if (maxrem    < 1) {
-                // TODO: Set errno to EOVERFLOW.
+            reverse(buffer, buffer + i - 1);
+            if (!print(buffer, i))
                 return -1;
-            }
-            if (!print(&buffer[--i], 1))
-                return -1;
-            written++;
-			}
-
-		} else {
+            written += i;
+        } else {
 			format = format_begun_at;
 			size_t len = strlen(format);
 			if (maxrem < len) {
-				// TODO: Set errno to EOVERFLOW.
+				errno = EOVERFLOW;
 				return -1;
 			}
 			if (!print(format, len))
