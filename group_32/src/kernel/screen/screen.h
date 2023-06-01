@@ -6,6 +6,6 @@
 
 void screenInitialize();
 void ScreenSetcolor(uint8_t color);
-void screenWriteString(const char* data);
+void screenWrite(const char* data);
 
 #endif

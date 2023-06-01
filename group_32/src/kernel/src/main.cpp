@@ -15,7 +15,7 @@ extern "C"{
 void kernel_main() {
     /* Initialize terminal interface */
 	screenInitialize();
-	screenWriteString("Hello World! ");
+	screenWrite("Hello World! ");
 
 
 

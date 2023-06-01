@@ -86,13 +86,8 @@ void screenPutchar(char c)
 	}
 }
  
-void screenWrite(const char* data, size_t size) 
+void screenWrite(const char* data) 
 {
-	for (size_t i = 0; i < size; i++)
+	for (size_t i = 0; i < strlen(data); i++)
 		screenPutchar(data[i]);
-}
- 
-void screenWriteString(const char* data) 
-{
-	screenWrite(data, strlen(data));
 }
