@@ -122,6 +122,19 @@ target_link_libraries(${OS_MODULE_STDLIB_NAME} PUBLIC
 )
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_STDLIB_NAME})
 
+########################################
+###
+### OS Module: Applications
+# The operating system kernel
+# 1. Load all kernel applications here
+########################################
+# Define kernel headers target
+add_library(kernel-headers INTERFACE)
+target_include_directories(kernel-headers INTERFACE src/kernel/include)
+
+# Load the song application target
+add_subdirectory(src/apps/song)
+set(OS_APPLICATIONS ${OS_APPLICATIONS} UiAOS-song)
 
 ########################################
 ###
