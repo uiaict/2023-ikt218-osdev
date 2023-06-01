@@ -6,7 +6,7 @@
 // Volatile means no optimizations from compiler
 volatile u32int tick = 0;
 
-static void get_current_tick()
+static int get_current_tick()
 {
     return tick;
 }
