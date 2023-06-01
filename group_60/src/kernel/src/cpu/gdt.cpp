@@ -3,11 +3,7 @@
 
 // include gdt_flush from assembly file
 extern "C" {
-<<<<<<< HEAD
     extern void gdt_flush(uint32_t gp);
-=======
-    extern void gdt_flush(uint32_t gdt_ptr);
->>>>>>> f78511122eeb44360c04ac73c984720158d6ac81
 }
 
 
@@ -52,11 +48,7 @@ void init_gdt() {
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
 
     // Load GDT
-<<<<<<< HEAD
-    gdt_flush((uint32_t)&gp);
-=======
     gdt_flush((uint32_t) &gp);
->>>>>>> f78511122eeb44360c04ac73c984720158d6ac81
 }
 
 
