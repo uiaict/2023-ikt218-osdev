@@ -181,7 +181,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/*.cpp
         src/kernel/src/*.c
-        src/kernel/src/cpu/descriptor_tables.asm
+        src/kernel/src/cpu/descriptor_table.asm
         src/kernel/src/cpu/gdt.cpp
 )
 # Set the output binary names
