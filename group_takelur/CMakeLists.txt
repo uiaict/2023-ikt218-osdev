@@ -109,7 +109,6 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
-        src/stdlib/src/monitor.c
         src/stdlib/src/common.c
         src/stdlib/src/print.c
 )
@@ -188,6 +187,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/interrupt_tests.c
         src/kernel/src/keyboard.c
         src/kernel/src/pit.c
+        src/kernel/src/monitor.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
