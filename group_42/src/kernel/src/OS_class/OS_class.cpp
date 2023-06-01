@@ -113,6 +113,19 @@ void IJI_OS::print_memory_layout(){
     write_integer("Memory used: ",memory_used);
     write_string(" bytes");
     next_line();
+    write_integer("Memory free: ", heap_end-heap_begin-memory_used);
+    write_string(" bytes");
+    next_line();
+    write_integer("Heap size: ", heap_end-heap_begin);
+    write_string(" bytes");
+    next_line();
+    write_hexadecimal("Heap start: 0x",heap_begin);
+    next_line();
+    write_hexadecimal("Heap end: 0x", heap_end);
+    next_line();
+    write_hexadecimal("PHeap start: 0x", pheap_begin);
+    next_line();
+    write_hexadecimal("PHeap end: 0x", pheap_end);
     
 }
 
