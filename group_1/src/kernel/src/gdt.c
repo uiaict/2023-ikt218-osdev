@@ -38,7 +38,6 @@ void init_descriptor_tables()
    asm volatile("sti");
    // Register the keyboard interrupt handler
    register_interrupt_handler(33, keyboard_handler);
-
 }
 
 static void init_gdt()

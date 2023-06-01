@@ -49,7 +49,7 @@ void play_song_impl(Song *song) {
     for (uint32_t i = 0; i < song->length; i++) {
         enable_speaker();
         Note* note = &song->notes[i];
-        printk("Note: %d, Freq=%d, Sleep=%d\n", i, note->frequency, note->duration);
+        //printk("Note: %d, Freq=%d, Sleep=%d\n", i, note->frequency, note->duration);
         play_sound(note->frequency);
         sleep_interrupt(note->duration);
         disable_speaker();
@@ -59,8 +59,6 @@ void play_song_impl(Song *song) {
 void play_song(Song *song) {
     play_song_impl(song);
 }
-
-
 
 
 SongPlayer* create_song_player() {

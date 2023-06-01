@@ -45,50 +45,33 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
     clear_screen();
     printk("Hello");
+
+    // Initialize GDT and IDT
     init_descriptor_tables();
-//
-//    printk("Hello, %s! The answer \n is %d.", "world", 42);
-//    printk("%d\n", 696969420);
 
     // Initialize Paging
     init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
     
-    // Print memory layout
-    //print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
+    //Print memory layout
+    print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Setup PIT
     init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Allocate some memory using kernel memory manager
 	// THIS IS PART OF THE ASSIGNMENT
-    /*
+    
     void* some_memory = new_malloc(12345); 
     void* memory2 = new_malloc(54321); 
     void* memory3 = new_malloc(13331);
     char* memory4 = new char[1000]();
-    */
-
-    // Allocate some memory using kernel memory manager
-    void* new_memory = operator new (1000);
-    void* new_array_memory = operator new [](1000);
-
-    // Print memory layout after allocation
-    print_memory_layout();
-
-    // Free memory using kernel memory manager
-    operator delete(new_memory);
-    operator delete[](new_array_memory);
-
-    // Print memory layout after deallocation
-    print_memory_layout();
 
     initialize_interrupt_handlers();
 
     // Setup PIT
     init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
 
-    int counter = 0;
-
+//    int counter = 0;
 //    while(true){
 //        printk("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
 //        sleep_busy(1000);
@@ -99,28 +82,32 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 //        printk("[%d]: Slept using interrupts.\n", counter++);
 //    }
 //
-//    Song* songs[] = {
-//        new Song(music_1, sizeof(music_1) / sizeof(Note)),
-//        new Song(music_6, sizeof(music_6) / sizeof(Note)),
-//        new Song(music_5, sizeof(music_5) / sizeof(Note)),
-//        new Song(music_4, sizeof(music_4) / sizeof(Note)),
-//        new Song(music_3, sizeof(music_3) / sizeof(Note)),
-//        new Song(music_2, sizeof(music_2) / sizeof(Note))
-//    };
-//    uint32_t n_songs = sizeof(songs) / sizeof(Song*);
-//
-//    SongPlayer* player = create_song_player();
-//
-//
-//    while(true){
-//	    for(uint32_t i =0; i < n_songs; i++){
-//	        //printk("Playing Song...\n");
-//	        player->play_song(songs[i]);
-//	        //printk("Finished playing the song.\n");
-//	    }
-//    }
+
+    Song* songs[] = {
+        new Song({music_1, sizeof(music_1) / sizeof(Note)}),
+        new Song({music_2, sizeof(music_2) / sizeof(Note)})
+    };
+    
+    uint32_t n_songs = sizeof(songs) / sizeof(Song*);
+
+    SongPlayer* player = create_song_player();
 
     while(true){
-
+	    for(uint32_t i =0; i < n_songs; i++){
+	        switch (i)
+            {
+            case 0:
+                printk("Playing Song of Storms from Zelda, Ocarina of Time\n");
+                break;
+            case 1: 
+                printk("Playing Imperial March from Star Wars\n");
+                break;
+            default:
+                break;
+            }
+            player->play_song(songs[i]);
+            sleep_busy(2000);
+	    }
     }
+    while(true){}
 }
