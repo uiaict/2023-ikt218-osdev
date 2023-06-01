@@ -3,6 +3,8 @@
 #include <stdint.h>
 #include <time.h>
 #include <stdio.h>
+#include <gdt.h>
+
 
 
     int isalnum(int c);
@@ -114,4 +116,6 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
+    void init_gdt();
+    //void gdt_set_entry();
 
