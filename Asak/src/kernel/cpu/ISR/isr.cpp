@@ -83,11 +83,9 @@ void register_all_irq_handlers() {
         // Read from keyboard
         unsigned char scan_code = inb(0x60);
         char f = scancode_to_ascii(&scan_code);
-        char n = 'b';
 
         if (f != 0) {
-            char *k = &f;
-            print(&f);
+            print_char(f, -1, -1, 0x02);
         }
 
         // Disable
