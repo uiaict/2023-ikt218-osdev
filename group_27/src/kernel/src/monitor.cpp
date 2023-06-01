@@ -276,6 +276,32 @@ void monitor_write_dec(uint32_t n)
 
 }
 
+
+int row = 0; // is 3 instead of 0, becaouse we wanted to have some space in the top of the terminal
+int column = 0; 
+int color = 0;
+uint8_t (*fb)[80][2] = (uint8_t (*)[80][2]) 0xb8000; // The text screen video memory for colour monitors
+void print(char word[80])
+{
+    int wordlen = 0;
+    while(word[wordlen] != '\0' ){
+		char a = word[wordlen];
+        wordlen++; // set wordlength
+    }
+	
+    for(int i = 0; i < wordlen; i++){
+	
+		if(word[i] == '\n' || column == VGA_WIDTH) { // check if string include new line command and if the column is on max width
+			column = 0; 					 // set column at 0 again to start printing from left
+			row = row + 1;					// set new row
+		} else {
+        	fb[row][column][color] = word[i]; // first parameter: row, second: column, third: color.
+		}
+		column = column + 1;
+    }
+	column = 0;
+}
+
 void print_logo() {
 printf(
 "                         _________ _______    _______  _______\n"

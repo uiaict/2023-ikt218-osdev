@@ -13,6 +13,7 @@ extern uint32_t end; // This is defined in linker.ld
 extern "C"{
     #include <libc/system.h>
     #include "memory.h"
+    #include "paging.h"
     void kernel_main();
 }
 
@@ -67,6 +68,9 @@ void kernel_main()
     void* memory2 = malloc(54321); 
     void* memory3 = malloc(13331);
     char* memory4 = new char[1000]();
+
+    printf("\n");
+    print_memory_layout();
 
     // Create interrupt handlers for interrupt 3 and 4
     register_interrupt_handler(3,[](registers_t* regs, void* context){
