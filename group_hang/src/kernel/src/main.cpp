@@ -1,18 +1,22 @@
-
-#include "system.h"
-#include "gdt.h"
-// Define entry point in asm to prevent C++ mangling
-extern "C"{
+extern "C" {
+    #include "common.h"
+    #include "monitor.h"
+    #include "descriptor_tables.h"
+    #include "isr.h"
     void kernel_main();
 }
 
 void kernel_main()
 {
-    uint8_t target[8];
-    struct GDT gdt = {0x100000, 0xFFFFF, 0x9A, 0xC};
+    init_descriptor_tables();                 // Initialize the GDT and IDT
 
-    encodeGdtEntry(target, gdt);
+    //init_keyboard();
+    monitor_clear();
 
-    // Do something with the encoded GDT entry...
+    asm volatile("sti"); 
+    monitor_write("Hello, world!");
+    monitor_put('\n');
 
+    
+    while (1) { }
 }

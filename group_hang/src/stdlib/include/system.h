@@ -4,6 +4,14 @@
 #include <time.h>
 #include <stdio.h>
 
+//#define VGA_BASE_ADDRESS 0xb8000
+//#define VGA_COLUMNS 80
+//#define VGA_ROWS 25
+//#define VGA_COLOR 0x0f
+//#define VGA_MEMORY (uint16_t*) VGA_BASE_ADDRESS
+    //static uint16_t* const VGA_MEMORY = (uint16_t*) VGA_BASE_ADDRESS;
+    //static uint8_t VGA_COLOR = 0x0f; // White on black by default
+
 
     int isalnum(int c);
     int iscntrl(int c);
@@ -60,6 +68,7 @@
     int snprintf(char *str, size_t size, const char *format, ...);
     int sprintf(char *str, const char *format, ...);
     int printf(const char *format, ...);
+    void print(const char* format, ...);
     void srand(unsigned int seed);
     int strcoll(const char *s1, const char *s2);
     char *strerror(int errnum);
@@ -114,4 +123,8 @@
     struct lconv *localeconv();
     int rand();
     int ungetc(int c, FILE *stream);
+
+    void print_char(char c, uint8_t color, int x, int y);
+    void print_string(const char* str, uint8_t color, int x, int y);
+
 
