@@ -158,9 +158,10 @@ set(OS_MODULE_DESCRIPTOR_TABLES_NAME ${OS_KERNEL_NAME}-table)
 set(OS_MODULE_DESCRIPTOR_TABLES_SOURCES
         src/kernel/src/CPU/GDT.cpp
         src/kernel/src/CPU/IDT.cpp
-        src/kernel/src/CPU/IRQ.cpp
         src/kernel/src/CPU/descriptor_table.asm
-        src/kernel/include/descriptor_tables.h
+        src/kernel/include/gdt.h
+        src/kernel/include/common.c
+        src/kernel/include/common.h
 )
 add_library(${OS_MODULE_DESCRIPTOR_TABLES_NAME} ${OS_MODULE_DESCRIPTOR_TABLES_SOURCES})
 target_link_libraries(${OS_MODULE_DESCRIPTOR_TABLES_NAME})

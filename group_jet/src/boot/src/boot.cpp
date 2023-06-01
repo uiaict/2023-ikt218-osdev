@@ -1,6 +1,7 @@
 #include "boot.h"
 #include "system.h"
 
+
 extern "C" {
     void init_multiboot(uint32_t magic /*eax*/, multiboot_info* info /*ebx*/);
 };
@@ -11,7 +12,7 @@ uint16_t* terminal_buffer;
 
 void init_multiboot(uint32_t magic /*eax*/, multiboot_info* info /*ebx*/){
     terminal_initialize();
-    terminal_setcolor(VGA_COLOR_BLUE);
+    
 
     char* eax_buf;
     char* mb_magic_buf;

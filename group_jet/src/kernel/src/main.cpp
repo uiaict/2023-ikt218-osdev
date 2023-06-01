@@ -1,4 +1,4 @@
-#include "descriptor_tables.h"
+
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -18,6 +18,6 @@ void kernel_main()
     init_idt();
     terminal_writestring("Initializing GDT\n");
     terminal_writestring("Initializing IDT\n");
-    asm volatile ("int $0x3");
-    asm volatile ("int $0x4");
+    //asm volatile ("int $0x3");
+    //asm volatile ("int $0x4");
 }

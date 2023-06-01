@@ -1,4 +1,4 @@
-#include "descriptor_tables.h"
+#include "gdt.h"
 struct gdt_entry_t gdt[GDT_ENTRIES];
 struct gdt_ptr_t gdt_ptr;
 
@@ -19,7 +19,6 @@ void init_gdt() {
   gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
   gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
-  // Load the GDT
   gdt_load((uint32_t)&gdt_ptr);
 }
 

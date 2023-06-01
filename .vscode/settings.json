@@ -3,7 +3,8 @@
     "cmake.sourceDirectory": "${workspaceFolder}/group_jet",
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "isr.h": "c"
+        "isr.h": "c",
+        "system.h": "c"
     }
 
 }
