@@ -5,7 +5,7 @@ extern "C"{
      void init_kernel();
     
 }
-#include "paging.h"
+
 #include "memory.h"
 #include"../PIT/pit.h"
 // start by setting global values who that is not sett to a value at this time

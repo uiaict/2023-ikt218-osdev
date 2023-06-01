@@ -194,9 +194,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/OS_class/OS_class.h
         src/kernel/src/memory/functions.h
         src/kernel/src/memory/functions.cpp
-        src/kernel/src/memory/paging.cpp
-        src/kernel/src/memory/paging.h
-        src/kernel/src/memory/memory.h
+         src/kernel/src/memory/memory.h
         src/kernel/src/memory/memory.c
         src/kernel/src/PIT/pit.cpp
         src/kernel/src/PIT/pit.h
