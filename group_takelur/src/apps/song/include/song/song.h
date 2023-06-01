@@ -28,7 +28,16 @@ typedef struct {
 SongPlayer* create_song_player();
 
 
-static Note music_1[] = {
+// Functions in song.cpp
+extern void play_sound(uint32_t frequency);
+extern void enable_speaker();
+extern void disable_speaker();
+extern void play_song(Song *song);
+extern void play_song_impl(Song *song);
+extern void play_sound(uint32_t frequency);
+
+
+static Note ground_theme[] = {
     {E5, 250}, {R, 125}, {E5, 125}, {R, 125}, {E5, 125}, {R, 125},
     {C5, 125}, {E5, 125}, {G5, 125}, {R, 125}, {G4, 125}, {R, 250},
 
@@ -43,23 +52,7 @@ static Note music_1[] = {
     {R, 125}, {E5, 125}, {C5, 125}, {D5, 125}, {B4, 125}, {R, 125},
 };
 
-static Note music_2[] = {
-    {A4, 200}, {E5, 200}, {A5, 200}, {R, 100}, {A5, 200}, {A5, 200}, {Gs5, 200}, {A5, 200},
-    {R, 100}, {E5, 200}, {R, 100}, {E5, 200}, {R, 100}, {E5, 200}, {R, 100}, {E5, 200},
-    {A4, 200}, {E5, 200}, {A5, 200}, {R, 100}, {A5, 200}, {A5, 200}, {Gs5, 200}, {A5, 200},
-    {R, 100}, {E5, 200}, {R, 100}, {E5, 200}, {R, 100}, {E5, 200}, {R, 100}, {E5, 200},
-    {A4, 200}, {E5, 200}, {A5, 200}, {R, 100}, {A5, 200}, {A5, 200}, {Gs5, 200}, {A5, 200},
-    {R, 100}, {E5, 200}, {R, 100}, {E5, 200}, {R, 100}, {E5, 200}, {R, 100}, {E5, 200}
-};
-
-static Note music_3[] = {
-    {E4, 200}, {E4, 200}, {F4, 200}, {G4, 200}, {G4, 200}, {F4, 200}, {E4, 200}, {D4, 200},
-    {C4, 200}, {C4, 200}, {D4, 200}, {E4, 200}, {E4, 400}, {R, 200},
-    {D4, 200}, {D4, 200}, {E4, 200}, {F4, 200}, {F4, 200}, {E4, 200}, {D4, 200}, {C4, 200},
-    {A4, 200}, {A4, 200}, {A4, 200}, {G4, 400}
-};
-
-static Note music_4[] = {
+static Note little_star[] = {
     {C4, 500}, {D4, 500}, {E4, 500}, {C4, 500},
     {C4, 500}, {D4, 500}, {E4, 500}, {C4, 500},
     {E4, 500}, {F4, 500}, {G4, 1000},
@@ -70,16 +63,8 @@ static Note music_4[] = {
     {C4, 500}, {G3, 500}, {C4, 1000}
 };
 
-static Note music_5[] = {
-    {E4, 375}, {C4, 375}, {D4, 375}, {A3, 375}, {B3, 375}, {D4, 375}, {C4, 375}, {A3, 375},
-    {E4, 375}, {C4, 375}, {D4, 375}, {A3, 375}, {B3, 375}, {D4, 375}, {C4, 375}, {A3, 375},
-};
-
-static Note music_6[] = {
-    {F4, 250}, {F4, 250}, {F4, 250}, {C5, 250}, {A_SHARP4, 250}, {G_SHARP4, 250}, {F4, 500},
-    {F4, 250}, {F4, 250}, {F4, 250}, {C5, 250}, {A_SHARP4, 250}, {G_SHARP4, 250}, {F4, 500},
-    {A_SHARP4, 250}, {A_SHARP4, 250}, {A_SHARP4, 250}, {F5, 250}, {D5, 250}, {C5, 250}, {A_SHARP4, 500},
-    {A_SHARP4, 250}, {A_SHARP4, 250}, {A_SHARP4, 250}, {F5, 250}, {D5, 250}, {C5, 250}, {A_SHARP4, 500},
+static Note startup[] = {
+    {Ds5, 250}, {Ds4, 125}, {As4, 325}, {Gs4, 250}, {Ds4, 250}, {Ds5, 250}, {As4, 500}
 };
 
 #endif
