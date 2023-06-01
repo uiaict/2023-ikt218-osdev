@@ -3,7 +3,7 @@
 #include"memory/functions.h"
 #include"PIT/pit.h"
 #include "OS_class/OS_class.h"
-extern uint32_t end;
+
 
 extern "C"{
     void kernel_main();
@@ -13,8 +13,6 @@ extern "C"{
 
 void kernel_main()
 {   
-    
-
     
    init_pag(); // inzisilize paging for memory management
    auto os = IJI_OS(); 

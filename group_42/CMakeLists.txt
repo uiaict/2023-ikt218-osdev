@@ -187,8 +187,7 @@ set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/main.cpp
-        src/kernel/src/test.cpp
-        #src/kernel/src/*.h      
+        src/kernel/src/test.cpp      
         src/kernel/src/keyboard/keyboard.cpp
         src/kernel/src/keyboard/keyboard.h
         src/kernel/src/OS_class/OS_class.cpp
