@@ -37,7 +37,7 @@ void sleep_interrupt(uint32_t milliseconds)
 
     while (current_tick < final_tick)
     {
-        asm volatile("sti");
+        //asm volatile("sti");
         asm volatile("hlt");    // halts until next interrupt (saves CPU cycles)
         current_tick = get_current_tick();
     }
