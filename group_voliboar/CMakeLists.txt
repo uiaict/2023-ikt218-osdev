@@ -178,9 +178,6 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/cpu/*.asm
         src/kernel/cpu/*.cpp
         src/kernel/cpu/*.c
-        src/kernel/include/*.h
-
-    
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)

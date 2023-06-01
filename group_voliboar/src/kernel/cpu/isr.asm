@@ -24,6 +24,17 @@
     jmp isr_common_stub
 %endmacro
 
+; This macro creates a stub for an IRQ - the first parameter is
+; the IRQ number, the second is the ISR number it is remapped to.
+%macro IRQ 2
+  global irq%1
+  irq%1:
+    ;cli
+    push byte 0
+    push byte %2
+    jmp irq_common_stub
+%endmacro
+
 ISR_NOERRCODE 0
 ISR_NOERRCODE 1
 ISR_NOERRCODE 2
@@ -59,7 +70,7 @@ ISR_NOERRCODE 31
 ISR_NOERRCODE 128
 
 
-; In isr.c
+; In isr.cpp
 extern isr_handler
 
 ; This is our common ISR stub. It saves the processor state, sets
@@ -89,3 +100,6 @@ isr_common_stub:
     add esp, 8     ; Cleans up the pushed error code and pushed ISR number
     sti
     iret           ; pops 5 things at once: CS, EIP, EFLAGS, SS, and ESP
+    
+; SOURCE:
+; https://github.com/perara-lectures/ikt218-osdev/blob/c7a80911314076041d4b5c8ec215d0acc963aa0e/group_per-arne/src/kernel/src/cpu/isr_asm.asm

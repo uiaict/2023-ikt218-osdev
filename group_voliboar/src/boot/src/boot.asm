@@ -42,10 +42,6 @@ _start:
 	;Initialize Global Desctiptor Table
 	extern init_gdt
 	call init_gdt
-
-	;IDT
-	extern init_idt
-	call init_idt
 	
 	; Call kernel_main()
 	extern kernel_main
