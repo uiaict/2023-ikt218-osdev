@@ -35,7 +35,7 @@ void init_gdt()
 {
     /* Setup the GDT pointer and limit */
     gp.limit = sizeof(struct gdt_entry) * GDT_ENTRIES - 1;
-    gp.base = &gdt;
+    gp.base = (uint32_t) &gdt;
 
     /* Our NULL descriptor */
     gdt_set_gate(0, 0, 0, 0, 0);
@@ -49,7 +49,7 @@ void init_gdt()
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF);
 
     // Load GDT
-    gdt_flush((uint32_t)&gdt_ptr);
+    gdt_flush((uint32_t)&gp);
 }
 
 

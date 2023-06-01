@@ -4,7 +4,7 @@
 
 #include "monitor.h"
 #include <cstddef>
-#include <libc/system.h>
+#include <system.h>
 
 enum vga_color {
 	VGA_COLOR_BLACK = 0,

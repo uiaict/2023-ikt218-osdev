@@ -1,4 +1,4 @@
-[global _gdt_flush]     ; Allows the C code to link to this
+[global gdt_flush]     ; Allows the C code to link to this
 
 extern esp
 gdt_flush:
@@ -10,6 +10,6 @@ gdt_flush:
     mov fs, ax
     mov gs, ax
     mov ss, ax
-    jmp 0x08:flush2   ; 0x08 is the offset to our code segment: Far jump!
-flush2:
+    jmp 0x08:.flush   ; 0x08 is the offset to our code segment: Far jump!
+.flush:
     ret               ; Returns back to the C code
