@@ -9,7 +9,7 @@ uint32_t end_tick = 0;
 void init_pit(){
     
     UiAOS::CPU::ISR::register_interrupt_handler(IRQ0,[] (UiAOS::CPU::ISR::registers_t* regs, void* context){
-        current_tick = current_tick + 55;
+        current_tick = current_tick + 55; // each tick equats to about 55 ms. 
         
         
        

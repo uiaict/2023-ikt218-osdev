@@ -24,7 +24,7 @@ void IJI_OS::write_string(const char *string){// function to write a string
     while( *string != 0 )// while string is not empty
     {
         *address++ = *string++; // adress = first letter of string  and increment bouth the string and the adress
-        *address++ = color;     //      sett adress to collor and increment adress              
+        *address++ = color;     //      sett adress to color and increment adress              
     }
 }
 

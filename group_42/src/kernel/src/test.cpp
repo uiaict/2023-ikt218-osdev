@@ -4,20 +4,9 @@
 
 
 
-#define VGA_ADDRESS 0xB8000 // The address of the VGA buffer.
-#define BUFSIZE 4000        // The buffer size of the VGA buffer.
 
 
-// This function clears the screen by writing blank spaces to the VGA memory.
-void clearScreen()
-{
-    uint8_t *vga = (uint8_t*) VGA_ADDRESS;
-    for (int i = 0; i < BUFSIZE; i++)
-    {
-        vga[i] = 0;
-    }
-}
-// color = 0x0B
+// this is a old funcion if we had more time we wold replace the last use of it
 void write_string( int colour, const char *string )
 {
     volatile char *video = (volatile char*)0xB8000;
@@ -27,10 +16,7 @@ void write_string( int colour, const char *string )
        video = video+ 160;
        tmp = tmp + 160;
     }
-    if(tmp>1600){
-        clearScreen();
-    }
-   
+ 
     while( *string != 0 )
     {
         *video++ = *string++;
@@ -38,18 +24,3 @@ void write_string( int colour, const char *string )
     }
     
 }
-
-void write_char(char c){
-
-     volatile char *video = (volatile char*)0xB8000;
-    int tmp = 0;
-   
-    
-     while (*video != 0)
-    {
-       video = video+ 1;
-    }
-    *video = c;
-    *video = 0x0B;
-}
-
