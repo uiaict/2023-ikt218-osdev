@@ -24,13 +24,13 @@ void print_int(int32_t num) {
 
     // Handle zero explicitly to simplify the rest of the code
     if (num == 0) {
-        print("0", 0);
+        print("0");
         return;
     }
 
     // Handle negative numbers
     if (num < 0) {
-        print("-", 0);
+        print("-");
         num = -num; // Make the number positive so the rest of the code works
     }
 
@@ -52,7 +52,7 @@ void print_int(int32_t num) {
     for (int j = i-1; j >= 0; j--) {
         char digit_str[2] = { num_str[j], '\0' }; // Convert the digit character to a string
         
-        print(digit_str, -158*(i-j-1));
+        print_adjust(digit_str, -158*(i-j-1));
     }
     
 }
