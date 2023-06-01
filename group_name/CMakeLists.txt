@@ -9,6 +9,12 @@
 set(CMAKE_C_COMPILER_WORKS 1)
 set(CMAKE_CXX_COMPILER_WORKS 1)
 
+if(APPLE)
+    set(IS_MACOS "yes")
+endif()
+
+set(CMAKE_SYSTEM_NAME Linux)
+
 # This defines which is the lowest supported CMake version for this project
 cmake_minimum_required(VERSION 3.22.1)
 
@@ -207,3 +213,10 @@ set_target_properties(
 ########################################
 add_subdirectory(grub)
 
+########################################
+###
+### Add a target called 'build', which will build all other targets.
+###
+########################################
+add_custom_target(build)
+add_dependencies(build ${GRUB_TARGET})
