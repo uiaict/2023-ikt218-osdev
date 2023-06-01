@@ -139,5 +139,5 @@ void kernel_main(void)
 	GDT::init();
 	printf("GDT initialized!\n");
 
-	printf("Hello World!");
+	printf("Hello World");
 }
