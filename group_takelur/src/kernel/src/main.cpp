@@ -54,7 +54,7 @@ void kernel_main()
 
     init_paging();              // Initialize paging
 
-    //init_pit();                 // Initialize PIT
+    init_pit();                 // Initialize PIT
 
     clear_monitor();
 
@@ -95,7 +95,8 @@ void kernel_main()
     for (int i = 0; i < 1000000000; i++) {
         i = i + 1;
     }
-
+    
+    clear_monitor();
     /* PRINT TESTS */
     //printf("This should insert string: %s\n", "Hello World!");
     //printf("This should insert integer: %d\n", 12345);
