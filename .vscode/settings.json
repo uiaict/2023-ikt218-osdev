@@ -4,6 +4,7 @@
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
         "cstdio": "cpp"
-    }
+    },
+    "cmake.configureOnOpen": false
 
 }

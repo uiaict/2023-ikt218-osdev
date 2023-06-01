@@ -3,12 +3,14 @@
 #include <stdint.h>
 #include <time.h>
 #include <stdio.h>
-#include <string.h>
+//#include <string.h>
 
 
 void monitor_put(char c);
 void monitor_clear();
 void monitor_write(char *c);
+void printt(const char *format, ...);
+void print_char(char c, unsigned char color, unsigned int position);
 
 
 //void *memset(void *s, int c, size_t n);

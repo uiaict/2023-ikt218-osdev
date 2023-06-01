@@ -14,9 +14,7 @@ void triggered_interrupt_error_not_implemented(registers_t regs){
 }
 interrupt_t interrupt_handlers[256];
 
-//void init_isr() asm("init_isr");
-//void irq_handler(registers_t regs) asm("irq_handler");
-//void isr_handler(registers_t regs) asm("isr_handler");
+
 
 extern "C"{
     //void init_isr() asm("init_isr");

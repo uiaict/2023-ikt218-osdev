@@ -1,9 +1,10 @@
 #include "common.h"
-#include "memory.h"
 #include "gdt.h"
 #include "stdio.h"
 #include "idt.h"
-#include "system.h"
+
+#include <stdint.h>
+
 
 static void init_gdt() asm("init_gdt");
 
@@ -11,6 +12,7 @@ static void init_idt() asm ("init_idt");
 
 
 extern "C"{
+   #include "memory.h"
    extern void gdt_flush(u32int);
    extern void idt_flush(u32int);
    static void gdt_set_gate(s32int,u32int,u32int,u8int,u8int);
@@ -142,7 +144,7 @@ static void init_idt()
    idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
    idt_ptr.base  = (uint32_t)&idt_entries;
 
-   memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
+   memset2(&idt_entries, 0, sizeof(idt_entry_t)*256);
 
    //remap the irq table.
    outb(0x20, 0x11);

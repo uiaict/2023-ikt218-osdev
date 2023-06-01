@@ -4,16 +4,16 @@
 #include "isr.h"
 #include "keyboard.h"
 #include "hardware.h"
-#include "timer.h"
 
 
-
+extern uint32_t end; // This is defined in linker.ld
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     #include "system.h"
     void kernel_main();
     //void init_descriptor_tables();
+    #include "memory.h"
 }
 enum vga_color {
     BLACK = 0,
@@ -34,7 +34,6 @@ enum vga_color {
     WHITE = 15,
 };
 class OperatingSystem {
-    int tick = 0;
 
 public:
     OperatingSystem(vga_color color) {
@@ -42,7 +41,7 @@ public:
 
     void init() {
 
-        monitor_write("Initializing UiA Operating System....\n");
+        printt("Initializing UiA Operating System....\n");
         
     }
 
@@ -61,26 +60,49 @@ public:
        
     }
 
-    void timer() {
-        tick++;
-        if (tick % 100 == 0) {
-            //monitor_write("(Every Second) Tick: ");
-            //monitor_put(tick);
-            //monitor_write("\n");
-            //print_new_line();
-        }
-
+    void interrupt_handler_5(registers_t regs) {
+        monitor_write("Called Interrupt Handler 5!\n");
+       
     }
+
+    
 };
+
+
+
+// Overload the new operator for single object allocation
+void* operator new(size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+// Overload the new operator for array allocation
+void* operator new[](size_t size) {
+    return malloc(size);   // Call the C standard library function malloc() to allocate memory of the given size and return a pointer to it
+}
+
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+    free(ptr);             // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+
 
 // Main entry point for kernel
 void kernel_main()
 {
+
+    init_kernel_memory(&end);
+
     monitor_clear();
+
     auto os = OperatingSystem(WHITE);
     os.init();
 
-    
     
     //monitor_write("Hello, World!\n");
 
@@ -88,6 +110,7 @@ void kernel_main()
     // that the GDT has been successfully initialized
     init_descriptor_tables();
     //monitor_write("\nGDT initialized!\n");
+    
 
 
     register_interrupt_handler(3,[](registers_t* regs, void* context){
@@ -101,27 +124,43 @@ void kernel_main()
         os->interrupt_handler_4(*regs);
     }, (void*)&os);
 
+    // Create some interrupt handler for 5
+    register_interrupt_handler(5,[](registers_t* regs, void* context){
+        auto* os = (OperatingSystem*)context;
+        os->interrupt_handler_5(*regs);
+    }, (void*)&os);
+
 
     // Fire interrupts! Should trigger callback above
     //asm volatile ("int $0x3");
     //asm volatile ("int $0x4");
+    //asm volatile ("int $0x5");
+
 
     asm volatile("sti");
-    PIT::init_timer(1, [](registers_t*regs, void* context){
-        auto* os = (OperatingSystem*)context;
-        os->timer();
-    }, &os);
+   
    
 
     Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
-        /*print_char(scancode_to_ascii(scancode));
-        printf(" (");
-        print_int(scancode);
-        printf(")");
-        print_new_line();*/
         monitor_put(Keyboard::scancode_to_ascii(scancode));
     }, &os);
+
+    // Initialize Paging
+    init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
+
+     // Print memory layout
+    print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
+
+    // Allocate some memory using kernel memory manager
+		// THIS IS PART OF THE ASSIGNMENT
+    void* some_memory = malloc(12345); 
+    void* memory2 = malloc(54321); 
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
+
+    
+
 
     while (1)
     {}
