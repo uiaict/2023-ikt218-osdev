@@ -53,7 +53,7 @@ void init_paging()
     printf("Setting up paging\n");
     page_directory = (uint32_t*)0x400000;      // Set the page directory to start at 4 MB
     page_dir_loc = (uint32_t)page_directory;  // Set the physical address of the page directory
-    last_page = (uint32_t *)0x404000;         // Set the last page to start at 4 MB + 4 KB
+    last_page = (uint32_t *)0x404000;         // Set the last page to start at 4 MB + 4 KB (after the page directory)
     for(int i = 0; i < 1024; i++)             // Loop through all 1024 page directory entries
     {
         page_directory[i] = 0 | 2;            // Set the page directory entry to not present with supervisor level read/write permissions
