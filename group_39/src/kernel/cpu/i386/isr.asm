@@ -111,6 +111,7 @@ isr7:
 irq0:
     cli ; Disable interrupts
     push byte 0 ; Dummy error codev
+    jmp irq_common 
 irq1:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code

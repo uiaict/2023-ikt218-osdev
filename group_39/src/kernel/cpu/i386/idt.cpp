@@ -41,12 +41,7 @@ void init_idt()
     memset(&idt_entries, 0, sizeof(idt_entry)*NUM_IDT_ENTRIES);
 
 
-    // Set all entries in the IDT to default interrupt handler.
-    for (int i = 0; i < NUM_IDT_ENTRIES; i++)
-    {
-        idt_set_entry(i, (uint32_t)default_isr, 0x08, 0x8E);
-    }
-    
+
     // Remap the IRQ table so that IRQ 32 and up map to our ISRs. 
     outb(0x20, 0x11);
     outb(0xA0, 0x11);
@@ -57,6 +52,15 @@ void init_idt()
     outb(0x21, 0x01);
     outb(0xA1, 0x01);
     outb(0x21, 0x0);
+
+
+    // Set all entries in the IDT to default interrupt handler.
+    for (int i = 0; i < NUM_IDT_ENTRIES; i++)
+    {
+        idt_set_entry(i, (uint32_t)default_isr, 0x08, 0x8E);
+    }
+    
+
 
 
     // Add ISRs to IDT

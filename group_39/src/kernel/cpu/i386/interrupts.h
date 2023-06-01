@@ -42,6 +42,6 @@ struct registers
     uint32_t eip, cs, eflags, useresp, ss;
 };
 
-
+void keyboard_handler(registers regs);
 
 #endif
