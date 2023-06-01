@@ -57,19 +57,32 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     //print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Setup PIT
-    //init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
+    init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
     
     // Allocate some memory using kernel memory manager
-    // THIS IS PART OF THE ASSIGNMENT
-//    void* some_memory = new_malloc(12345);
-//
-//    uint32_t* memory3 = new uint32_t[1337]();
-//
-//    char* memory4 = new char[1000]();
-//
-    initialize_interrupt_handlers();
+	// THIS IS PART OF THE ASSIGNMENT
+    /*
+    void* some_memory = new_malloc(12345); 
+    void* memory2 = new_malloc(54321); 
+    void* memory3 = new_malloc(13331);
+    char* memory4 = new char[1000]();
+    */
 
-    //asm volatile ("int $0x28");
+    // Allocate some memory using kernel memory manager
+    void* new_memory = operator new (1000);
+    void* new_array_memory = operator new [](1000);
+
+    // Print memory layout after allocation
+    print_memory_layout();
+
+    // Free memory using kernel memory manager
+    operator delete(new_memory);
+    operator delete[](new_array_memory);
+
+    // Print memory layout after deallocation
+    print_memory_layout();
+
+    initialize_interrupt_handlers();
 
     // Setup PIT
     init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT

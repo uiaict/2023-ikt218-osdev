@@ -81,54 +81,55 @@ char* pmalloc(size_t _size)
 // Allocate a block of memory
 void* new_malloc(size_t size)
 {
-    if(!size) return 0;
+    if(!size) return 0; // If the size is 0, return 0
 
     // Loop through blocks to find an available block with enough size
-    uint8_t *mem = (uint8_t *)heap_begin;
-    while((uint32_t)mem < last_alloc)
+    uint8_t *mem = (uint8_t *)heap_begin; // Start at the beginning of the heap
+    while((uint32_t)mem < last_alloc) // 
     {
-        alloc_t *a = (alloc_t *)mem;
-        printk("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size);
+        alloc_t *a = (alloc_t *)mem; // Get the allocation header
+        printk("mem=0x%x a={.status=%d, .size=%d}\n", mem, a->status, a->size); // Print the allocation header
 
-        if(!a->size)
-            goto nalloc;
-        if(a->status) {
-            mem += a->size;
-            mem += sizeof(alloc_t);
-            mem += 4;
-            continue;
+        if(!a->size) // If the size is 0, the heap is empty, so goto nalloc. This means that the heap is empty.
+            goto nalloc; 
+        if(a->status) { // If the block is allocated, skip it
+            mem += a->size; // Add the size of the block to the pointer
+            mem += sizeof(alloc_t); // Add the size of the allocation header to the pointer
+            mem += 4; // Add 4 bytes to the pointer because of the 4-byte alignment of the heap (I think)
+            continue; 
         }
+
         // If the block is not allocated and its size is big enough,
         // adjust its size, set the status, and return the location.
-        if(a->size >= size)
+        if(a->size >= size) // If the size of the block is big enough, allocate it 
         {
-            a->status = 1;
-            printk("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size);
-            memset(mem + sizeof(alloc_t), 0, size);
-            memory_used += size + sizeof(alloc_t);
-            return (char *)(mem + sizeof(alloc_t));
+            a->status = 1; // Set the status to allocated
+            printk("RE:Allocated %d bytes from 0x%x to 0x%x\n", size, mem + sizeof(alloc_t), mem + sizeof(alloc_t) + size); // Print the allocation
+            memset(mem + sizeof(alloc_t), 0, size); // Set the memory to 0
+            memory_used += size + sizeof(alloc_t); // Add the size of the allocation header and the size of the block to the memory used
+            return (char *)(mem + sizeof(alloc_t)); // Return the location of the block
         }
         // If the block is not allocated and its size is not big enough,
         // add its size and the sizeof(alloc_t) to the pointer and continue.
-        mem += a->size;
-        mem += sizeof(alloc_t);
-        mem += 4;
+        mem += a->size; // Add the size of the block to the pointer
+        mem += sizeof(alloc_t); // Add the size of the allocation header to the pointer
+        mem += 4; // Add 4 bytes to the pointer because of the 4-byte alignment of the heap (I think)
     }
 
     nalloc:;
-    if(last_alloc + size + sizeof(alloc_t) >= heap_end)
+    if(last_alloc + size + sizeof(alloc_t) >= heap_end) // If the size of the block is too big
     {
         PANIC("Cannot allocate bytes! Out of memory.\n");
     }
-    alloc_t *alloc = (alloc_t *)last_alloc;
-    alloc->status = 1;
-    alloc->size = size;
+    alloc_t *alloc = (alloc_t *)last_alloc; // Get the allocation header of the block to allocate 
+    alloc->status = 1; // Set the status to allocated
+    alloc->size = size; // Set the size of the block
 
-    last_alloc += size;
-    last_alloc += sizeof(alloc_t);
-    last_alloc += 4;
-    printk("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc);
-    memory_used += size + 4 + sizeof(alloc_t);
-    memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size);
-    return (char *)((uint32_t)alloc + sizeof(alloc_t));
+    last_alloc += size; // Add the size of the block to the pointer
+    last_alloc += sizeof(alloc_t); // Add the size of the allocation header to the pointer
+    last_alloc += 4; // Add 4 bytes to the pointer because of the 4-byte alignment of the heap (I think)
+    printk("Allocated %d bytes from 0x%x to 0x%x\n", size, (uint32_t)alloc + sizeof(alloc_t), last_alloc); // Print the allocation
+    memory_used += size + 4 + sizeof(alloc_t); // Add the size of the allocation header and the size of the block to the memory used
+    memset((char *)((uint32_t)alloc + sizeof(alloc_t)), 0, size); // Set the memory to 0
+    return (char *)((uint32_t)alloc + sizeof(alloc_t)); // Return the location of the block
 }
