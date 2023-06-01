@@ -2,6 +2,7 @@
 #include "screen.h"
 #include "idt.h"
 #include "common.h"
+#include "memoryManagement.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -10,6 +11,7 @@ extern "C"{
 
 void kernel_main()
 {
+    start_paging();
 
    // Trigger created interrupts manually
     screenWrite("");

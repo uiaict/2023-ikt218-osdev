@@ -201,6 +201,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         #IRQ
         src/kernel/src/irq/irq.asm
         src/kernel/src/irq/irq.cpp
+
+        #Memory
+        src/kernel/src/memory/memoryManagement.cpp
+        src/kernel/include/memoryManagement.h
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
