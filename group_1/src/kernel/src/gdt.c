@@ -1,8 +1,5 @@
 //
-// descriptor_tables.c - Initialises the GDT and IDT, and defines the
-// default ISR and IRQ handler.
-// Based on code from Bran's kernel development tutorials.
-// Rewritten for JamesM's kernel development tutorials.
+// Based on code from JamesM's kernel development tutorials.
 //
 
 #include "../include/common.h"
@@ -14,27 +11,30 @@
 extern void gdt_flush(uint32_t);
 extern void idt_flush(uint32_t);
 
+
 // Internal function prototypes.
 static void init_gdt();
 static void init_idt();
 
+
 static void idt_set_gate(uint8_t,uint32_t,uint16_t,uint8_t);
 static void gdt_set_gate(int,uint32_t,uint32_t,uint8_t,uint8_t);
+
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
 idt_entry_t idt_entries[256];
 idt_ptr_t   idt_ptr;
 
-// Initialisation routine - zeroes all the interrupt service routines,
+
 // initialises the GDT and IDT.
 void init_descriptor_tables()
 {
-   // Initialise the global descriptor table.
+   // Initialise the global descriptor table and the interrupt descriptor table.
    init_gdt();
    init_idt();
 
-   // Enable interrupts, otherwise they dont work :)
+   // Enabling interrupts
    asm volatile("sti");
    // Register the keyboard interrupt handler
    register_interrupt_handler(33, keyboard_handler);
@@ -146,12 +146,10 @@ static void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags
 {
     idt_entries[num].base_lo = base & 0xFFFF;
     idt_entries[num].base_hi = (uint16_t)(base >> 16) & 0xFFFF;
-
     idt_entries[num].sel = sel;
+
     idt_entries[num].always0 = 0;
-    // We must uncomment the OR below when we get to using user-mode.
-    // It sets the interrupt gate's privilege level to 3.
-    idt_entries[num].flags = flags /* | 0x60 */;
+    idt_entries[num].flags = flags;
 }
 
 

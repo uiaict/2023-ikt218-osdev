@@ -10,6 +10,7 @@ extern "C"{
 [[noreturn]] void kernel_main();
 }
 
+
 extern uint32_t end;
 
 // Overload the new operator for single object allocation

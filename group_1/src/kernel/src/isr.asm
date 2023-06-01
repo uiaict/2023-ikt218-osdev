@@ -1,4 +1,11 @@
-; PS: Hentet fra Per, pga modifikasjoner han hadde gjort! 
+;
+;                Based on Bran's kernel development tutorials.
+;                Rewritten for JamesM's kernel development tutorials.
+;                
+;                This implementation based on 
+;                https://github.com/perara/ikt218-advanced-operating-systems/blob/master/src/kernel/cpu/i386/isr_a.asm
+;
+
 
 ; This macro creates a stub for an ISR which does NOT pass it's own
 ; error code (adds a dummy errcode byte).
@@ -26,7 +33,7 @@
 %macro IRQ 2
   global irq%1
   irq%1:
-    cli
+    ;cli
     push byte 0
     push byte %2
     jmp irq_common_stub
@@ -81,7 +88,7 @@ IRQ   13,    45
 IRQ   14,    46
 IRQ  15,    47
 
-; In isr.c
+;isr_handler is defined in isr.cpp
 [EXTERN isr_handler]
 
 ; This is our common ISR stub. It saves the processor state, sets

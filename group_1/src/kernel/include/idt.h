@@ -1,3 +1,7 @@
+//
+// Based on code from JamesM's kernel development tutorials.
+//
+
 #include <stdint.h>
 
 // A struct describing an interrupt gate.

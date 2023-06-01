@@ -1,4 +1,7 @@
 /*
+ * Download from https://perara.notion.site/Assignment-4-Memory-and-PIT-2dbf775240da488299c67828f5ce8e93 
+ * (assignment_files.zip) 
+ * 
  * This is a header file for a simple memory management library.
  * It includes declarations for functions related to memory allocation,
  * paging and memory manipulation (copying and setting).
@@ -23,7 +26,6 @@ typedef struct {
 
 /* Init Kernel Memory */
 void init_kernel_memory(uint32_t* kernel_end);
-
 
 /* Function declarations for paging operations */
 extern void init_paging(); /* Initializes paging */
