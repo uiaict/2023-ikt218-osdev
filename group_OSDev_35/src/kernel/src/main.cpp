@@ -1,5 +1,6 @@
 #include "interrupt_service_routines.h"
 #include "keyboard.h"
+#include "common.h"
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"
@@ -9,19 +10,19 @@ extern "C"
     void kernel_main();
 }
 
-void interrupt_handler_1(registers_t *regs, void * /* context */)
+void interrupt_handler_4(registers_t *regs, void * /* context */)
 {
-    printf("Called Interrupt Handler 1\n");
+    printf("Called Interrupt Handler 4\n");
 }
 
-void interrupt_handler_2(registers_t *regs, void * /* context */)
+void interrupt_handler_5(registers_t *regs, void * /* context */)
 {
-    printf("Called Interrupt Handler 2\n");
+    printf("Called Interrupt Handler 5\n");
 }
 
-void interrupt_handler_3(registers_t *regs, void * /* context */)
+void interrupt_handler_6(registers_t *regs, void * /* context */)
 {
-    printf("Called Interrupt Handler 3\n");
+    printf("Called Interrupt Handler 6\n");
 }
 
 void kernel_main()
@@ -33,16 +34,21 @@ void kernel_main()
     char str[] = "Hello, Wolrd!";
     printf("%s\n", str);
 
-    // register_interrupt_handler(1, interrupt_handler_1, NULL);
-    register_interrupt_handler(2, interrupt_handler_2, NULL);
-    register_interrupt_handler(3, interrupt_handler_3, NULL);
+    register_interrupt_handler(4, interrupt_handler_4, NULL);
+    register_interrupt_handler(5, interrupt_handler_5, NULL);
+    register_interrupt_handler(6, interrupt_handler_6, NULL);
 
-    // asm volatile("int $0x1");
-    // asm volatile("int $0x2");
-    // asm volatile("int $0x3");
+    
 
-    register_interrupt_handler(1, keyboard_handler, NULL);
+    asm volatile("int $0x4");
+    asm volatile("int $0x5");
+    asm volatile("int $0x6");
 
-    asm volatile("int $0x1");
+    printf("\n------------------------\n\n");
+
+    
+    init_keyboard();
+
+
     // printf("End\n");
 }

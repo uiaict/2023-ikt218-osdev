@@ -2,6 +2,7 @@
     code sourced from
     https://github.com/cfenollosa/os-tutorial/blob/master/18-interrupts/cpu/isr.h
     https://github.com/perara/ikt218-advanced-operating-systems/blob/master/src/kernel/cpu/i386/isr.h
+    https://perara.notion.site/IKT218-Advanced-Operating-Systems-2023-2cd0455222844813aa9ea7a9ceda36b1?p=86c7a3e7252e4648a2b7f4417d472587&pm=s
 */
 
 #ifndef INTERRUPT_SERVICE_ROUTINES
@@ -41,6 +42,8 @@
 #define ISR29 29
 #define ISR30 30
 #define ISR31 31
+
+
 #define IRQ0 32
 #define IRQ1 33
 #define IRQ2 34

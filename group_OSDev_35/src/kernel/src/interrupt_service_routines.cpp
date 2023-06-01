@@ -1,5 +1,5 @@
 /*
-    code sourced from 
+    code sourced from
     https://github.com/cfenollosa/os-tutorial/blob/master/18-interrupts/cpu/isr.h
     https://github.com/perara/ikt218-advanced-operating-systems/blob/master/src/kernel/cpu/i386/isr.cpp
 */
@@ -7,22 +7,25 @@
 #include "interrupt_service_routines.h"
 #include "common.h"
 
-
 interrupt_t interrupt_handlers[256];
 
-extern "C"{
+extern "C"
+{
     void init_isr() asm("init_isr");
     void irq_handler(registers_t regs) asm("irq_handler");
     void isr_handler(registers_t regs) asm("isr_handler");
 }
 
-void init_isr(){
-    // Nullify all the interrupt handlers.
-    //memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
+void init_isr()
+{
+    for (int i = 0; i < 256; i++)
+    {
+        interrupt_handlers[i].handler = nullptr;
+        interrupt_handlers[i].context = nullptr;
+    }
 }
 
-
-void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
+void register_interrupt_handler(uint8_t n, isr_t handler, void *context)
 {
     interrupt_handlers[n].handler = handler;
     interrupt_handlers[n].context = context;
@@ -31,22 +34,12 @@ void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
 // This gets called from our ASM interrupt handler stub.
 void isr_handler(registers_t regs)
 {
-    // This line is important. When the processor extends the 8-bit interrupt number
-    // to a 32bit value, it sign-extends, not zero extends. So if the most significant
-    // bit (0x80) is set, regs.int_no will be very large (about 0xffffff80).
     uint8_t int_no = regs.int_no & 0xFF;
     interrupt_t intrpt = interrupt_handlers[int_no];
+
     if (intrpt.handler != 0)
     {
-
         intrpt.handler(&regs, intrpt.context);
-    }
-    else
-    {
-        /*monitor_write("unhandled interrupt: ");
-        monitor_write_hex(int_no);
-        monitor_put('\n');*/
-        for(;;);
     }
 }
 
@@ -68,5 +61,4 @@ void irq_handler(registers_t regs)
     {
         intrpt.handler(&regs, intrpt.context);
     }
-
 }

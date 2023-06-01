@@ -10,5 +10,7 @@
 
 void keyboard_handler(registers_t *regs, void * /* context */);
 
+void init_keyboard();
+
 
 #endif
