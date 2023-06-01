@@ -1,8 +1,9 @@
     #include "gdt.h"
+    #include "../screen/screen.h"
      // #include "isr.h"
     // #include "idt.h"
 
-
+    // Lets us call init_gdt in cpp and init_gdt in assembly
     void init_gdt() asm ("init_gdt");
 
     extern "C" {
@@ -17,6 +18,7 @@
 
     void init_gdt()
     {
+         write_string('15', "Hello JON");
         gdt_ptr.limit = (sizeof(UiAOS::CPU::GDT::gdt_entry_t) * 6) - 1;
         gdt_ptr.base  = (uint32_t)&gdt_entries;
 
