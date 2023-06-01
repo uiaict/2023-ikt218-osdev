@@ -34,7 +34,6 @@ void play_song_impl(Song *song) {
         if (note->frequency != R) {
             enable_speaker();
         }
-        //printf("Note: %d, Freq=%d, Sleep=%d\n", i, note->frequency, note->duration);
         play_sound(note->frequency);
         sleep_interrupt(note->duration);
         disable_speaker();

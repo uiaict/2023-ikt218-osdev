@@ -51,6 +51,9 @@ void kernel_main()
     // Initialize Interrupt Requests (IRQs)
     init_irq();
 
+    // Initialize Interrupt Service Routines ( ISRs )
+    init_isr();
+
 
     // Initialize Paging
     init_paging(); 
@@ -78,13 +81,15 @@ void kernel_main()
         printf("Interrupt 4 - OK\n");
     }, NULL);
 
-    register_interrupt_handler(33,[](registers_t* regs, void* context){
-        printf("Interrupt 33 - OK\n");
+    register_interrupt_handler(5,[](registers_t* regs, void* context){
+        printf("Interrupt 5 - OK\n");
     }, NULL);
 
     // Trigger interrupts 3 and 4 which should call the respective handlers
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");
+    asm volatile ("int $0x5");
+
 
     // Enable interrupts temporarily
     asm volatile("sti");
@@ -118,18 +123,7 @@ void kernel_main()
     printf("UIA OS is ready. Type \"help\" to see available commands");
     set_prefix("\n> ");
     while(1){
-
-        /*printf("Sleeping with busy-waiting (HIGH CPU).\n");
-        // print(char(counter))
-        sleep_busy(1000);
-        print("Slept using busy-waiting.\n");
-        // print(char(counter++))
-
-        print("Sleeping with interrupts (LOW CPU).\n");
-        // print(char(counter))
-        sleep_interrupt(1000);
-        print("Slept using interrupts.\n");
-        // print(char(counter++))*/
+        // System runs in an infinite loop here
+        // just doing its thing and waiting for interrupts
     };
-    printf("Done!...\n");
 }

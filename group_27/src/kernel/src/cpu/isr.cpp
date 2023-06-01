@@ -6,6 +6,15 @@ extern "C"{
     void isr_handler(registers_t regs) asm("isr_handler");
 }
 
+// Initialize IRQ handlers
+void init_isr() {
+  for (int i = 0; i < IRQ_COUNT; i++) {
+    int_handlers[i].data = NULL;
+    int_handlers[i].handler = NULL;
+    int_handlers[i].num = i;
+  }
+}
+
 
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
 {
