@@ -6,14 +6,11 @@ extern "C"{
     #include "memory.h"
     #include <song/song.h>
     #include "pit.h"
+    #include <stddef.h>
 [[noreturn]] void kernel_main();
 }
 
 extern uint32_t end;
-
-// In order to avoid including stdlib, we define the size_t type here. As this is an x86 OS, we define it as a 32-bit unsigned integer.
-typedef uint32_t size_t;
-
 
 // Overload the new operator for single object allocation
 void* operator new(size_t size) {
