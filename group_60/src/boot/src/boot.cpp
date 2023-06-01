@@ -1,5 +1,5 @@
 #include "boot.h"
-#include <libc/system.h>
+#include <stdlib/system.h>
 
 // extern void monitor_initialize();
 

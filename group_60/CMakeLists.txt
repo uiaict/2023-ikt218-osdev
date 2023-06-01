@@ -114,7 +114,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 ########################################
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
-        src/stdlib/src/system.c
+        src/stdlib/src/system.cpp
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
