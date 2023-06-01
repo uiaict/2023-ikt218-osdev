@@ -1,3 +1,5 @@
+; Taken from JamesM Kernel tutorials.
+
 [GLOBAL gdt_flush]    ; Allows the C code to call gdt_flush().
 
 gdt_flush:
