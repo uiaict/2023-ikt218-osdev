@@ -81,9 +81,7 @@ void init_pag(){
     init_paging();
 }
 
-void init_init_pit(){
-    init_pit();
-}
+
 void start_sleep_busy(uint32_t milliseconds){
     sleep_busy(milliseconds);
 }

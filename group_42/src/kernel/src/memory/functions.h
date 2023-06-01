@@ -8,6 +8,7 @@ void* operator new[](std::size_t size);
 void operator delete(void* ptr) noexcept;
 void operator delete[](void* ptr) noexcept;
 void init_pag();
+
 void write_memorylayout();
-void init_init_pit();
+
 void start_sleep_busy(uint32_t milliseconds);
