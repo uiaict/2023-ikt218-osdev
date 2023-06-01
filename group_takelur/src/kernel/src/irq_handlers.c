@@ -7,9 +7,10 @@
 
 void timer_handler(registers_t regs)
 {
-    // Commented due to spam
+    
     tick++;
-    printf("IRQ0: Timer interrupt fired, tick: %d\n", tick);
+    // Commented due to spam
+    //printf("IRQ0: Timer interrupt fired, tick: %d\n", tick);
 
     // EOI is sent in irq_ack after exiting this handler
 }
