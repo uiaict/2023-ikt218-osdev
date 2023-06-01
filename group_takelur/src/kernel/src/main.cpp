@@ -12,6 +12,7 @@ extern "C" {
     #include "keyboard.h"
     #include "memory.h"
     #include "pit.h"
+    #include "song/song.h"
     void kernel_main();
 }
 
@@ -88,8 +89,6 @@ void kernel_main()
     sleep_interrupt(6000);
     
 
-
-    clear_monitor();
 
     /* PRINT TESTS */
     //printf("This should insert string: %s\n", "Hello World!");
@@ -172,21 +171,44 @@ void kernel_main()
     monitor_write("BLUE \n", 0, 1);
     */
 
-   
+
+
+    /* INITIALIZE SONG PLAYER */
+    Song* songs[] = {
+        new Song(startup, sizeof(startup) / sizeof(Note)),
+        new Song(ground_theme, sizeof(ground_theme) / sizeof(Note)),
+        new Song(little_star, sizeof(little_star) / sizeof(Note))
+    };
+    uint32_t n_songs = sizeof(songs) / sizeof(Song*);
+    SongPlayer* player = create_song_player();
+
+
 
     /* WELCOME SCREEN */
+    clear_monitor();
     printf("\
                  _____     _        _               ___  ____  \n\
                 |_   _|_ _| | _____| |_   _ _ __   / _ \\/ ___| \n\
                   | |/ _` | |/ / _ \\ | | | | '__| | | | \\___ \\ \n\
                   | | (_| |   <  __/ | |_| | |    | |_| |___) |\n\
                   |_|\\__,_|_|\\_\\___|_|\\__,_|_|     \\___/|____/ \n\n");
-   printf("Welcome to Takelur's OS version "); monitor_write("0.1!", 4, 15);
-   printf("\nYou can now "); monitor_write("type", 0, 2); printf(" on the keyboard and see the characters on the screen.\nYou can try out the "); 
-   monitor_write("backspace", 0, 2); printf(", "); monitor_write("tab", 0, 2); printf(", "); monitor_write("shift", 0, 2); printf(", "); 
-   monitor_write("caps lock", 0, 2); printf(", and "); monitor_write("AltGr", 0, 2); printf(" keys.\n");
-   printf("You can do "); monitor_write("AltGr + c", 0, 4); printf(" to clear the screen.\n\n");
-   
+    printf("Welcome to Takelur's OS version "); monitor_write("0.1!", 4, 15);
+    printf("\nYou can now "); monitor_write("type", 0, 2); printf(" on the keyboard and see the characters on the screen.\nYou can try out the "); 
+    monitor_write("backspace", 0, 2); printf(", "); monitor_write("tab", 0, 2); printf(", "); monitor_write("shift", 0, 2); printf(", "); 
+    monitor_write("caps lock", 0, 2); printf(", and "); monitor_write("AltGr", 0, 2); printf(" keys.\n");
+    printf("You can do "); monitor_write("AltGr + c", 0, 4); printf(" to clear the screen.\n\n");
+    // Play startup sound
+    player->play_song(songs[0]);
+
+    /* UNCOMMENT TO PLAY ALL SONGS ADDED */
+    /*
+    for(uint32_t i =0; i < n_songs; i++){
+        printf("Playing Song...\n");
+        player->play_song(songs[i]);
+        printf("Finished playing the song.\n");
+    }
+    */
+
 
 
    // While loop to read from keyboard and print to monitor
