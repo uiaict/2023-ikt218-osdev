@@ -132,6 +132,7 @@ struct int_handler_t {
 // Define an interrupt handler
 void register_irq_handler(int irq, isr_t handler, void* ctx);
 void register_interrupt_handler(uint8_t n, isr_t handler, void*);
+void init_isr();
 
 
 static int_handler_t int_handlers[IDT_ENTRIES];

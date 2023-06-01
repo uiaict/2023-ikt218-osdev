@@ -125,12 +125,10 @@ void set_prefix(char* c) {
     printf(c);
 }
 
-void monitor_put(char c, bool increase_buffer) 
+void monitor_put(char c, bool isKeypress) 
 {
     hide_cursor();
 
-	// Deal with special character behavior
-    bool special = false;
 	switch (c)
 	{
 	case '\n':                  // ENTER
@@ -138,23 +136,22 @@ void monitor_put(char c, bool increase_buffer)
         terminal_row++;
         scroll();
         show_cursor();
-        if (increase_buffer) {
-            runCommand();
+        if (isKeypress) {
+            run_command();
         }
 		return;
-		break;
     case '\016':                // BACKSPACE
         if (terminal_column <= 2) {
             show_cursor();
             return;
         }
         terminal_column--;
-        decreaseBuffer();
+        decrease_buffer();
         monitor_putentryat(' ', terminal_color, terminal_column, terminal_row);
         show_cursor();
         return;
     default:
-        //increaseBuffer();
+        //increase_buffer();
 	    monitor_putentryat(c, terminal_color, terminal_column, terminal_row);
 	    if (++terminal_column == VGA_WIDTH) {
 		    terminal_column = 0;
@@ -162,8 +159,8 @@ void monitor_put(char c, bool increase_buffer)
 			    terminal_row = 0;
 	    }
 	}
-    if (increase_buffer) {
-        increaseBuffer(c);
+    if (isKeypress) {
+        increase_buffer(c);
     }
 
     show_cursor();
@@ -280,7 +277,8 @@ void monitor_write_dec(uint32_t n)
 }
 
 void print_logo() {
-printf("                         _________ _______    _______  _______\n"
+printf(
+"                         _________ _______    _______  _______\n"
 "                |\\     /|\\__   __/(  ___  )  (  ___  )(  ____ \\\n"
 "                | )   ( |   ) (   | (   ) |  | (   ) || (    \\/\n"
 "                | |   | |   | |   | (___) |  | |   | || (_____ \n"
@@ -290,4 +288,3 @@ printf("                         _________ _______    _______  _______\n"
 "                (_______)\\_______/|/     \\|  (_______)\\_______)\n"
 "            By Markus Hagli, Charlotte Thorjussen, Nikolai Eidsheim");
 }
-
