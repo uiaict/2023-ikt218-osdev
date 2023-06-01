@@ -15,5 +15,5 @@ void kernel_main()
     terminal_initialize();
  
     // Will print the given string to the terminal
-	terminal_writestring("Hello World");
+	terminal_writestring("Hello World\n");
 }

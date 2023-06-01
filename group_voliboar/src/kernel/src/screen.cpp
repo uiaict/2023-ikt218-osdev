@@ -39,18 +39,30 @@ void terminal_initialize(void)
 		}
 	}
 }
- 
+
+// Will set foreground and background color of the terminal
 void terminal_setcolor(uint8_t color) 
 {
 	terminal_color = color;
 }
- 
+
+// Will put a character at given position
 void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) 
 {
+	// Custom code. Will move "cursor" to next line if '\n'
+	// Does not continue printing after newline
+	if(c == '\n' && terminal_row < VGA_HEIGHT)
+	{
+		terminal_row++;
+		terminal_column = -1;	// Will be incremented by 1, so set to -1 instead of 0
+		return;
+	}
+
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }
- 
+
+// Abstracted version of "putentryat"
 void terminal_putchar(char c) 
 {
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
@@ -60,13 +72,15 @@ void terminal_putchar(char c)
 			terminal_row = 0;
 	}
 }
- 
+
+// Will calculate the string size according to string size
 void terminal_write(const char* data, size_t size) 
 {
 	for (size_t i = 0; i < size; i++)
 		terminal_putchar(data[i]);
 }
- 
+
+// Will print the given string
 void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
