@@ -180,6 +180,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/cpu/i386/isr.cpp
         src/kernel/cpu/i386/isr.asm
         src/kernel/cpu/i386/interrupts.cpp
+        src/kernel/common/common.cpp
         src/kernel/memory/memory.cpp
 
 )

@@ -7,7 +7,8 @@
 // Include the freestanding stdint library.
 #include <stdint.h>
 
-
+// Number of IDT entries
+#define NUM_IDT_ENTRIES 256
 
 struct idt_entry 
 {
@@ -25,6 +26,12 @@ struct idt_ptr
     uint32_t base;
 
 } __attribute__((packed));
+
+
+
+static idt_entry idt_entries[NUM_IDT_ENTRIES];
+
+static idt_ptr idt_pointer; 
 
 
 #endif

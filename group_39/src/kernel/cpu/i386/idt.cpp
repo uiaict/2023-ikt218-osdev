@@ -3,9 +3,9 @@
 #include "idt.h"
 #include "../../memory/memory.h"
 #include "interrupts.h"
+#include "../../common/common.h"
 
-// Number of IDT entries
-#define NUM_IDT_ENTRIES 256
+
 
 extern "C"
 {
@@ -16,9 +16,7 @@ extern "C"
 
 void init_idt() asm ("init_idt"); // This allows assembly code to call our 'init_gdt' function.
 
-idt_entry idt_entries[NUM_IDT_ENTRIES];
 
-idt_ptr idt_pointer; 
 
 
 void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
@@ -49,13 +47,43 @@ void init_idt()
         idt_set_entry(i, (uint32_t)default_isr, 0x08, 0x8E);
     }
     
+    // Remap the IRQ table so that IRQ 32 and up map to our ISRs. 
+    outb(0x20, 0x11);
+    outb(0xA0, 0x11);
+    outb(0x21, 0x20);
+    outb(0xA1, 0x28);
+    outb(0x21, 0x04);
+    outb(0xA1, 0x02);
+    outb(0x21, 0x01);
+    outb(0xA1, 0x01);
+    outb(0x21, 0x0);
 
 
-
+    // Add ISRs to IDT
     idt_set_entry(0, (uint32_t)isr0, 0x08, 0x8E);
     idt_set_entry(1, (uint32_t)isr1, 0x08, 0x8E);
     idt_set_entry(7, (uint32_t)isr7, 0x08, 0x8E);
 
 
-    idt_load((uint32_t)&idt_pointer); // Load the IDT into IDT register using the assembly function 'idt_load'.
+    // Add IRQs to IDT
+    idt_set_entry(32, (uint32_t)irq0, 0x08, 0x8E);
+    idt_set_entry(33, (uint32_t)irq1, 0x08, 0x8E);
+    idt_set_entry(34, (uint32_t)irq2, 0x08, 0x8E);
+    idt_set_entry(35, (uint32_t)irq3, 0x08, 0x8E);
+    idt_set_entry(36, (uint32_t)irq4, 0x08, 0x8E);
+    idt_set_entry(37, (uint32_t)irq5, 0x08, 0x8E);
+    idt_set_entry(38, (uint32_t)irq6, 0x08, 0x8E);
+    idt_set_entry(39, (uint32_t)irq7, 0x08, 0x8E);
+    idt_set_entry(40, (uint32_t)irq8, 0x08, 0x8E);
+    idt_set_entry(41, (uint32_t)irq9, 0x08, 0x8E);
+    idt_set_entry(42, (uint32_t)irq10, 0x08, 0x8E);
+    idt_set_entry(43, (uint32_t)irq11, 0x08, 0x8E);
+    idt_set_entry(44, (uint32_t)irq12, 0x08, 0x8E);
+    idt_set_entry(45, (uint32_t)irq13, 0x08, 0x8E);
+    idt_set_entry(46, (uint32_t)irq14, 0x08, 0x8E);
+    idt_set_entry(47, (uint32_t)irq15, 0x08, 0x8E);
+
+
+    // Load the IDT into IDT register using the assembly function 'idt_load'.
+    idt_load((uint32_t)&idt_pointer);
 }
