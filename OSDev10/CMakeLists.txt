@@ -34,9 +34,9 @@ include(FetchContent)
 # Defines which architecture our operating system is using. We will be using i386, which is a 32-bit architecture
 set(OS_ARCH_TARGET i386)  # x86_64
 # The operating system name.
-set(OS_NAME "Oiski Poiski")
+set(OS_NAME "OS10")
 # CMake target name for our operating system
-set(OS_KERNEL_NAME "oiski-poiski")
+set(OS_KERNEL_NAME "OS10")
 # Predefined list for our application targets
 set(OS_APPLICATIONS)
 # Predefined list for our libraries
