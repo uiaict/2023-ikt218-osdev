@@ -3,7 +3,7 @@
 
 // include gdt_flush from assembly file
 extern "C" {
-    extern void gdt_flush(uint32_t gdt_ptr)
+    extern void gdt_flush(uint32_t gp);
 }
 
 
