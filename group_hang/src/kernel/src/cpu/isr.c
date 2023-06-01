@@ -2,6 +2,7 @@
 #include "isr.h"
 #include "descriptor_tables.h"
 #include "common.h"
+#include "pit.h"
 isr_t interrupt_handlers[256];
 
 void register_interrupt_handler(u8int n, isr_t handler)
@@ -143,6 +144,7 @@ char scancode_to_ascii[] = {
     'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0, '*', 0, ' ', 0
 };
 
+
 void keyboard_isr(registers_t regs)
 {
     u8int scancode = inb(0x60);
@@ -187,21 +189,80 @@ void init_interrupt_handlers()
 
 void isr_handler(registers_t regs)
 {
-
-    if (interrupt_handlers[regs.int_no] && regs.int_no < 32) 
-    {
+    if (regs.int_no < 32) {
         monitor_write("Interrupt");
         monitor_put('\n');
-        isr_t handler = interrupt_handlers[regs.int_no];
-        handler(regs);
-    }
-    else 
-    {
+
+        switch (regs.int_no) {
+            case 0:
+                divide_by_zero_isr(regs);
+                break;
+            case 1:
+                debug_isr(regs);
+                break;
+            case 2:
+                non_maskable_interrupt_isr(regs);
+                break;
+            case 3:
+                breakpoint_isr(regs);
+                break;
+            case 4:
+                overflow_isr(regs);
+                break;
+            case 5:
+                bound_range_ex_isr(regs);
+                break;
+            case 6:
+                invalid_opcode_isr(regs);
+                break;
+            case 7:
+                device_not_available_isr(regs);
+                break;
+            case 8:
+                double_fault_isr(regs);
+                break;
+            case 9:
+                coprocessor_segment_overrun_isr(regs);
+                break;
+            case 10:
+                invalid_tss_isr(regs);
+                break;
+            case 11:
+                segment_not_present_isr(regs);
+                break;
+            case 12:
+                stack_segment_fault_isr(regs);
+                break;
+            case 13:
+                general_protection_fault_isr(regs);
+                break;
+            case 14:
+                page_fault_isr(regs);
+                break;
+            case 16:
+                floating_point_error_isr(regs);
+                break;
+            case 17:
+                alignment_check_isr(regs);
+                break;
+            case 18:
+                machine_check_isr(regs);
+                break;
+            case 19:
+                simd_floating_point_isr(regs);
+                break;
+            case 20:
+                virtualization_isr(regs);
+                break;
+            default:
+                default_isr(regs);
+        }
+    } else {
         monitor_write("Unhandled Interrupt");
         monitor_put('\n');
     }
-
 }
+
 
 
 void irq_handler(registers_t regs)
@@ -217,6 +278,11 @@ void irq_handler(registers_t regs)
         keyboard_isr(regs);  // Call the keyboard ISR directly
     }
 
+
+    if (regs.int_no == IRQ0) {
+        timer_callback(regs);  // Call the PIT timer callback directly
+    }
+    
     if (interrupt_handlers[regs.int_no] != 0)
     {
         isr_t handler = interrupt_handlers[regs.int_no];
