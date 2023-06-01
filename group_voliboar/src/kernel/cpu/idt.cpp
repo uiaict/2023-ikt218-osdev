@@ -32,7 +32,6 @@ void init_idt()
 
   // Initialize the different things
   init_interrupts();
-  init_interrupt_handlers();
   init_irq();
   init_irq_handlers();
 

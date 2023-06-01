@@ -10,7 +10,7 @@ extern "C"{
 }
 
 // ASSIGNMENT 3
-void register_three_ISR()
+void register_three_isr()
 {
     // Do this for interrupt 5, 7 and 9
     register_interrupt_handler(5,[](registers_t* regs, void* data){
@@ -35,6 +35,7 @@ void kernel_main()
 	terminal_writestring("Hello World");
 
     // Triggers the three interrupts
+    register_three_isr();
     asm volatile ("int $0x5");
     asm volatile ("int $0x7");
     asm volatile ("int $0x9");

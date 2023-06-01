@@ -49,24 +49,24 @@ void irq_handler(registers_t regs)
 
 void init_irq_handlers()
 {
-    // Enable interrupts
+     // Enable interrupts
     asm volatile("sti");
 
     // Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*){
 
-        /* Read the scancode from the keyboard controller */
+        //Read the scancode from the keyboard controller
         uint8_t scancode = inb(0x60);
 
-        /* If the scancode is valid, convert it to an ASCII character */
+        // If the scancode is valid, convert it to an ASCII character
         if (scancode < sizeof(keyboard_map)) {
             char c = keyboard_map[scancode];
             terminal_putchar(c);
+
+        // Disable interrupts
+        asm volatile ("cli");
     }
     }, NULL);
-
-    // Disable interrupts
-    //asm volatile("cli");
 }
 
 // SOURCE:
