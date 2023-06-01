@@ -4,6 +4,7 @@ set(OS_MODULE_MEMORY_NAME ${OS_KERNEL_NAME}-memory)
 set(OS_MODULE_MEMORY_SOURCES
     malloc.c
     memutils.c
+    paging.c
 )
 
 add_library(${OS_MODULE_MEMORY_NAME} ${OS_MODULE_MEMORY_SOURCES})

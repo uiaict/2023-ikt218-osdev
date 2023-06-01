@@ -35,6 +35,9 @@ void kernel_main()
     // Initialize memory
     memory_init(&end);
 
+    // Initialize paging
+    init_paging();
+
     // Register our handlers
     register_all_interrupt_handlers();
     register_all_irq_handlers();

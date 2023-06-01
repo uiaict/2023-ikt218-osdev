@@ -27,20 +27,11 @@ void* memcpy(void* dest, const void* src, size_t count )
     return (void*)dest;        // Return the destination pointer
 }
 
-// Function to set a block of memory with a 16-bit value
-void* memset16 (void *ptr, uint16_t value, size_t num)
-{
-    uint16_t* p = ptr;        // Cast the pointer to uint16_t*
-    while(num--)
-        *p++ = value;         // Set each 2-byte element to the given value
-    return ptr;               // Return the pointer to the block of memory
-}
-
 // Function to set a block of memory with a byte value
 void* memset (void * ptr, int value, size_t num )
 {
-    unsigned char* p=ptr;     // Cast the pointer to unsigned char*
+    unsigned char* p=ptr;              // Cast the pointer to unsigned char*
     while(num--)
         *p++ = (unsigned char)value;   // Set each byte to the given value
-    return ptr;               // Return the pointer to the block of memory
+    return ptr;                        // Return the pointer to the block of memory
 }
