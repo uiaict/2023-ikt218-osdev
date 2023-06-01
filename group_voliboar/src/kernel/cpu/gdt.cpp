@@ -5,14 +5,14 @@ extern "C" {
     extern void gdt_flush(uint32_t);
 }
 
-void VOLI::CPU::GDT::init_gdt() asm ("init_gdt");
+void init_gdt() asm ("init_gdt");
 
-VOLI::CPU::GDT::gdt_entry_t gdt_entries[6];
-VOLI::CPU::GDT::gdt_ptr_t   gdt_ptr;
+gdt_entry_t gdt_entries[6];
+gdt_ptr_t   gdt_ptr;
 
-void VOLI::CPU::GDT::init_gdt()
+void init_gdt()
 {
-    gdt_ptr.limit = (sizeof(VOLI::CPU::GDT::gdt_entry_t) * 6) - 1;
+    gdt_ptr.limit = (sizeof(gdt_entry_t) * 6) - 1;
     gdt_ptr.base  = (uint32_t)&gdt_entries;
 
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
@@ -25,7 +25,7 @@ void VOLI::CPU::GDT::init_gdt()
 }
 
 // Set the value of one GDT entry.
-void VOLI::CPU::GDT::gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
+void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran)
 {
     gdt_entries[num].base_low    = (base & 0xFFFF);
     gdt_entries[num].base_middle = (base >> 16) & 0xFF;

@@ -38,10 +38,6 @@ section .text
 global _start:function (_start.end - _start)
 _start:
 	mov esp, stack_top
-
-	;Initialize Global Desctiptor Table
-	extern init_gdt
-	call init_gdt
 	
 	; Call kernel_main()
 	extern kernel_main
