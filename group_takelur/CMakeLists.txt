@@ -187,6 +187,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/irq_handlers.c
         src/kernel/src/interrupt_tests.c
         src/kernel/src/keyboard.c
+        src/kernel/src/pit.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
