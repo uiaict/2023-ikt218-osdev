@@ -4,7 +4,9 @@
 #define SC_MAX 57
 
 #include "stdint.h"
-#include "isr.h"
+extern "C" {
+    #include "isr.h"
+}
 
 
 typedef void (*keyboard_callback)(uint8_t scancode, void*);

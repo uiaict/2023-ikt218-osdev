@@ -1,7 +1,11 @@
-#include "isr.h"
+
 #include "common.h"
 #include "system.h"
 #include  <string.h>
+
+extern "C" {
+    #include "isr.h"
+}
 //
 // isr.c -- High level interrupt service routines and interrupt request handlers.
 //          Part of this code is modified from Bran's kernel development tutorials.
@@ -17,6 +21,15 @@ interrupt_t interrupt_handlers[256];
 
 
 extern "C"{
+     void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
+    {
+        // ISR to handle the interrupt
+        interrupt_handlers[n].handler = handler;
+        // enabler for adapting the handler
+        interrupt_handlers[n].context = context;
+    }
+
+
     //void init_isr() asm("init_isr");
     void irq_handler(registers_t regs) asm("irq_handler");
     void isr_handler(registers_t regs) asm("isr_handler");
@@ -28,13 +41,6 @@ void init_isr(){
     
 }
 
-void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
-{
-    //ISR to handle the interrupt
-    interrupt_handlers[n].handler = handler;
-    //enabler for adapting the handler
-    interrupt_handlers[n].context = context;
-}
 
 // This gets called from our ASM interrupt handler stub.
 void isr_handler(registers_t regs)

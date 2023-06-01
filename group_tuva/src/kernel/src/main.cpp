@@ -1,7 +1,6 @@
 //#include "system.h"
 #include "gdt.h"
 #include "idt.h"
-#include "isr.h"
 #include "keyboard.h"
 #include "hardware.h"
 
@@ -14,6 +13,8 @@ extern "C"{
     void kernel_main();
     //void init_descriptor_tables();
     #include "memory.h"
+    #include "isr.h"
+    #include "pit.h"
 }
 enum vga_color {
     BLACK = 0,
@@ -132,9 +133,9 @@ void kernel_main()
 
 
     // Fire interrupts! Should trigger callback above
-    //asm volatile ("int $0x3");
-    //asm volatile ("int $0x4");
-    //asm volatile ("int $0x5");
+    asm volatile ("int $0x3");
+    asm volatile ("int $0x4");
+    asm volatile ("int $0x5");
 
 
     asm volatile("sti");
@@ -158,6 +159,22 @@ void kernel_main()
     void* memory2 = malloc(54321); 
     void* memory3 = malloc(13331);
     char* memory4 = new char[1000]();
+
+
+
+     init_pit();  // Initialize the PIT
+
+    // Start the main execution loop
+    int counter = 0;
+    while (true) {
+        printt("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(1000);
+        printt("[%d]: Slept using busy-waiting.\n", counter++);
+
+        printt("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(1000);
+        printt("[%d]: Slept using interrupts.\n", counter++);
+    }
 
     
 

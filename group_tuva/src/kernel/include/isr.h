@@ -68,6 +68,19 @@ typedef struct interrupt_handlers_type{
     void* context;
 } interrupt_t;
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void register_interrupt_handler(uint8_t n, isr_t handler, void*);
+
+#ifdef __cplusplus
+}
+#endif
+
+
+
 /*
 #ifdef __cplusplus
 extern "C" {
