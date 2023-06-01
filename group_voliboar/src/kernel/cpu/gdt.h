@@ -29,6 +29,10 @@ namespace VOLI::CPU::GDT{
         } __attribute__((packed));
 
         typedef struct gdt_ptr_struct gdt_ptr_t;
+
+        // Function definitions
+        void init_gdt();
+        void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 }
 
 #endif //VOLI_GDT_H
