@@ -4,6 +4,7 @@
 
 #include"../keyboard/keyboard.h"
 #include"../memory/functions.h"
+#include "../memory/memory.h"
 #include"../PIT/pit.h"
 
 
@@ -88,6 +89,20 @@ void IJI_OS::write_hexadecimal(char* string, uint32_t a){
             counter = counter-1;
         }
  
+}
+
+void IJI_OS::print_memory_layout(){
+    uint32_t last_alloc = get_last_alloc();
+    uint32_t heap_end = get_heap_end();
+    uint32_t heap_begin = get_heap_begin();
+    uint32_t pheap_begin = get_pheap_begin();
+    uint32_t pheap_end = get_pheap_end();
+    uint32_t memory_used = get_memory_used();
+
+    write_integer("Memory used: ",memory_used);
+    write_string(" bytes");
+    next_line();
+    
 }
 
 void IJI_OS::interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs){

@@ -28,17 +28,25 @@ void init_kernel_memory(uint32_t* kernel_end)
 
 
 // Print the current memory layout
-void print_memory_layout()
-{
-   //os.write_hexadecimal("Hey, check this out: ", 5042);
-   /*  printf("Memory used: %d bytes\n", memory_used);
-    printf("Memory free: %d bytes\n", heap_end - heap_begin - memory_used);
-    printf("Heap size: %d bytes\n", heap_end - heap_begin);
-    printf("Heap start: 0x%x\n", heap_begin);
-    printf("Heap end: 0x%x\n", heap_end);
-    printf("PHeap start: 0x%x\nPHeap end: 0x%x\n", pheap_begin, pheap_end); */
+uint32_t get_last_alloc(){
+return last_alloc;
 }
 
+uint32_t get_heap_end(){
+return heap_end;
+}
+uint32_t get_heap_begin(){
+return heap_begin;
+}
+uint32_t get_pheap_end(){
+return pheap_end;
+}
+uint32_t get_pheap_begin(){
+return pheap_begin;
+}
+uint32_t get_memory_used(){
+    return memory_used;
+}
 // Free a block of memory
 void free(void *mem)
 {

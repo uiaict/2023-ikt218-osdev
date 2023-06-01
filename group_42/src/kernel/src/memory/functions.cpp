@@ -81,10 +81,6 @@ void init_pag(){
     init_paging();
 }
 
-void write_memorylayout(){
-    print_memory_layout();
-}
-
 void init_init_pit(){
     init_pit();
 }

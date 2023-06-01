@@ -40,6 +40,10 @@ extern void* memset (void * ptr, int value, size_t num ); /* Sets num bytes star
 extern void* memset16 (void *ptr, uint16_t value, size_t num); /* Sets num bytes starting from ptr to a 16-bit value */
 
 /* Other helper functions*/
-void print_memory_layout();
-
+uint32_t get_last_alloc();
+uint32_t get_heap_end();
+uint32_t get_heap_begin();
+uint32_t get_pheap_begin();
+uint32_t get_pheap_end();
+uint32_t get_memory_used();
 #endif

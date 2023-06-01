@@ -21,6 +21,7 @@ class IJI_OS{
     void write_char(char c);
     void write_integer(char* string, uint32_t a);
     void write_hexadecimal(char* string, uint32_t a);
+    void print_memory_layout();
     void interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs);
     void interrupt_handler_2(UiAOS::CPU::ISR::registers_t regs);
     void interrupt_handler_1(UiAOS::CPU::ISR::registers_t regs);
