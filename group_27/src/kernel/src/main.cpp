@@ -6,7 +6,7 @@
 #include "pit.h"
 #include <cstdlib>
 #include <song/song.h>
-extern uint32_t end; // This is defined in linker.ldp
+extern uint32_t end; // This is defined in linker.ld
 
 
 // Define entry point in asm to prevent C++ mangling
@@ -55,7 +55,6 @@ void kernel_main()
     // Initialize Paging
     init_paging(); 
     // Print memory layout
-    printf("\n")
     print_memory_layout();
 
     // Setup PIT
@@ -67,9 +66,8 @@ void kernel_main()
     void* memory3 = malloc(13331);
     char* memory4 = new char[1000]();
 
-    printf("\n")
+    printf("\n");
     print_memory_layout();
-    printf("\n")
 
     // Create interrupt handlers for interrupt 3 and 4
     register_interrupt_handler(3,[](registers_t* regs, void* context){
