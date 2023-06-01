@@ -1,4 +1,10 @@
-#ifndef OS_class_H
+#include <stdint.h>
+#include <stdlib.h>
+
+#include"../keyboard/keyboard.h"
+#include"../memory/functions.h"
+#include"../PIT/pit.h"
+
 #define OS_class_H
 
 class IJI_OS{

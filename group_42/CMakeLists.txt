@@ -188,10 +188,11 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
         src/kernel/src/main.cpp
         src/kernel/src/test.cpp
-        src/kernel/src/*.h      
+        #src/kernel/src/*.h      
         src/kernel/src/keyboard/keyboard.cpp
         src/kernel/src/keyboard/keyboard.h
-        
+        src/kernel/src/OS_class/OS_class.cpp
+        src/kernel/src/OS_class/OS_class.h
         src/kernel/src/memory/functions.h
         src/kernel/src/memory/functions.cpp
         src/kernel/src/memory/paging.cpp
