@@ -22,14 +22,7 @@ char scancode_to_ascii(unsigned char* scan_code) {
         case 58:        // Caps Lock
             capsEnabled = !capsEnabled;
             break;
-        case 72:       // ARROW UP
-            return -a;     
-        case 75:       // ARROW LEFT
-            return -a;    
-        case 77:       // ARROW RIGHT
-            return -a;   
-        case 80:       // ARROW DOWN
-            return -a; 
+
         case 170:       // LEFT SHIFT RELEASED
             capsEnabled = !capsEnabled;
         default:

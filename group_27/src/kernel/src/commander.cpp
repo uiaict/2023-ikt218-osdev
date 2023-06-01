@@ -9,27 +9,27 @@ extern "C"{
 char buffer[80] = {0};
 int bufLen = 0;
 
-void increaseBuffer(char c) {
+void increase_buffer(char c) {
     buffer[bufLen] = c;
     bufLen += 1;
 }
 
-void decreaseBuffer() {
+void decrease_buffer() {
     bufLen -= 1;
     buffer[bufLen] = '\0';
     char a[80] = {*buffer};
 }
 
-char getBuffer() {
+char get_buffer() {
     return *buffer;
 }
 
-char resetBuffer() {
+char reset_buffer() {
     bufLen = 0;
     mymemset(buffer, '\0', 80);
 }
 
-void runCommand() {
+void run_command() {
     if (strcmp(buffer, "test") == 0) {
         // This will only run once because the buffer is never reset because of memory stuff
         printf("UIA OS up and running successfully");
@@ -55,7 +55,7 @@ void runCommand() {
         player->play_song(song);
         printf("Finished playing the song.\n");
         set_prefix("> ");
-        resetBuffer();
+        reset_buffer();
         return;
     }
     else if (strcmp(buffer, "red") == 0) {
@@ -79,10 +79,10 @@ void runCommand() {
             printf(buffer);
         } else {
             set_prefix("> ");
-            resetBuffer();
+            reset_buffer();
             return;
         }
     }
     set_prefix("\n> ");
-    resetBuffer();
+    reset_buffer();
 }
