@@ -15,7 +15,6 @@ static void timer_handler(registers_t regs)
 {
     //Increment the tick count
     tick++;
-
     //Toggle the cursor on and off by XORing the cursor end register with 0x80.
     uint8_t cursor_end = inb(0x3D5);
     //Set the register index to the cursor end register.

@@ -57,7 +57,7 @@ void pfree(void *mem)
 }
 
 // Allocate a block of page-aligned memory
-char* pmalloc(size_t size)
+char* pmalloc()
 {
     // Loop through the available list
     for(int i = 0; i < MAX_PAGE_ALIGNED_ALLOCS; i++)
@@ -113,6 +113,7 @@ void* malloc(size_t size)
     if(last_alloc + size + sizeof(alloc_t) >= heap_end)
     {
         printf("Cannot allocate bytes! Out of memory.\n");
+        return;
     }
     alloc_t *alloc = (alloc_t *)last_alloc;
     alloc->status = 1;
