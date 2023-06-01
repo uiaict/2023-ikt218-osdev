@@ -4,6 +4,7 @@
 #include "isr.h"
 #include <stdbool.h>
 #include "print.h"
+#include "monitor.h"
 
 // Keep track of the keyboard state
 static char keyboard_buffer[KB_BUFFER_SIZE];
@@ -82,6 +83,14 @@ void keyboard_processing(registers_t regs)
                     case '9': ascii = ']'; break;
                     case '0': ascii = '}'; break;
                     case '^': ascii = '~'; break;
+                    case 'c': 
+                    {
+                        ascii = '\0';
+                        clear_monitor(); 
+                        keyboard_buffer_head = 0; 
+                        keyboard_buffer_tail = 0; 
+                        break;
+                    }
                     default: break; // I do not modify other characters
                 }
             }
