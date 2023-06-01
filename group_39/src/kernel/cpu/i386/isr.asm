@@ -111,95 +111,95 @@ isr7:
 irq0:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 32 ; Push interrupt number
+    push byte 32 ; Push interrupt number
     jmp irq_common
 
 irq1:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 33 ; Push interrupt number
+    push byte 33 ; Push interrupt number
     jmp irq_common
 
 irq2:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 34 ; Push interrupt number
+    push byte 34 ; Push interrupt number
     jmp irq_common
 
 irq3:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 35 ; Push interrupt number
+    push byte 35 ; Push interrupt number
     jmp irq_common
 
 irq4:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 36 ; Push interrupt number
+    push byte 36 ; Push interrupt number
     jmp irq_common
 
 irq5:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 37 ; Push interrupt number
+    push byte 37 ; Push interrupt number
     jmp irq_common
 
 irq6:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 38 ; Push interrupt number
+    push byte 38 ; Push interrupt number
     jmp irq_common
 
 irq7:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 39 ; Push interrupt number
+    push byte 39 ; Push interrupt number
     jmp irq_common
 
 irq8:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 40 ; Push interrupt number
+    push byte 40 ; Push interrupt number
     jmp irq_common
 
 irq9:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 41 ; Push interrupt number
+    push byte 41 ; Push interrupt number
     jmp irq_common
 
 irq10:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 42 ; Push interrupt number
+    push byte 42 ; Push interrupt number
     jmp irq_common
 
 irq11:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 43 ; Push interrupt number
+    push byte 43 ; Push interrupt number
     jmp irq_common
 
 irq12:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 44 ; Push interrupt number
+    push byte 44 ; Push interrupt number
     jmp irq_common
 
 irq13:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 45 ; Push interrupt number
+    push byte 45 ; Push interrupt number
     jmp irq_common
 
 irq14:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 46 ; Push interrupt number
+    push byte 46 ; Push interrupt number
     jmp irq_common
 
 irq15:
     cli ; Disable interrupts
     push byte 0 ; Dummy error code
-    push 47 ; Push interrupt number
+    push byte 47 ; Push interrupt number
     jmp irq_common
