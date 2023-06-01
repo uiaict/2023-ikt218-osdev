@@ -28,3 +28,5 @@ void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, ui
 /* Our GDT, with 3 entries, and finally our special GDT pointer */
 static gdt_entry gdt[GDT_ENTRIES];
 static gdt_ptr gp;
+
+#endif

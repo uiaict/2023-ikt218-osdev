@@ -71,7 +71,7 @@ static void scroll()
 static void move_cursor()
 {
     // The screen is 80 characters wide...
-    uint16_t pos = terminal_row * 80 + terminal_column;
+    uint16_t pos = terminal_row * 80 + (uint16_t) terminal_column;
 
 	outb(0x3D4, 0x0F);
 	outb(0x3D5, (uint8_t) (pos & 0xFF));
@@ -82,7 +82,7 @@ static void move_cursor()
 
 static inline uint8_t vga_entry_color(enum vga_color fg, enum vga_color bg) 
 {
-	return fg | bg << 4;
+	return fg | bg << (uint8_t) 4;
 }
  
 static inline uint16_t vga_entry(unsigned char uc, uint8_t color) 

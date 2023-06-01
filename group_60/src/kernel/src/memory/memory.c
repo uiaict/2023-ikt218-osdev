@@ -1,4 +1,4 @@
-#include <libc/system.h>
+#include <system.h>
 #include "kernel/memory.h"
 
 static uint32_t* page_directory = 0;   // Define a pointer to the page directory and initialize it to zero
