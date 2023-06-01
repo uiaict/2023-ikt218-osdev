@@ -25,12 +25,3 @@ struct gdt_ptr_struct
 } __attribute__((packed));        // Prevent compiler optimization
 
 typedef struct gdt_ptr_struct gdt_ptr_t;
-
-gdt_entry_t gdt_entries[6]; // 6 Entries limit
-gdt_ptr_t   gdt_ptr;
-
-
-extern void gdt_flush();
-
-extern void init_gdt() asm ("init_gdt");
-extern void gdt_set_gate(int32_t,uint32_t,uint32_t,uint8_t,uint8_t);
