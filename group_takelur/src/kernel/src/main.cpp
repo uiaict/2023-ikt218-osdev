@@ -137,9 +137,19 @@ void kernel_main()
     monitor_write("1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25", 0, 15);
     */
 
-   while(1)
-   {
-       char c = keyboard_read();
+    /* WELCOME SCREEN */
+    printf("\
+                 _____     _        _               ___  ____  \n\
+                |_   _|_ _| | _____| |_   _ _ __   / _ \\/ ___| \n\
+                  | |/ _` | |/ / _ \\ | | | | '__| | | | \\___ \\ \n\
+                  | | (_| |   <  __/ | |_| | |    | |_| |___) |\n\
+                  |_|\\__,_|_|\\_\\___|_|\\__,_|_|     \\___/|____/ \n\n");
+   printf("Welcome to Takelur's OS version "); monitor_write("0.1!", 4, 15);
+   printf("\nYou can now "); monitor_write("type", 0, 2); printf(" on the keyboard and see the characters on the screen.\nYou can try out the "); 
+   monitor_write("backspace", 0, 2); printf(", "); monitor_write("tab", 0, 2); printf(", "); monitor_write("shift", 0, 2); printf(", "); 
+   monitor_write("caps lock", 0, 2); printf(", and "); monitor_write("AltGr", 0, 2); printf(" keys.\n");
+   printf("You can do "); monitor_write("AltGr + c", 0, 4); printf(" to clear the screen.\n\n");
+   
          if (c != 0)
               printf("%c", c);
    };
