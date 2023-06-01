@@ -115,7 +115,6 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.cpp
-        src/stdlib/src/memory.cpp
         src/stdlib/src/string.cpp
         src/stdlib/src/stdio.cpp
         src/stdlib/src/panic.cpp
