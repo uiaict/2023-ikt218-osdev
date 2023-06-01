@@ -13,22 +13,22 @@ extern isr_handler
 extern default_isr
 
 extern irq_handler
-extern irq0
-extern irq1
-extern irq2
-extern irq3
-extern irq4
-extern irq5
-extern irq6
-extern irq7
-extern irq8
-extern irq9
-extern irq10
-extern irq11
-extern irq12
-extern irq13
-extern irq14
-extern irq15
+[GLOBAL irq0]
+[GLOBAL irq1]
+[GLOBAL irq2]
+[GLOBAL irq3]
+[GLOBAL irq4]
+[GLOBAL irq5]
+[GLOBAL irq6]
+[GLOBAL irq7]
+[GLOBAL irq8]
+[GLOBAL irq9]
+[GLOBAL irq10]
+[GLOBAL irq11]
+[GLOBAL irq12]
+[GLOBAL irq13]
+[GLOBAL irq14]
+[GLOBAL irq15]
 
 
 ; This assembly "handler" gets called by each service routine. 
@@ -109,95 +109,80 @@ isr7:
 
 ; --- IRQs ---
 irq0:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error codev
+    push byte 32 ; Push interrupt number
     jmp irq_common 
 irq1:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 33 ; Push interrupt number
     jmp irq_common
 
 irq2:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 34 ; Push interrupt number
     jmp irq_common
 
 irq3:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 35 ; Push interrupt number
     jmp irq_common
 
 irq4:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 36 ; Push interrupt number
     jmp irq_common
 
 irq5:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 37 ; Push interrupt number
     jmp irq_common
 
 irq6:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 38 ; Push interrupt number
     jmp irq_common
 
 irq7:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 39 ; Push interrupt number
     jmp irq_common
 
 irq8:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 40 ; Push interrupt number
     jmp irq_common
 
 irq9:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 41 ; Push interrupt number
     jmp irq_common
 
 irq10:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 42 ; Push interrupt number
     jmp irq_common
 
 irq11:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 43 ; Push interrupt number
     jmp irq_common
 
 irq12:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 44 ; Push interrupt number
     jmp irq_common
 
 irq13:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 45 ; Push interrupt number
     jmp irq_common
 
 irq14:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 46 ; Push interrupt number
     jmp irq_common
 
 irq15:
-    cli ; Disable interrupts
     push byte 0 ; Dummy error code
     push byte 47 ; Push interrupt number
     jmp irq_common

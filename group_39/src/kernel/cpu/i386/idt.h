@@ -29,9 +29,6 @@ struct idt_ptr
 
 
 
-static idt_entry idt_entries[NUM_IDT_ENTRIES];
-
-static idt_ptr idt_pointer; 
 
 
 #endif

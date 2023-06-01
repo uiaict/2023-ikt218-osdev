@@ -16,7 +16,9 @@ extern "C"
 
 void init_idt() asm ("init_idt"); // This allows assembly code to call our 'init_gdt' function.
 
+idt_entry idt_entries[NUM_IDT_ENTRIES];
 
+idt_ptr idt_pointer; 
 
 
 void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
@@ -28,6 +30,7 @@ void idt_set_entry(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags)
     idt_entries[num].reserved = 0; // Set the "Reserved/always0" field to 0. 
     idt_entries[num].flags    = flags | 0x60; // Set flags.
 }
+
 
 
 
@@ -52,13 +55,14 @@ void init_idt()
     outb(0x21, 0x01);
     outb(0xA1, 0x01);
     outb(0x21, 0x0);
+    outb(0xA1, 0x0);
 
 
     // Set all entries in the IDT to default interrupt handler.
-    for (int i = 0; i < NUM_IDT_ENTRIES; i++)
+    /*for (int i = 0; i < NUM_IDT_ENTRIES; i++)
     {
         idt_set_entry(i, (uint32_t)default_isr, 0x08, 0x8E);
-    }
+    }*/
     
 
 
