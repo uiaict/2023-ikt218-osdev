@@ -2,6 +2,10 @@
 
 #include "include/pit.h"
 
+void pit_interrupt_handler(registers_t* regs, void* data) {
+    printf("PIT interrupt triggered.\n");
+}
+
 void init_pit() {
     // Set command byte to 0x36. 
     // This sets the following configurations:
@@ -15,6 +19,9 @@ void init_pit() {
 
     // Set high byte
     outb(PIT_CHANNEL0_PORT, DIVIDER >> 8); // Bit shifts divisor 8 bits to the right
+    
+    // Register PIT interrupt handler
+    register_interrupt_handler(IRQ0, pit_interrupt_handler, nullptr);
 }
 
 void send_EOI() {
@@ -42,18 +49,49 @@ uint16_t get_tick() {
     return count;
 }
 
+void reset_pit() {
+    asm volatile("cli"); // Disable interrups
+
+    outb(PIT_CMD_PORT, 0x36);
+    outb(PIT_CHANNEL0_PORT, 0x00);
+
+    asm volatile("sti"); // Enable interrups
+}
+
+void sleep_busy(uint32_t milliseconds) {
+    reset_pit(); // Reset timer
+    uint16_t start_tick = get_tick();
+
+    uint16_t ticks_to_wait = milliseconds * TICKS_PER_MS;
+    uint16_t elapsed_ticks = 0;
+
+    uint16_t current_tick = 0;
+
+    asm volatile("sti"); // Enable interrupts
+
+    while (elapsed_ticks < ticks_to_wait) {
+        current_tick = get_tick();
+        while (current_tick == start_tick + elapsed_ticks) {
+            current_tick = get_tick();    
+            asm volatile("nop");
+        }
+        elapsed_ticks++;
+    }
+}
+
 void sleep_interrupt(uint32_t milliseconds) {
+    reset_pit(); // Reset timer
     uint16_t current_tick = get_tick();
 
     uint16_t ticks_to_wait = milliseconds * TICKS_PER_MS;
     uint16_t end_ticks = current_tick + ticks_to_wait;
+    
+
 
     while (current_tick < end_ticks) {
-        // Enable interrups
-        asm volatile("sti");
-        // Halt the cpu
-        asm volatile("hlt");
-
-        current_tick = get_tick();
+        asm volatile("sti"); // Enable interrups
+        asm volatile("hlt"); // Halt the cpu
+        asm volatile("cli"); // Disable interrupts
+        current_tick = get_tick(); 
     }   
 }

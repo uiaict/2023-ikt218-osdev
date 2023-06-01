@@ -72,9 +72,13 @@ void kernel_main()
     // Show that PIT works   
     uint16_t counter = 0;  
     while(true){
-        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(1000);
+        printf("[%d]: Slept using busy-waiting.\n", counter++);
+
+        /*printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
         sleep_interrupt(1000);
-        printf("[%d]: Slept using interrupts.\n", counter++);
+        printf("[%d]: Slept using interrupts.\n", counter++)*/;
     };
       
 
@@ -102,13 +106,13 @@ void kernel_main()
     asm volatile ("int $0x4");*/
 
     // Create an IRQ handler for IRQ1
-    register_irq_handler(IRQ0, [](registers_t*, void*) {
+    /*register_irq_handler(IRQ0, [](registers_t*, void*) {
         printf("IRQ0 triggered!\n");
 
         send_EOI();
         // Disable interrupts temporarily
         asm volatile("cli");
-    }, NULL);
+    }, NULL);*/
 
     // Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*) {

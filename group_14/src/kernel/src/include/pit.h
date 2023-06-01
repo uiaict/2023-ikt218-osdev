@@ -17,7 +17,7 @@
 
 // IRQ0 related macros
 #define PIC1_CMD_PORT 0x20
-#define PIC1_DATA_PORT 0x20
+#define PIC1_DATA_PORT 0x21
 #define PIC_EOI		0x20		/* End-of-interrupt command code */
  
 
@@ -29,6 +29,7 @@
 
 
 extern void init_pit();
+extern void reset_pit();
 extern void send_EOI();
 extern uint16_t get_tick();
 extern void sleep_interrupt(uint32_t milliseconds);
