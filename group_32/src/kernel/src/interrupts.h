@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "idt/idt.h"
 
+#define IRQ_COUNT 16
+
 #define ISR1 1
 #define ISR2 2
 #define ISR3 3
@@ -104,18 +106,13 @@ extern void irq14();
 extern void irq15();
 }
 
-
-void init_irq();
-void init_interrupts();
-
 typedef struct registers
-  {
-      uint32_t ds;                  // Data segment selector
-      uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
-      uint32_t int_no, err_code;    // Interrupt number and error code (if applicable)
-      uint32_t eip, cs, eflags, esp, ss; // Pushed by the processor automatically.
-  } registers_t;
-
+{
+  uint32_t ds;                                               // Data segment selector
+  uint32_t edi, esi, ebp, useless_value, ebx, edx, ecx, eax; // Pushed by pusha.
+  uint32_t int_no, err_code;                                 // Interrupt number and error code (if applicable)
+  uint32_t eip, cs, eflags, esp, ss;                         // Pushed by the processor automatically.
+} registers_t;
 
 // Enables registration of callbacks for interrupts or IRQs.
 // For IRQs, to ease confusion, use the #defines above as the
@@ -130,15 +127,18 @@ struct int_handler_t {
   void *data;
 };
 
-void init_keyboard_handler();
-
-// Define an interrupt handler
-void register_irq_handler(int irq, isr_t handler, void* ctx);
-void register_interrupt_handler(uint8_t n, isr_t handler, void*);
-
 static int_handler_t int_handlers[IDT_ENTRIES];
 static int_handler_t irq_handlers[IRQ_COUNT];
 
-#define IRQ_COUNT 16
+// IDT
+void init_interrupts();
+
+// ISR
+void register_interrupt_handler(uint8_t n, isr_t handler, void*);
+
+// IRQ
+void init_irq();
+void register_irq_handler(int irq, isr_t handler, void* ctx);
+void init_keyboard_handler();
 
 #endif

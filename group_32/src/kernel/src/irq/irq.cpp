@@ -18,6 +18,7 @@ void init_irq() {
     irq_handlers[i].handler = NULL;
     irq_handlers[i].num = i;
   }
+  screenWrite("Initialized IRQ!\n");
 }
 
 // Register an IRQ handler

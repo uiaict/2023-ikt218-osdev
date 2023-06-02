@@ -184,6 +184,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/isr/*.cpp
         src/kernel/src/isr/*.asm
         src/kernel/src/irq/*.cpp
+        src/kernel/src/irq/*.asm
         src/kernel/src/*.cpp
 )
 # Set the output binary name

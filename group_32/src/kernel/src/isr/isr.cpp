@@ -10,11 +10,6 @@ extern "C"{
     void isr_handler(registers_t regs) asm("isr_handler");
 }
 
-
-
-
-
-
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
 {
     int_handlers[n].handler = handler;
@@ -32,14 +27,10 @@ void isr_handler(registers_t regs)
     if (intrpt.handler != 0)
     {
         intrpt.handler(&regs, intrpt.data);
-        screenWrite("interupt working");
+        screenWrite("Interupt working!\n");
     }
     else
     {
-        /*monitor_write("unhandled interrupt: ");
-        monitor_write_hex(int_no);
-        monitor_put('\n');*/
-        screenWrite("error interupt");
-        for(;;);
+        screenWrite("Error with interupt!\n");
     }
 }
