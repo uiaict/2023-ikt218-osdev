@@ -58,6 +58,7 @@ remap_pic();
 idt_init(); // Initialize the IDT for interrupt
 init_keyboard();
 
+
 scancode_to_ascii[0x1E] = 'a';
 scancode_to_ascii[0x30] = 'b';
 scancode_to_ascii[0x2E] = 'c';
@@ -84,7 +85,6 @@ scancode_to_ascii[0x11] = 'w';
 scancode_to_ascii[0x2D] = 'x';
 scancode_to_ascii[0x15] = 'y';
 scancode_to_ascii[0x2C] = 'z';
-
 
 
 
