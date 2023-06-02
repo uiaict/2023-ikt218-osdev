@@ -12,15 +12,18 @@ extern "C"{
  
 }
 
+void keyboard_isr(void);
+
 void kernel_main() {
     /* Initialize terminal interface */
 	screenInitialize();
 	screenWrite("Hello World! ");
 
-
+    void keyboard_isr(void);
 
 
     // Initialize Global Descriptor Table (GDT)
     init_gdt();
 }
+
 

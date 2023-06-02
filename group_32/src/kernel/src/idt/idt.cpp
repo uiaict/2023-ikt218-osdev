@@ -4,6 +4,7 @@
 #include "../common.h"
 #include <cstddef>
 
+
 extern "C" {
   extern void idt_flush(uint32_t);
 }
@@ -24,8 +25,12 @@ void init_idt() {
     idt[i].flags = 0x8E;
 
 	int_handlers[i].handler = NULL;
-  }
 
+
+  }
+  init_interrupts();
+  init_irq();
+  init_keyboard_handler();
   // Load the IDT
   idt_flush((uint32_t)&idt_ptr);
   

@@ -3,11 +3,16 @@
 #include "../interrupts.h"
 #include <stdint.h>
 #include <stddef.h>
-#include"../screen/screen.h"
+#include "../screen/screen.h"
+#include "../idt/idt.h"
 
 extern "C"{
     void isr_handler(registers_t regs) asm("isr_handler");
 }
+
+
+
+
 
 
 void register_interrupt_handler(uint8_t n, isr_t handler, void* context)

@@ -1,6 +1,7 @@
 #include "../interrupts.h"
 #include <cstddef>
 #include "../common.h"
+#include "../screen/screen.h"
 
 /*https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/irq.cpp*/
 
@@ -46,3 +47,35 @@ void irq_handler(registers_t regs)
     }
 
 }
+
+void init_keyboard_handler()
+{
+     // Enable interrupts
+    asm volatile("sti");
+
+
+    // Create an IRQ handler for IRQ1
+    register_irq_handler(IRQ1, [](registers_t*, void*){
+
+
+        //Read the scancode from the keyboard controller
+        uint8_t scancode = inb(0x60);
+
+
+        // If the scancode is valid, convert it to an ASCII character
+        if (scancode < sizeof(ascii_letter))
+        {
+
+            char c = ascii_letter[scancode];
+            screenPutchar(c);
+
+        }
+
+
+        // Disable interrupts
+        asm volatile ("cli");
+
+    }, NULL);
+
+}
+
