@@ -36,7 +36,7 @@ extern "C" {
 
         if (inb(0x64) & 0x1) {
     
-        terminal_write("It worked now!!!!", 18);
+        terminal_write("Triggered IRQ1", 15);
 
         // Read a byte from the keyboard's data buffer
         unsigned char scancode = inb(0x60);

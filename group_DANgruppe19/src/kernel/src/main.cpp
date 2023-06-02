@@ -80,7 +80,7 @@ void init_keyboard() {
 
     // Enable scanning, but first check if keyboard is ready to receive a command
     //while(inb(0x64) & 0x2); // Wait until bit 1 of status register is 0
-    //outb(0x60, 0xF4); // Send command to keyboard command port
+    outb(0x60, 0xF4); // Send command to keyboard command port
 }
 
 
@@ -174,7 +174,7 @@ scancode_to_ascii[0x2C] = 'z';
 
 terminal_write("\nHello World!\n", 15);
 
-//terminal_write("Press a key...\n", 15);
+terminal_write("Press a key...\n", 15);
 
 enable_interrupts();
 
@@ -208,10 +208,10 @@ while(true){
 
 
 // Manually trigger interrupts
-    asm volatile ("int $0");   // Divide by Zero Exception
+    //asm volatile ("int $0");   // Divide by Zero Exception
 
-    asm volatile ("int $3");   // Software Breakpoint Exception
+    //asm volatile ("int $3");   // Software Breakpoint Exception
 
-    asm volatile ("int $4");   // User-defined Software Interrupt  
+    //asm volatile ("int $4");   // User-defined Software Interrupt  
 
 }
