@@ -1,6 +1,7 @@
 #include "../include/descriptor_tables.h"
 #include "../include/common.h"
 #include "../include/isr.h"
+// James molloy tutorial: http://www.jamesmolloy.co.uk/tutorial_html/4.-The%20GDT%20and%20IDT.html
 
 //access ASM functions from gdt_load.asm
 

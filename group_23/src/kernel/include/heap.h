@@ -29,8 +29,4 @@ void* malloc(size_t size);
 
 
 
-
-
-
-
 #endif // HEAP_H

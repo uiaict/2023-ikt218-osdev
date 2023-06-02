@@ -10,6 +10,8 @@
 #define ENTER 0x1C
 static char key_buffer[256];
 
+// code from cfenollosa tutorial: https://github.com/cfenollosa/os-tutorial/blob/master/23-fixes/drivers/keyboard.c
+
 
 
 static void keyboard_callback(registers_t *regs){

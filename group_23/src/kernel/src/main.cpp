@@ -69,32 +69,19 @@ void kernel_main()
     init_keyboard();
 
     timer_phase(100);               // 100hz
-    init_timer();
+    //init_timer();
     //sleeping_interrupts(10);         // Sleep for 5 seconds
     //sleeping_busy(5);               // Sleep for 5 seconds
-   
     
-    
-    
-
-    
-    //print_memory_layout();
+    print_memory_layout();
     void* some_memory = malloc(12345);
     char* memory1 = new char[1000]();
-   // monitor_write("memory layout after allocating");
+    monitor_put('\n');
+    monitor_write("memory layout after allocating");
     monitor_put('\n');
 
     print_memory_layout();
-    
- 
-    
    
-    
-
-    
-    
-    //clear_screen();
-    //write_string("Hello, World!");
 	
     while(1);
     

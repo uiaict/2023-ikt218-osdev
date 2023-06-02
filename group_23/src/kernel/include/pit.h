@@ -6,7 +6,10 @@
 
 
 
-void init_timer(uint32_t frequency);
+void init_timer();
+void sleeping_busy(uint32_t sleep_tick);
+void timer_phase(uint32_t frequency);
+void sleeping_interrupts(uint32_t sleep_tick);
 
 
 

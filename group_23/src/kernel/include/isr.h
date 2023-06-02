@@ -35,7 +35,7 @@ typedef struct registers
 
 
 
-//void isr_handler(registers_t regs);                  //interrupt service routine handler to handle interrupts
+void isr_handler(registers_t regs);                  //interrupt service routine handler to handle interrupts
 typedef void (*isr_t)(registers_t);                  //pointer to function isr_t that takes registers_t as argument 
 void register_interrupt_handler(uint8_t n, isr_t handler);
 
