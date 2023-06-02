@@ -10,5 +10,4 @@ void screenWrite(const char* data);
 void screenClear();
 void screenWriteCharacter(char character);
 
-
 #endif

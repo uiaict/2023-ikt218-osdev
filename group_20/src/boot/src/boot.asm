@@ -33,15 +33,7 @@ section .text
 global _start:function (_start.end - _start)
 _start:
 	mov esp, stack_top
-
-    ;Initialize Global Desctiptor Table
-	extern start_gdt
-	call start_gdt
-
-    ;Initialize Interupt Descriptor Table
-	extern start_idt
-	call start_idt
-
+    
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
 	cli

@@ -153,22 +153,26 @@ const char ASCII_LT[] = {
 // IDT
 void start_idt();                                                                // Function that starts the IDT
 void set_idt_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
-void init_interrupts();
+static idt_entry_t idt[IDT_ENTRIES];
+static idt_ptr_t idt_ptr;
 
 // IRS
 void isr_handler(registers_t regs);
 void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 void create_interrupt_handlers();
+static int_handler_t int_handlers[IDT_ENTRIES];
 
 // IRQ
 void start_irq();
 void register_irq_handler(int irq, isr_t handler, void* ctx);
 void irq_handler(registers_t regs);
-
-static idt_entry_t idt[IDT_ENTRIES];
-static idt_ptr_t idt_ptr;
-static int_handler_t int_handlers[IDT_ENTRIES];
 static int_handler_t irq_handlers[IRQ_COUNT];
+
+
+//
+void init_interrupts();
+
+
 
 #endif
 

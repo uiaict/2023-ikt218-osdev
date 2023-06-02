@@ -115,7 +115,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/include/system.h
-        src/stdlib/src/screen.cpp
+        src/stdlib/src/screen.c
         src/stdlib/include/screen.h
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
@@ -203,8 +203,10 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/irq/irq.cpp
 
         #Memory
-        src/kernel/src/memory/memoryManagement.cpp
         src/kernel/include/memoryManagement.h
+        src/kernel/src/memory/memoryManagement.c
+        src/kernel/src/memory/memUtilities.c
+        src/kernel/src/memory/malloc.c
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
