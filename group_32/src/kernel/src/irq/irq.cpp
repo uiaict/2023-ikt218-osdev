@@ -3,7 +3,7 @@
 #include "../common.h"
 #include "../screen/screen.h"
 
-/*https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/irq.cpp*/
+// https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/irq.cpp
 
 extern "C"{
     void irq_handler(registers_t regs) asm("irq_handler");

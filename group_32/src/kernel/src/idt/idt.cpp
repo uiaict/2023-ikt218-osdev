@@ -5,6 +5,7 @@
 #include "../screen/screen.h"
 #include <cstddef>
 
+// https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/idt.cpp
 
 extern "C" {
   extern void idt_flush(uint32_t);

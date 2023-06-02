@@ -1,3 +1,5 @@
+// https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/common.cpp
+
 #include "common.h"
 
 void outb(uint16_t port, uint8_t value)
