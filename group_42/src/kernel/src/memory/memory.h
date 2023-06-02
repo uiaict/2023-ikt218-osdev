@@ -7,7 +7,7 @@
 #include <stddef.h> 
 
 /*
- struck for memory allowcation status = is allowcated
+ struct for memory allocation status = is allocated
  size is the size.
  */
 typedef struct {
@@ -31,7 +31,7 @@ extern void* memcpy(void* dest, const void* src, size_t num );
 extern void* memset (void * ptr, int value, size_t num ); 
 extern void* memset16 (void *ptr, uint16_t value, size_t num); 
 
-// fuctions for printing memory map in other file
+// functions for getting values for printing memory map in other files
 uint32_t get_last_alloc();
 uint32_t get_heap_end();
 uint32_t get_heap_begin();

@@ -2,7 +2,7 @@
 #include "system.h"
 
 #define MAX_PAGE_ALIGNED_ALLOCS 32
-// global varibles we need for fuctionality but dont yet know the value off
+// global variables we need for functionality but don't yet know the value of
 uint32_t last_alloc = 0;
 uint32_t heap_end = 0;
 uint32_t heap_begin = 0;
@@ -12,7 +12,7 @@ uint8_t *pheap_desc = 0;
 uint32_t memory_used = 0;
 
 
-void init_kernel_memory(uint32_t* kernel_end) // function to init kernel memory
+void init_kernel_memory(uint32_t* kernel_end) // function to initialize kernel memory
 {
     last_alloc = kernel_end + 0x1000;
     heap_begin = last_alloc;
@@ -28,7 +28,7 @@ void init_kernel_memory(uint32_t* kernel_end) // function to init kernel memory
     
 
 
-// we have not implimented a print function that works in this file derfore we send all the atributes we want to send to a cpp file
+// we have not implemented a print function that works in this file. Therefore, we send all the attributes we need to a cpp file
 uint32_t get_last_alloc(){
 return last_alloc;
 }
@@ -49,7 +49,7 @@ uint32_t get_memory_used(){
     return memory_used;
 }
 
-void free(void *mem)// this function frees a bloc of memory
+void free(void *mem)// this function frees a block of memory
 {
     alloc_t *alloc = (mem - sizeof(alloc_t));
     memory_used -= alloc->size + sizeof(alloc_t);
@@ -70,13 +70,13 @@ void pfree(void *mem)// this function frees a page of memory
 }
 
 
-char* pmalloc(size_t size) // this function allowcates a paage of memory
+char* pmalloc(size_t size) // this function allocates a paage of memory
 {
     
     for(int i = 0; i < MAX_PAGE_ALIGNED_ALLOCS; i++) // find a free page
     {
         if(pheap_desc[i]) continue;
-        pheap_desc[i] = 1; // reserve page
+        pheap_desc[i] = 1; // reserve page by setting present bit to 1
        
         return (char *)(pheap_begin + i*4096);// return info
     }
@@ -86,9 +86,9 @@ char* pmalloc(size_t size) // this function allowcates a paage of memory
 
 
 
-void* malloc(size_t size)// this function allowcates a block of memory 
+void* malloc(size_t size)// this function allocates a block of memory 
 {
-    if(!size) return 0; // emty no memory to allowcate
+    if(!size) return 0; // empty, no memory to allocate
 
     // find available big enough block
     uint8_t *mem = (uint8_t *)heap_begin;
@@ -123,7 +123,7 @@ void* malloc(size_t size)// this function allowcates a block of memory
     nalloc:;
     if(last_alloc + size + sizeof(alloc_t) >= heap_end)
     {
-        // no more bytes inform the user and start a interupt the user can use to stop the program
+        // no more bytes, inform the user and start an interrupt the user can use to stop the program
         asm volatile ("int $0x03");
        
     }

@@ -1,7 +1,7 @@
 #include "keyboard.h"
 
 
-// below are lists that is used when converting what we recive from the keyboard to a asci character
+// below are lists that are used when converting a registered scancode into an ASCII character
 const char *sc_name[] = {"ERROR", "Esc", "1", "2", "3", "4", "5", "6",
                          "7", "8", "9", "0", "-", "=", "Backspace", "Tab", "Q", "W", "E",
                          "R", "T", "Y", "U", "I", "O", "P", "[", "]", "Enter", "Lctrl",
@@ -21,7 +21,7 @@ struct payload_t {
 };
 payload_t payload; 
 
-void UiAOS::IO::Keyboard::hook_keyboard(keyboard_callback a, void *b) { // function that connects the keyboard function to the irq1 handling
+void UiAOS::IO::Keyboard::hook_keyboard(keyboard_callback a, void *b) { // A function that defines the IRQ1 handler as a function that gives the scancode
 
     payload = {a, b};
 
@@ -37,6 +37,6 @@ void UiAOS::IO::Keyboard::hook_keyboard(keyboard_callback a, void *b) { // funct
     UiAOS::CPU::ISR::register_interrupt_handler(IRQ1, static_cb, &payload);
 }
 
-char UiAOS::IO::Keyboard::scancode_to_ascii(uint8_t scancode){// function that convert a scancode to a ascii character.
+char UiAOS::IO::Keyboard::scancode_to_ascii(uint8_t scancode){// function that converts a scancode to an ascii character.
     return sc_ascii[(int) scancode];
 }

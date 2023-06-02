@@ -38,24 +38,24 @@ section .text
 global _start:function (_start.end - _start)
 _start:
 
-  mov esp, stack_top    ; this moved the system from real mode to protected mode
+  mov esp, stack_top    ; this moves the system from real mode to protected mode
 
   ; call the cpp function init kernel memory through the function init kernel
  extern init_kernel     
  call init_kernel
 
 
-  ; call the cpp function init GDT wich initialize the global deskriptor table
+  ; call the cpp function init GDT which initialize the global descriptor table
   extern init_gdt
 	call init_gdt
    
   
 
-  ; call the cpp function init IDT wich initialize the interrupt deskriptor table
+  ; call the cpp function init IDT which initialize the interrupt deskriptor table
   extern init_idt
   call init_idt
 
-  ; call the cpp function init IDT wich initialize the interrupt servise rutines
+  ; call the cpp function init IDT which initialize the interrupt servise rutines
   extern init_isr
   call init_isr
 
