@@ -9,7 +9,7 @@ void *my_memset(void *dest, int val, unsigned long len)
     unsigned char *ptr = dest;
     while (len-- > 0)
         *ptr++ = val;
-    return dest;
+    return;
 }
 
 
