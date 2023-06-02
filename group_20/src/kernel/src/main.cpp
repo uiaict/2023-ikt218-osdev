@@ -68,9 +68,12 @@ void kernel_main()
     
     // Allocate some memory using kernel memory manager
     void* some_memory = malloc(12345); 
-    void* memory2 = malloc(54321); 
+    void* memory2 = malloc(54321);
     void* memory3 = malloc(13331);
     char* memory4 = new char[1000]();
+    free(memory4);
+    free(memory3);
+    
 
     screenWrite("");
     screenWrite("Press between 1-9");
