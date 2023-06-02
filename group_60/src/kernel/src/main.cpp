@@ -19,6 +19,10 @@ void kernel_main()
     init_idt();
     printf("IDT Loaded")
 
-    asm(”int 0x01”);
+    register_interrupt_handler(3,[](registers_t* regs, void* context){
+        printf("Interrupt 3 - OK\n");
+    }, NULL);
+
+    asm volatile ("int $0x3");
 
 }
