@@ -1,2 +1,0 @@
-FROM ubuntu:22.04
-RUN  apt-get update && apt install g++-multilib-i686-linux-gnu gcc-multilib-i686-linux-gnu cmake git nasm grub-common mtools ninja-build parted udev libbabeltrace-dev source-highlight liblzma-dev libsource-highlight-dev libxxhash-dev  pkg-config libdebuginfod-dev libexpat1-dev expat libmpfr-dev libgmp-dev gdb xorriso qemu qemu-kvm qemu-system-x86 -y
