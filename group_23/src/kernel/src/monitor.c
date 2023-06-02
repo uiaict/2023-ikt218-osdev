@@ -1,11 +1,13 @@
 #include "system.h"
 #include "../include/monitor.h"
 
+// Jammes Molloy Tutorial: http://www.jamesmolloy.co.uk/tutorial_html/3.-The%20Screen.html
+
 u16int *video_memory = (u16int *)0xB8000;
 // Stores the cursor position.
 u8int cursor_x = 0;
 u8int cursor_y = 0;
-
+static int screen_visible = 1;
 // Updates the hardware cursor.
 static void move_cursor()
 {
@@ -47,6 +49,21 @@ static void scroll()
     }
 }
 
+void toggle_screen()
+{
+    screen_visible=!screen_visible;
+    if(screen_visible)
+    {
+        move_cursor(); 
+    }
+    else
+    {
+        outb(0x3D4, 14);
+        outb(0x3D5, 0xFF);
+        outb(0x3D4, 15);
+        outb(0x3D5, 0xFF);
+    }
+}
 // Writes a single character out to the screen.
 void monitor_put(char c)
 {
@@ -175,37 +192,37 @@ void monitor_write_hex(uint32_t n)
 
     monitor_write("0x");
 
-    char noZeroes = 1;
+    char noZeroes = 1;                     //boolean value to check if we have printed anything yet
 
     int i;
-    for (i = 28; i > 0; i -= 4)
+    for (i = 28; i > 0; i -= 4)            //iterate through nibbles (a group of 4 bits, representing a single hex digit)
     {
-        tmp = (n >> i) & 0xF;
-        if (tmp == 0 && noZeroes != 0)
+        tmp = (n >> i) & 0xF;              //get value of nibble
+        if (tmp == 0 && noZeroes != 0)     //if value is 0 and we haven't printed anything yet
         {
             continue;
         }
     
-        if (tmp >= 0xA)
+        if (tmp >= 0xA)                     //if value is greater than 10 (0xA in hex notation), print letter
         {
-            noZeroes = 0;
-            monitor_put (tmp-0xA+'a' );
+            noZeroes = 0;                   //we have printed something
+            monitor_put (tmp-0xA+'a' );     //print letter
         }
         else
         {
-            noZeroes = 0;
-            monitor_put( tmp+'0' );
+            noZeroes = 0;                     //we have printed something
+            monitor_put( tmp+'0' );          //print number
         }
     }
   
-    tmp = n & 0xF;
-    if (tmp >= 0xA)
+    tmp = n & 0xF;                             //get last nibble
+    if (tmp >= 0xA)                           //if value is greater than 10, print letter
     {
-        monitor_put (tmp-0xA+'a');
+        monitor_put (tmp-0xA+'a');            //print letter
     }
-    else
+    else                                      //else print number
     {
-        monitor_put (tmp+'0');
+        monitor_put (tmp+'0');                //print number
     }
 
 }

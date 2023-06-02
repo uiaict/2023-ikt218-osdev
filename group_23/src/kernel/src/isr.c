@@ -1,6 +1,7 @@
 #include "../include/isr.h"
 #include "../include/monitor.h"
 #include "../include/common.h"
+// James Molloy tutorial: http://www.jamesmolloy.co.uk/tutorial_html/5.-IRQs%20and%20the%20PIT.html
 
 isr_t interrupt_handlers[ISR_SIZE];                             // array of 256 interrupt handlers
 

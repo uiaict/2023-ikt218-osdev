@@ -1,4 +1,5 @@
 #include "../include/common.h"
+// James Molloy tutorial: http://www.jamesmolloy.co.uk/tutorial_html/3.-The%20Screen.html
 
 // outb, inb and inw functions to directly access the hardware
 
@@ -38,6 +39,19 @@ void *memset(void *ptr, int value, uint32_t num) {
     return ptr;
 }
 
+int string_len(char s[]) {
+    int i = 0;
+    while (s[i] != '\0') ++i;
+    return i;
+}
+void reverse(char s[]) {
+    int c, i, j;
+    for (i = 0, j = string_len(s)-1; i < j; i++, j--) {
+        c = s[i];
+        s[i] = s[j];
+        s[j] = c;
+    }
+}
 void int_to_ascii(int n, char str[]) {
     int i, sign;
     if ((sign = n) < 0) n = -n;
@@ -52,19 +66,7 @@ void int_to_ascii(int n, char str[]) {
     reverse(str);
 }
 
-void reverse(char s[]) {
-    int c, i, j;
-    for (i = 0, j = string_len(s)-1; i < j; i++, j--) {
-        c = s[i];
-        s[i] = s[j];
-        s[j] = c;
-    }
-}
-int string_len(char s[]) {
-    int i = 0;
-    while (s[i] != '\0') ++i;
-    return i;
-}
+
 // Compare two strings. Should return -1 if 
 // str1 < str2, 0 if they are equal or 1 otherwise.
 int strcmp(char *str1, char *str2)
@@ -80,7 +82,7 @@ int strcmp(char *str1, char *str2)
           }
           i++;
       }
-      // why did the loop exit?
+      
       if( (str1[i] == '\0' && str2[i] != '\0') || (str1[i] != '\0' && str2[i] == '\0') )
           failed = 1;
   
