@@ -109,6 +109,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
+        src/stdlib/src/string.c
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -142,7 +143,7 @@ set(OS_MODULE_BOOT_NAME ${OS_KERNEL_NAME}-boot)
 set(OS_MODULE_BOOT_SOURCES
         #${OS_ARCH_TARGET}/boot.asm
         #src/boot/src/boot.cpp
-        src/boot/src/bootloader.asm
+        src/boot/src/boot.asm
 )
 # Creates a library for our multi-boot section
 add_library(${OS_MODULE_BOOT_NAME} ${OS_MODULE_BOOT_SOURCES})
@@ -165,16 +166,29 @@ set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 ########################################
 # Define kernel module name
 set(OS_MODULE_KERNEL_NAME ${OS_KERNEL_NAME}-kernel)
-# Define custom compile flags for the kernel
+# Define custom compile flags for the kernelA3-041
 set(OS_MODULE_KERNEL_COMPILE_FLAGS)
 # Scan the src/kernel directory for source files (c/cpp)
 file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         RELATIVE ${CMAKE_CURRENT_SOURCE_DIR}
-        src/kernel/src/*.cpp
-        src/kernel/gdt/*.cpp
-        src/kernel/gdt/*.asm
-        src/kernel/gdt/*.h
-        src/kernel/include/*
+        src/kernel/src/main.cpp
+        src/kernel/gdt/gdt.cpp
+        src/kernel/gdt/gdt.asm
+        src/kernel/gdt/gdt.h
+        src/kernel/include/screen.cpp
+        src/kernel/include/screen.h
+        src/kernel/include/keyboard.cpp
+        src/kernel/include/keyboard.h
+        src/kernel/idt/idt.cpp
+        src/kernel/idt/idt.asm
+        src/kernel/idt/idt.h
+        src/kernel/isr/isr.cpp
+        src/kernel/isr/isr.h
+        src/kernel/isr/isr.asm
+        src/kernel/isr/irq.cpp
+        src/kernel/isr/common.h
+        src/kernel/src/common.cpp
+
         
 )
 # Set the output binary name
@@ -192,6 +206,8 @@ target_include_directories(
         ${OS_MODULE_KERNEL_NAME} PUBLIC
         src/kernel/include
         src/kernel/gdt
+        src/kernel/idt
+        src/kernel/isr
         
 )
 # Defines which libraries to link against. Linking is where the compiler "glues" together libraries and code pieces.

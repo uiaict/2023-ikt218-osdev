@@ -1,4 +1,4 @@
-#include "/workspaces/ikt218/group-24/src/stdlib/include/system.h"
+#include "system.h"
 
 size_t strlen(const char* str) 
 {

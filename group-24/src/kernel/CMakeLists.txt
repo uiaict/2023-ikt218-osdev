@@ -31,6 +31,7 @@ set(OS_MODULE_KERNEL_LINK_FLAGS "-T ${OS_MODULE_KERNEL_LINKER} ${CXX_LINKER_FLAG
 # All CPU specific operations are performed in this module. IRQ, ISR, GDT, IDT and other hardware glue components.
 ########################################
 add_subdirectory(gdt)
+add_subdirectory(include)
 # Add executable for the kernel.
 # the add_executable creates a 'executable target' in CMake, in contrast to add_library, which creates a library target.
 # A target is a recipe for building a component. For example, the uiaos-boot target is a recipe for building the boot source code.
