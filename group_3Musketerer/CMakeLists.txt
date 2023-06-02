@@ -179,6 +179,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.asm
         src/boot/src/gdt.asm
         src/kernel/src/gdt.cpp
+        src/boot/src/idt.asm
+        src/kernel/src/idt.cpp
         
 )
 # Set the output binary name
