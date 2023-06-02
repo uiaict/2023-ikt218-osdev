@@ -23,6 +23,9 @@ extern "C" {
         terminal_write("IRQ0 triggered!\n", 16);
         // handle IRQ0 here
         outb(0x20, 0x20);
+
+        terminal_write("This will not show\n", 20);
+
     }
     /*void irq1() {
     terminal_write("IRQ1 triggered!\n", 16);

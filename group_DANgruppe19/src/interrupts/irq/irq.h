@@ -1,9 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-// A very simplified scancode to ASCII table. You'll need to complete this with all keys you want to support.
 extern char scancode_to_ascii[128];
-
 
 extern "C" {
     void irq0();
