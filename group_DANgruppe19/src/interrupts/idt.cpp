@@ -1,6 +1,7 @@
 #include <cstddef>
 #include "idt.h"
 #include "isr.h"
+#include "irq/irq.h"
 #include "../kernel/include/terminal.h"
 
 #define IDT_SIZE 256
@@ -53,15 +54,32 @@ void idt_init() {
     idt_set_gate(4, (uintptr_t)isr4, 0x08, 0x8E);
 
 
+    // Fill the IDT with your IRQs
+    idt_set_gate(32, (uintptr_t)irq0, 0x08, 0x8E);
+    idt_set_gate(33, (uintptr_t)irq1, 0x08, 0x8E);
+    idt_set_gate(34, (uintptr_t)irq2, 0x08, 0x8E);
+    idt_set_gate(35, (uintptr_t)irq3, 0x08, 0x8E);
+    idt_set_gate(36, (uintptr_t)irq4, 0x08, 0x8E);
+    idt_set_gate(37, (uintptr_t)irq5, 0x08, 0x8E);
+    idt_set_gate(38, (uintptr_t)irq6, 0x08, 0x8E);
+    idt_set_gate(39, (uintptr_t)irq7, 0x08, 0x8E);
+
+    idt_set_gate(40, (uintptr_t)irq8, 0x08, 0x8E);
+    idt_set_gate(41, (uintptr_t)irq9, 0x08, 0x8E);
+    idt_set_gate(42, (uintptr_t)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (uintptr_t)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (uintptr_t)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (uintptr_t)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (uintptr_t)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (uintptr_t)irq15, 0x08, 0x8E);
+
 
     // Load the IDT using the lidt instruction
     idt_install();
     
 }
 
-static inline void outb(uint16_t port, uint8_t value) {
-    asm volatile ("outb %0, %1" : : "a"(value), "Nd"(port));
-}
+
 
 
 void remap_pic() {
@@ -81,7 +99,11 @@ void remap_pic() {
     outb(0x21, 0x01);
     outb(0xA1, 0x01);
 
+    // Unmask IRQ1 for keyboard input
+    //outb(0x21, inb(0x21) & 0xFD);
+
     // Enable all IRQs
     outb(0x21, 0x00);
     outb(0xA1, 0x00);
+
 }
