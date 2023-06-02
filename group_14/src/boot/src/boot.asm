@@ -1,3 +1,5 @@
+; Source: https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/boot/src/boot.asm Fetched: 15.03.2023
+
 bits 32
 
 MBOOT_PAGE_ALIGN       equ 1<<0    ; Load kernel and modules on a page boundary

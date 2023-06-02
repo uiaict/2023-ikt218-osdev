@@ -1,4 +1,4 @@
-; Source: https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/descriptor_table.asm
+; Source: https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/descriptor_table.asm fetched: 25.03.23
 
 [GLOBAL gdt_flush]    ; Allows the C code to call gdt_flush().
 

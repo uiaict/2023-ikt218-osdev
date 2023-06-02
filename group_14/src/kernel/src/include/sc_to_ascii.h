@@ -8,4 +8,5 @@ extern unsigned char ascii_table[TABLE_SIZE];
 
 // Convert scancode to ascii
 char scancode_to_ascii(unsigned char scancode);
+
 #endif // SC_TO_ASCII_H
