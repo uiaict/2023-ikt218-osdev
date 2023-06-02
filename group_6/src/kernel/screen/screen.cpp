@@ -45,4 +45,17 @@ void write_string( int colour, const char *string)
        after_grub+=2;
     }
 }
+/*
+void clear_screen(int unset_clear){
+    char *video = (char)0xB8000;
+
+    for (int i = unset_clear; i < 4000; i+= 2)
+    {
+        video[i] = ' ';
+        video[i+1] = 0x000000;
+    }
+
+}
+*/
+
 
