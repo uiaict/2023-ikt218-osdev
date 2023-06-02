@@ -6,6 +6,7 @@
 %macro ISR_NOERRCODE 1
     global isr%1
     isr%1:
+        cli
         push byte 0                 ; Push a dummy error code.
         push  %1                    ; Push the interrupt number.
         jmp isr_common_stub         ; Go to the common handler code.
