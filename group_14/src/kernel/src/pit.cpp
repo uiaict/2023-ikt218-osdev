@@ -1,4 +1,4 @@
-// Source: https://wiki.osdev.org/Programmable_Interval_Timer, fetched 23:15, 31.05.2023
+// Source: https://wiki.osdev.org/Programmable_Interval_Timer, fetched 31.05.2023
 
 #include "include/pit.h"
 
@@ -85,8 +85,6 @@ void sleep_interrupt(uint32_t milliseconds) {
 
     uint16_t ticks_to_wait = milliseconds * TICKS_PER_MS;
     uint16_t end_ticks = current_tick + ticks_to_wait;
-    
-
 
     while (current_tick < end_ticks) {
         asm volatile("sti"); // Enable interrups

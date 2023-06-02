@@ -1,4 +1,4 @@
-// Source: https://wiki.osdev.org/Bare_Bones Fetched: 15.03.2023
+// Source: https://wiki.osdev.org/Bare_Bones Fetched: 26.03.2023
 
 #include <stdint.h>
 #include <stddef.h> 
@@ -48,9 +48,7 @@ extern uint8_t terminal_color;
 extern uint16_t* terminal_buffer;
  
 extern void terminal_initialize(void);
- 
 extern void terminal_setcolor(uint8_t color);
- 
 extern void terminal_putentryat(char c, uint8_t color, size_t x, size_t y);
 extern void terminal_putchar(char c);
 extern void terminal_write(const char* data, size_t size);

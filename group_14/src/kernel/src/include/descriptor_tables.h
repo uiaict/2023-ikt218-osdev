@@ -1,7 +1,7 @@
 #ifndef DESCRIPTOR_TABLES_H
 #define DESCRIPTOR_TABLES_H
 
-// Source https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/include/descriptor_tables.h
+// Source https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/include/descriptor_tables.h fetched fetched 17.04.23
 
 #include <stdint.h>
 
@@ -27,12 +27,13 @@ struct idt_entry_t {
   uint16_t base_high;
 } __attribute__((packed));
 
-// Define the GDT and IDT pointers
+// Define the GDT pointers
 struct gdt_ptr_t {
   uint16_t limit;
   uint32_t base;
 } __attribute__((packed));
 
+// Define the IDT pointers
 struct idt_ptr_t {
   uint16_t limit;
   uint32_t base;
@@ -48,8 +49,6 @@ void gdt_load();
 void idt_load();
 
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
-
-
 
 static idt_entry_t idt[IDT_ENTRIES];
 static idt_ptr_t idt_ptr;

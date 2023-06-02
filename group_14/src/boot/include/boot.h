@@ -1,3 +1,5 @@
+// Source: https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/boot/include/boot.h Fetched: 15.03.2023
+
 #ifndef sOS_BOOT_H
 #define sOS_BOOT_H
 

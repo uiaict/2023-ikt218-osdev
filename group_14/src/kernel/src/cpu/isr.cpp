@@ -1,4 +1,7 @@
+// Source: https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/isr.cpp fetched: fetched 17.04.23
+
 #include "../include/interrupts.h"
+#include "../include/terminal.h"
 #include <stdint.h>
 #include <stddef.h>
 
@@ -27,12 +30,8 @@ void isr_handler(registers_t regs)
     }
     else
     {
-        // TODO: Implement a function that prints 
-        // the interrupt number
-        
-        /*monitor_write("unhandled interrupt: ");
-        monitor_write_hex(int_no);
-        monitor_put('\n');*/
+        // Prints the interrupt number
+        printf("Unhandeled interrupt: %x\n", int_no);
         for(;;);
     }
 }

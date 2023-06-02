@@ -1,12 +1,13 @@
 #include "include/terminal.h"
 
-// Source: https://wiki.osdev.org/Bare_Bones Fetched: 15.03.2023
+// Source: https://wiki.osdev.org/Bare_Bones Fetched: Fetched: 26.03.2023
 
 size_t terminal_row;
 size_t terminal_column;
 uint8_t terminal_color;
 uint16_t* terminal_buffer;
 
+// Find the length of a string
 size_t strlen(const char* str) 
 {
 	size_t len = 0;
@@ -15,6 +16,7 @@ size_t strlen(const char* str)
 	return len;
 }
  
+// Initialize the terminal
 void terminal_initialize(void) 
 {
 	terminal_row = 0;
@@ -29,17 +31,20 @@ void terminal_initialize(void)
 	}
 }
  
+// Set the color of the terminal
 void terminal_setcolor(uint8_t color) 
 {
 	terminal_color = color;
 }
  
+// Place character at the correct index
 void terminal_putentryat(char c, uint8_t color, size_t x, size_t y) 
 {
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }
  
+// Print a character
 void terminal_putchar(char c) 
 {
 	terminal_putentryat(c, terminal_color, terminal_column, terminal_row);
@@ -50,6 +55,7 @@ void terminal_putchar(char c)
 	}
 }
  
+// Write a string to the terminal
 void terminal_write(const char* data, size_t size) 
 {
 	for (size_t i = 0; i < size; i++)
@@ -63,14 +69,14 @@ void terminal_write(const char* data, size_t size)
 	}
 }
  
+// Wrapper function for terminal_write
 void terminal_writestring(const char* data) 
 {
 	terminal_write(data, strlen(data));
 }
 
+// Print a formatted string
 int printf(const char* __restrict__ format, ...) {
-    // TODO %d and alot of formatting is missing!
-    // This you can implement yourtself!
 	va_list parameters;
 	va_start(parameters, format);
  
@@ -85,7 +91,7 @@ int printf(const char* __restrict__ format, ...) {
 			size_t amount = 1;
 			while (format[amount] && format[amount] != '%')
 				amount++;
-			if (maxrem < amount) {
+			if (maxrem < amount) { 
 				// TODO: Set errno to EOVERFLOW.
 				return -1;
 			}

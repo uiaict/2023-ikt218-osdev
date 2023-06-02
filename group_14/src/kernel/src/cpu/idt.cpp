@@ -1,3 +1,5 @@
+// Source: https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/cpu/idt.cpp fetched: 25.03.23
+
 #include "../include/descriptor_tables.h"
 #include "../include/interrupts.h"
 #include "../include/common.h"
