@@ -55,7 +55,7 @@ void* mem1 = malloc(12);
  void* mem3 = malloc(12);
 os.print_memory_layout();
 start_sleep_busy((uint32_t) 10000);
- free(mem2);
+ delete mem2;
  void* mem4 = malloc(12);
  int c = 2;
 
