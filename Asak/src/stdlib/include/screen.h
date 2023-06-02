@@ -40,6 +40,7 @@ int get_cursor_offset();
 
 void clear_screen();
 void play_intro();
+void backspace();
 
 int handle_scrolling(int cursor_offset);
 void memory_copy ( char *source, char *dest, int no_bytes);

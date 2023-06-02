@@ -14,7 +14,6 @@ extern "C"{
     void init_irq() asm("init_irq");
     void irq_handler(registers_t reg) asm("irq_handler");
     void isr_handler(registers_t reg) asm("isr_handler");
-    
 }
 
 // Initialize ISR
@@ -45,15 +44,10 @@ void register_all_interrupt_handlers() {
 void isr_handler(registers_t reg) {
     uint8_t int_no = reg.int_no & 0xFF;
     interrupt_t interrupt = interrupt_handlers[int_no];
-
     print("Recieved Interrupt!\n");
 
-    if (interrupt.handler != NULL)
-    {
         interrupt.handler(&reg, interrupt.context);
-    }
-    else
-    {
+    } else {
         print("Error! No registered interrupt handler");
     }
 }
@@ -83,7 +77,13 @@ void register_all_irq_handlers() {
         unsigned char scan_code = inb(0x60);
         char f = scancode_to_ascii(&scan_code);
 
-        if (f != 0) {
+        if(f == 2){
+            print_char('\n', -1, -1, 0x02);
+        }
+        else if(f == 3){
+            print_char(' ', -1, -1, 0x02);
+        }
+        else if (f != 0) {
             print_char(f, -1, -1, 0x02);
         }
 
@@ -110,7 +110,7 @@ void irq_handler(registers_t reg)
     }
     else
     {
-        //print("Error! No registered IRQ handler");
+        print("Error! No registered IRQ handler");
     }
 }
 

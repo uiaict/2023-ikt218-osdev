@@ -1,4 +1,5 @@
 #include "cpu/input.h"
+#include "include/screen.h"
 
 bool capsEnabled = false;
 
@@ -15,39 +16,56 @@ const char small_ascii[] = {'?', '?', '1', '2', '3', '4', '5', '6',
 
 char scancode_to_ascii(unsigned char* scan_code) {
     unsigned char a = *scan_code;
-    if (a > 57) {
-        switch (a)
-        {
-        case 58:      
+    switch (a){
+        case 1:     //ESC
+            return 0;    
+        case 14:    // BACK
+		    backspace();
+		    return 0; 
+        case 15:
+            return 0;    
+        case 28:    // ENTER
+		    return 2;
+        case 29:    //CTRL
+            return 0;    
+        case 42:    // LSHIFT
             capsEnabled = !capsEnabled;
-            break;
-        case 72:    
-            return -a;     
-        case 75:   
-            return -a;    
-        case 77:    
-            return -a;   
-        case 80:     
-            return -a; 
+            return 0;
+        case 54:   
+            capsEnabled = !capsEnabled;
+            return 0; 
+        case 56:   
+            return 0;
+        case 57:       //SPACE
+            return 3;
+        case 58:   
+            capsEnabled = !capsEnabled;
+            return 0; 
+        case 72:    //UP
+            return 0;     
+        case 75:   //LEFT
+            return 0;    
+        case 77:    //RIGHT
+            return 0;   
+        case 80:    //DOWN 
+            return 0; 
         case 170:      
             capsEnabled = !capsEnabled;
+            return 0;
         default:
-            break;
-        }
-        return 0;
+            if (a < 57)
+            {
+                int b = a;
+                char c;
+                if (capsEnabled) {
+                    c = large_ascii[b];
+                } else {
+                    c = small_ascii[b];
+                }
+                return c;
+            }else
+            {
+                return 0;
+            }
     }
-
-    if (a == 42) {
-        capsEnabled = !capsEnabled;
-    }
-
-    int b = a;
-    char c;
-    if (capsEnabled) {
-        c = large_ascii[b];
-    }
-    else {
-        c = small_ascii[b];
-    }
-    return c;
 }
