@@ -25,7 +25,7 @@ void isr_handler(registers_t regs){
     }
 }
 
-void init_interrupt_handlers(){
+void init_int_handlers(){
     register_int_handler(ISR3,[](registers_t* regs, void* data){
         terminal_write("Triggered ISR3\n");
     },NULL);

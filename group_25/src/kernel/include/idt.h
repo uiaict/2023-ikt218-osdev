@@ -40,6 +40,7 @@
 #define ISR30 30
 #define ISR31 31
 
+// IRQ entries from isr
 #define IRQ0 32
 #define IRQ1 33
 #define IRQ2 34
@@ -57,8 +58,8 @@
 #define IRQ14 46
 #define IRQ15 47
 
-// These extern directives let us access the addresses of our ASM ISR handlers.
 extern "C"{
+    // These extern directives let us access the addresses of our ASM ISR handlers.
     extern void isr0 ();
     extern void isr1 ();
     extern void isr2 ();
@@ -91,6 +92,8 @@ extern "C"{
     extern void isr29();
     extern void isr30();
     extern void isr31();
+
+    // IRQ Handlers
     extern void irq0 ();
     extern void irq1 ();
     extern void irq2 ();
@@ -151,7 +154,7 @@ extern "C"{
     void init_idt();
     void init_interrupts();
     void init_irq();
-    void init_interrupt_handlers();
+    void init_int_handlers();
     void init_irq_handlers();
 
     void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);

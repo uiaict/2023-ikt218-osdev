@@ -4,8 +4,8 @@
 #include "terminal.h"
 #include "pit.h"
 
-#define TEST_MEMORY false
-#define TEST_INTERRUPT false
+#define TEST_MEMORY true
+#define TEST_INTERRUPT true
 
 // This is defined in linker.ld
 extern uint32_t end;
@@ -69,7 +69,7 @@ void kernel_main(){
     
     // Print strating screen
     terminal_clear();
-    terminal_print_title(true);
+    //terminal_print_title(true);
     printf("Hello World!\n");
 
     // Test memory
@@ -83,6 +83,7 @@ void kernel_main(){
         char* memory4 = new char[1000]();
 
         print_memory_layout();
+        printf("\n");
 
         delete memory1;
         delete memory2;

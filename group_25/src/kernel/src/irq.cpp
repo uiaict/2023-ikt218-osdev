@@ -32,8 +32,8 @@ void init_irq_handlers(){
 
         // Convert scancode to an ASCII character
         if (scancode < sizeof(lower_ascii_codes)) {
-            char c = lower_ascii_codes[scancode];
-            terminal_write_char(c);
+            char symbol = lower_ascii_codes[scancode];
+            terminal_write_char(symbol);
     }
 
     }, NULL);

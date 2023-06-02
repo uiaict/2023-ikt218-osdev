@@ -90,5 +90,5 @@ void terminal_print_title(bool full){
 void terminal_newpage(){
 	terminal_row = 0;
 	terminal_clear();
-	terminal_print_title(false);
+	//terminal_print_title(false);
 }

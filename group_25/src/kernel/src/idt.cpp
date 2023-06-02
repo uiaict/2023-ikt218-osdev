@@ -21,7 +21,7 @@ void init_idt(){
     // Initialize IDT entries
     for (int i = 0; i < IDT_ENTRIES; i++){
         idt_entries[i].base_lo = 0x0000;
-        idt_entries[i].base_lo = 0x0000;
+        idt_entries[i].base_hi = 0x0000;
         idt_entries[i].sel = 0x08;
         idt_entries[i].always0 = 0x00;
         idt_entries[i].flags = 0x8E;
@@ -30,7 +30,7 @@ void init_idt(){
     }
 
     init_interrupts();
-    init_interrupt_handlers();
+    init_int_handlers();
     init_irq();
     init_irq_handlers();
 
@@ -91,6 +91,8 @@ void init_interrupts(){
     idt_set_gate(29, (uint32_t)isr29, 0x08, 0x8E);
     idt_set_gate(30, (uint32_t)isr30, 0x08, 0x8E);
     idt_set_gate(31, (uint32_t)isr31, 0x08, 0x8E);
+
+    // IRQ entries
     idt_set_gate(32, (uint32_t)irq0,  0x08, 0x8E);
     idt_set_gate(33, (uint32_t)irq1,  0x08, 0x8E);
     idt_set_gate(34, (uint32_t)irq2,  0x08, 0x8E);
