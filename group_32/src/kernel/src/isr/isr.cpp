@@ -3,6 +3,7 @@
 #include "../interrupts.h"
 #include <stdint.h>
 #include <stddef.h>
+#include"../screen/screen.h"
 
 extern "C"{
     void isr_handler(registers_t regs) asm("isr_handler");
@@ -26,12 +27,14 @@ void isr_handler(registers_t regs)
     if (intrpt.handler != 0)
     {
         intrpt.handler(&regs, intrpt.data);
+        screenWrite("interupt working");
     }
     else
     {
         /*monitor_write("unhandled interrupt: ");
         monitor_write_hex(int_no);
         monitor_put('\n');*/
+        screenWrite("error interupt");
         for(;;);
     }
 }

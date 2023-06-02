@@ -104,6 +104,7 @@ extern void irq14();
 extern void irq15();
 }
 
+
 void init_irq();
 void init_interrupts();
 
