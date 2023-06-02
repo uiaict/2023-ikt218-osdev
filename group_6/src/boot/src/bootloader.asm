@@ -40,6 +40,10 @@ _start:
 	mov esp, stack_top
     extern init_gdt
     call init_gdt
+    extern init_idt
+	  call init_idt 		; call init_idt() function
+	  extern init_isr
+	  call init_isr 
 	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
 	cli
