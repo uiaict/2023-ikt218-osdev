@@ -1,4 +1,5 @@
-#include <cstring>
+#include "string.h"
+#include <stdio.h>
 
 // Function that gets the length of a string.
 int strlen(const char *str)
@@ -66,7 +67,7 @@ void int_to_string(char* str, int num)
 // Function that turns a float into a string.
 void float_to_string(char* str, float f, int precision)
 {
-    // Converts the float to a string using sprintf.
+    // Converts the float to a string using print.
     sprintf(str, "%.*f", precision, f);
 }
 
@@ -92,21 +93,6 @@ int isalpha(int c)
     }
     // Else return 0 for false.
     return 0;
-}
-//Function for turning a string into uppercase.
-void to_upper(char* str)
-{
-    //While loop that loops through every character in the string.
-    while(*str != '\0')
-    {
-        //If the current character is between 97 and 122 it is a lowercase letter.
-        if(*str >= 97 && *str <= 122)
-        {
-            //Take away 32 from the ascii value of the character to turn it into a uppercase character.
-            *str -= 32;
-        }
-        *str++;
-    }
 }
 
 // Function for turning a string into uppercase.
