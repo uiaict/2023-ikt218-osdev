@@ -2,6 +2,7 @@
 #include "../gdt/gdt.h"
 #include "../interrupts.h"
 #include "../common.h"
+#include "../screen/screen.h"
 #include <cstddef>
 
 
@@ -11,6 +12,8 @@ extern "C" {
 
 
 void init_idt() {
+  screenWrite("Initializing IDT.\n");
+
   // Set the IDT limit
   idt_ptr.limit = sizeof(struct idt_entry_t) * IDT_ENTRIES - 1;
   idt_ptr.base = (uint32_t) &idt;
@@ -24,16 +27,17 @@ void init_idt() {
     idt[i].zero = 0x00;
     idt[i].flags = 0x8E;
 
-	int_handlers[i].handler = NULL;
-
-
+	  int_handlers[i].handler = NULL;
   }
+
   init_interrupts();
   init_irq();
   init_keyboard_handler();
+
   // Load the IDT
   idt_flush((uint32_t)&idt_ptr);
   
+  screenWrite("IDT initialized.\n");
 }
 
 void idt_load() {
@@ -112,4 +116,6 @@ void init_interrupts(){
     idt_set_gate(45, (uint32_t)irq13, 0x08, 0x8E);
     idt_set_gate(46, (uint32_t)irq14, 0x08, 0x8E);
     idt_set_gate(47, (uint32_t)irq15, 0x08, 0x8E);
+
+    screenWrite("Set ISR(0-31) and IRQ(0-15).\n");
 }
