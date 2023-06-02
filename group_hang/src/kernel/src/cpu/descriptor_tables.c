@@ -60,16 +60,16 @@ static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
 
    idt_entries[num].sel     = sel;
    idt_entries[num].always0 = 0;
-   // We must uncomment the OR below when we get to using user-mode.
-   // It sets the interrupt gate's privilege level to 3.
-   idt_entries[num].flags   = flags /* | 0x60 */;
+   idt_entries[num].flags   = flags;
 } 
 
 static void init_idt()
 {
+   //setting the IDT pointers
    idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
    idt_ptr.base  = (u32int)&idt_entries;
 
+   //making sure the entries are empty
     for (int i = 0; i < 256; i++) {
         idt_entries[i].base_lo = 0;
         idt_entries[i].base_hi = 0;
@@ -77,7 +77,8 @@ static void init_idt()
         idt_entries[i].always0 = 0;
         idt_entries[i].flags = 0;
     }
-
+   
+   //remapping the PIC
    outb(0x20, 0x11);
    outb(0xA0, 0x11);
    outb(0x21, 0x20);
@@ -89,6 +90,7 @@ static void init_idt()
    outb(0x21, 0x0);
    outb(0xA1, 0x0);
 
+   //setting the ISR entries
    idt_set_gate( 0, (u32int)isr0 , 0x08, 0x8E);
    idt_set_gate( 1, (u32int)isr1 , 0x08, 0x8E);
    idt_set_gate( 2, (u32int)isr2 , 0x08, 0x8E);
@@ -123,7 +125,7 @@ static void init_idt()
    idt_set_gate( 31, (u32int)isr31 , 0x08, 0x8E);
 
 
-
+   //setting the IRQ entries
    idt_set_gate(32, (u32int)irq0, 0x08, 0x8E);
    idt_set_gate(33, (u32int)irq1, 0x08, 0x8E);
    idt_set_gate(34, (u32int)irq2, 0x08, 0x8E);
@@ -141,12 +143,13 @@ static void init_idt()
    idt_set_gate(46, (u32int)irq14, 0x08, 0x8E);
    idt_set_gate(47, (u32int)irq15, 0x08, 0x8E);
 
+   //reloads the IDT
    idt_flush((u32int)&idt_ptr);
 
 }
 
 
-
+//initializes the descriptor tables
 void init_descriptor_tables()
 {
   init_gdt();
