@@ -2,7 +2,7 @@
 #include <system.h>
 
 extern "C" {
-    void isr_handler(registers_t regs) asm("isr_handler");
+    void isr_handler(registers regs) asm("isr_handler");
 }
 
 void register_interrupt_handler(uint8_t vector, isr_t handler, void* context) {
@@ -20,12 +20,9 @@ void isr_handler(registers regs) {
     if (intrpt.handler != 0) {
 
         intrpt.handler(&regs, intrpt.data);
-        printf("Received interrupt: %d, %s", int_no, exception_messages[r.int_no])
+        printf("Received interrupt: %d", int_no);
     }
     else {
-        printf("unhandled interrupt: ");
-        printf(int_no);
-        printf('\n');*/
-        for(;;);
+        printf("unhandled interrupt: %d", int_no);
     }
 }

@@ -1,5 +1,6 @@
 #include <descriptor_tables.h>
 #include <interrupts.h>
+#include <common.h>
 
 // Getting the idt_flush function from assembly
 extern "C" {
@@ -8,7 +9,7 @@ extern "C" {
 
 void init_idt() {
     // Set the IDT limit
-    idt_p.limit = sizeof(struct idt_entry_t) * IDT_ENTRIES - 1;
+    idt_p.limit = sizeof(idt_entry) * IDT_ENTRIES - 1;
     idt_p.base = (uint32_t) &idt;
 
     for (int i = 0; i < IDT_ENTRIES; i++) {
@@ -20,7 +21,7 @@ void init_idt() {
         idt[i].flags = 0x8E;
 
         // Setting the handler to neutral - NULL
-	    int_handlers[i].handler = NULL;
+	    int_handlers[i].handler = nullptr;
     }
 
     init_interrupts();

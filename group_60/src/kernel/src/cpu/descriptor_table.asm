@@ -27,3 +27,4 @@ idt_flush:
     mov eax, [esp+4]    ; get pointer based on passed parameter
     lidt [eax]          ; loads pointer
     ret                 ; returns
+

@@ -1,4 +1,6 @@
 #include <descriptor_tables.h>
+#include <interrupts.h>
+
 
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
@@ -7,18 +9,16 @@ extern "C"{
     void kernel_main();
 }
 
+
 void kernel_main()
 {
-    printf("Hello World!");
+    printf("Hello World!\n");
     
-    printf("Loading GDT")
+    printf("Loading GDT\n");
     init_gdt();
-    printf("GDT Loaded")
+    printf("GDT Loaded\n");
 
-    printf("Loading IDT")
+    printf("Loading IDT\n");
     init_idt();
-    printf("IDT Loaded")
-
-    asm(”int 0x01”);
-
+    printf("IDT Loaded\n");
 }
