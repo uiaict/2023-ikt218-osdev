@@ -6,7 +6,7 @@
 
 
 
-// this is a old funcion if we had more time we wold replace the last use of it
+// Deprecated version of the implementation in the IJI_OS class, but it is still called in one location
 void write_string( int colour, const char *string )
 {
     volatile char *video = (volatile char*)0xB8000;

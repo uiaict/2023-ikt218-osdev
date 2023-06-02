@@ -9,7 +9,7 @@ uint32_t end_tick = 0;
 void init_pit(){
     
     UiAOS::CPU::ISR::register_interrupt_handler(IRQ0,[] (UiAOS::CPU::ISR::registers_t* regs, void* context){
-        current_tick = current_tick + 55; // each tick equats to about 55 ms. 
+        current_tick = current_tick + 55; // The function gets called approximately every 55ms, so we increment tick by 55 each call. 
         
         
        
@@ -39,8 +39,8 @@ void sleep_interrupt(uint32_t milliseconds){
 
     while (current_tick < end_tick)
     {
-        asm("sti"); // enable interupts
-      asm("hlt");   // wait for interupt 
+        asm("sti"); // enable interrupts
+      asm("hlt");   // wait for interrupt 
       
     }
     

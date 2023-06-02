@@ -7,7 +7,7 @@
 
 #include"../PIT/pit.h"
 #define VGA_ADDRESS 0xB8000 // The starting address of the VGA buffer 
-#define BUFSIZE 4000       // the size of the memory area used when clearing the screen
+#define BUFSIZE 4000       // the size of the memory area used when clearing the screen times 2, since our writing functions takes two steps per uint16
 extern "C"{ // functions imported from c
     uint32_t get_heap_end();
     uint32_t get_pheap_end();
@@ -23,12 +23,12 @@ void IJI_OS::write_string(const char *string){// function to write a string
  
     while( *string != 0 )// while string is not empty
     {
-        *address++ = *string++; // adress = first letter of string  and increment bouth the string and the adress
-        *address++ = color;     //      sett adress to color and increment adress              
+        *address++ = *string++; // address = first letter of string and increment both the string and the address. This only changes the first half of the uint16 it is read as in video memory
+        *address++ = color;     //      set the second half of the video memory int to color and increment address              
     }
 }
 
-void IJI_OS::next_line(){ // function that moves the writing adress to the first letter of the first line
+void IJI_OS::next_line(){ // function that moves the writing address to the first letter of the next line
     address = next_address;
     next_address = next_address + 160;
 
@@ -40,7 +40,7 @@ void IJI_OS::write_char( char c){// function that writes a char
     *address++ = color;
     *address = 0x0B;
 }
-void IJI_OS::write_integer(char* string, uint32_t a){// function to write intereger 
+void IJI_OS::write_integer(char* string, uint32_t a){// function to write a string and an intereger value in decimal 
  
    
     while( *string != 0 )
@@ -66,7 +66,7 @@ void IJI_OS::write_integer(char* string, uint32_t a){// function to write intere
         }
     }
  
-void IJI_OS::write_hexadecimal(char* string, uint32_t a){// function to write hexadecimal
+void IJI_OS::write_hexadecimal(char* string, uint32_t a){// function to write a string and a hexadecimal value
  
    
     while( *string != 0 )
@@ -98,7 +98,7 @@ void IJI_OS::write_hexadecimal(char* string, uint32_t a){// function to write he
         }
  
 }
-void IJI_OS::clearScreen()// function to clear the screen and move the adress 
+void IJI_OS::clearScreen()// function to clear the screen and move the address 
 {
      uint8_t *vga = (uint8_t*) VGA_ADDRESS;
     for (int i = 0; i < BUFSIZE; i++)
@@ -136,7 +136,7 @@ void IJI_OS::print_memory_layout(){// function to print the memory layout
     write_hexadecimal("PHeap end: 0x", pheap_end);
     
 }
-// below are the interupt handlers that has the task to write on the screen what interupt was triggered. 
+// below are the interrupt handlers that has the task to display which interrupt was triggered. 
 void IJI_OS::interrupt_handler_3(UiAOS::CPU::ISR::registers_t regs){
     write_string("interrupt   3");
     next_line();
@@ -150,7 +150,7 @@ void IJI_OS::interrupt_handler_1(UiAOS::CPU::ISR::registers_t regs){
     next_line();
 }
 
-void IJI_OS::init(){// function that clears the screan and writes hello world
+void IJI_OS::init(){// function that clears the screan and writes "Hello World!"
         clearScreen();
         write_string( "Hello World!");
         next_line();
