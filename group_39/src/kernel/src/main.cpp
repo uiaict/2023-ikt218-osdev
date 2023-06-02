@@ -12,15 +12,19 @@ extern "C" {
 
 void kernel_main()
 {
+
+    // Register keyboard handler
+    register_interrupt_handler(IRQ1, &keyboard_handler);
+
+    asm volatile ("sti"); // Enable interrupts
+
+
     clearScreen(); // Clear screen before writing output.
 
     printString("Hello World"); // Write "Hello World" to the screen.
 
 
-    // Register keyboard handler
-    register_interrupt_handler(IRQ1, &keyboard_handler);
 
-    asm volatile ("sti"); // enable interrupts
 
 
 

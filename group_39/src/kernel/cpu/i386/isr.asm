@@ -111,6 +111,7 @@ irq0:
     push byte 0 ; Dummy error codev
     push byte 32 ; Push interrupt number
     jmp irq_common 
+
 irq1:
     push byte 0 ; Dummy error code
     push byte 33 ; Push interrupt number
