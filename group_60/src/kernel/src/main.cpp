@@ -19,4 +19,6 @@ void kernel_main()
     init_idt();
     printf("IDT Loaded")
 
+    asm(”int 0x01”);
+
 }

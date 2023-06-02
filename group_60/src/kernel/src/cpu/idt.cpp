@@ -1,4 +1,5 @@
 #include <descriptor_tables.h>
+#include <interrupts.h>
 
 // Getting the idt_flush function from assembly
 extern "C" {
@@ -50,4 +51,6 @@ void init_interrupts() {
     outb(0xA1, 0x01);
     outb(0x21, 0x0);
     outb(0xA1, 0x0);
+
+    /* set ISR and IRQ bellow here */
 }
