@@ -24,5 +24,6 @@ void isr_handler(registers regs) {
     }
     else {
         printf("unhandled interrupt: %d", int_no);
+        for(;;);
     }
 }

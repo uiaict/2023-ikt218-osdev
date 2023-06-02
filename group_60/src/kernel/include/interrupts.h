@@ -4,9 +4,6 @@
 #include <descriptor_tables.h>
 #include <stdint.h>
 
-void init_interrupts();
-void register_interrupt_handler(uint8_t vector, isr_t handler, void* context);
-
 #define ISR1 1
 #define ISR2 2
 #define ISR3 3
@@ -88,6 +85,9 @@ typedef struct registers {
 // For IRQs, to ease confusion, use the #defines above as the
 // first parameter.
 typedef void (*isr_t)(registers*, void*);
+
+void init_interrupts();
+void register_interrupt_handler(uint8_t vector, isr_t handler, void* context);
 
 struct int_handler {
   int num;

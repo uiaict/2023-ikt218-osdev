@@ -20,12 +20,13 @@ void kernel_main()
 
     printf("Loading IDT\n");
     init_idt();
-    printf("IDT Loaded\n")
+    printf("IDT Loaded\n");
 
-    register_interrupt_handler(3,[](registers_t* regs, void* context){
+
+    register_interrupt_handler(3, +[](registers* regs, void* context) {
         printf("Interrupt 3 - OK\n");
     }, NULL);
 
-    asm volatile ("int $0x3");
+    //asm volatile ("int $0x3");
 
 }

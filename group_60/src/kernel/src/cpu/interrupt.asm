@@ -4,7 +4,7 @@
 %macro ISR_NOERRCODE 1
     global isr%1
     isr%1:
-        cli                         ; Disable interrupts firstly.
+        ;cli                         ; Disable interrupts firstly.
         push byte 0                 ; Push a dummy error code.
         push  %1                    ; Push the interrupt number.
         jmp isr_common_stub         ; Go to our common handler code.
@@ -15,7 +15,7 @@
 %macro ISR_ERRCODE 1
     global isr%1
     isr%1:
-        cli                         ; Disable interrupts.
+        ;cli                         ; Disable interrupts.
         push %1                     ; Push the interrupt number
         jmp isr_common_stub
 %endmacro
