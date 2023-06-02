@@ -1,10 +1,13 @@
 #include "idt.h"
 #include <string.h>
 
+
+
 void init_idt() asm ("init_idt");
 extern "C" {
-  extern void idt_load(uint32_t);
-  void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
+    #include "print.h"
+    extern void idt_load(uint32_t);
+    void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 }
 
 
@@ -34,6 +37,28 @@ void *_memset(void *s, int c,  unsigned int len)
     return s;
 }
 
+void isr32_handler(){
+    //ISR 32 does something
+    print_str("ISR 32 interupting \n");
+}
+
+void isr33_handler(){
+    //ISR 33 does something
+    print_str("ISR 33 interupting \n");    
+}
+
+void isr34_handler(){
+    //ISR 34 does something
+    print_str("ISR 34 interupting \n");    
+}
+	
+//Isrs. First 31 defined by intel
+void init_interrupts(){
+    idt_set_gate(32, (uint32_t)isr32_handler, 0x08, 0x8E);
+    idt_set_gate(33, (uint32_t)isr33_handler, 0x08, 0x8E);
+    idt_set_gate(34, (uint32_t)isr34_handler, 0x08, 0x8E);
+}
+
 /* Installs the IDT */
 void init_idt()
 {
@@ -42,10 +67,10 @@ void init_idt()
     idtp.base = (uint32_t)&idt;
 
     /* Clear out the entire IDT, initializing it to zeros */
-    // TODO: Implement memset
     _memset(&idt, 0, sizeof(struct idt_entry) * 256);
 
     //init_interupts here
+    init_interrupts();
 
     /* Points the processor's internal register to the new IDT */
     idt_load((uint32_t)&idtp);
