@@ -20,10 +20,10 @@ void isr_handler(registers regs) {
     if (intrpt.handler != 0) {
 
         intrpt.handler(&regs, intrpt.data);
-        printf("Received interrupt: %d", int_no);
+        printf("Received interrupt:");
     }
     else {
-        printf("unhandled interrupt: %d", int_no);
+        printf("unhandled interrupt:");
         for(;;);
     }
 }
