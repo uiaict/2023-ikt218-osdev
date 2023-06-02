@@ -33,7 +33,7 @@ void init_idt()
   // Initialize everything related to interrupts
   init_interrupts();
   init_irq();
-  init_irq_handlers();
+  init_keyboard_handler();
 
   // Load the IDT
   idt_flush((uint32_t)&idt_ptr);

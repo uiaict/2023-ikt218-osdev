@@ -47,7 +47,7 @@ void irq_handler(registers_t regs)
     }
 }
 
-void init_irq_handlers()
+void init_keyboard_handler()
 {
      // Enable interrupts
     asm volatile("sti");

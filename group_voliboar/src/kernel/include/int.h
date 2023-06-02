@@ -140,7 +140,7 @@ void init_interrupt_handlers();
 // irq.cpp
 void init_irq();
 void register_irq_handler(int irq, isr_t handler, void* ctx);
-void init_irq_handlers();
+void init_keyboard_handler();
 
 // Felt cute, might delete later
 #endif // INT_H
