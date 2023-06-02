@@ -51,31 +51,24 @@ void irq_handler(registers_t regs)
 
 void init_keyboard_handler()
 {
-     // Enable interrupts
-    asm volatile("sti");
+    // https://github.com/perara-lectures/ikt218-osdev/blob/master/group_per-arne/src/kernel/src/main.cpp
 
+    asm volatile("sti");
 
     // Create an IRQ handler for IRQ1
     register_irq_handler(IRQ1, [](registers_t*, void*){
-
-
         //Read the scancode from the keyboard controller
         uint8_t scancode = inb(0x60);
 
-
-        // If the scancode is valid, convert it to an ASCII character
-        if (scancode < sizeof(ascii_letter))
+        // If the scancode is within the ASCII table, convert it to corresponding ASCII character
+        if (scancode < sizeof(asciiTable))
         {
-
-            char c = ascii_letter[scancode];
+            char c = asciiTable[scancode];
             screenPutchar(c);
-
         }
 
-
-        // Disable interrupts
+        // Disable interrupts temporarily
         asm volatile ("cli");
-
     }, NULL);
 
 }

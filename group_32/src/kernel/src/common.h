@@ -10,7 +10,7 @@ uint8_t inb(uint16_t port);
 uint16_t inw(uint16_t port);
 
 // ASCII table
-const char ascii_letter[] =
+const char asciiTable[] =
 {
     0, 27, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b',
     '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n',
