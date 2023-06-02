@@ -1,8 +1,9 @@
-#include <hardware_port.h>
-#include <system.h>
 #include <cpu/isr.h>
+#include <system.h>
+#include <hardware_port.h>
 #include <screen.h>
 #include <cpu/input.h>
+
 
 // Set up handlers
 interrupt_t interrupt_handlers[256];
@@ -19,7 +20,7 @@ extern "C"{
 // Initialize ISR
 void init_isr(){
     // Nullify all the interrupt handlers.
-    memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
+    //memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
     print("ISR's initialized.\n");
 }
 
@@ -32,19 +33,20 @@ void register_interrupt_handler(uint8_t n, isr_t handler, void* context) {
 void register_all_interrupt_handlers() {
     register_interrupt_handler(2,[](registers_t* regs, void* context)
     {
-        print("Hello! It's me, Mr.Interrupt 2");
+        print("Hello! It's me, Mr.Interrupt 2\n");
     }, NULL);
     register_interrupt_handler(3,[](registers_t* regs, void* context)
     {
-        print("Hello! It's me, Mr.Interrupt 3");
+        print("Hello! It's me, Mr.Interrupt 3\n");
     }, NULL);
+    register_interrupt_handler(14, page_fault_handler, NULL);
 }
 
 void isr_handler(registers_t reg) {
     uint8_t int_no = reg.int_no & 0xFF;
     interrupt_t interrupt = interrupt_handlers[int_no];
 
-    print("Recieved Interrupt! ");
+    print("Recieved Interrupt!\n");
 
     if (interrupt.handler != NULL)
     {
@@ -75,10 +77,7 @@ void register_all_irq_handlers() {
     // Enable
     asm volatile("sti");
 
-    register_irq_handler(IRQ0, [](registers_t*, void*){
-        
-    }, NULL);
-
+    
     register_irq_handler(IRQ1, [](registers_t*, void*){
         // Read from keyboard
         unsigned char scan_code = inb(0x60);
@@ -91,6 +90,8 @@ void register_all_irq_handlers() {
         // Disable
         asm volatile("cli");
     }, NULL);
+
+    
 }
 
 void irq_handler(registers_t reg)
@@ -111,4 +112,30 @@ void irq_handler(registers_t reg)
     {
         //print("Error! No registered IRQ handler");
     }
+}
+
+// The handler for the page fault.
+void page_fault_handler(registers_t* regs, void* context)
+{
+    uint32_t faulting_address;
+    __asm__ __volatile__("mov %%cr2, %0" : "=r" (faulting_address));
+
+    int32_t present = !(regs->err_code & 0x1);
+    int32_t rw = regs->err_code & 0x2;
+    int32_t us = regs->err_code & 0x4;
+    int32_t reserved = regs->err_code & 0x8;
+    int32_t id = regs->err_code & 0x10;
+
+
+    printf("Page fault! (");
+    if (present)
+        printf("present");
+    if (rw)
+        printf("read-only");
+    if (us)
+        printf("user-mode");
+    if (reserved)
+        printf("reserved");
+    printf(")\n\n");
+    panic("Page fault");
 }
