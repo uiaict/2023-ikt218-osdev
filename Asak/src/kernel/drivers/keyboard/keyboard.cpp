@@ -2,7 +2,6 @@
 #include <util.h>
 #include <ports.h>
 
-/*
 void keyboard_callback(registers_t regs) {
     // The PIC leaves us the scancode in port 0x60
     uint8_t scancode = port_byte_in(0x60);
@@ -19,4 +18,3 @@ void keyboard_callback(registers_t regs) {
 void init_keyboard() {
    register_interrupt_handler(IRQ1, keyboard_callback); 
 }
-*/

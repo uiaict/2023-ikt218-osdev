@@ -21,7 +21,6 @@ static bool print(const char* data, size_t length) {
 	return true;
 }
 
-
 void print_at(char *message, int col, int row) {
 /* Set cursor if col/row are negative */
     int offset;
@@ -43,10 +42,29 @@ void print_at(char *message, int col, int row) {
     }
 }
 
+void backspace()
+{
+    int offset;
+    offset = get_cursor_offset();
+    int row = get_offset_row(offset-2);
+    int col = get_offset_col(offset-2);
+
+    if(row == 0){
+        row = MAX_ROWS;
+        col -= col;
+    }
+
+    char* message = " ";
+    print_char(message[0], col, row, WAKE_UP_NEO);
+
+    offset -= 2;
+    set_cursor_offset(offset);
+}
+
 /* Print a char on the screen at col , row , or at cursor position */
 int print_char(char character, int col, int row, char attribute_byte)
 {
-     unsigned char *vidmem = (unsigned char*) VIDEO_ADDRESS;
+    unsigned char *vidmem = (unsigned char*) VIDEO_ADDRESS;
     if (!attribute_byte) {
         attribute_byte = WAKE_UP_NEO;
     } 
