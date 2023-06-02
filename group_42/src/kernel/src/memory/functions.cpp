@@ -40,7 +40,7 @@ void init_paging() // function that inizelize paging
 
     page_directory = (uint32_t*)0x400000;    // page directory starts at 4 MB  
     page_dir_loc = (uint32_t)page_directory;  // sets the physical adress of page directory
-    last_page = (uint32_t *)0x404000;        // last page starts at 4 MB + 4MB
+    last_page = (uint32_t *)0x404000;        // last page starts at 4 MB + 4KB
     for(int i = 0; i < 1024; i++)            // loop through all pages
     {
         page_directory[i] = 0 | 2;           // set the page directory entry to no page
