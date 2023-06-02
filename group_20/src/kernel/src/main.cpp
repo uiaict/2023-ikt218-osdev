@@ -62,6 +62,8 @@ void kernel_main()
         if (scan_code > 0) {
             screenWriteCharacter(character);
         }
+        // Disable interrupts temporarily
+        asm volatile("cli");
     }, NULL);
 
     
