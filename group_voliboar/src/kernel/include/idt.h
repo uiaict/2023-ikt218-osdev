@@ -26,7 +26,7 @@ void init_idt();
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 void idt_load();
 
-#endif
+#endif // IDT_H
 
 // SOURCE:
 // https://github.com/perara-lectures/ikt218-osdev/blob/c7a80911314076041d4b5c8ec215d0acc963aa0e/group_per-arne/src/kernel/include/descriptor_tables.h

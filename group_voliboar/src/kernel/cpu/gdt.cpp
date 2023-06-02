@@ -1,6 +1,7 @@
 #include "gdt.h"
 
-extern "C" {
+extern "C"
+{
     // Lets us access our ASM functions from our C code.
     extern void gdt_flush(uint32_t);
 }

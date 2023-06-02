@@ -143,7 +143,7 @@ void register_irq_handler(int irq, isr_t handler, void* ctx);
 void init_irq_handlers();
 
 // Felt cute, might delete later
-#endif
+#endif // INT_H
 
 // SOURCE:
 // https://github.com/perara-lectures/ikt218-osdev/blob/c7a80911314076041d4b5c8ec215d0acc963aa0e/group_per-arne/src/kernel/include/interrupts.h

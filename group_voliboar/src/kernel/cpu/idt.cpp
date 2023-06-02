@@ -30,7 +30,7 @@ void init_idt()
     int_handlers[i].handler = NULL;
   }
 
-  // Initialize the different things
+  // Initialize everything related to interrupts
   init_interrupts();
   init_irq();
   init_irq_handlers();

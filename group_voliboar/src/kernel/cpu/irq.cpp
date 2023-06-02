@@ -59,13 +59,14 @@ void init_irq_handlers()
         uint8_t scancode = inb(0x60);
 
         // If the scancode is valid, convert it to an ASCII character
-        if (scancode < sizeof(scancode_to_ascii)) {
+        if (scancode < sizeof(scancode_to_ascii))
+        {
             char c = scancode_to_ascii[scancode];
             terminal_putchar(c);
-
+        }
+        
         // Disable interrupts
         asm volatile ("cli");
-    }
     }, NULL);
 }
 
