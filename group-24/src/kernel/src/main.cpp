@@ -5,6 +5,7 @@
 #include "idt.h"
 #include "isr.h"
 #include "common.h"
+#include "keyboard.h"
 
 extern uint32_t end;
 
@@ -15,7 +16,6 @@ extern "C"{
 }
 
 
-
 void kernel_main()
 {
     //init_gdt();
@@ -23,4 +23,12 @@ void kernel_main()
     init_irq();
     clear_screen();
     print("hello world!");
+    
+    asm volatile("sti");
+
+	//Initialize the keyboard.
+	init_keyboard();
+    while(1){};
+
+ 
 }

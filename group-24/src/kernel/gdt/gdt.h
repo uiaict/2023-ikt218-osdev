@@ -22,7 +22,8 @@ struct gdt_ptr {
 } __attribute__((packed));
 
 void init_gdt();    // Function to initialize the GDT
-void gdt_load();   // Function to load the GDT
+//void gdt_flush();   // Function to load the GDT
+
 
 void gdt_set_gate(int32_t num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran);
 

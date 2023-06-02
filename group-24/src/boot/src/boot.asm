@@ -39,13 +39,13 @@ stack_top:
 
 
 section .text
-global _start:
-extern kernel_main
-extern init_gdt
+	global _start
+
 
 global _start:function (_start.end - _start)
 _start:
-	;call init_gdt
+	; extern init_gdt
+	; call init_gdt
 
     ;extern init_multiboot
 	;push ebx ; multiboot_info struct
@@ -54,6 +54,7 @@ _start:
 
 	mov esp, stack_top
 
+	extern kernel_main
 	call kernel_main  ; call our kernel_main() function.
 	cli
 .hang:	hlt

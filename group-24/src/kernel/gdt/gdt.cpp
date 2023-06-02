@@ -1,7 +1,8 @@
 #include "gdt.h"
 
-extern "C" {
-    extern void gdt_flush(uint32_t gdt_ptr);
+extern "C"
+{
+    extern void gdt_flush(uint32_t); // Refers to a function in assembly that loads the GDT register.
 }
 
 // Set the values of a GDT entry

@@ -3,7 +3,7 @@
 #include "common.h"
 
 extern "C"{
-    void irq_handler(registers_t regs) asm("irq_handler");
+    void irq_handler(registers_t regs);
 }
 
 

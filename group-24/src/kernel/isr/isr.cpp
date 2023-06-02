@@ -1,16 +1,26 @@
 #include "isr.h"
 #include <stdint.h>
 #include <stddef.h>
+#include "screen.h"
 
 extern "C"{
-    void isr_handler(registers_t regs) asm("isr_handler");
+    void isr_handler(registers_t regs);
+    void irq_handler(registers_t regs);
 }
+const char* exception_messages[] = {
+    "Division by zero exception",
+    "Debug exception",
+    "Non maskable interrupt",
+    "Breakpoint exception",
+    "Into detected overflow",
+    "Out of bounds exception",
+    "Invalid opcode exception",
+    "No coprocessor exception"
+};
 
-
-void register_interrupt_handler(uint8_t n, isr_t handler, void* context)
+void register_interrupt_handler(uint8_t n, isr_t handler)
 {
     int_handlers[n].handler = handler;
-    int_handlers[n].data = context;
 }
 
 // This gets called from our ASM interrupt handler stub.
@@ -28,9 +38,7 @@ void isr_handler(registers_t regs)
     }
     else
     {
-        /*monitor_write("unhandled interrupt: ");
-        monitor_write_hex(int_no);
-        monitor_put('\n');*/
+        print("Recieved interrupt %d: %s\n", regs.int_no, exception_messages[regs.int_no]);
         for(;;);
     }
 }

@@ -109,6 +109,7 @@ set(CMAKE_ASM_NASM_COMPILE_OBJECT "<CMAKE_ASM_NASM_COMPILER> <DEFINES> <INCLUDES
 set(OS_MODULE_STDLIB_NAME ${OS_KERNEL_NAME}-module-stdlib)
 set(OS_MODULE_STDLIB_SOURCES
         src/stdlib/src/system.c
+        src/stdlib/src/string.c
 )
 add_library(${OS_MODULE_STDLIB_NAME} ${OS_MODULE_STDLIB_SOURCES})
 target_include_directories(${OS_MODULE_STDLIB_NAME} 
@@ -176,6 +177,8 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/gdt/gdt.h
         src/kernel/include/screen.cpp
         src/kernel/include/screen.h
+        src/kernel/include/keyboard.cpp
+        src/kernel/include/keyboard.h
         src/kernel/idt/idt.cpp
         src/kernel/idt/idt.asm
         src/kernel/idt/idt.h

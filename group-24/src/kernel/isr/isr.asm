@@ -81,6 +81,8 @@ irq  13,    45
 irq  14,    46
 irq  15,    47
 
+extern isr_handler
+
 isr_common_stub:
     pusha
 
@@ -94,7 +96,8 @@ isr_common_stub:
     mov fs, ax
     mov gs, ax
 
-    ; call irs handler
+    call isr_handler
+
 
     pop ebx
     mov ds, bx
