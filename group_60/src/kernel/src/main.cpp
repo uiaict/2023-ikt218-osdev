@@ -10,5 +10,15 @@ extern "C"{
 void kernel_main()
 {
     printf("Hello World!");
+    
+    printf("Loading GDT")
     init_gdt();
+    printf("GDT Loaded")
+
+    printf("Loading IDT")
+    init_idt();
+    printf("IDT Loaded")
+
+    asm(”int 0x01”);
+
 }

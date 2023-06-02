@@ -182,6 +182,7 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/src/*.cpp
         src/kernel/src/*.c
         src/kernel/src/cpu/descriptor_table.asm
+        src/kernel/src/cpu/interrupt.asm
 )
 # Set the output binary names
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
