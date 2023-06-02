@@ -2,6 +2,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include "gdt.h"
+#include "idt.h"
  
 /* This tutorial will only work for the 32-bit ix86 targets. */
 #if !defined(__i386__)
@@ -115,10 +116,10 @@ void kernel_main(void)
 	/* Initialize terminal interface */
 	terminal_clear();
 
-	printf("Initializing GDT..\n");
+	printf("Initializing GDT..")
 	GDT::init();
 	printf("GDT initialized!\n");
  
-	/* Newline support is left as an exercise. */
-	printf("OS started");
+	printf("OS started")
+	printf("Hello World!");
 }
