@@ -14,6 +14,7 @@ extern "C"{
 void kernel_main()
 {
     init_gdt();
+    init_idt();
     print_clear();
     print_str("Welcome to group 22 osdev");
     print_str("\n");

@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdio.h>
 #include <gdt.h>
+#include <idt.h>
 
 
 
@@ -117,5 +118,8 @@
     int rand();
     int ungetc(int c, FILE *stream);
     void init_gdt();
-    //void gdt_set_entry();
+    void gdt_set_entry();
+    void init_idt();
+    void idt_set_entry();
+
 
