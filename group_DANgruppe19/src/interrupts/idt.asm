@@ -28,6 +28,7 @@ idt_set_gate:
     popa
     ret
     
+    
 idt_install:
     ; Load the IDT using the lidt instruction
     lidt [idt_ptr]
