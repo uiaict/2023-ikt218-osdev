@@ -26,5 +26,5 @@
 // For IRQs, to ease confusion, use the #defines above as the
 // first parameter.
 typedef void (*isr_t)(registers);
-void register_interrupt_handler(int n, isr_t handler); 
+void register_interrupt_handler(int n, isr_t handler);
 void irq_handler(registers regs);

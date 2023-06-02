@@ -15,30 +15,9 @@ void keyboard_handler(registers regs);
 
 
 
-
-
 void isr_handler(registers regs)
 {
     uint8_t interrupt_number = regs.interrupt_number & 0xFF;
-    switch (interrupt_number)
-    {
-        case 0:
-            isr0_handler();
-            break;
-        case 1:
-            isr1_handler();
-            break;
-        case 7:
-            isr7_handler();
-            break;
-        case 33:
-            keyboard_handler(regs);
-            break;
-        default:
-            clearScreen();
-            printString("Unknown interrupt has occured!");
-            break;
-    }
 }
 
 void default_isr()
@@ -70,6 +49,7 @@ void isr7_handler()
 
 void keyboard_handler(registers regs)
 {
+    int scancode = inb(0x60);
     int a = 5;
     int b = 10;
 }

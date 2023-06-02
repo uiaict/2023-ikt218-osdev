@@ -19,10 +19,11 @@ void kernel_main()
 
     // Register keyboard handler
     register_interrupt_handler(IRQ1, &keyboard_handler);
+
     asm volatile ("sti"); // enable interrupts
 
 
 
-    while(1); // Loop
+    while(1){}; // Loop
 }
 

@@ -29,6 +29,4 @@ struct idt_ptr
 
 
 
-
-
 #endif
