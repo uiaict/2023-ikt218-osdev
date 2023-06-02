@@ -1,7 +1,6 @@
  %macro ISR_NOERRCODE 1  ; define a macro, taking one parameter
   [GLOBAL isr%1]        ; %1 accesses the first parameter.
   isr%1:
-    ;cli
     push byte 0
     push byte %1
     jmp isr_common_stub
@@ -10,7 +9,6 @@
 %macro ISR_ERRCODE 1
   [GLOBAL isr%1]
   isr%1:
-    ;cli
     push byte %1
     jmp isr_common_stub
 %endmacro 
@@ -83,7 +81,6 @@ isr_common_stub:
 %macro IRQ 2
   global irq%1
   irq%1:
-    ;cli
     push byte 0
     push byte %2
     jmp irq_common_stub
