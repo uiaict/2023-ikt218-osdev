@@ -8,15 +8,16 @@
     isr%1:
         push byte 0                 ; Push a dummy error code.
         push  %1                    ; Push the interrupt number.
-        jmp isr_common_stub         ; Go to our common handler code.
+        jmp isr_common_stub         ; Go to the common handler code.
 %endmacro
 
 ; This macro creates a stub for an ISR which passes its own error code.
 %macro ISR_ERRCODE 1
     global isr%1
     isr%1:
+        cli
         push %1                     ; Push the interrupt number.
-        jmp isr_common_stub         ; Go to our common handler code.
+        jmp isr_common_stub         ; Go to the common handler code.
 %endmacro
 
 ; This macro creates a stub for an IRQ - the first parameter is
@@ -26,7 +27,7 @@
     irq%1:
         push byte 0                 ; Push a dummy error code.
         push byte %2                ; Push the ISR number.
-        jmp irq_common_stub         ; Go to our common handler code.
+        jmp irq_common_stub         ; Go to the common handler code.
 %endmacro
 
 ; Define the ISR and IRQ handlers for each interrupt.
@@ -84,12 +85,12 @@ IRQ  15,    47
 ; In isr.c
 [EXTERN isr_handler]
 
-; This is our common ISR stub. It saves the processor state, sets up for kernel mode segments, 
+; This is the common ISR stub. It saves the processor state, sets up for kernel mode segments, 
 ;calls the C-level fault handler, and finally restores the stack frame.
 isr_common_stub:
         pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax to the stack
 
-        mov ax, ds               ; Lower 16-bits of eax = ds.
+        mov ax, ds               ; Lower 16-bits of ax = ds.
         push eax                 ; save the data segment descriptor
 
         mov ax, 0x10             ; load the kernel data segment descriptor
@@ -114,12 +115,12 @@ isr_common_stub:
 ; In isr.c
 [EXTERN irq_handler]
 
-; This is our common IRQ stub. It saves the processor state, sets up for kernel mode segments, 
+; This is the common IRQ stub. It saves the processor state, sets up for kernel mode segments, 
 ;calls the C-level fault handler, and finally restores the stack frame.
 irq_common_stub:
         pusha                    ; Pushes edi,esi,ebp,esp,ebx,edx,ecx,eax to the stack
 
-        mov ax, ds               ; Lower 16-bits of eax = ds.
+        mov ax, ds               ; Lower 16-bits of ax = ds.
         push eax                 ; save the data segment descriptor
 
         mov ax, 0x10             ; load the kernel data segment descriptor

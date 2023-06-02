@@ -29,7 +29,7 @@ void init_idt()
 
     my_memset(&idt_entries, 0, sizeof(idt_entry_t)*256);    // Zero out the IDT
 
-    // Remap the irq table.
+    // Initialize the PIC
     // See http://wiki.osdev.org/8259_PIC#Initialisation
     outb(0x20, 0x11);   // Send ICW1 to master PIC
     outb(0xA0, 0x11);   // Send ICW1 to slave PIC
@@ -105,5 +105,5 @@ static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
     idt_entries[num].sel     = sel;                     // Kernel segment selector
     idt_entries[num].always0 = 0;                       // Reserved field is always 0
 
-    idt_entries[num].flags   = flags /* | 0x60 */;      // Set flags
+    idt_entries[num].flags   = flags;                   // Set flags
 } 

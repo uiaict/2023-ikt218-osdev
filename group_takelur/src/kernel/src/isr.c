@@ -55,7 +55,7 @@ void init_interrupt_handlers()
 void isr_handler(registers_t regs)
 {
     // Check if we have a handler to run for this interrupt
-    if (interrupt_handlers[regs.int_no] && regs.int_no < 32) 
+    if (interrupt_handlers[regs.int_no]) 
     {
         printf("Interrupt %d: ", regs.int_no);
         isr_t handler = interrupt_handlers[regs.int_no];
@@ -64,8 +64,5 @@ void isr_handler(registers_t regs)
     else // If not, print out a message stating that we have an unhandled interrupt
     {
         printf("Unhandled Interrupt: %d\n", regs.int_no);
-    }
-
-    // Loop forever to prevent the CPU from executing bad code
-    //for(;;); 
+    } 
 }

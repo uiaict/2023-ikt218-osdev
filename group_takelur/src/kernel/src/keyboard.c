@@ -120,7 +120,7 @@ char keyboard_read()
 
     char c = keyboard_buffer[keyboard_buffer_tail];  // Get the next character from buffer
 
-    keyboard_buffer_tail = (keyboard_buffer_tail + 1) % KB_BUFFER_SIZE;  // Increment the buffer tial pointer, wrap around if needed
+    keyboard_buffer_tail = (keyboard_buffer_tail + 1) % KB_BUFFER_SIZE;  // Increment the buffer tail pointer, wrap around if needed
 
     return c;
 }

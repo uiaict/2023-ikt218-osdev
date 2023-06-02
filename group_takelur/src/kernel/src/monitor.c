@@ -143,7 +143,7 @@ void clear_monitor() {
     u16int blank = 0x20 | (attribute_byte << 8);             // 0x20 is the space character
 
     int i;
-    for (i = 0; i < MONITOR_WIDTH * MONITOR_HEIGHT; i++)     // Loop thorough the whole video memory on screen
+    for (i = 0; i < MONITOR_WIDTH * MONITOR_HEIGHT; i++)     // Loop through the whole video memory on screen
     {
         video_memory[i] = blank;
     }

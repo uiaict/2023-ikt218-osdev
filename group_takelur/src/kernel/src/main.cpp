@@ -107,6 +107,7 @@ void kernel_main()
     was triggered, and do not handle the fault. These tests therefore only triggers the ISR, and do not create an actual exception.
     */
     /*
+    clear_monitor();
     printf("Triggering divide by zero exception...\n");
     test_divide_by_zero();
     printf("Triggering debug exception...\n"); 
@@ -116,9 +117,10 @@ void kernel_main()
     printf("Triggering invalid opcode exception...\n");
     trigger_invalid_opcode_exception();
     printf("Triggering unhandled interrupt exception...\n");
-    trigger_unhandled_interrupt(); // Trigger interrupt 27, which only has the default handler I created and is not set explicitly
+    trigger_unhandled_interrupt(); 
     sleep_interrupt(6000);
     */
+
 
 
     /* MONITOR WRITING TESTS (assignment 2) */

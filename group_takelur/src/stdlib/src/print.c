@@ -61,7 +61,7 @@ void itoa(int value, char *str, int base)
 
     str[i] = '\0'; // End the string
 
-    // Reverse the string since we've formed the number from least to most significant digit
+    // Reverse the string since I've formed the number from least to most significant digit
     reverse(str, i);
 }
 
@@ -83,6 +83,14 @@ void print_str(char* str) {
 void print_char(char c) {
     // Use monitor_put() to print a single character.
     monitor_put(c, 0, 15); // bg_color = 0 (black), fg_color = 15 (white)
+}
+
+// Function to print a hexadecimal integer
+void print_hex(int num) {
+    char buffer[50];        // Ensure the buffer is large enough.
+    itoa(num, buffer, 16);  // Convert integer to string.
+    print_str("0x");
+    print_str(buffer);      // Print hex number
 }
 
 void printf(char *str, ...)
@@ -116,10 +124,7 @@ void printf(char *str, ...)
                     break;
                 case 'x': // Format for hexadecimal integer
                     int num = va_arg(args, int);
-                    char buffer[50];        // Ensure the buffer is large enough.
-                    itoa(num, buffer, 16);  // Convert integer to string.
-                    print_str("0x");
-                    print_str(buffer);      // Print hex number
+                    print_hex(num);
                     break;
                 default:
                     // Print both the '%' and the following character
