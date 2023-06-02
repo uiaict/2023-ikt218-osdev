@@ -57,19 +57,29 @@ typedef struct registers {
 
 typedef void (*isr_t)(registers_t*, void*);
 
-struct int_handler_t {
+typedef struct int_handler_t {
   int num;
   isr_t handler;
   void *data;
-};
-
-
-static int_handler_t irq_handlers[16];
-void register_all_interrupt_handlers();
-void register_all_irq_handlers();
-
-// Define handlers
+} int_handler_t;
 typedef struct interrupt_handlers_type{
     isr_t handler;
     void* context;
 } interrupt_t;
+static int_handler_t irq_handlers[16];
+
+void page_fault_handler(registers_t* regs, void* context);
+
+void register_all_interrupt_handlers();
+void register_all_irq_handlers();
+
+
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+void register_irq_handler(int irq, isr_t handler, void* ctx);
+#ifdef __cplusplus
+}
+#endif

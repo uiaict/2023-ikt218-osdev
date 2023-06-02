@@ -8,6 +8,7 @@ extern uint32_t end;
 extern "C"{
     void kernel_main();
     #include "kernel/memory.h"
+    #include "kernel/pit.h"
 }
 // Overload the new operator for single object allocation
 void* operator new(size_t size) {
@@ -30,11 +31,8 @@ void operator delete[](void* ptr) noexcept {
 
 void kernel_main()
 {
-    //Clearing the screen and printing welcome message in GDT
-    print("print() implemented!\n");
     // Initialize memory
     memory_init(&end);
-
     // Initialize paging
     init_paging();
 
@@ -43,18 +41,31 @@ void kernel_main()
     register_all_irq_handlers();
   
     // Test the interrupts 
-    //print("\nTriggering Interrupt 2: ");
-    //__asm("int $0x2");
-    //print("\nTriggering Interrupt 3: ");
-    //__asm("int $0x3");
+    __asm("int $0x2");
+    __asm("int $0x3");
    
-    void* some_memory = malloc(12345); 
-    void* memory2 = malloc(54321); 
-    void* memory3 = malloc(13331);
-    char* memory4 = new char[1000]();
+   
+
+    //void* some_memory = malloc(12345); 
+    //void* memory2 = malloc(54321); 
+    //void* memory3 = malloc(13331);
+    //char* memory4 = new char[1000]();
 
     memory_print();
 
+    init_pit();
+
+    int counter;
+
+
     print("\n\nWaiting for interrupts... *Cricket Noises*\n");
-    while(1){};
+    while(1) {
+        printf("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(1000);
+        printf("[%d]: Slept using busy-waiting.\n", counter++);
+
+        printf("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(1000);
+        printf("[%d]: Slept using interrupts.\n", counter++);
+    }
 }

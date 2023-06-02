@@ -3,7 +3,9 @@
     "cmake.sourceDirectory": "${workspaceFolder}/Asak",
     "C_Cpp.errorSquiggles": "disabled",
     "files.associations": {
-        "descriptor.h": "c"
+        "descriptor.h": "c",
+        "stdbool.h": "c",
+        "stdint.h": "c"
     }
 
 }

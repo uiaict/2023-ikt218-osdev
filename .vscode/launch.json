@@ -36,10 +36,6 @@
                     "text": "file ${config:cmake.buildDirectory}/kernel.bin",
                     "description": "Load binary."
                 },
-                {
-                    "text": "break isr_handler",
-                    "description": "Break on exception handler."
-                }
             ],
             "preLaunchTask": "Launch QEMU"
         },
@@ -76,10 +72,6 @@
                 {
                     "text": "file ${config:cmake.buildDirectory}/kernel.bin",
                     "description": "Load binary."
-                },
-                {
-                    "text": "break isr_handler",
-                    "description": "Break on exception handler."
                 }
             ],
             "preLaunchTask": "Launch Bochs"
