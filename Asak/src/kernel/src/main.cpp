@@ -56,10 +56,10 @@ void kernel_main()
    
    
 
-    //void* some_memory = malloc(12345); 
-    //void* memory2 = malloc(54321); 
-    //void* memory3 = malloc(13331);
-    //char* memory4 = new char[1000]();
+    void* some_memory = malloc(12345); 
+    void* memory2 = malloc(54321); 
+    void* memory3 = malloc(13331);
+    char* memory4 = new char[1000]();
 
     memory_print();
     init_pit();
