@@ -50,28 +50,38 @@ void operator delete[](void* ptr) noexcept {
 void kernel_main()
 {
     init_kernel_memory(&end);         // Initialize kernel memory
+    
 
     init_descriptor_tables(); 
+    init_paging();                    // Initialize paging
     monitor_clear();
     
     
     monitor_write("Hello, World!\n");
+    
 
    
     //asm volatile ("int $0x3");
     //asm volatile ("int $0x4");
     
     asm volatile("sti");            // Enable interrupts
-    //init_timer(50);
     
     init_keyboard();
+
+    timer_phase(100);               // 100hz
+    init_timer();
+    //sleeping_interrupts(10);         // Sleep for 5 seconds
+    //sleeping_busy(5);               // Sleep for 5 seconds
+   
+    
+    
     
 
-    init_paging();
-    print_memory_layout();
+    
+    //print_memory_layout();
     void* some_memory = malloc(12345);
     char* memory1 = new char[1000]();
-    monitor_write("memory layout after allocating");
+   // monitor_write("memory layout after allocating");
     monitor_put('\n');
 
     print_memory_layout();
