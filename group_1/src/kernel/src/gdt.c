@@ -11,15 +11,11 @@
 extern void gdt_flush(uint32_t);
 extern void idt_flush(uint32_t);
 
-
-// Internal function prototypes.
 static void init_gdt();
 static void init_idt();
 
-
 static void idt_set_gate(uint8_t,uint32_t,uint16_t,uint8_t);
 static void gdt_set_gate(int,uint32_t,uint32_t,uint8_t,uint8_t);
-
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
@@ -34,12 +30,13 @@ void init_descriptor_tables()
    init_gdt();
    init_idt();
 
-   // Enabling interrupts
+   // Enable interrupts
    asm volatile("sti");
+   
    // Register the keyboard interrupt handler
    register_interrupt_handler(33, keyboard_handler);
-
 }
+
 
 static void init_gdt()
 {
@@ -54,6 +51,7 @@ static void init_gdt()
 
    gdt_flush((uint32_t)&gdt_ptr);
 }
+
 
 static void init_idt()
 {

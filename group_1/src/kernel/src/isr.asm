@@ -89,7 +89,7 @@ IRQ   14,    46
 IRQ  15,    47
 
 ;isr_handler is defined in isr.cpp
-[EXTERN isr_handler]
+extern isr_handler
 
 ; This is our common ISR stub. It saves the processor state, sets
 ; up for kernel mode segments, calls the C-level fault handler,

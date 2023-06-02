@@ -39,13 +39,17 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
 
 [[noreturn]] void kernel_main()
 {
-    init_kernel_memory(&end);
+    // Initialize kernel memory manager with the end of the kernel image
+    init_kernel_memory(&end); // <------ THIS IS PART OF THE ASSIGNMENT
 
     clear_screen();
-    printk("Hello");
+    printk("Hello\n");
 
     // Initialize GDT and IDT
     init_descriptor_tables();
+
+    // Initialize Interrupt Service Routines
+    initialize_interrupt_handlers();
 
     // Initialize Paging
     init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
@@ -55,32 +59,29 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
     
     // Setup PIT
     init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
-    
+
     // Allocate some memory using kernel memory manager
 	// THIS IS PART OF THE ASSIGNMENT
-    
     void* some_memory = new_malloc(12345); 
     void* memory2 = new_malloc(54321); 
     void* memory3 = new_malloc(13331);
     char* memory4 = new char[1000]();
+    
+    // Test PIT
+    /*
+    int counter = 0;
+    while(true){
+        printk("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+        sleep_busy(1000);
+        printk("[%d]: Slept using busy-waiting.\n", counter++);
 
-    initialize_interrupt_handlers();
+        printk("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+        sleep_interrupt(1000);
+        printk("[%d]: Slept using interrupts.\n", counter++);
+    }
+    */
 
-    // Setup PIT
-    init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
-
-//    int counter = 0;
-//    while(true){
-//        printk("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
-//        sleep_busy(1000);
-//        printk("[%d]: Slept using busy-waiting.\n", counter++);
-//
-//        printk("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
-//        sleep_interrupt(1000);
-//        printk("[%d]: Slept using interrupts.\n", counter++);
-//    }
-//
-
+    // Test PIT with songs
     Song* songs[] = {
         new Song({music_1, sizeof(music_1) / sizeof(Note)}),
         new Song({music_2, sizeof(music_2) / sizeof(Note)})
@@ -107,5 +108,4 @@ free(ptr); // Call the C standard library function free() to deallocate the memo
             sleep_busy(2000);
 	    }
     }
-    while(true){}
 }

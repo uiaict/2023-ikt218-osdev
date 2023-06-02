@@ -11,20 +11,20 @@ extern "C"
 }
 
 void divide_by_zero_error(registers_t regs) {
-    printk("\nDivide by zero error!");
+    printk("\nDivide by zero error!\n");
 }
 
 void debug_exception(registers_t regs) {
-    printk("\nDebug exception!");
+    printk("\nDebug exception!\n");
 }
 
 void non_maskable_interrupt(registers_t regs) {
-    printk("\nNon maskable interrupt!");
+    printk("\nNon maskable interrupt!\n");
 }
 
 void default_ISR(registers_t regs)
 {
-    printk("\nNot Implemented, Interrupt number: ");
+    printk("\nInterrupt received: %d \n", regs.int_no);
 }
 
 isr_t interrupt_handlers[256];

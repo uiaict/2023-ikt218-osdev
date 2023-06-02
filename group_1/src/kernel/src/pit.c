@@ -51,13 +51,13 @@ void sleep_interrupt(uint32_t milliseconds) {
 }
 
 void sleep_busy(uint32_t milliseconds) {
-    uint32_t start_tick = get_current_tick();
-    uint32_t ticks_to_wait = milliseconds * TICKS_PER_MS;
-    uint32_t elapsed_ticks = 0;
+    uint32_t start_tick = get_current_tick(); 
+    uint32_t ticks_to_wait = milliseconds * TICKS_PER_MS; 
+    uint32_t elapsed_ticks = 0; 
 
     while (elapsed_ticks < ticks_to_wait) {
         while (get_current_tick() == start_tick + elapsed_ticks) {
-            // Busy wait, do nothing
+            // Busy waiting
         }
         elapsed_ticks++;
     }
