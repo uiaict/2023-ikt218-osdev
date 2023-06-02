@@ -44,6 +44,7 @@ static gdt_ptr gdt_p;
 
 /* Our IDT, with 256 entries, and finally our IDT pointer */
 void init_idt();
+void load_idt();
 /* We dont include:
 void idt_set_gate(uint8_t num, uint32_t base, uint16_t sel, uint8_t flags);
 because it is never used outside of "idt.cpp", if needed can be moved out of comment */

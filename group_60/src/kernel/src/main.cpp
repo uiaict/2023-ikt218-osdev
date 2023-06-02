@@ -17,6 +17,7 @@ void kernel_main()
 
     printf("Loading IDT")
     init_idt();
+    load_idt();
     printf("IDT Loaded")
 
     register_interrupt_handler(3,[](registers_t* regs, void* context){
