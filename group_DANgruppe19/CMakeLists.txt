@@ -179,6 +179,9 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/interrupts/idt.cpp #Added for interrupts
         src/interrupts/isr.cpp #Added for interrupts
         src/interrupts/irq/irq.cpp #Added for IRQ handling
+        src/kernel/include/memory/memory.cpp
+        src/kernel/include/paging/paging.cpp
+        src/kernel/include/pit/pit.cpp
 )
 
 
@@ -199,6 +202,9 @@ target_include_directories(
         src/stdlib/include
         src/interrupts #Added for interrupts
         src/interrupts/irq #Added for IRQ handling
+        src/kernel/include/memory
+        src/kernel/include/paging
+        src/kernel/include/pit
 )
 
 # Defines properties for the specific target. In our case, we have some custom linker flags and a custom output name

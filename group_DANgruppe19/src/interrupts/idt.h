@@ -15,6 +15,17 @@ static inline uint8_t inb(uint16_t port) {
 void idt_init();
 void remap_pic();
 void enable_interrupts();
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+void idt_set_gate(uint8_t num, uintptr_t base, uint16_t sel, uint8_t flags);
+
+#ifdef __cplusplus
+}
+#endif
+
+
 
 typedef struct {
     uint16_t base_low;     // The lower 16 bits of the address to jump to when this interrupt fires
