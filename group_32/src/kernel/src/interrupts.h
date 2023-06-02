@@ -4,8 +4,6 @@
 #include <stdint.h>
 #include "idt/idt.h"
 
-#define IRQ_COUNT 16
-
 #define ISR1 1
 #define ISR2 2
 #define ISR3 3
@@ -53,7 +51,9 @@
 #define IRQ13 45
 #define IRQ14 46
 #define IRQ15 47
+
 #define IRQ_COUNT 16
+
 extern "C"{
 
 extern void isr0 ();
