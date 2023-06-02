@@ -2,6 +2,7 @@
 #include "system.h"
 #include "../screen/screen.h"
 #include "../src/gdt/gdt.h"
+#include "../src/idt/idt.h"
 
 /*#include <cstdlib>*/
 /*extern uint32_t end; // This is defined in linker.ld*/
@@ -12,18 +13,23 @@ extern "C"{
  
 }
 
-void keyboard_isr(void);
+
 
 void kernel_main() {
     /* Initialize terminal interface */
-	screenInitialize();
+	
+    init_idt();
+    
+    screenInitialize();
 	screenWrite("Hello World! ");
 
-    void keyboard_isr(void);
+    
 
 
     // Initialize Global Descriptor Table (GDT)
     init_gdt();
-}
+
+    while (1);
+} 
 
 
