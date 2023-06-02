@@ -60,6 +60,12 @@ start_sleep_busy((uint32_t) 10000);
  int c = 2;
 
 os.print_memory_layout(); //Display functioning paging
-sleep_interrupt(10000); // Sleep with enabled interrupts to show that it works
+// Sleep with enabled interrupts to show that it works
  
+
+while (1)
+{
+   sleep_interrupt(10000); 
+}
+
 }
