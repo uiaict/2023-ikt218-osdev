@@ -4,32 +4,20 @@
 #include "../src/gdt/gdt.h"
 #include "../src/idt/idt.h"
 
-/*#include <cstdlib>*/
-/*extern uint32_t end; // This is defined in linker.ld*/
-
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
- 
 }
-
-
 
 void kernel_main() {
     /* Initialize terminal interface */
-	
-    init_idt();
-    
     screenInitialize();
-	screenWrite("Hello World! ");
 
-    
-
-
-    // Initialize Global Descriptor Table (GDT)
+    // Initialize Global Descriptor Table (GDT) and Interrupt Descriptor Table (IDT)
     init_gdt();
+    init_idt();
 
+	screenWrite("Hello World! ");
     while (1);
-} 
-
-
+    screenWrite("Done! ");
+}
