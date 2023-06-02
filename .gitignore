@@ -1,4 +1,3 @@
-.vscode
 build_*/*
 web/venv
 !build_*/kernel.bin
