@@ -7,6 +7,11 @@ extern "C" {
     extern void idt_flush(uint32_t idt_p);
 }
 
+void idt_load() {
+  // Load the IDT using the LIDT instruction
+  asm volatile("lidt %0" : : "m" (idt_p));
+}
+
 void init_idt() {
     // Set the IDT limit
     idt_p.limit = sizeof(idt_entry) * IDT_ENTRIES - 1;
