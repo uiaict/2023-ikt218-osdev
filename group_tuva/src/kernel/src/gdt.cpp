@@ -6,9 +6,9 @@
 #include <stdint.h>
 
 
-static void init_gdt() asm("init_gdt");
+static void init_gdt(); //asm("init_gdt");
 
-static void init_idt() asm ("init_idt");
+static void init_idt(); //asm ("init_idt");
 
 
 extern "C"{

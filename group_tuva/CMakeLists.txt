@@ -153,6 +153,24 @@ target_include_directories(${OS_MODULE_BOOT_NAME} PUBLIC
 target_link_libraries(${OS_MODULE_BOOT_NAME} PRIVATE ${OS_MODULE_KERNEL_NAME} ${OS_LIBRARIES})
 set(OS_LIBRARIES ${OS_LIBRARIES} ${OS_MODULE_BOOT_NAME})
 
+
+########################################
+###
+### OS Module: Applications
+# The operating system kernel
+# 1. Load all kernel applications here
+########################################
+# Define kernel headers target
+add_library(kernel-headers INTERFACE)
+target_include_directories(kernel-headers INTERFACE src/kernel/include)
+
+# Load the song application target
+add_subdirectory(src/apps)
+set(OS_APPLICATIONS ${OS_APPLICATIONS} UiAOS-song)
+
+
+
+
 ########################################
 ###
 ### OS Module: Kernel

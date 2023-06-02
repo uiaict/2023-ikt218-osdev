@@ -41,9 +41,9 @@ void sleep_interrupt(uint32_t milliseconds) {
     while (get_current_tick() - start_tick < ticks_to_wait) {
         asm volatile("sti\n\t"
                      "hlt\n\t"
-                : /* No output */
-                : /* No input */
-                : /* Clobbers */ "memory");
+                : 
+                : 
+                :  "memory");
     }
 
 }
@@ -53,6 +53,6 @@ void sleep_busy(uint32_t milliseconds) {
     uint32_t ticks_to_wait = milliseconds * TICKS_PER_MS;
 
     while (get_current_tick() - start_tick < ticks_to_wait) {
-        // Busy wait, do nothing
+        // Busy wait
     }
 }

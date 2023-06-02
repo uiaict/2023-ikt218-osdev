@@ -3,6 +3,7 @@
 #include "idt.h"
 #include "keyboard.h"
 #include "hardware.h"
+#include "../../apps/include/song.h"
 
 
 extern uint32_t end; // This is defined in linker.ld
@@ -52,17 +53,17 @@ public:
     }
 
     void interrupt_handler_3(registers_t regs) {
-        monitor_write("Called Interrupt Handler 3!\n");
+        printt("Called Interrupt Handler 3!\n");
        
     }
 
     void interrupt_handler_4(registers_t regs) {
-        monitor_write("Called Interrupt Handler 4!\n");
+        printt("Called Interrupt Handler 4!\n");
        
     }
 
     void interrupt_handler_5(registers_t regs) {
-        monitor_write("Called Interrupt Handler 5!\n");
+        printt("Called Interrupt Handler 5!\n");
        
     }
 
@@ -109,8 +110,9 @@ void kernel_main()
 
     // Initializes the descriptor tables, and prints to indicate
     // that the GDT has been successfully initialized
+    printt("Initializing GDT....\n");
     init_descriptor_tables();
-    //monitor_write("\nGDT initialized!\n");
+    printt("GDT initialized!\n");
     
 
 
@@ -133,9 +135,9 @@ void kernel_main()
 
 
     // Fire interrupts! Should trigger callback above
-    asm volatile ("int $0x3");
+    /*asm volatile ("int $0x3");
     asm volatile ("int $0x4");
-    asm volatile ("int $0x5");
+    asm volatile ("int $0x5");*/
 
 
     asm volatile("sti");
@@ -164,8 +166,10 @@ void kernel_main()
 
      init_pit();  // Initialize the PIT
 
+    
+
     // Start the main execution loop
-    int counter = 0;
+    /*int counter = 0;
     while (true) {
         printt("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
         sleep_busy(1000);
@@ -174,7 +178,33 @@ void kernel_main()
         printt("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
         sleep_interrupt(1000);
         printt("[%d]: Slept using interrupts.\n", counter++);
-    }
+    }*/
+
+    sleep_busy(4000);
+    
+
+    Song* songs[] = {
+        new Song(music_1, sizeof(music_1) / sizeof(Note)),
+        //new Song(music_6, sizeof(music_6) / sizeof(Note)),
+        //new Song(music_5, sizeof(music_5) / sizeof(Note)),
+        //new Song(music_4, sizeof(music_4) / sizeof(Note)),
+        //new Song(music_3, sizeof(music_3) / sizeof(Note)),
+        //new Song(music_2, sizeof(music_2) / sizeof(Note))
+    };
+    uint32_t n_songs = sizeof(songs) / sizeof(Song*);
+
+    SongPlayer* player = create_song_player();
+
+
+    
+	    for(uint32_t i =0; i < n_songs; i++){
+	        printt("Playing Song...\n");
+	        player->play_song(songs[i]);
+	        printt("Finished playing the song.\n");
+	    };
+
+     sleep_busy(2000);
+     monitor_clear();
 
     
 
