@@ -72,6 +72,16 @@ void ScreenSetcolor(uint8_t color)
  
 void screenPutentryat(char c, uint8_t color, size_t x, size_t y) 
 {
+	// https://github.com/Guust207/ikt218-osdev/blob/master/group_voliboar/src/kernel/src/screen.cpp
+	// Custom code. Will move "cursor" to next line if the character is '\n'
+	// Does not continue printing after newline
+	if(c == '\n' && terminal_row < VGA_HEIGHT)
+	{
+		terminal_row++;
+		terminal_column = -1;	// Will be incremented by 1, so set to -1 instead of 0
+		return;
+	}
+
 	const size_t index = y * VGA_WIDTH + x;
 	terminal_buffer[index] = vga_entry(c, color);
 }

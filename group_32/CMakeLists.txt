@@ -179,6 +179,13 @@ file(GLOB_RECURSE OS_MODULE_KERNEL_SOURCES
         src/kernel/screen/*.cpp
         src/kernel/src/gdt/*.cpp
         src/kernel/src/gdt/*.asm
+        src/kernel/src/idt/*.cpp
+        src/kernel/src/idt/*.asm
+        src/kernel/src/isr/*.cpp
+        src/kernel/src/isr/*.asm
+        src/kernel/src/irq/*.cpp
+        src/kernel/src/irq/*.asm
+        src/kernel/src/*.cpp
 )
 # Set the output binary name
 set(OS_MODULE_KERNEL_BINARY kernel.bin)
