@@ -20,18 +20,6 @@ struct idt_ptr_struct
 } __attribute__((packed));
 typedef struct idt_ptr_struct idt_ptr_t;
 
-// #ifdef __cplusplus
-// extern "C" {
-// #endif
-
-// // Declares the init_descriptor_tables function, which
-// // initializes the GDT.
-// void init_descriptor_tables();
-
-// // End of the extern C declaration
-// #ifdef __cplusplus
-// }
-// #endif
 
 // Ends the ifndef statement
 #endif // IDT_H

@@ -15,7 +15,7 @@ void *memset(void *s, int c, size_t n) {
     return s;
 }
 
-//----------------------------------MOLLOYSTART------------------------------------------------------------
+// From JamesM's kernel development tutorials
 
 // The VGA framebuffer starts at 0xB8000.
 uint16_t *video_memory = (uint16_t *)0xB8000;
@@ -158,7 +158,7 @@ void monitor_write(char *c)
     }
 }
 
-//-----------------------------------------------MOLLOYFERDIG------------------------------------------------------------
+// Implementation of our printf function
 int printf(const char *string, ...)
     {
         volatile char *video = (volatile char*)0xB8000;
@@ -169,7 +169,8 @@ int printf(const char *string, ...)
         }
     }
 
-//--------------------------finn kilde på det under--------------------------------------------------------
+
+// Div print related functions
 
 #define VIDEO_MEMORY_ADDRESS 0xB8000  // Define constant for the memory address of video memory
 #define VIDEO_MEMORY_SIZE 80 * 25 * 2 // Define constant for the size of video memory in bytes (80 columns x 25 rows x 2 bytes per character)

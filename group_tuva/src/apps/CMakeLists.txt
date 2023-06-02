@@ -1,9 +1,8 @@
-# This defines which is the lowest supported CMake version for this project
+# Definition for lowest supported CMake version for this project
 cmake_minimum_required(VERSION 3.22.1)
 
-# This sets the name for our CMake project, and defines which languages we will be using.
+# Sets up the name for our CMake project, defines which languages we will be using.
 project(UiAOS-song LANGUAGES C CXX ASM_NASM)
-
 
 
 add_library(${PROJECT_NAME} src/song.cpp)

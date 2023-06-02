@@ -18,5 +18,4 @@ public:
     static char scancode_to_ascii(uint8_t scancode);
 
 };
-//static void hook_keyboard(keyboard_callback cb, void* ctx);
-//static char scancode_to_ascii(uint8_t scancode);
+

@@ -6,9 +6,9 @@
 #include <stdint.h>
 
 
-static void init_gdt(); //asm("init_gdt");
+static void init_gdt(); 
 
-static void init_idt(); //asm ("init_idt");
+static void init_idt(); 
 
 
 extern "C"{
@@ -69,10 +69,7 @@ extern "C"{
    extern void irq15();
 }
 
-// Declares the external asm function gdt_flush
 
-
-// Declaration of internal static functions
 
 // Declares array of 5 GDT entries and a GDT pointer
 gdt_entry_t gdt_entries[5];
@@ -134,7 +131,7 @@ static void idt_set_gate(u8int num, u32int base, u16int sel, u8int flags)
 
    idt_entries[num].sel     = sel;
    idt_entries[num].always0 = 0;
-   // We must uncomment the OR below when we get to using user-mode.
+   
    // It sets the interrupt gate's privilege level to 3.
    idt_entries[num].flags   = flags | 0x60;
 }

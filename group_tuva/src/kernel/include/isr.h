@@ -81,16 +81,5 @@ void register_interrupt_handler(uint8_t n, isr_t handler, void*);
 
 
 
-/*
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-void register_interrupt_handler(uint8_t n, isr_t handler, void*);
-
-// End of the extern C declaration
-#ifdef __cplusplus
-}
-#endif */
 
 #endif // ISR_H

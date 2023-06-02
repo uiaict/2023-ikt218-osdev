@@ -11,11 +11,11 @@ extern uint32_t end; // This is defined in linker.ld
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     #include "system.h"
-    void kernel_main();
-    //void init_descriptor_tables();
     #include "memory.h"
     #include "isr.h"
     #include "pit.h"
+
+    void kernel_main();
 }
 enum vga_color {
     BLACK = 0,
@@ -35,6 +35,8 @@ enum vga_color {
     LIGHT_BROWN = 14,
     WHITE = 15,
 };
+
+
 class OperatingSystem {
 
 public:
@@ -106,7 +108,6 @@ void kernel_main()
     os.init();
 
     
-    //monitor_write("Hello, World!\n");
 
     // Initializes the descriptor tables, and prints to indicate
     // that the GDT has been successfully initialized
@@ -143,7 +144,7 @@ void kernel_main()
     asm volatile("sti");
    
    
-
+    // Printing keyboard input to screen
     Keyboard::hook_keyboard([](uint8_t scancode, void* context){
         auto* os = (OperatingSystem*)context;
         monitor_put(Keyboard::scancode_to_ascii(scancode));
@@ -156,7 +157,7 @@ void kernel_main()
     print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
 
     // Allocate some memory using kernel memory manager
-		// THIS IS PART OF THE ASSIGNMENT
+	// THIS IS PART OF THE ASSIGNMENT
     void* some_memory = malloc(12345); 
     void* memory2 = malloc(54321); 
     void* memory3 = malloc(13331);
@@ -169,6 +170,7 @@ void kernel_main()
     
 
     // Start the main execution loop
+
     /*int counter = 0;
     while (true) {
         printt("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
@@ -180,9 +182,10 @@ void kernel_main()
         printt("[%d]: Slept using interrupts.\n", counter++);
     }*/
 
-    sleep_busy(4000);
+    sleep_busy(3000);
     
 
+    // Music player
     Song* songs[] = {
         new Song(music_1, sizeof(music_1) / sizeof(Note)),
         //new Song(music_6, sizeof(music_6) / sizeof(Note)),
@@ -203,7 +206,7 @@ void kernel_main()
 	        printt("Finished playing the song.\n");
 	    };
 
-     sleep_busy(2000);
+     sleep_busy(1500);
      monitor_clear();
 
     
