@@ -17,7 +17,7 @@ void kernel_main() {
     init_gdt();
     init_idt();
 
-	screenWrite("Hello World! ");
+	screenWrite("Hello World!\n");
     while (1);
-    screenWrite("Done! ");
+    screenWrite("Done!\n");
 }
