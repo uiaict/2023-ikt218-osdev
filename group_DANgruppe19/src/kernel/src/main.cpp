@@ -5,6 +5,47 @@
 #include "../interrupts/isr.h"
 #include "../interrupts/irq/irq.h"
 
+//assignment 4
+#include "../include/paging/paging.h"     // Assuming init_paging() is declared in this header file
+#include "../include/memory/memory.h"     // Assuming print_memory_layout() and init_kernel_memory() are declared in this header file
+#include "../include/pit/pit.h"        // Assuming init_pit() is declared in this header file
+
+
+//assignment 4
+extern uint32_t end; // This is defined in linker.ld
+
+
+/*
+// Overload the new operator for single object allocation
+void* operator new(size_t size) {
+return malloc(size); // Call the C standard library function malloc() to allocate memory of the given size and return a pointer
+}
+// Overload the delete operator for single object deallocation
+void operator delete(void* ptr) noexcept {
+free(ptr); // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+// Overload the new operator for array allocation
+void* operator new[](size_t size) {
+return malloc(size); // Call the C standard library function malloc() to allocate memory of the given size and return a pointer
+}
+// Overload the delete operator for array deallocation
+void operator delete[](void* ptr) noexcept {
+free(ptr); // Call the C standard library function free() to deallocate the memory pointed to by the given pointer
+}
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
 // Define entry point in asm to prevent C++ mangling
 extern "C"{
     void kernel_main();
@@ -49,6 +90,8 @@ void init_keyboard() {
 void kernel_main()
 {
 
+// Initialize kernel memory manager with the end of the kernel image
+//init_memory(); // <------ THIS IS PART OF THE ASSIGNMENT
 
 init_gdt();
 terminal_initialize();
@@ -57,6 +100,47 @@ remap_pic();
 //outb(0x60, 0xF4);
 idt_init(); // Initialize the IDT for interrupt
 init_keyboard();
+
+
+
+// Initialize Paging
+//init_paging(); // <------ THIS IS PART OF THE ASSIGNMENT
+// Print memory layout
+//print_memory_layout(); // <------ THIS IS PART OF THE ASSIGNMENT
+
+
+// Setup PIT
+//init_pit(); // <------ THIS IS PART OF THE ASSIGNMENT
+// Allocate some memory using kernel memory manager
+// THIS IS PART OF THE ASSIGNMENT
+
+
+/*
+void* block1 = malloc(123);
+void* block2 = malloc(123);
+
+char buffer[50];
+int size = print_int(buffer, (int)block2);
+terminal_write(buffer, size);
+terminal_write("\n\n", 3);
+
+free(block2);
+
+void* block3 = malloc(123);
+size = print_int(buffer, (int)block3);
+terminal_write(buffer, size);
+
+
+
+void* some_memory = malloc(12345);
+void* memory2 = malloc(54321);
+void* memory3 = malloc(13331);
+char* memory4 = new char[1000]();
+
+*/
+
+
+
 
 
 scancode_to_ascii[0x1E] = 'a';
@@ -88,33 +172,46 @@ scancode_to_ascii[0x2C] = 'z';
 
 
 
-terminal_write("Hello World!\n", 14);
+terminal_write("\nHello World!\n", 15);
 
-terminal_write("Press a key...\n", 15);
+//terminal_write("Press a key...\n", 15);
 
 enable_interrupts();
 
 //asm volatile("int $0x21");
 
-for (;;); // Infinite loop
+/*
+// Free allocated memory
+    free(some_memory);
+    free(memory2);
+    free(memory3);
+    delete[] memory4;
+
+*/
+
+
+//This is for testing the PIT
+/*
+int counter = 0;
+while(true){
+    printfun("[%d]: Sleeping with busy-waiting (HIGH CPU).\n", counter);
+    sleep_busy(1000);
+    printfun("[%d]: Slept using busy-waiting.\n", counter++);
+    printfun("[%d]: Sleeping with interrupts (LOW CPU).\n", counter);
+    sleep_interrupt(1000);
+    printfun("[%d]: Slept using interrupts.\n", counter++);
+};
+*/
+
+
 
 
 
 // Manually trigger interrupts
-    //asm volatile ("int $0");   // Divide by Zero Exception
+    asm volatile ("int $0");   // Divide by Zero Exception
 
-    //asm volatile ("int $3");   // Software Breakpoint Exception
+    asm volatile ("int $3");   // Software Breakpoint Exception
 
-    //asm volatile ("int $4");   // User-defined Software Interrupt
-
-
-    // To cause an invalid opcode exception, we can use the "ud2" instruction
-    //asm volatile ("ud2");      // Invalid Opcode Exception
-
-    // To cause a general protection fault, we can do an invalid memory access
-    // Be aware that this will likely crash your OS, so you might not want to do this
-    // without setting up a proper recovery mechanism
-    //asm volatile ("mov %cr4, %eax");  // General Protection Fault
-
+    asm volatile ("int $4");   // User-defined Software Interrupt  
 
 }
