@@ -21,7 +21,7 @@ static void keyboard_callback(registers_t *regs){
     }
     
     else{
-        
+
         monitor_put('\n');
         monitor_write("Keyboard scancode: ");
         
