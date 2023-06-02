@@ -1,11 +1,5 @@
 {
     "cmake.buildDirectory": "${workspaceFolder}/build_Asak",
     "cmake.sourceDirectory": "${workspaceFolder}/Asak",
-    "C_Cpp.errorSquiggles": "disabled",
-    "files.associations": {
-        "descriptor.h": "c",
-        "stdbool.h": "c",
-        "stdint.h": "c"
-    }
-
+    "C_Cpp.errorSquiggles": "disabled"
 }
