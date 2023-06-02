@@ -51,37 +51,6 @@ void free(void *mem)
     alloc->status = 0;
 }
 
-// Free a block of page-aligned memory
-void pfree(void *mem)
-{
-    if(mem < pheap_begin || mem > pheap_end) return;
-    return;
-
-
-    // Determine the page ID
-    uint32_t ad = (uint32_t)mem;
-    ad -= pheap_begin;
-    ad /= 4096;
-
-    // Set the page descriptor to free
-    pheap_desc[ad] = 0;
-}
-
-// Allocate a block of page-aligned memory
-char* pmalloc(size_t size)
-{
-    // Loop through the available list
-    for(int i = 0; i < MAX_PAGE_ALIGNED_ALLOCS; i++)
-    {
-        if(pheap_desc[i]) continue;
-        pheap_desc[i] = 1;
-        //screenWrite("PAllocated from 0x%x to 0x%x\n", pheap_begin + i*4096, pheap_begin + (i+1)*4096);
-        return (char *)(pheap_begin + i*4096);
-    }
-    screenWrite("pmalloc: FATAL: failure!");
-    return 0;
-}
-
 
 // Allocate a block of memory
 void* malloc(size_t size)

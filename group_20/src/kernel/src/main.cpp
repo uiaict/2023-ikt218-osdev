@@ -43,7 +43,6 @@ void kernel_main()
 
    // Trigger created interrupts manually
     screenWrite("");
-    screenWrite("");
     asm volatile ("int $0x2");
     asm volatile ("int $0x3");
     asm volatile ("int $0x4");

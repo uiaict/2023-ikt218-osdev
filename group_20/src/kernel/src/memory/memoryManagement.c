@@ -30,7 +30,6 @@ void paging_enable()
     asm volatile("orl $0x80000000, %eax");  // Set the paging enable bit in the EAX register
     asm volatile("mov %eax, %cr0");         // Load the EAX register into the CR0 register to enable paging
 }
-
 // Function to initialize paging
 void init_paging()
 {
