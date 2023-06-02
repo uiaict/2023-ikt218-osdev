@@ -50,6 +50,7 @@ set(KERNEL_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/kernel)                 # Path t
 set(KERNEL_INCLUDE ${KERNEL_PATH}/include)                              # Path to the kernel includes
 set(BOOT_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/boot)                     # Path to the boot directory
 set(CPU_PATH ${KERNEL_PATH}/cpu)                                        # Path to the CPU directory
+set(SONG_PATH ${CMAKE_CURRENT_SOURCE_DIR}/src/apps/song/include)
                                   # Path to the CPU includes
 
 ########################################
@@ -125,9 +126,28 @@ add_subdirectory(src/boot)
 
 ########################################
 ###
+### Asak Module: Applications
+# The operating system kernel
+# 1. Load all kernel applications here
+########################################
+# Define kernel headers target
+add_library(kernel-headers INTERFACE)
+target_include_directories(kernel-headers INTERFACE src/kernel/include)
+
+########################################
+###
+### Asak Module: Songs
+# Play songs through a series of frequencies
+########################################
+add_subdirectory(src/apps/song)
+set(OS_APPLICATIONS ${OS_APPLICATIONS} UiAOS-song)
+
+########################################
+###
 ### Asak Module: Kernel
 ########################################
 add_subdirectory(src/kernel)
+
 
 ########################################
 ###

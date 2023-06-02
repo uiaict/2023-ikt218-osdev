@@ -24,7 +24,13 @@
 
 
 void init_pit();
+void pit_handler();
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 void sleep_interrupt(uint32_t milliseconds);
 void sleep_busy(uint32_t milliseconds);
-void pit_handler();
-
+#ifdef __cplusplus
+}
+#endif

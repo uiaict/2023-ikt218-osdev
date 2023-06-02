@@ -44,10 +44,15 @@ void register_all_interrupt_handlers() {
 void isr_handler(registers_t reg) {
     uint8_t int_no = reg.int_no & 0xFF;
     interrupt_t interrupt = interrupt_handlers[int_no];
+
     print("Recieved Interrupt!\n");
 
+    if (interrupt.handler != NULL)
+    {
         interrupt.handler(&reg, interrupt.context);
-    } else {
+    }
+    else
+    {
         print("Error! No registered interrupt handler");
     }
 }
