@@ -6,10 +6,13 @@
       "type": "shell",
       "isBackground": true,
       "windows": {
-          "command": "start -FilePath 'qemu-system-i386' -ArgumentList '-S -gdb tcp::1234 -boot d -cdrom ${config:cmake.buildDirectory}/build/kernel.img -m 64'"
+          "command": "start -FilePath 'qemu-system-i386' -ArgumentList '-S -gdb tcp::1234 -boot d -cdrom ${config:cmake.buildDirectory}/build/kernel.img -m 64 -soundhw pcspk'"
       },
       "linux": {
-          "command": "echo Starting QEMU&qemu-system-i386 -S -gdb tcp::1234 -boot d -hda ${config:cmake.buildDirectory}/kernel.img -m 64 -hdb ${config:cmake.buildDirectory}/disk.iso"
+          "command": "echo Starting QEMU&qemu-system-i386 -S -gdb tcp::1234 -boot d -hda ${config:cmake.buildDirectory}/kernel.img -m 64 -hdb ${config:cmake.buildDirectory}/disk.iso -soundhw pcspk"
+      },
+      "osx": {
+        "command": "echo Starting QEMU&qemu-system-i386 -S -gdb tcp::1234 -boot d -hda ${config:cmake.buildDirectory}/kernel.img -m 64 -hdb ${config:cmake.buildDirectory}/disk.iso"
       },
       "problemMatcher": {
         "pattern": {
@@ -21,7 +24,27 @@
             "beginsPattern": "^(Starting QEMU)",
             "endsPattern": "^(Starting QEMU)"
         }
-    }
+      }
+    },
+    {
+      "label": "Launch Bochs",
+      "type": "shell",
+      "command": "bochs",
+      "args": [
+          "'romimage: file=/usr/share/bochs/BIOS-bochs-latest'",
+          "'vgaromimage: file=/usr/share/bochs/VGABIOS-lgpl-latest'",
+          "'ata0: enabled=1, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14'",
+          "'ata0-slave: type=cdrom, path=${config:cmake.buildDirectory}/kernel.img, status=inserted'",
+          "'boot: cdrom'",
+          "'mouse: enabled=0'",
+          "'clock: sync=realtime'",
+          "'cpu: count=1, ips=1000000'",
+      ],
+      "problemMatcher": [],
+      "group": {
+          "kind": "build",
+          "isDefault": true
+      }
   }
   ]
 }

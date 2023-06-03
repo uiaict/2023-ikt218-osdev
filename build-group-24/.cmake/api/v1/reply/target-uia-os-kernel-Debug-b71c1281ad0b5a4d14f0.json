@@ -1,0 +1,215 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "kernel.bin"
+		}
+	],
+	"backtrace" : 1,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"target_link_libraries",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 191,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 200,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 193,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -g -O0"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/workspaces/ikt218/group-24/src/kernel/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/workspaces/ikt218/group-24/src/kernel/gdt"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/workspaces/ikt218/group-24/src/stdlib/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/workspaces/ikt218/group-24/src/boot/include"
+				}
+			],
+			"language" : "ASM_NASM",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : " -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g -std=gnu++2a"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 3,
+					"path" : "/workspaces/ikt218/group-24/src/kernel/include"
+				},
+				{
+					"backtrace" : 3,
+					"path" : "/workspaces/ikt218/group-24/src/kernel/gdt"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/workspaces/ikt218/group-24/src/stdlib/include"
+				},
+				{
+					"backtrace" : 2,
+					"path" : "/workspaces/ikt218/group-24/src/boot/include"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					1
+				],
+				"standard" : "20"
+			},
+			"sourceIndexes" : 
+			[
+				2
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"backtrace" : 2,
+			"id" : "uia-os-module-stdlib::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 2,
+			"id" : "uia-os-boot::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "uia-os-kernel::@6890427a1f51a3e7e1df",
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-T /workspaces/ikt218/group-24/src/arch/i386/linker.ld -nostdlib -ffreestanding",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "libuia-os-module-stdlib.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "libuia-os-boot.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 2,
+				"fragment" : "libuia-os-module-stdlib.a",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "uia-os-kernel",
+	"nameOnDisk" : "kernel.bin",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				0
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				1
+			]
+		},
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				2
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 0,
+			"path" : "src/kernel/gdt/gdt.asm",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 1,
+			"path" : "src/kernel/gdt/gdt.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 1,
+			"compileGroupIndex" : 1,
+			"path" : "src/kernel/src/main.cpp",
+			"sourceGroupIndex" : 2
+		}
+	],
+	"type" : "EXECUTABLE"
+}

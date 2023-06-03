@@ -1,0 +1,8 @@
+/workspaces/ikt218/build-group-24/CMakeFiles/uia-os-module-stdlib.dir
+/workspaces/ikt218/build-group-24/CMakeFiles/uia-os-boot.dir
+/workspaces/ikt218/build-group-24/CMakeFiles/uia-os-kernel.dir
+/workspaces/ikt218/build-group-24/CMakeFiles/edit_cache.dir
+/workspaces/ikt218/build-group-24/CMakeFiles/rebuild_cache.dir
+/workspaces/ikt218/build-group-24/grub/CMakeFiles/uia-os-create-image.dir
+/workspaces/ikt218/build-group-24/grub/CMakeFiles/edit_cache.dir
+/workspaces/ikt218/build-group-24/grub/CMakeFiles/rebuild_cache.dir
