@@ -1,10 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_tuva",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_tuva",
-    "C_Cpp.errorSquiggles": "disabled",
-    "files.associations": {
-        "cstdio": "cpp"
-    },
-    "cmake.configureOnOpen": false
-
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_32",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_32",
+    "C_Cpp.errorSquiggles": "disabled"
 }
