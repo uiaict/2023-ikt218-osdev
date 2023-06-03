@@ -1,0 +1,117 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+
+    <title>IKT218 - Operating Systems</title>
+
+    <link rel="canonical" href="https://getbootstrap.com/docs/4.0/examples/starter-template/">
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/4.0/examples/starter-template/starter-template.css" rel="stylesheet">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <a class="navbar-brand" href="#">IKT218 - Operating Systems</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+
+
+</nav>
+
+<main role="main" class="container">
+
+    <div class="starter-template" id="starter">
+      
+
+
+    </div>
+
+</main><!-- /.container -->
+
+
+<script src="libv86.js"></script>
+<script>
+"use strict";
+
+window.onload = function()
+{
+    let memory = 32; // MB
+    let video_memory = 2; // MB
+    let body = document.body;
+
+    console.log(body)
+
+    
+    let operating_systems = {{ os_list | safe }};
+
+    operating_systems.forEach((item) => {
+        console.log(item);
+
+        let top_container = document.createElement("div");
+        let top_title = document.createElement("h3")
+        top_title.innerHTML = "Virtual Machine: " + item;
+
+        // Create container for OS
+        let container = document.createElement("div");
+        container.id = "vm-" + item;
+
+        // Create rendering canvas
+        let canvas = document.createElement("canvas")
+        canvas.style = "display: none";
+        container.appendChild(canvas);
+
+        // Create uhm.. something
+        let div = document.createElement("div");
+        div.style = "white-space: pre; font: 11px monospace; line-height: 14px";
+        container.appendChild(div);
+        
+        // ADD Vm container
+        document.getElementById("starter").appendChild(top_container)
+        top_container.appendChild(top_title)
+        top_container.appendChild(container)
+
+
+
+        var emulator = window.emulator = new V86Starter({
+            wasm_path: "v86.wasm",
+            memory_size: memory * 1024 * 1024,
+            vga_memory_size: video_memory * 1024 * 1024,
+            screen_container: document.getElementById(container.id),
+            bios: {
+                url: "bios/seabios.bin",
+            },
+            vga_bios: {
+                url: "bios/vgabios.bin",
+            },
+            cdrom: {
+                url: "os/" + item,
+            },
+            autostart: true,
+        });
+
+    });
+
+
+   
+   
+
+    
+}
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
+<script src="https://getbootstrap.com/docs/4.0/assets/js/vendor/popper.min.js"></script>
+<script src="https://getbootstrap.com/docs/4.0/dist/js/bootstrap.min.js"></script>
