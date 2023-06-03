@@ -1,0 +1,20 @@
+[
+{
+  "directory": "/workspaces/ikt218/build-group-24",
+  "command": "/usr/bin/cc  -I/workspaces/ikt218/group-24/src/stdlib/include  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -g -std=gnu99 -o CMakeFiles/uia-os-module-stdlib.dir/src/stdlib/src/system.c.o -c /workspaces/ikt218/group-24/src/stdlib/src/system.c",
+  "file": "/workspaces/ikt218/group-24/src/stdlib/src/system.c",
+  "output": "CMakeFiles/uia-os-module-stdlib.dir/src/stdlib/src/system.c.o"
+},
+{
+  "directory": "/workspaces/ikt218/build-group-24",
+  "command": "/usr/bin/c++  -I/workspaces/ikt218/group-24/src/stdlib/include  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g -std=gnu++2a -o CMakeFiles/uia-os-module-stdlib.dir/src/stdlib/src/screen.cpp.o -c /workspaces/ikt218/group-24/src/stdlib/src/screen.cpp",
+  "file": "/workspaces/ikt218/group-24/src/stdlib/src/screen.cpp",
+  "output": "CMakeFiles/uia-os-module-stdlib.dir/src/stdlib/src/screen.cpp.o"
+},
+{
+  "directory": "/workspaces/ikt218/build-group-24",
+  "command": "/usr/bin/c++  -I/workspaces/ikt218/group-24/src/kernel/include -I/workspaces/ikt218/group-24/src/kernel/gdt -I/workspaces/ikt218/group-24/src/stdlib/include -I/workspaces/ikt218/group-24/src/boot/include  -ffreestanding -O0 -g -m32 -Wall -Wextra -Wshadow -Wconversion -Wsign-conversion -fno-exceptions -fno-rtti -g -std=gnu++2a -o CMakeFiles/uia-os-kernel.dir/src/kernel/src/main.cpp.o -c /workspaces/ikt218/group-24/src/kernel/src/main.cpp",
+  "file": "/workspaces/ikt218/group-24/src/kernel/src/main.cpp",
+  "output": "CMakeFiles/uia-os-kernel.dir/src/kernel/src/main.cpp.o"
+}
+]
