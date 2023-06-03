@@ -63,6 +63,7 @@
                     "text": "symbol-file ${config:cmake.buildDirectory}/kernel.bin",
                     "description": "GEt kernel symbols"
                 }
+               
             ],
             "setupCommands": [
                 {
@@ -115,6 +116,7 @@
                     "text": "break isr_handler",
                     "description": "Break on exception handler."
                 }
+                
             ],
             "preLaunchTask": "Launch Bochs"
         }
