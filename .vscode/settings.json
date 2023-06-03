@@ -1,9 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_1",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_1",
-    "files.associations": {
-        "common.h": "c",
-        "panic.h": "c",
-        "stdint.h": "c"
-    }
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_32",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_32",
+    "C_Cpp.errorSquiggles": "disabled"
 }
