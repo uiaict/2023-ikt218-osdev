@@ -1,9 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build-group-24",
-    "cmake.sourceDirectory": "${workspaceFolder}/group-24",
-    "C_Cpp.errorSquiggles": "disabled",
-    "files.associations": {
-        "system.h": "c"
-    }
-
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_name",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_name",
+    "C_Cpp.errorSquiggles": "disabled"
 }

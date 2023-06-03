@@ -6,24 +6,24 @@
 	"dockerFile": "Dockerfile",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
-	"features": {
-
-	},
+	"features": {},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	"forwardPorts": [],
-	"appPort": ["6080:80"],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
-	"postCreateCommand": "/startup.sh",
+	//"postCreateCommand": "/startup.sh",
 
-	"containerEnv": {
-		"DISPLAY": ":1.0"
-	}
+    "mounts": [
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached"
+      ],
+	"containerEnv": { "DISPLAY": "host.docker.internal:0" },
 
+
+	//"runArgs": ["--platform=linux/x86_64"]
 	// Configure tool-specific properties.
 	// "customizations": {},
 
 	// Uncomment to connect as root instead. More info: https://aka.ms/dev-containers-non-root.
-	// in"remoteUser": "ubuntu"
+	//"remoteUser": "ubuntu"
 }
