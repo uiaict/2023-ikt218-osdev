@@ -1,6 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_group_60",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_60",
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_32",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_32",
     "C_Cpp.errorSquiggles": "disabled"
-
 }
