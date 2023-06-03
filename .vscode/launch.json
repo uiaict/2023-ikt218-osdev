@@ -80,7 +80,7 @@
             "name": "Bochs GDB",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${config:cmake.buildDirectory}/kernel.bin",
+            "program": "${config:cmake.buildDirectory}/iso/boot/kernel.bin",
             "cwd": "${workspaceRoot}",
             "args": [],
             /*"sourceFileMap": {
@@ -107,7 +107,7 @@
                     "ignoreFailures": true
                 },
                 {
-                    "text": "file ${config:cmake.buildDirectory}/kernel.bin",
+                    "text": "file ${config:cmake.buildDirectory}/iso/boot/kernel.bin",
                     "description": "Load binary."
                 },
                 {
