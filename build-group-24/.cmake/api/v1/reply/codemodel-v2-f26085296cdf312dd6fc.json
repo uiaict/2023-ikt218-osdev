@@ -1,0 +1,106 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22.1"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						2,
+						3
+					]
+				},
+				{
+					"build" : "grub",
+					"jsonFile" : "directory-grub-Debug-da512fcf9cba7fcdecfe.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.22.1"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 0,
+					"source" : "grub",
+					"targetIndexes" : 
+					[
+						1
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0,
+						1
+					],
+					"name" : "UiAOS",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "uia-os-boot::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uia-os-boot-Debug-954b02dd605ab1686f16.json",
+					"name" : "uia-os-boot",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "uia-os-create-image::@e83ec01da7d691544086",
+					"jsonFile" : "target-uia-os-create-image-Debug-7081ae32e2dcbd8c882c.json",
+					"name" : "uia-os-create-image",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uia-os-kernel::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uia-os-kernel-Debug-b71c1281ad0b5a4d14f0.json",
+					"name" : "uia-os-kernel",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "uia-os-module-stdlib::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-uia-os-module-stdlib-Debug-0550d40426887d31c861.json",
+					"name" : "uia-os-module-stdlib",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/workspaces/ikt218/build-group-24",
+		"source" : "/workspaces/ikt218/group-24"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 5
+	}
+}
