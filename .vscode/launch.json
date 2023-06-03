@@ -3,11 +3,11 @@
     "configurations": [
         //https://wiki.osdev.org/User:TheCool1Kevin/VSCode_Debug
         {
-            "name": "Launch with GDB",
+            "name": "LINUX Launch with GDB",
             "type": "cppdbg",
             "request": "launch",
             "program": "${config:cmake.buildDirectory}/kernel.bin",
-            "cwd": "${workspaceRoot}",
+            "cwd": "${config:cmake.buildDirectory}",
             "args": [],
             /*"sourceFileMap": {
                 "<source-path>": "<target-path>"
@@ -22,7 +22,7 @@
                     "description": "Connect to QEMU remote debugger"
                 },
                 {
-                    "text": "symbol-file kernel.bin",
+                    "text": "symbol-file ${config:cmake.buildDirectory}/kernel.bin",
                     "description": "GEt kernel symbols"
                 }
             ],
@@ -36,10 +36,43 @@
                     "text": "file ${config:cmake.buildDirectory}/kernel.bin",
                     "description": "Load binary."
                 },
+            ],
+            "preLaunchTask": "Launch QEMU"
+        },
+        {
+            "name": "OSX Launch with GDB",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${config:cmake.buildDirectory}/kernel.bin",
+            "cwd": "${config:cmake.buildDirectory}",
+            "args": [],
+            /*"sourceFileMap": {
+                "<source-path>": "<target-path>"
+            },*/
+            "targetArchitecture": "x86",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/opt/homebrew/bin/i686-unknown-linux-gnu-gdb",
+            "miDebuggerArgs": "",
+            "customLaunchSetupCommands": [
                 {
-                    "text": "break isr_handler",
-                    "description": "Break on exception handler."
+                    "text": "target remote localhost:1234",
+                    "description": "Connect to QEMU remote debugger"
+                },
+                {
+                    "text": "symbol-file ${config:cmake.buildDirectory}/kernel.bin",
+                    "description": "GEt kernel symbols"
                 }
+            ],
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "text": "file ${config:cmake.buildDirectory}/kernel.bin",
+                    "description": "Load binary."
+                },
             ],
             "preLaunchTask": "Launch QEMU"
         },

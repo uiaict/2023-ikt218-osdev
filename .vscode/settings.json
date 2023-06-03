@@ -1,6 +1,5 @@
 {
-    "cmake.buildDirectory": "${workspaceFolder}/build_OSDev5",
-    "cmake.sourceDirectory": "${workspaceFolder}/group_OSDev5",
+    "cmake.buildDirectory": "${workspaceFolder}/build_group_32",
+    "cmake.sourceDirectory": "${workspaceFolder}/group_32",
     "C_Cpp.errorSquiggles": "disabled"
-
 }
