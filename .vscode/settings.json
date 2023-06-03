@@ -3,3 +3,4 @@
     "cmake.sourceDirectory": "${workspaceFolder}/group_32",
     "C_Cpp.errorSquiggles": "disabled"
 }
+

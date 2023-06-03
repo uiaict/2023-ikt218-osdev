@@ -3,4 +3,3 @@ build_*/*
 web/venv
 *.lock
 *.egg-info*
-
